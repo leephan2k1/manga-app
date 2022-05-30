@@ -11,6 +11,18 @@
     }
 }
 
+@layer components {
+    .button {
+        @apply hover:bg-[#555759];
+    }
+}
+
+@layer utilities {
+    .absolute-center {
+        @apply flex items-center justify-center;
+    }
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -24,6 +36,7 @@ html {
 body {
     font-size: 1.6rem;
     text-rendering: optimizeSpeed;
+    @apply bg-background;
 }
 
 *:focus {
