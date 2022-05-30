@@ -9,6 +9,7 @@
         "postinstall": "husky install"
     },
     "dependencies": {
+        "@headlessui/react": "^1.6.4",
         "@heroicons/react": "^1.0.6",
         "animate.css": "^4.1.1",
         "modern-normalize": "^1.1.0",
