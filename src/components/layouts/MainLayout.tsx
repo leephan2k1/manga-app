@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import Sidebar from '../partials/Sidebar';
+import SearchModal from '../shared/SearchModal';
 import Header from '../partials/Header';
 import Footer from '../partials/Footer';
 
@@ -12,6 +13,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         <>
             <Header />
             <Sidebar />
+            <SearchModal />
             {children}
             <Footer />
         </>

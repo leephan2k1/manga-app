@@ -1,13 +1,17 @@
 import { SearchIcon, AdjustmentsIcon } from '@heroicons/react/solid';
+import { useRecoilState } from 'recoil';
+import { searchModalState } from '~/atoms/searchModelAtom';
 
 interface HeaderSearchProps {
     styles?: string;
 }
 
 export default function HeaderSearch({ styles }: HeaderSearchProps) {
+    const [_, setShowModal] = useRecoilState(searchModalState);
+
     return (
         <form
-            className={`${styles} ml-16 flex h-[40%] w-fit items-center justify-between rounded-2xl  bg-white shadow-xl shadow-white/20 hover:shadow-cyan-500/30 lg:w-[68%]`}
+            className={`${styles} ml-16 flex h-[40%] w-fit items-center justify-between rounded-2xl  bg-white shadow-xl shadow-white/20 lg:w-[68%]`}
         >
             {/* advanced search  */}
             <button className="mx-4 hidden rounded-xl bg-rose-300 px-2 py-1 text-rose-600 transition-all hover:bg-rose-500 hover:text-white/80 md:block">
@@ -16,15 +20,23 @@ export default function HeaderSearch({ styles }: HeaderSearchProps) {
 
             {/* search input  */}
             <input
-                type="text"
+                readOnly
                 className="hidden w-[80%] md:block"
                 placeholder="Tìm manga..."
+                onClick={() => {
+                    setShowModal(true);
+                }}
             />
 
-            {/* search button  */}
-            <button className="h-full w-fit rounded-2xl p-4 hover:opacity-60 lg:text-background">
+            {/* search button */}
+            <div
+                className="h-full w-fit rounded-2xl p-4 hover:cursor-pointer hover:opacity-60 lg:text-background"
+                onClick={() => {
+                    setShowModal(true);
+                }}
+            >
                 <SearchIcon className="h-8 w-8" />
-            </button>
+            </div>
         </form>
     );
 }
