@@ -62,7 +62,7 @@ export default function DropDown({
                 ref={effectActive}
                 className={`slide absolute top-2 -z-10 h-14 w-[85%] ${
                     offsetTop === 0 && 'opacity-0'
-                } rounded-2xl bg-[#555759] px-6 duration-300`}
+                } rounded-2xl bg-[#555759] px-6 duration-150`}
             ></li>
         </ul>
     );

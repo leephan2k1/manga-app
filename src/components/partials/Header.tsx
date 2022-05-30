@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import LogoSVG from '/public/images/torii-gate-japan.svg';
-import TextLogo from './TextLogo';
-import DropDown from './DropDown';
+import TextLogo from '../icons/TextLogo';
+import DropDown from '../shared/DropDown';
 import HeaderSearch from './HeaderSearch';
 import HeaderUser from './HeaderUser';
 import { ChevronDownIcon } from '@heroicons/react/outline';

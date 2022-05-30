@@ -1,4 +1,4 @@
-import { DropDownLink } from '~/components/partials/DropDown';
+import { DropDownLink } from '~/components/shared/DropDown';
 
 export const MangaTypesPreview: DropDownLink[] = [
     {

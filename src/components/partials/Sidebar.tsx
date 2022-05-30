@@ -4,7 +4,7 @@ import { Dialog } from '@headlessui/react';
 import { ChevronLeftIcon } from '@heroicons/react/outline';
 import { useRef } from 'react';
 import LogoSVG from '/public/images/torii-gate-japan.svg';
-import TextLogo from './TextLogo';
+import TextLogo from '../icons/TextLogo';
 
 export default function Sidebar() {
     const [showSidebar, setShowSidebar] = useRecoilState(sidebarState);
