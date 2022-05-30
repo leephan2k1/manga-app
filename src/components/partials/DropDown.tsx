@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ChevronRightIcon } from '@heroicons/react/outline';
-import { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface DropDownLink {
     title: string;
@@ -19,6 +19,13 @@ export default function DropDown({
     isMore,
 }: DropDownProps) {
     const [offsetTop, setOffsetTop] = useState(0);
+    const effectActive = useRef<HTMLLIElement>(null);
+
+    useEffect(() => {
+        if (effectActive.current) {
+            effectActive.current.style.cssText = `transform: translateY(${offsetTop}px)`;
+        }
+    }, [offsetTop]);
 
     if (!show) return null;
 
@@ -51,11 +58,12 @@ export default function DropDown({
                         </li>
                     );
                 })}
-            <p
-                className={`slide absolute top-2 -z-10 h-14 w-[85%] translate-y-[${offsetTop}px] ${
+            <li
+                ref={effectActive}
+                className={`slide absolute top-2 -z-10 h-14 w-[85%] ${
                     offsetTop === 0 && 'opacity-0'
                 } rounded-2xl bg-[#555759] px-6 duration-300`}
-            ></p>
+            ></li>
         </ul>
     );
 }
