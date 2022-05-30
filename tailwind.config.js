@@ -6,9 +6,9 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                background: '1f1f1f',
-                primary: '#6366f1',
-                secondary: '2f2f2f',
+                background: '#1f1f1f',
+                primary: '#f43f5e',
+                secondary: '#2f2f2f',
             },
             listStyleType: {
                 circle: 'circle',
@@ -17,6 +17,7 @@ module.exports = {
         fontFamily: {
             primary: 'Nunito, sans-serif',
             secondary: 'League Spartan, sans-serif',
+            logo: 'SVN-Kashima Brush',
         },
     },
 
