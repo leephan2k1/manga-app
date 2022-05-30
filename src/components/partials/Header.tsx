@@ -3,8 +3,11 @@ import LogoSVG from '/public/images/torii-gate-japan.svg';
 import TextLogo from './TextLogo';
 import DropDown from './DropDown';
 import HeaderSearch from './HeaderSearch';
+import HeaderUser from './HeaderUser';
 import { ChevronDownIcon } from '@heroicons/react/outline';
 import { HiMenuAlt2 } from 'react-icons/hi';
+import { useRecoilState } from 'recoil';
+import { sidebarState } from '~/atoms/sidebarState.atom';
 
 import { useState } from 'react';
 
@@ -13,12 +16,20 @@ import { MangaTypesPreview, MangaGenresPreview } from '~/constants';
 export default function Header() {
     const [isOpenMangaTypes, setIsOpenMangaTypes] = useState(false);
     const [isOpenMangaGenres, setIsOpenMangaGenres] = useState(false);
+    const [_, setSidebarState] = useRecoilState(sidebarState);
+
+    const handleOpenSidebar = () => {
+        setSidebarState(true);
+    };
 
     return (
         <header className="h-40 bg-background">
             <div className="mx-auto flex h-full w-full items-center    md:max-w-[644px] lg:max-w-[1200px]">
                 {/* menu button mobile */}
-                <button className="button mx-6 rounded-full p-4 md:m-0 lg:hidden">
+                <button
+                    className="button mx-6 rounded-full p-4 md:m-0 lg:hidden"
+                    onClick={handleOpenSidebar}
+                >
                     <HiMenuAlt2 className=" text-4xl text-white" />
                 </button>
 
@@ -113,11 +124,13 @@ export default function Header() {
                 </nav>
 
                 {/* search & user */}
-                <div className="flex h-full flex-1 items-center justify-between  ">
+                <div className="ml-10 flex h-full flex-1 items-center justify-end md:justify-between lg:ml-0">
                     {/* search  */}
                     <HeaderSearch />
                     {/* user  */}
-                    <div className="h-full w-40"></div>
+                    <div className="absolute-center h-full w-40  ">
+                        <HeaderUser />
+                    </div>
                 </div>
             </div>
         </header>
