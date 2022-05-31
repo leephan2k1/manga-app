@@ -1,22 +1,79 @@
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useRef, useState } from 'react';
-import { XIcon } from '@heroicons/react/outline';
-import { SearchIcon } from '@heroicons/react/solid';
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { useDebounce } from 'usehooks-ts';
 import { searchModalState } from '~/atoms/searchModelAtom';
+import RepositoryFactory from '~/services/repositoryFactory';
+import { NtSearchResponseData } from '~/types';
+
+import { Dialog, Transition } from '@headlessui/react';
+import { EmojiSadIcon, XIcon } from '@heroicons/react/outline';
+import { SearchIcon } from '@heroicons/react/solid';
+
 import SearchResult from './SearchResult';
+
+const NtAPI = RepositoryFactory('nettruyen');
 
 export default function SearchModal() {
     const [showModal, setShowModal] = useRecoilState(searchModalState);
     const [showBtnClearInput, setShowBtnClearInput] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
+    const [mangaResult, setMangaResult] = useState<
+        NtSearchResponseData[] | string
+    >([]);
+    const debouncedValue = useDebounce<string>(searchValue, 500);
+
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        setIsSearching(true);
+        setMangaResult([]);
+
+        if (e.currentTarget.value) {
+            setSearchValue(e.currentTarget.value.trim());
+        } else {
+            setIsSearching(false);
+        }
+    };
 
     const handleClearSearchValue = () => {
         if (inputRef.current) {
             inputRef.current.value = '';
+            setSearchValue('');
         }
         setShowBtnClearInput(false);
     };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setShowBtnClearInput(false);
+        setSearchValue('');
+        setIsSearching(false);
+        setMangaResult([]);
+    };
+
+    useEffect(() => {
+        //fetch api
+        (async function () {
+            if (debouncedValue) {
+                try {
+                    setIsSearching(true);
+                    //await fetch api
+                    const result = await NtAPI?.search(debouncedValue);
+
+                    if (result?.status === 200) {
+                        setMangaResult(result.data.data);
+                        setSearchValue('');
+                    }
+                } catch (err) {
+                    setMangaResult('notFound');
+                    console.log(err);
+                } finally {
+                    setIsSearching(false);
+                }
+            }
+        })();
+    }, [debouncedValue]);
 
     const handleOpenButtonClearSearch = () => {
         //Displayed only when input has value
@@ -31,7 +88,7 @@ export default function SearchModal() {
                 initialFocus={inputRef}
                 as="div"
                 className="relative z-10"
-                onClose={setShowModal}
+                onClose={handleCloseModal}
             >
                 <Transition.Child
                     as={Fragment}
@@ -66,7 +123,7 @@ export default function SearchModal() {
                                     </Dialog.Title>
                                     <button
                                         className="button rounded-full p-4 text-white md:mr-6"
-                                        onClick={() => setShowModal(false)}
+                                        onClick={handleCloseModal}
                                     >
                                         <XIcon className="h-10 w-10" />
                                     </button>
@@ -83,6 +140,7 @@ export default function SearchModal() {
                                         onFocus={() =>
                                             setShowBtnClearInput(false)
                                         }
+                                        onChange={handleSearch}
                                     />
                                     {/* clear input  */}
                                     {showBtnClearInput && (
@@ -94,7 +152,28 @@ export default function SearchModal() {
                                         </button>
                                     )}
                                 </div>
-                                <SearchResult />
+
+                                {/* loading  */}
+                                {isSearching && (
+                                    <div className="absolute-center w-full">
+                                        <div className="dot-pulse"></div>
+                                    </div>
+                                )}
+
+                                {Array.isArray(mangaResult) &&
+                                    mangaResult.length > 0 && (
+                                        <SearchResult data={mangaResult} />
+                                    )}
+
+                                {/* result not found */}
+                                {mangaResult === 'notFound' && (
+                                    <div className="absolute-center mx-auto my-4 w-3/4 rounded-xl bg-secondary py-4 text-white">
+                                        <p className="mr-4 whitespace-nowrap text-base md:text-2xl">
+                                            Truyện bạn cần tìm chưa có!
+                                        </p>
+                                        <EmojiSadIcon className="h-10 w-10" />
+                                    </div>
+                                )}
                             </Dialog.Panel>
                         </Transition.Child>
                     </div>
