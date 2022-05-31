@@ -1,0 +1,14 @@
+// ==============================================
+// Variables
+// ==============================================
+
+$dot-width: 15px !default;
+$dot-height: 15px !default;
+$dot-radius: $dot-width * 0.5 !default;
+
+$dot-color: #f43f5e !default;
+$dot-bg-color: $dot-color !default;
+$dot-before-color: $dot-color !default;
+$dot-after-color: $dot-color !default;
+
+$dot-spacing: $dot-width + $dot-width * 0.5 !default;
