@@ -1,9 +1,10 @@
 import '~/styles/globals.scss';
 import 'animate.css';
-import type { AppProps } from 'next/app';
-import MainLayout from '~/components/layouts/MainLayout';
-import { RecoilRoot } from 'recoil';
 
+import { RecoilRoot } from 'recoil';
+import MainLayout from '~/components/layouts/MainLayout';
+
+import type { AppProps } from 'next/app';
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <RecoilRoot>

@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
+
+import Footer from '../partials/Footer';
+import Header from '../partials/Header';
 import Sidebar from '../partials/Sidebar';
 import SearchModal from '../shared/SearchModal';
-import Header from '../partials/Header';
-import Footer from '../partials/Footer';
 
 interface MainLayoutProps {
     children: ReactNode;

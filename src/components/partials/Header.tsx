@@ -1,17 +1,17 @@
-import Link from 'next/link';
 import LogoSVG from '/public/images/torii-gate-japan.svg';
+import Link from 'next/link';
+import { useState } from 'react';
+import { HiMenuAlt2 } from 'react-icons/hi';
+import { useRecoilState } from 'recoil';
+import { sidebarState } from '~/atoms/sidebarAtom';
+import { MangaGenresPreview, MangaTypesPreview } from '~/constants';
+
+import { ChevronDownIcon } from '@heroicons/react/outline';
+
 import TextLogo from '../icons/TextLogo';
 import DropDown from '../shared/DropDown';
 import HeaderSearch from './HeaderSearch';
 import HeaderUser from './HeaderUser';
-import { ChevronDownIcon } from '@heroicons/react/outline';
-import { HiMenuAlt2 } from 'react-icons/hi';
-import { useRecoilState } from 'recoil';
-import { sidebarState } from '~/atoms/sidebarState.atom';
-
-import { useState } from 'react';
-
-import { MangaTypesPreview, MangaGenresPreview } from '~/constants';
 
 export default function Header() {
     const [isOpenMangaTypes, setIsOpenMangaTypes] = useState(false);

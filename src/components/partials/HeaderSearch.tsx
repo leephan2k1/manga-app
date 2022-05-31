@@ -1,6 +1,7 @@
-import { SearchIcon, AdjustmentsIcon } from '@heroicons/react/solid';
 import { useRecoilState } from 'recoil';
 import { searchModalState } from '~/atoms/searchModelAtom';
+
+import { AdjustmentsIcon, SearchIcon } from '@heroicons/react/solid';
 
 interface HeaderSearchProps {
     styles?: string;

@@ -1,9 +1,11 @@
+import LogoSVG from '/public/images/torii-gate-japan.svg';
+import { useRef } from 'react';
 import { useRecoilState } from 'recoil';
-import { sidebarState } from '~/atoms/sidebarState.atom';
+import { sidebarState } from '~/atoms/sidebarAtom';
+
 import { Dialog } from '@headlessui/react';
 import { ChevronLeftIcon } from '@heroicons/react/outline';
-import { useRef } from 'react';
-import LogoSVG from '/public/images/torii-gate-japan.svg';
+
 import TextLogo from '../icons/TextLogo';
 
 export default function Sidebar() {
