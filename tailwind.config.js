@@ -18,9 +18,13 @@ module.exports = {
         fontFamily: {
             primary: 'Nunito, sans-serif',
             secondary: 'League Spartan, sans-serif',
-            logo: 'SVN-Kashima Brush',
         },
     },
-
-    plugins: [require('@tailwindcss/line-clamp')],
+    corePlugins: {
+        aspectRatio: false,
+    },
+    plugins: [
+        require('@tailwindcss/line-clamp'),
+        require('@tailwindcss/aspect-ratio'),
+    ],
 };
