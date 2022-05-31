@@ -12,15 +12,19 @@
         "@headlessui/react": "^1.6.4",
         "@heroicons/react": "^1.0.6",
         "animate.css": "^4.1.1",
+        "axios": "^0.27.2",
         "modern-normalize": "^1.1.0",
         "next": "latest",
+        "query-string": "^7.1.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-icons": "^4.3.1",
-        "recoil": "^0.7.3-alpha.2"
+        "recoil": "^0.7.3-alpha.2",
+        "usehooks-ts": "^2.5.4"
     },
     "devDependencies": {
         "@svgr/webpack": "^6.2.1",
+        "@tailwindcss/aspect-ratio": "^0.4.0",
         "@tailwindcss/line-clamp": "^0.4.0",
         "@types/node": "17.0.4",
         "@types/react": "17.0.38",
