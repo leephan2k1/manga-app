@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { useMediaQuery } from 'usehooks-ts';
 
 import Footer from '../partials/Footer';
 import Header from '../partials/Header';
@@ -10,10 +11,12 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
+    const matches = useMediaQuery('(max-width: 1024px)');
+
     return (
         <>
             <Header />
-            <Sidebar />
+            {matches && <Sidebar />}
             <SearchModal />
             {children}
             <Footer />
