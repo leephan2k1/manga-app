@@ -46,11 +46,14 @@ function SearchResult({ data }: SearchResultProps) {
                                             {manga.genres.map((e, idx) => {
                                                 return (
                                                     <li
+                                                        style={{
+                                                            color: randomColors(
+                                                                TailwindColors,
+                                                                idx,
+                                                            ),
+                                                        }}
                                                         key={idx}
-                                                        className={`absolute-center m-2 h-[40%] w-[75px] rounded-xl bg-background text-[60%]  md:w-fit text-${randomColors(
-                                                            TailwindColors,
-                                                            idx,
-                                                        )}-400 md:text-xl`}
+                                                        className={`absolute-center m-2 h-[40%] w-[75px] rounded-xl bg-background text-[60%]  md:w-fit md:text-xl`}
                                                     >
                                                         <span className="p-4">
                                                             {e}

@@ -1,19 +1,19 @@
 import { DropDownLink } from '~/components/shared/DropDown';
 
 export const TailwindColors = [
-    'yellow',
-    'lime',
-    'amber',
-    'emerald',
-    'orange',
-    'cyan',
-    'red',
-    'sky',
-    'pink',
-    'indigo',
-    'rose',
-    'violet',
-    'fuchsia',
+    '#facc15',
+    '#a3e635',
+    '#fbbf24',
+    '#34d399',
+    '#fb923c',
+    '#22d3ee',
+    '#f87171',
+    '#38bdf8',
+    '#f472b6',
+    '#818cf8',
+    '#fb7185',
+    '#a78bfa',
+    '#e879f9',
 ];
 
 export const MangaTypesPreview: DropDownLink[] = [
