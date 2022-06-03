@@ -22,7 +22,7 @@ export default function HeaderSearch({ styles }: HeaderSearchProps) {
             {/* search input  */}
             <input
                 readOnly
-                className="hidden w-[80%] md:block"
+                className="hidden w-[80%] bg-transparent md:block"
                 placeholder="Tìm manga..."
                 onClick={() => {
                     setShowModal(true);
