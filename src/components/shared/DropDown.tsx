@@ -32,7 +32,7 @@ export default function DropDown({
 
     return (
         <ul
-            className="animate__animated animate__fadeIn absolute top-full left-1/2 flex h-fit w-fit -translate-x-1/2 flex-col flex-nowrap items-center justify-evenly rounded-2xl bg-secondary py-4 transition-all"
+            className="animate__animated animate__fadeIn animate__faster absolute top-full left-1/2 z-50 flex h-fit w-fit -translate-x-1/2 flex-col flex-nowrap items-center justify-evenly rounded-2xl bg-secondary py-4 transition-all"
             onMouseLeave={() => {
                 setOffsetTop(0);
             }}
