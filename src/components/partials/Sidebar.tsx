@@ -32,14 +32,14 @@ export default function Sidebar() {
         >
             {/* backdrop */}
             <Dialog.Overlay
-                className="fixed inset-0 bg-black/30"
+                className="fixed inset-0 z-[100] bg-black/30"
                 aria-hidden="true"
             />
             <aside
                 ref={sidebarRef}
                 className={`${
                     showSidebar && 'animate__fadeInLeft'
-                } animate__animated animate__faster	 absolute-center fixed inset-0 z-[999] w-[65%] bg-secondary p-4 md:w-[40%]`}
+                } animate__animated animate__faster absolute-center	 fixed inset-0 z-[999] w-[65%] min-w-[230px] bg-secondary p-4 md:w-[40%]`}
             >
                 <div className="flex h-full w-full flex-col">
                     {/* control sidebar & logo */}

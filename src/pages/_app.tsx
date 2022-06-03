@@ -1,5 +1,6 @@
 import '~/styles/globals.scss';
 import 'animate.css';
+import '~/styles/magic.min.css';
 
 import { RecoilRoot } from 'recoil';
 import MainLayout from '~/components/layouts/MainLayout';

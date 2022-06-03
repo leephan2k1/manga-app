@@ -55,3 +55,44 @@ body {
 ::-webkit-scrollbar-thumb {
     @apply rounded-2xl bg-gray-400;
 }
+
+.magictime {
+    -webkit-animation-duration: 350ms !important;
+    animation-duration: 350ms !important;
+}
+
+.deslide-cover {
+    &::before {
+        content: '';
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            90deg,
+            #202125 0,
+            rgba(32, 33, 37, 0.6) 40%,
+            rgba(32, 33, 37, 0) 60%,
+            rgba(32, 33, 37, 0) 80%,
+            #202125 100%
+        );
+    }
+    &::after {
+        content: '';
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            0deg,
+            #202125 0,
+            rgba(32, 33, 37, 0) 50%,
+            #202125 100%
+        );
+        z-index: 2;
+    }
+}

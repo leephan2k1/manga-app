@@ -13,6 +13,7 @@
         "@heroicons/react": "^1.0.6",
         "animate.css": "^4.1.1",
         "axios": "^0.27.2",
+        "classnames": "^2.3.1",
         "modern-normalize": "^1.1.0",
         "next": "latest",
         "query-string": "^7.1.1",
@@ -20,6 +21,7 @@
         "react-dom": "^17.0.2",
         "react-icons": "^4.3.1",
         "recoil": "^0.7.3-alpha.2",
+        "swiper": "^8.2.2",
         "usehooks-ts": "^2.5.4"
     },
     "devDependencies": {

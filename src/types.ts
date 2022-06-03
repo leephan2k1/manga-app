@@ -5,6 +5,8 @@ export type sources =
     | 'mangadex'
     | 'mangareader';
 
+export type Status = 'Đang tiến hành' | 'Hoàn thành';
+
 export interface NtSearchResponse {
     success: boolean;
     data: NtSearchResponseData[];
@@ -19,4 +21,12 @@ export interface NtSearchResponseData {
     slug: string;
     newChapter: string;
     genres: string[];
+}
+
+export interface Manga extends NtSearchResponseData {
+    status: Status;
+    author: string;
+    otherName: string;
+    review: string;
+    updatedAt: string;
 }

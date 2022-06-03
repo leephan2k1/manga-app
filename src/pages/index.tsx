@@ -1,17 +1,16 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import MangaBanner from '~/components/shared/MangaBanner';
 
 const Home: NextPage = () => {
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center py-2">
+        <div className="flex h-fit min-h-screen flex-col">
             <Head>
                 <title>Kyoto Manga</title>
             </Head>
 
-            <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-                <h1 className="font-secondary text-9xl">Còn trống rỗng</h1>
-                <p>Hello NextJS</p>
-            </main>
+            <MangaBanner />
+            {/* <div className="flex h-[500px] w-full flex-col bg-blue-500 px-20"></div> */}
         </div>
     );
 };
