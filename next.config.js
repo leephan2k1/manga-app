@@ -15,7 +15,7 @@ module.exports = {
         return config;
     },
     images: {
-        domains: ['st.nettruyenco.com'],
+        domains: ['st.nettruyenco.com', 'st.ntcdntempv3.com'],
     },
     eslint: {
         ignoreDuringBuilds: true,
