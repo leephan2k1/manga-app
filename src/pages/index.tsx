@@ -25,6 +25,7 @@ const Home: NextPage<HomeProps> = ({ topMonthList }) => {
             <Section
                 title="Mới cập nhật"
                 style="h-[500px] w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
+                linkHints={true}
             >
                 <SectionSwiper />
             </Section>
