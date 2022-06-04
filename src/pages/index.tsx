@@ -2,6 +2,8 @@ import type { NextPage } from 'next';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MangaBanner from '~/components/shared/Banner';
+import Section from '~/components/shared/Section';
+import SectionSwiper from '~/components/shared/SectionSwiper';
 import RepositoryFactory from '~/services/repositoryFactory';
 import { Manga } from '~/types';
 
@@ -19,6 +21,14 @@ const Home: NextPage<HomeProps> = ({ topMonthList }) => {
             </Head>
 
             <MangaBanner mangaList={topMonthList.slice(0, 10)} />
+
+            <Section
+                title="Mới cập nhật"
+                style="h-[500px] w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
+            >
+                <SectionSwiper />
+            </Section>
+
             {/* <div className="flex h-[500px] w-full flex-col bg-blue-500 px-20"></div> */}
         </div>
     );
