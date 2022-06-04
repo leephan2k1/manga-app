@@ -61,6 +61,18 @@ body {
     animation-duration: 350ms !important;
 }
 
+.section-swiper {
+    padding-bottom: 50px !important;
+
+    .swiper-pagination-bullet {
+        background-color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .swiper-pagination-bullet-active {
+        background-color: #f43f5e !important;
+    }
+}
+
 .deslide-cover {
     &::before {
         content: '';
