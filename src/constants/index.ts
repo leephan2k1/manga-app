@@ -1,5 +1,7 @@
 import { DropDownLink } from '~/components/shared/DropDown';
 
+export const REVALIDATE_TIME = 3 * 60 * 60; //3h
+
 export const TailwindColors = [
     '#facc15',
     '#a3e635',
