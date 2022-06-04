@@ -5,10 +5,18 @@ import Link from 'next/link';
 import { memo } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useMediaQuery } from 'usehooks-ts';
+import { Manga } from '~/types';
 
 import SectionSwiperCard from './SectionSwiperCard';
 
-function SectionSwiper() {
+interface SectionSwiperProps {
+    mangaList: Manga[];
+}
+
+function SectionSwiper({ mangaList }: SectionSwiperProps) {
+    const matchesMobile = useMediaQuery('(max-width: 640px)');
+
     const swiperBreakPoints = {
         1: {
             slidesPerView: 2,
@@ -40,156 +48,23 @@ function SectionSwiper() {
                 breakpoints={swiperBreakPoints}
                 modules={[Pagination]}
             >
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary md:text-2xl  lg:line-clamp-2">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/justTest">
-                        <a>
-                            <SectionSwiperCard />
-                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Nisi optio repudiandae
-                                corporis deleniti vero rerum, ut laboriosam
-                                earum alias quaerat facilis sequi, officia
-                                architecto itaque modi laborum! Facilis, error
-                                magni.
-                            </h2>
-                        </a>
-                    </Link>
-                </SwiperSlide>
+                {mangaList &&
+                    mangaList.length &&
+                    mangaList.map((manga, idx) => {
+                        if (matchesMobile && idx > 20) return;
+                        return (
+                            <SwiperSlide key={manga.slug}>
+                                <Link href="/justTest">
+                                    <a>
+                                        <SectionSwiperCard manga={manga} />
+                                        <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
+                                            {manga.name}
+                                        </h2>
+                                    </a>
+                                </Link>
+                            </SwiperSlide>
+                        );
+                    })}
             </Swiper>
         </div>
     );
