@@ -32,7 +32,7 @@ export default function SectionSwiperCard() {
                 }
                 layout="fill"
             />
-            <span className="absolute top-5 left-5 h-fit w-fit rounded-xl bg-white bg-opacity-40 px-4 py-2 text-base backdrop-blur-md md:text-xl lg:text-3xl">
+            <span className="absolute top-2 left-2 h-fit w-fit rounded-xl bg-white bg-opacity-40 px-4 py-2 text-base backdrop-blur-md md:text-xl lg:text-3xl">
                 Chapter 255
             </span>
             {matches && showPreview && (
