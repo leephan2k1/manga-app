@@ -21,9 +21,10 @@ function SectionSwiper() {
             slidesPerView: 4,
         },
         640: {
-            slidesPerView: 6,
+            slidesPerView: 5,
+            spaceBetween: 10,
         },
-        1024: {
+        1600: {
             slidesPerView: 7,
         },
     };
