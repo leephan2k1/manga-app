@@ -2,6 +2,8 @@ import { DropDownLink } from '~/components/shared/DropDown';
 
 export const REVALIDATE_TIME = 3 * 60 * 60; //3h
 
+export const MANGA_PATH_NAME = 'manga';
+
 export const TailwindColors = [
     '#facc15',
     '#a3e635',

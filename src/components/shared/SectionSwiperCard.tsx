@@ -1,8 +1,9 @@
 import Image from 'next/image';
-import { useState, memo } from 'react';
+import Link from 'next/link';
+import { memo, useState } from 'react';
 import { BiGlasses } from 'react-icons/bi';
 import { useMediaQuery } from 'usehooks-ts';
-
+import { MANGA_PATH_NAME } from '~/constants';
 import { Manga } from '~/types';
 
 import {
@@ -63,11 +64,24 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
 
                     <div className="flex h-fit w-full flex-col items-center space-y-4 py-6">
                         <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-primary py-2 px-4 transition-all hover:scale-[110%]">
-                            <BiGlasses /> <span>Đọc ngay</span>
+                            <BiGlasses />{' '}
+                            <Link
+                                href={`/${MANGA_PATH_NAME}/${encodeURIComponent(
+                                    manga.slug,
+                                )}`}
+                            >
+                                <a>Đọc ngay</a>
+                            </Link>
                         </button>
                         <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-white py-2 px-4 text-gray-700 transition-all hover:scale-[110%]">
                             <InformationCircleIcon className="h-6 w-6" />{' '}
-                            <span>Thông tin</span>
+                            <Link
+                                href={`/${MANGA_PATH_NAME}/${encodeURIComponent(
+                                    manga.slug,
+                                )}`}
+                            >
+                                <a>Thông tin</a>
+                            </Link>
                         </button>
                     </div>
                 </div>

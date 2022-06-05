@@ -7,6 +7,7 @@ import { memo, useEffect, useState } from 'react';
 import SwiperCore, { Autoplay, EffectFade } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
+import { MANGA_PATH_NAME } from '~/constants';
 import { Manga } from '~/types';
 
 import SwiperCard from './SwiperCard';
@@ -65,7 +66,11 @@ function Banner({ mangaList }: MangaBannerProps) {
                 {mangaList.map((manga) => {
                     return (
                         <SwiperSlide key={manga.slug}>
-                            <Link href={`manga/${manga.slug}`}>
+                            <Link
+                                href={`/${MANGA_PATH_NAME}/${encodeURIComponent(
+                                    manga.slug,
+                                )}`}
+                            >
                                 <a>
                                     <figure
                                         style={{

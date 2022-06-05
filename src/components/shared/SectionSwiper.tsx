@@ -6,6 +6,7 @@ import { memo } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
+import { MANGA_PATH_NAME } from '~/constants';
 import { Manga } from '~/types';
 
 import SectionSwiperCard from './SectionSwiperCard';
@@ -54,7 +55,11 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
                         if (matchesMobile && idx > 20) return;
                         return (
                             <SwiperSlide key={manga.slug}>
-                                <Link href="/justTest">
+                                <Link
+                                    href={`/${MANGA_PATH_NAME}/${encodeURIComponent(
+                                        manga.slug,
+                                    )}`}
+                                >
                                     <a>
                                         <SectionSwiperCard manga={manga} />
                                         <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">

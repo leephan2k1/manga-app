@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
-import { TailwindColors } from '~/constants';
+import { MANGA_PATH_NAME, TailwindColors } from '~/constants';
 import { NtSearchResponseData } from '~/types';
 import { randomColors } from '~/utils/randomColors';
 
@@ -19,7 +19,11 @@ function SearchResult({ data }: SearchResultProps) {
                             key={manga.slug}
                             className="h-fit overflow-x-hidden bg-secondary py-4"
                         >
-                            <Link href={`manga/${manga.slug}`}>
+                            <Link
+                                href={`/${MANGA_PATH_NAME}/${encodeURIComponent(
+                                    manga.slug,
+                                )}`}
+                            >
                                 <a className="flex h-full space-x-2">
                                     {/* thumbnail  */}
                                     <figure className="aspect-w-3 relative mt-4 ml-4 h-[120px] w-[90px] min-w-[85px] overflow-hidden rounded-xl">
