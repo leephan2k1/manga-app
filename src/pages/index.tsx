@@ -34,10 +34,7 @@ const Home: NextPage<HomeProps> = ({ topMonthList, newMangaUpdated }) => {
                 <SectionSwiper mangaList={newMangaUpdated} />
             </Section>
 
-            <Section
-                // className=""
-                style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden"
-            >
+            <Section style="w-[90%] mx-auto min-w-[333px] w-max-[1300px] mt-6 overflow-x-hidden">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     <ColumnSection title="Manga nổi bật nhất" />
                     <ColumnSection title="Manga nổi bật tháng" />
