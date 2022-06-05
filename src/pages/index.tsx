@@ -14,10 +14,20 @@ const NtApi = RepositoryFactory('nettruyen');
 interface HomeProps {
     topMonthList: Manga[];
     newMangaUpdated: Manga[];
+    topAllManga: Manga[];
+    topMonthManga: Manga[];
+    topWeekManga: Manga[];
+    topDayManga: Manga[];
 }
 
-const Home: NextPage<HomeProps> = ({ topMonthList, newMangaUpdated }) => {
-    // console.log(newMangaUpdated);
+const Home: NextPage<HomeProps> = ({
+    topMonthList,
+    newMangaUpdated,
+    topAllManga,
+    topMonthManga,
+    topWeekManga,
+    topDayManga,
+}) => {
     return (
         <div className="flex h-fit min-h-screen flex-col">
             <Head>
@@ -36,26 +46,64 @@ const Home: NextPage<HomeProps> = ({ topMonthList, newMangaUpdated }) => {
 
             <Section style="w-[90%] mx-auto min-w-[333px] w-max-[1300px] mt-6 overflow-x-hidden">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    <ColumnSection title="Manga nổi bật nhất" />
-                    <ColumnSection title="Manga nổi bật tháng" />
-                    <ColumnSection title="Manga nổi bật tuần" />
-                    <ColumnSection title="Manga nổi bật ngày" />
+                    <ColumnSection
+                        mangaList={topAllManga.slice(0, 5)}
+                        title="Manga nổi bật nhất"
+                    />
+                    <ColumnSection
+                        mangaList={topMonthManga.slice(0, 5)}
+                        title="Manga nổi bật tháng"
+                    />
+                    <ColumnSection
+                        mangaList={topWeekManga.slice(0, 5)}
+                        title="Manga nổi bật tuần"
+                    />
+                    <ColumnSection
+                        mangaList={topDayManga.slice(0, 5)}
+                        title="Manga nổi bật ngày"
+                    />
                 </div>
             </Section>
 
-            {/* <div className="flex h-[500px] w-full flex-col bg-blue-500 px-20"></div> */}
+            <div className="flex h-[500px] w-full flex-col bg-blue-500 px-20"></div>
         </div>
     );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const [topMonthList, newMangaUpdated] = await Promise.all([
+    const [
+        topMonthList,
+        newMangaUpdated,
+        topAllManga,
+        topMonthManga,
+        topWeekManga,
+        topDayManga,
+    ] = await Promise.all([
         NtApi?.filter(1, 'manga-112', 'month').then((res) => res.data.data),
         NtApi?.getNewMangaUpdated(1).then((res) => res.data.data),
+        NtApi?.getRankingmanga(undefined, 'all', 1).then(
+            (res) => res.data.data,
+        ),
+        NtApi?.getRankingmanga(undefined, 'month', 1).then(
+            (res) => res.data.data,
+        ),
+        NtApi?.getRankingmanga(undefined, 'week', 1).then(
+            (res) => res.data.data,
+        ),
+        NtApi?.getRankingmanga(undefined, 'day', 1).then(
+            (res) => res.data.data,
+        ),
     ]);
 
     return {
-        props: { topMonthList, newMangaUpdated },
+        props: {
+            topMonthList,
+            newMangaUpdated,
+            topAllManga,
+            topMonthManga,
+            topWeekManga,
+            topDayManga,
+        },
         revalidate: REVALIDATE_TIME,
     };
 };
