@@ -10,6 +10,7 @@ module.exports = {
                 primary: '#f43f5e',
                 secondary: '#2f2f2f',
                 ['hight-light']: '#3f3f3f',
+                ['deep-black']: '#1a1a1a',
             },
             listStyleType: {
                 circle: 'circle',
