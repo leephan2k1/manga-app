@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MangaBanner from '~/components/shared/Banner';
+import ColumnSection from '~/components/shared/ColumnSection';
 import Section from '~/components/shared/Section';
 import SectionSwiper from '~/components/shared/SectionSwiper';
 import { REVALIDATE_TIME } from '~/constants';
@@ -27,10 +28,22 @@ const Home: NextPage<HomeProps> = ({ topMonthList, newMangaUpdated }) => {
 
             <Section
                 title="Mới cập nhật"
-                style="h-[500px] w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
+                style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
                 linkHints={true}
             >
                 <SectionSwiper mangaList={newMangaUpdated} />
+            </Section>
+
+            <Section
+                // className=""
+                style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden"
+            >
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    <ColumnSection title="Manga nổi bật nhất" />
+                    <ColumnSection title="Manga nổi bật tháng" />
+                    <ColumnSection title="Manga nổi bật tuần" />
+                    <ColumnSection title="Manga nổi bật ngày" />
+                </div>
             </Section>
 
             {/* <div className="flex h-[500px] w-full flex-col bg-blue-500 px-20"></div> */}
