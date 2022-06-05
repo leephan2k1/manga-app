@@ -3,7 +3,7 @@ import 'swiper/css/effect-fade';
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import SwiperCore, { Autoplay, EffectFade } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
@@ -17,7 +17,7 @@ interface MangaBannerProps {
     mangaList: Manga[];
 }
 
-export default function MangaBanner({ mangaList }: MangaBannerProps) {
+function Banner({ mangaList }: MangaBannerProps) {
     const [swiper, setSwiper] = useState<SwiperCore | null>(null);
     const [currentActiveSlide, setCurrentActiveSlide] = useState(1);
     const matchesTablet = useMediaQuery('(min-width: 768px)');
@@ -120,3 +120,5 @@ export default function MangaBanner({ mangaList }: MangaBannerProps) {
         </div>
     );
 }
+
+export default memo(Banner);
