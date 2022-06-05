@@ -1,7 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
-import { MANGA_PATH_NAME, TailwindColors } from '~/constants';
+import {
+    MANGA_PATH_NAME,
+    MANGA_PATH_DETAILS_NAME,
+    TailwindColors,
+} from '~/constants';
 import { NtSearchResponseData } from '~/types';
 import { randomColors } from '~/utils/randomColors';
 
@@ -20,7 +24,7 @@ function SearchResult({ data }: SearchResultProps) {
                             className="h-fit overflow-x-hidden bg-secondary py-4"
                         >
                             <Link
-                                href={`/${MANGA_PATH_NAME}/${encodeURIComponent(
+                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                     manga.slug,
                                 )}`}
                             >

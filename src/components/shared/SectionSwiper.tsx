@@ -6,7 +6,7 @@ import { memo } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
-import { MANGA_PATH_NAME } from '~/constants';
+import { MANGA_PATH_NAME, MANGA_PATH_DETAILS_NAME } from '~/constants';
 import { Manga } from '~/types';
 
 import SectionSwiperCard from './SectionSwiperCard';
@@ -56,7 +56,7 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
                         return (
                             <SwiperSlide key={manga.slug}>
                                 <Link
-                                    href={`/${MANGA_PATH_NAME}/${encodeURIComponent(
+                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                         manga.slug,
                                     )}`}
                                 >

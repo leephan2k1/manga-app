@@ -3,7 +3,11 @@ import Link from 'next/link';
 import { memo, useState } from 'react';
 import { BiGlasses } from 'react-icons/bi';
 import { useMediaQuery } from 'usehooks-ts';
-import { MANGA_PATH_NAME } from '~/constants';
+import {
+    MANGA_PATH_NAME,
+    MANGA_PATH_DETAILS_NAME,
+    MANGA_PATH_READ_NAME,
+} from '~/constants';
 import { Manga } from '~/types';
 
 import {
@@ -66,7 +70,7 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                         <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-primary py-2 px-4 transition-all hover:scale-[110%]">
                             <BiGlasses />{' '}
                             <Link
-                                href={`/${MANGA_PATH_NAME}/${encodeURIComponent(
+                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${encodeURIComponent(
                                     manga.slug,
                                 )}`}
                             >
@@ -76,7 +80,7 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                         <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-white py-2 px-4 text-gray-700 transition-all hover:scale-[110%]">
                             <InformationCircleIcon className="h-6 w-6" />{' '}
                             <Link
-                                href={`/${MANGA_PATH_NAME}/${encodeURIComponent(
+                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                     manga.slug,
                                 )}`}
                             >
