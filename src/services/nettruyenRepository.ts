@@ -35,9 +35,21 @@ export interface NtRepository {
         top?: string,
         page?: number,
     ) => Promise<AxiosResponse<MangaPreviewResponse>>;
+    getNewManga: (
+        page?: number,
+        genres?: string,
+    ) => Promise<AxiosResponse<MangaPreviewResponse>>;
 }
 
 const NtApi: NtRepository = {
+    getNewManga: (page?: number, genres?: string) => {
+        return axiosClient.get(`${resource}/new`, {
+            params: {
+                page: page ? page : undefined,
+                genres: genres ? genres : undefined,
+            },
+        });
+    },
     getRankingmanga: (status?: string, top?: string, page?: number) => {
         return axiosClient.get(`${resource}/ranking`, {
             params: {

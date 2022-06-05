@@ -18,6 +18,7 @@ interface HomeProps {
     topMonthManga: Manga[];
     topWeekManga: Manga[];
     topDayManga: Manga[];
+    newManga: Manga[];
 }
 
 const Home: NextPage<HomeProps> = ({
@@ -27,6 +28,7 @@ const Home: NextPage<HomeProps> = ({
     topMonthManga,
     topWeekManga,
     topDayManga,
+    newManga,
 }) => {
     return (
         <div className="flex h-fit min-h-screen flex-col">
@@ -65,7 +67,13 @@ const Home: NextPage<HomeProps> = ({
                 </div>
             </Section>
 
-            <div className="flex h-[500px] w-full flex-col bg-blue-500 px-20"></div>
+            <Section
+                title="Truyện mới"
+                style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
+                linkHints={true}
+            >
+                <SectionSwiper mangaList={newManga} />
+            </Section>
         </div>
     );
 };
@@ -78,6 +86,7 @@ export const getStaticProps: GetStaticProps = async () => {
         topMonthManga,
         topWeekManga,
         topDayManga,
+        newManga,
     ] = await Promise.all([
         NtApi?.filter(1, 'manga-112', 'month').then((res) => res.data.data),
         NtApi?.getNewMangaUpdated(1).then((res) => res.data.data),
@@ -93,6 +102,7 @@ export const getStaticProps: GetStaticProps = async () => {
         NtApi?.getRankingmanga(undefined, 'day', 1).then(
             (res) => res.data.data,
         ),
+        NtApi?.getNewManga(1).then((res) => res.data.data),
     ]);
 
     return {
@@ -103,6 +113,7 @@ export const getStaticProps: GetStaticProps = async () => {
             topMonthManga,
             topWeekManga,
             topDayManga,
+            newManga,
         },
         revalidate: REVALIDATE_TIME,
     };
