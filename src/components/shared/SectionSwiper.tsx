@@ -60,12 +60,14 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
                                         manga.slug,
                                     )}`}
                                 >
-                                    <a>
+                                    <>
                                         <SectionSwiperCard manga={manga} />
-                                        <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                            {manga.name}
-                                        </h2>
-                                    </a>
+                                        <a>
+                                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
+                                                {manga.name}
+                                            </h2>
+                                        </a>
+                                    </>
                                 </Link>
                             </SwiperSlide>
                         );
