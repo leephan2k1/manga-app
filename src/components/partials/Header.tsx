@@ -1,4 +1,5 @@
 import LogoSVG from '/public/images/torii-gate-japan.svg';
+import classNames from 'classnames';
 import Link from 'next/link';
 import { useState } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
@@ -13,7 +14,11 @@ import DropDown from '../shared/DropDown';
 import HeaderSearch from './HeaderSearch';
 import HeaderUser from './HeaderUser';
 
-export default function Header() {
+interface HeaderProps {
+    style?: string;
+}
+
+export default function Header({ style }: HeaderProps) {
     const [isOpenMangaTypes, setIsOpenMangaTypes] = useState(false);
     const [isOpenMangaGenres, setIsOpenMangaGenres] = useState(false);
     const [_, setSidebarState] = useRecoilState(sidebarState);
@@ -23,8 +28,8 @@ export default function Header() {
     };
 
     return (
-        <header className="h-40 bg-background">
-            <div className="mx-auto flex h-full w-full items-center    md:max-w-[644px] lg:max-w-[1200px]">
+        <header className={classNames(style)}>
+            <div className="mx-auto flex h-full w-full items-center md:max-w-[644px] lg:max-w-[1200px]">
                 {/* menu button mobile */}
                 <button
                     className="button mx-6 rounded-full p-4 md:m-0 lg:hidden"

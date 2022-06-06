@@ -4,27 +4,36 @@ import { useRecoilValue } from 'recoil';
 import { useMediaQuery } from 'usehooks-ts';
 import { searchModalState } from '~/atoms/searchModelAtom';
 
-import Footer from '../partials/Footer';
-import Header from '../partials/Header';
-
 interface MainLayoutProps {
     children: ReactNode;
+    customStyleHeader?: string;
+    showHeader?: boolean;
+    showFooter?: boolean;
 }
 
+const Header = dynamic(() => import('../partials/Header'));
+const Footer = dynamic(() => import('../partials/Footer'));
 const Sidebar = dynamic(() => import('../partials/Sidebar'));
 const SearchModal = dynamic(() => import('../shared/SearchModal'));
 
-export default function MainLayout({ children }: MainLayoutProps) {
+export default function MainLayout({
+    customStyleHeader,
+    children,
+    showHeader,
+    showFooter,
+}: MainLayoutProps) {
     const matches = useMediaQuery('(max-width: 1024px)');
     const showModal = useRecoilValue(searchModalState);
 
     return (
         <>
-            <Header />
+            {showHeader && (
+                <Header style={customStyleHeader || 'h-40 bg-background'} />
+            )}
             {matches && <Sidebar />}
             {showModal && <SearchModal />}
             <main>{children}</main>
-            <Footer />
+            {showFooter && <Footer />}
         </>
     );
 }
