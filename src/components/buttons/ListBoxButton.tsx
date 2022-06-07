@@ -10,14 +10,18 @@ type Items = {
 
 interface ListBoxButtonProps {
     title?: string;
+    defaultSelected?: string;
     listDropDown: Array<Items>;
 }
 
 export default function ListBoxButton({
     title,
     listDropDown,
+    defaultSelected,
 }: ListBoxButtonProps) {
-    const [selectedSource, setSelectedSource] = useState(listDropDown[0].title);
+    const [selectedSource, setSelectedSource] = useState(
+        defaultSelected || listDropDown[0].title,
+    );
 
     return (
         <div className="relative">
