@@ -45,7 +45,7 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                 {manga.newChapter}
             </span>
             {matches && showPreview && (
-                <div className="animate__faster animate__animated animate__fadeIn flex h-full w-full flex-col space-y-6 overflow-hidden rounded-xl bg-hight-light text-white">
+                <div className="animate__faster animate__animated animate__fadeIn flex h-full w-full flex-col space-y-2 overflow-hidden rounded-xl bg-hight-light text-white">
                     <h3 className="ml-4 mt-4 min-h-[40px] text-[100%] font-semibold line-clamp-2">
                         {manga.name}
                     </h3>

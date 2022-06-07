@@ -33,7 +33,7 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
             slidesPerView: 5,
             spaceBetween: 10,
         },
-        1600: {
+        1300: {
             slidesPerView: 7,
         },
     };
