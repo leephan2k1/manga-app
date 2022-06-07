@@ -39,7 +39,9 @@ function ColumnSection({ title, mangaList }: ColumnSectionProps) {
                                     <h3 className="font-secondary text-2xl font-semibold transition-all line-clamp-1 hover:cursor-pointer hover:text-primary md:text-3xl">
                                         {manga.name}
                                     </h3>
-                                    <h4 className="text-lg">Chapter 255</h4>
+                                    <h4 className="text-lg">
+                                        {manga.newChapter}
+                                    </h4>
                                     <ul className="flex items-center text-base line-clamp-1 lg:text-xl">
                                         {manga.genres.map((genre, idx) => {
                                             return (
@@ -48,11 +50,13 @@ function ColumnSection({ title, mangaList }: ColumnSectionProps) {
                                                     key={idx}
                                                 >
                                                     <span>{genre}</span>
-                                                    {genre[idx + 1] ? (
+                                                    {idx !==
+                                                        manga.genres.length -
+                                                            1 && (
                                                         <span>
                                                             <BsDot className="inline-block" />
                                                         </span>
-                                                    ) : null}
+                                                    )}
                                                 </li>
                                             );
                                         })}
