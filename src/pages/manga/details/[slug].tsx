@@ -1,19 +1,26 @@
 import { NextPage } from 'next';
-import DetailsBanner from '~/components/shared/DetailsBanner';
-import MainLayout from '~/components/layouts/MainLayout';
 import { ReactNode } from 'react';
-
-import Section from '~/components/shared/Section';
+import { useMediaQuery } from 'usehooks-ts';
+import MainLayout from '~/components/layouts/MainLayout';
+import DetailsBanner from '~/components/shared/DetailsBanner';
+import DetailsDescription from '~/components/shared/DetailsDescription';
 import DetailsInfo from '~/components/shared/DetailsInfo';
+import Section from '~/components/shared/Section';
 
 const DetailsPage: NextPage = () => {
+    const matchesMobile = useMediaQuery('(max-width: 640px)');
+
     return (
         <div className="flex h-fit min-h-screen flex-col ">
             <DetailsBanner />
 
-            <div className="z-10 mx-auto min-h-screen w-[85%]    pt-32">
-                <Section style="  h-[400px] w-full">
+            <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
+                <Section style="h-fit w-full">
                     <DetailsInfo />
+                </Section>
+
+                <Section style="h-fit w-full">
+                    <DetailsDescription mobileUI={matchesMobile} />
                 </Section>
             </div>
         </div>
