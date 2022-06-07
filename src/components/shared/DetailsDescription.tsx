@@ -10,7 +10,7 @@ export default function DetailsDescription({
 }: DetailsDescriptionProps) {
     if (!mobileUI)
         return (
-            <p className="my-4 text-white">
+            <p className="my-8 text-white">
                 &quot;One Piece xoay quanh 1 nhóm cướp biển được gọi là Băng Hải
                 tặc Mũ Rơm - Straw Hat Pirates - được thành lập và lãnh đạo bởi
                 thuyền trưởng Monkey D. Luffy. Cậu bé Luffy có ước mơ tìm thấy

@@ -25,7 +25,7 @@ export default function DetailsInfo() {
                 </figure>
             </div>
             {/* manga desc*/}
-            <div className="flex h-full w-full flex-col justify-center  p-4  text-white md:min-h-[430px] lg:ml-4">
+            <div className="flex h-full w-full flex-col justify-center p-4  text-white md:min-h-[430px] lg:ml-4">
                 <div className="w-full space-y-4 text-center md:ml-2 md:text-left lg:w-[80%]">
                     <h1
                         className={`font-secondary  font-bold leading-none ${
@@ -36,12 +36,16 @@ export default function DetailsInfo() {
                     >
                         {title}
                     </h1>
-                    <h2 className="text-[3vw]  md:text-[2vw] lg:text-[1.2vw]">
+                    <h2 className="text-[3vw] md:min-h-[28px] md:text-[2vw] lg:text-[1.2vw]">
                         ワンピース
                     </h2>
                     <h3 className="text-center text-[3vw] md:text-left md:text-[2vw] lg:text-[1.1vw]">
                         Oda Eiichiro
                     </h3>
+                    <h4 className="flex items-center justify-center gap-4 md:justify-start">
+                        <span className="block h-3 w-3 rounded-full bg-green-500"></span>
+                        Đang tiến hành
+                    </h4>
                 </div>
                 <div className="mt-4 flex flex-col-reverse gap-2 md:flex-col">
                     <ul className="my-4 flex flex-wrap items-center gap-4">
@@ -51,7 +55,7 @@ export default function DetailsInfo() {
                         </li>
                     </ul>
                     {/* manga interrace  */}
-                    <div className="mt-4 flex h-[150px] w-full flex-col  items-center gap-6  md:flex-row">
+                    <div className="flex h-[150px] w-full flex-col items-center gap-6   md:flex-row md:items-start">
                         <button className="pulse-effect-primary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-primary transition-all hover:scale-[110%]">
                             <BookOpenIcon className="h-8 w-8" /> Đọc ngay
                         </button>
