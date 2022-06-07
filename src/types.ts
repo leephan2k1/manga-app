@@ -5,6 +5,11 @@ export type sources =
     | 'mangadex'
     | 'mangareader';
 
+export interface MangaResource {
+    sourceName: sources;
+    sourceId: string;
+}
+
 export type Status = 'Đang tiến hành' | 'Hoàn thành';
 
 export type NETTRUYEN_GENRES =

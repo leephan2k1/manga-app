@@ -1,4 +1,5 @@
 import { DropDownLink } from '~/components/shared/DropDown';
+import { MangaResource } from '~/types';
 
 export const REVALIDATE_TIME = 3 * 60 * 60; //3h
 
@@ -8,6 +9,21 @@ export const MANGA_PATH_NAME = 'manga';
 export const MANGA_PATH_DETAILS_NAME = 'details';
 //ref: src/pages/manga
 export const MANGA_PATH_READ_NAME = 'read';
+
+export const MANGA_RESOURCE: MangaResource[] = [
+    {
+        sourceName: 'nettruyen',
+        sourceId: 'nt',
+    },
+    {
+        sourceName: 'lhmanga',
+        sourceId: 'lh',
+    },
+    {
+        sourceName: 'truyenqq',
+        sourceId: 'qq',
+    },
+];
 
 export const TailwindColors = [
     '#facc15',
