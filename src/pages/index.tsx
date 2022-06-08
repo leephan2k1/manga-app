@@ -90,16 +90,16 @@ export const getStaticProps: GetStaticProps = async () => {
     ] = await Promise.all([
         NtApi?.filter(1, 'manga-112', 'month').then((res) => res.data.data),
         NtApi?.getNewMangaUpdated(1).then((res) => res.data.data),
-        NtApi?.getRankingmanga(undefined, 'all', 1).then(
+        NtApi?.getRankingmanga(undefined, 'all', 1, 'manga-112').then(
             (res) => res.data.data,
         ),
-        NtApi?.getRankingmanga(undefined, 'month', 1).then(
+        NtApi?.getRankingmanga(undefined, 'month', 1, 'manga-112').then(
             (res) => res.data.data,
         ),
-        NtApi?.getRankingmanga(undefined, 'week', 1).then(
+        NtApi?.getRankingmanga(undefined, 'week', 1, 'manga-112').then(
             (res) => res.data.data,
         ),
-        NtApi?.getRankingmanga(undefined, 'day', 1).then(
+        NtApi?.getRankingmanga(undefined, 'day', 1, 'manga-112').then(
             (res) => res.data.data,
         ),
         NtApi?.getNewManga(1).then((res) => res.data.data),
