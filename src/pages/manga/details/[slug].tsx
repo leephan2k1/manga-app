@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import MainLayout from '~/components/layouts/MainLayout';
 import DetailsBanner from '~/components/shared/DetailsBanner';
+import DetailsChapterList from '~/components/shared/DetailsChapterList';
 import DetailsDescription from '~/components/shared/DetailsDescription';
 import DetailsInfo from '~/components/shared/DetailsInfo';
 import Section from '~/components/shared/Section';
@@ -21,6 +22,10 @@ const DetailsPage: NextPage = () => {
 
                 <Section style="h-fit w-full">
                     <DetailsDescription mobileUI={matchesMobile} />
+                </Section>
+
+                <Section title="Danh sách chương" style="h-fit w-full">
+                    <DetailsChapterList />
                 </Section>
             </div>
         </div>

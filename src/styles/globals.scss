@@ -73,6 +73,41 @@ input[type='number'] {
     -moz-appearance: textfield;
 }
 
+.bubble-top-left-to-bottom-right {
+    z-index: 1;
+    position: relative;
+    font-size: inherit;
+    font-family: inherit;
+    outline: none;
+    border: none;
+    overflow: hidden;
+    transition: color 0.2s ease-in-out;
+    &:hover {
+        cursor: pointer;
+    }
+    &:hover::before {
+        transform: translate3d(50%, 50%, 0) scale3d(15, 15, 15);
+    }
+    &::before {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        bottom: 100%;
+        right: 100%;
+        width: 1em;
+        height: 1em;
+        border-radius: 50%;
+        background: linear-gradient(
+            0deg,
+            rgba(222, 33, 24, 1) 0%,
+            rgba(234, 72, 66, 0.9279061966583508) 100%
+        );
+        transform-origin: center;
+        transform: translate3d(50%, 50%, 0) scale3d(0, 0, 0);
+        transition: transform 0.2s ease-in-out;
+    }
+}
+
 .pulse-effect-primary,
 .pulse-effect-secondary {
     z-index: 1;
