@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useDebounce } from 'usehooks-ts';
@@ -9,7 +10,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { EmojiSadIcon, XIcon } from '@heroicons/react/outline';
 import { SearchIcon } from '@heroicons/react/solid';
 
-import SearchResult from './SearchResult';
+const SearchResult = dynamic(() => import('./SearchResult'));
 
 const NtAPI = RepositoryFactory('nettruyen');
 
@@ -63,7 +64,6 @@ export default function SearchModal() {
 
                     if (result?.status === 200) {
                         setMangaResult(result.data.data);
-                        setSearchValue('');
                     }
                 } catch (err) {
                     setMangaResult('notFound');

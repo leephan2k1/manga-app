@@ -9,12 +9,16 @@ import {
 import useSource from '~/hooks/useSource';
 import { NtSearchResponseData } from '~/types';
 import { randomColors } from '~/utils/randomColors';
+import { useRecoilState } from 'recoil';
+import { searchModalState } from '~/atoms/searchModelAtom';
 
 interface SearchResultProps {
     data: NtSearchResponseData[];
 }
 
 function SearchResult({ data }: SearchResultProps) {
+    const [_, setShowModal] = useRecoilState(searchModalState);
+
     const [srcId] = useSource();
 
     return (
@@ -25,6 +29,7 @@ function SearchResult({ data }: SearchResultProps) {
                         <li
                             key={manga.slug}
                             className="h-fit overflow-x-hidden bg-secondary py-4"
+                            onClick={() => setShowModal(false)}
                         >
                             <Link
                                 href={{
@@ -48,7 +53,7 @@ function SearchResult({ data }: SearchResultProps) {
                                     </figure>
 
                                     {/* data info  */}
-                                    <div className="flex h-full flex-1 flex-col space-y-4 text-white">
+                                    <div className="flex h-full flex-1 flex-col space-y-4 text-white transition-all hover:text-primary ">
                                         <h2 className="mx-4 mt-4 w-full overflow-hidden font-secondary text-2xl line-clamp-1 md:text-4xl">
                                             {manga.name}
                                         </h2>
