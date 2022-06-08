@@ -2,10 +2,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
 import {
-    MANGA_PATH_NAME,
     MANGA_PATH_DETAILS_NAME,
+    MANGA_PATH_NAME,
     TailwindColors,
 } from '~/constants';
+import useSource from '~/hooks/useSource';
 import { NtSearchResponseData } from '~/types';
 import { randomColors } from '~/utils/randomColors';
 
@@ -14,6 +15,8 @@ interface SearchResultProps {
 }
 
 function SearchResult({ data }: SearchResultProps) {
+    const [srcId] = useSource();
+
     return (
         <div className="min-h-fit w-full">
             <ul className="h-fit w-full space-y-5">
@@ -24,9 +27,14 @@ function SearchResult({ data }: SearchResultProps) {
                             className="h-fit overflow-x-hidden bg-secondary py-4"
                         >
                             <Link
-                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
-                                    manga.slug,
-                                )}`}
+                                href={{
+                                    pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                        manga.slug,
+                                    )}`,
+                                    query: {
+                                        src: srcId,
+                                    },
+                                }}
                             >
                                 <a className="flex h-full space-x-2">
                                     {/* thumbnail  */}

@@ -4,10 +4,11 @@ import { memo, useState } from 'react';
 import { BiGlasses } from 'react-icons/bi';
 import { useMediaQuery } from 'usehooks-ts';
 import {
-    MANGA_PATH_NAME,
     MANGA_PATH_DETAILS_NAME,
+    MANGA_PATH_NAME,
     MANGA_PATH_READ_NAME,
 } from '~/constants';
+import useSource from '~/hooks/useSource';
 import { Manga } from '~/types';
 
 import {
@@ -24,6 +25,7 @@ interface SectionSwiperCardProps {
 function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
     const matches = useMediaQuery('(min-width: 1259px)');
     const [showPreview, setShowPreview] = useState(false);
+    const [srcId] = useSource();
 
     return (
         <div
@@ -35,12 +37,26 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                 setShowPreview(false);
             }}
         >
-            <Image
-                className="absolute inset-0 rounded-xl object-cover object-center"
-                alt="manga-thumbnail z-50"
-                src={manga.thumbnail}
-                layout="fill"
-            />
+            <Link
+                href={{
+                    pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                        manga.slug,
+                    )}`,
+                    query: {
+                        src: srcId,
+                    },
+                }}
+            >
+                <a>
+                    <Image
+                        className="absolute inset-0 rounded-xl object-cover object-center"
+                        alt="manga-thumbnail z-50"
+                        src={manga.thumbnail}
+                        layout="fill"
+                    />
+                </a>
+            </Link>
+
             <span className="absolute top-2 left-2 h-fit w-fit rounded-xl bg-white bg-opacity-40 px-4 py-2 text-base backdrop-blur-md md:text-xl lg:text-3xl">
                 {manga.newChapter}
             </span>
@@ -70,9 +86,12 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                         <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-primary py-2 px-4 transition-all hover:scale-[110%]">
                             <BiGlasses />{' '}
                             <Link
-                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${encodeURIComponent(
-                                    manga.slug,
-                                )}`}
+                                href={{
+                                    pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${encodeURIComponent(
+                                        manga.slug,
+                                    )}`,
+                                    query: { src: srcId },
+                                }}
                             >
                                 <a>Đọc ngay</a>
                             </Link>
@@ -80,9 +99,12 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                         <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-white py-2 px-4 text-gray-700 transition-all hover:scale-[110%]">
                             <InformationCircleIcon className="h-6 w-6" />{' '}
                             <Link
-                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
-                                    manga.slug,
-                                )}`}
+                                href={{
+                                    pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                        manga.slug,
+                                    )}`,
+                                    query: { src: srcId },
+                                }}
                             >
                                 <a>Thông tin</a>
                             </Link>

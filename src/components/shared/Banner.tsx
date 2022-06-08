@@ -7,7 +7,8 @@ import { memo, useEffect, useState } from 'react';
 import SwiperCore, { Autoplay, EffectFade } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
-import { MANGA_PATH_NAME, MANGA_PATH_DETAILS_NAME } from '~/constants';
+import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
+import useSource from '~/hooks/useSource';
 import { Manga } from '~/types';
 
 import SwiperCard from './SwiperCard';
@@ -22,6 +23,7 @@ function Banner({ mangaList }: MangaBannerProps) {
     const [swiper, setSwiper] = useState<SwiperCore | null>(null);
     const [currentActiveSlide, setCurrentActiveSlide] = useState(1);
     const matchesTablet = useMediaQuery('(min-width: 768px)');
+    const [srcId] = useSource();
 
     useEffect(() => {
         if (swiper) {
@@ -67,9 +69,14 @@ function Banner({ mangaList }: MangaBannerProps) {
                     return (
                         <SwiperSlide key={manga.slug}>
                             <Link
-                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
-                                    manga.slug,
-                                )}`}
+                                href={{
+                                    pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                        manga.slug,
+                                    )}`,
+                                    query: {
+                                        src: srcId,
+                                    },
+                                }}
                             >
                                 <a>
                                     <figure

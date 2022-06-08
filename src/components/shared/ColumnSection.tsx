@@ -1,6 +1,9 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { memo } from 'react';
 import { BsDot } from 'react-icons/bs';
+import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
+import useSource from '~/hooks/useSource';
 import { Manga } from '~/types';
 
 import { ChevronRightIcon } from '@heroicons/react/outline';
@@ -11,6 +14,8 @@ interface ColumnSectionProps {
 }
 
 function ColumnSection({ title, mangaList }: ColumnSectionProps) {
+    const [srcId] = useSource();
+
     return (
         <div className="w-full rounded-xl bg-deep-black pb-4 lg:my-4">
             {title && (
@@ -27,18 +32,46 @@ function ColumnSection({ title, mangaList }: ColumnSectionProps) {
                                 key={manga.slug}
                                 className="flex w-full px-4 py-2 odd:bg-hight-light/40"
                             >
-                                <figure className="relative h-[80px] min-h-[80px] w-[60px] min-w-[60px] overflow-hidden rounded-xl">
-                                    <Image
-                                        className="aspect-w-3 aspect-h-4 absolute object-cover object-center"
-                                        layout="fill"
-                                        alt="img-preview"
-                                        src={manga.thumbnail}
-                                    />
-                                </figure>
+                                <Link
+                                    href={{
+                                        pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                            manga.slug,
+                                        )}`,
+                                        query: {
+                                            src: srcId,
+                                        },
+                                    }}
+                                >
+                                    <a>
+                                        <figure className="relative h-[80px] min-h-[80px] w-[60px] min-w-[60px] overflow-hidden rounded-xl">
+                                            <Image
+                                                className="aspect-w-3 aspect-h-4 absolute object-cover object-center"
+                                                layout="fill"
+                                                alt="img-preview"
+                                                src={manga.thumbnail}
+                                            />
+                                        </figure>
+                                    </a>
+                                </Link>
+
                                 <div className="flex w-full flex-col justify-center space-y-2 pl-4 ">
-                                    <h3 className="font-secondary text-2xl font-semibold transition-all line-clamp-1 hover:cursor-pointer hover:text-primary md:text-3xl">
-                                        {manga.name}
-                                    </h3>
+                                    <Link
+                                        href={{
+                                            pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                                manga.slug,
+                                            )}`,
+                                            query: {
+                                                src: srcId,
+                                            },
+                                        }}
+                                    >
+                                        <a>
+                                            <h3 className="font-secondary text-2xl font-semibold transition-all line-clamp-1 hover:cursor-pointer hover:text-primary md:text-3xl">
+                                                {manga.name}
+                                            </h3>
+                                        </a>
+                                    </Link>
+
                                     <h4 className="text-lg">
                                         {manga.newChapter}
                                     </h4>
