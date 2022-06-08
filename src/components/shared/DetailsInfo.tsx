@@ -1,14 +1,16 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { MangaDetails } from '~/types';
+import { memo } from 'react';
 
 import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
 import { LightningBoltIcon } from '@heroicons/react/solid';
 
-export default function DetailsInfo() {
-    // const title =
-    //     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, fuga ad atque eaque quibusdam at ducimus reiciendis assumenda explicabo magnam, soluta nemo sed natus harum placeat dolorum velit minima eos?';
+interface DetailsInfoProps {
+    manga: MangaDetails;
+}
 
-    const title = 'Đảo hải tặc';
-
+function DetailsInfo({ manga }: DetailsInfoProps) {
     return (
         <div className="flex h-full w-full flex-col items-center overflow-x-hidden md:flex-row md:items-start">
             {/* manga thumbnail  */}
@@ -18,9 +20,7 @@ export default function DetailsInfo() {
                         className="absolute inset-0 rounded-2xl object-cover object-center"
                         layout="fill"
                         alt="manga-thumbnail"
-                        src={
-                            'https://st.nettruyenco.com/data/comics/209/dao-hai-tac.jpg'
-                        }
+                        src={manga.thumbnail}
                     />
                 </figure>
             </div>
@@ -29,30 +29,50 @@ export default function DetailsInfo() {
                 <div className="w-full space-y-4 text-center md:ml-2 md:text-left lg:w-[80%]">
                     <h1
                         className={`font-secondary  font-bold leading-none ${
-                            title.length < 40
+                            manga.title.length < 40
                                 ? 'text-[6.5vw] md:text-[5.5vw] lg:text-[3.5vw]'
                                 : 'text-[5.5vw] md:text-[3.5vw] lg:text-[2.5vw]'
                         }`}
                     >
-                        {title}
+                        {manga.title}
                     </h1>
                     <h2 className="text-[3vw] md:min-h-[28px] md:text-[2vw] lg:text-[1.2vw]">
-                        ワンピース
+                        {manga.otherName !== 'undefined' ? manga.otherName : ''}
                     </h2>
                     <h3 className="text-center text-[3vw] md:text-left md:text-[2vw] lg:text-[1.1vw]">
-                        Oda Eiichiro
+                        {manga.author !== 'undefined' ? manga.author : ''}
                     </h3>
                     <h4 className="flex items-center justify-center gap-4 md:justify-start">
-                        <span className="block h-3 w-3 rounded-full bg-green-500"></span>
-                        Đang tiến hành
+                        <span
+                            className={`block h-3 w-3 rounded-full ${
+                                manga.status === 'Đang tiến hành'
+                                    ? 'bg-green-500'
+                                    : 'bg-cyan-500'
+                            } `}
+                        ></span>
+                        {manga.status}
                     </h4>
                 </div>
                 <div className="mt-4 flex flex-col-reverse gap-2 md:flex-col">
                     <ul className="my-4 flex flex-wrap items-center gap-4">
                         <h3 className="px-2 py-2">Thể loại:</h3>
-                        <li className="rounded-xl bg-hight-light px-4 py-2">
-                            Action
-                        </li>
+                        {manga.genres.length &&
+                            manga.genres.map((genre, idx) => {
+                                return (
+                                    <li
+                                        key={genre.slug || idx}
+                                        className="rounded-xl bg-hight-light px-4 py-2"
+                                    >
+                                        <Link
+                                            href={{
+                                                pathname: `browse/${genre.slug}`,
+                                            }}
+                                        >
+                                            <a>{genre.genreTitle}</a>
+                                        </Link>
+                                    </li>
+                                );
+                            })}
                     </ul>
                     {/* manga interrace  */}
                     <div className="flex h-[150px] w-full flex-col items-center gap-6   md:flex-row md:items-start">
@@ -72,3 +92,5 @@ export default function DetailsInfo() {
         </div>
     );
 }
+
+export default memo(DetailsInfo);
