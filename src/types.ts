@@ -92,3 +92,28 @@ export interface Manga extends NtSearchResponseData {
     review: string;
     updatedAt: string;
 }
+
+export interface MangaDetails {
+    title: string;
+    updatedAt: string;
+    otherName: string;
+    author: string;
+    thumbnail: string;
+    status: string;
+    genres: Genre[];
+    view: string;
+    review: string;
+    chapterList: ChapterList[];
+}
+
+export interface ChapterList {
+    chapterId: string;
+    chapterTitle: string;
+    updatedAt: string;
+    view: string;
+}
+
+export interface Genre {
+    genreTitle: string;
+    slug: string;
+}
