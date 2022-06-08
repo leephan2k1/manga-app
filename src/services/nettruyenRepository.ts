@@ -5,6 +5,7 @@ import {
     NETTRUYEN_GENRES,
     NtSearchResponseData,
     ServerResponse,
+    MangaDetails,
 } from '~/types';
 
 import axiosClient from './axiosClient';
@@ -17,6 +18,10 @@ interface NtSearchResponse extends ServerResponse {
 
 interface MangaPreviewResponse extends ServerResponse {
     data: Manga[];
+}
+
+interface MangaDetailsResponse extends ServerResponse {
+    data: MangaDetails;
 }
 
 export interface NtRepository {
@@ -39,6 +44,7 @@ export interface NtRepository {
         page?: number,
         genres?: string,
     ) => Promise<AxiosResponse<MangaPreviewResponse>>;
+    getManga: (slug: string) => Promise<AxiosResponse<MangaDetailsResponse>>;
 }
 
 const NtApi: NtRepository = {
@@ -83,6 +89,9 @@ const NtApi: NtRepository = {
                 status: status ? status : undefined,
             },
         });
+    },
+    getManga: (slug: string) => {
+        return axiosClient.get(`${resource}/manga/${slug}`);
     },
 };
 

@@ -1,4 +1,5 @@
-import { NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 import { ReactNode } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import MainLayout from '~/components/layouts/MainLayout';
@@ -7,29 +8,145 @@ import DetailsChapterList from '~/components/shared/DetailsChapterList';
 import DetailsDescription from '~/components/shared/DetailsDescription';
 import DetailsInfo from '~/components/shared/DetailsInfo';
 import Section from '~/components/shared/Section';
+import RepositoryFactory from '~/services/repositoryFactory';
+import { MangaDetails } from '~/types';
 
-const DetailsPage: NextPage = () => {
-    const matchesMobile = useMediaQuery('(max-width: 640px)');
+const NtApi = RepositoryFactory('nettruyen');
+
+interface Params extends ParsedUrlQuery {
+    slug: string;
+}
+
+interface DetailsPageProps {
+    manga: MangaDetails;
+}
+
+const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
+    const matchesMobile = useMediaQuery('(max-width: 740px)');
 
     return (
         <div className="flex h-fit min-h-screen flex-col ">
-            <DetailsBanner />
+            <DetailsBanner imgUrl={manga.thumbnail} />
 
             <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
                 <Section style="h-fit w-full">
-                    <DetailsInfo />
+                    <DetailsInfo manga={manga} />
                 </Section>
 
                 <Section style="h-fit w-full">
-                    <DetailsDescription mobileUI={matchesMobile} />
+                    <DetailsDescription
+                        mangaReview={manga.review}
+                        mobileUI={matchesMobile}
+                    />
                 </Section>
 
                 <Section title="Danh sách chương" style="h-fit w-full">
-                    <DetailsChapterList />
+                    <DetailsChapterList
+                        chapterList={manga.chapterList}
+                        mobileUI={matchesMobile}
+                    />
                 </Section>
             </div>
         </div>
     );
+};
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
+    ctx,
+) => {
+    try {
+        const { slug } = ctx.params as Params;
+        const res = await NtApi?.getManga(slug);
+
+        if (res?.status === 200 && res?.data) {
+            return { props: { manga: res.data?.data } };
+        }
+    } catch (err) {
+        console.log(err);
+        return { notFound: true };
+    }
+};
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+export const getStaticPaths: GetStaticPaths<Params> = async () => {
+    const [
+        topMonthList,
+        newMangaUpdated,
+        topAllManga,
+        topMonthManga,
+        topWeekManga,
+        topDayManga,
+        newManga,
+    ] = await Promise.all([
+        NtApi?.filter(1, 'manga-112', 'month').then((res) => {
+            if (res.status === 200 && res.data) {
+                return res.data.data;
+            }
+            return [];
+        }),
+        NtApi?.getNewMangaUpdated(1).then((res) => {
+            if (res.status === 200 && res.data) {
+                return res.data.data;
+            }
+            return [];
+        }),
+        NtApi?.getRankingmanga(undefined, 'all', 1).then((res) => {
+            if (res.status === 200 && res.data) {
+                return res.data.data;
+            }
+            return [];
+        }),
+        NtApi?.getRankingmanga(undefined, 'month', 1).then((res) => {
+            if (res.status === 200 && res.data) {
+                return res.data.data;
+            }
+            return [];
+        }),
+        NtApi?.getRankingmanga(undefined, 'week', 1).then((res) => {
+            if (res.status === 200 && res.data) {
+                return res.data.data;
+            }
+            return [];
+        }),
+        NtApi?.getRankingmanga(undefined, 'day', 1).then((res) => {
+            if (res.status === 200 && res.data) {
+                return res.data.data;
+            }
+            return [];
+        }),
+        NtApi?.getNewManga(1).then((res) => {
+            if (res.status === 200 && res.data) {
+                return res.data.data;
+            }
+            return [];
+        }),
+    ]);
+
+    if (
+        topMonthList &&
+        newMangaUpdated &&
+        topAllManga &&
+        topMonthManga &&
+        topWeekManga &&
+        topDayManga &&
+        newManga
+    ) {
+        const paths = [
+            ...topMonthList,
+            ...newMangaUpdated,
+            ...topAllManga,
+            ...topMonthManga,
+            ...topWeekManga,
+            ...topDayManga,
+            ...newManga,
+        ].map((manga) => ({
+            params: {
+                slug: manga.slug,
+            },
+        }));
+        return { paths, fallback: 'blocking' };
+    }
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
