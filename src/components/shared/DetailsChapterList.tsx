@@ -1,12 +1,18 @@
 import Link from 'next/link';
-import { useMediaQuery } from 'usehooks-ts';
+// import { useMediaQuery } from 'usehooks-ts';
 
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
 
 import ChapterInput from './ChapterInput';
 
-export default function DetailsChapterList() {
-    const matchesMobile = useMediaQuery('(max-width: 768px)');
+interface DetailsChapterListProps {
+    mobileUI?: boolean;
+}
+
+export default function DetailsChapterList({
+    mobileUI,
+}: DetailsChapterListProps) {
+    // const matchesMobile = useMediaQuery('(max-width: 768px)');
 
     return (
         <div className="my-6 flex h-[500px] w-full flex-col overflow-auto rounded-xl bg-hight-light md:h-fit md:overflow-hidden">
@@ -25,116 +31,11 @@ export default function DetailsChapterList() {
                     <Link href="">
                         <a
                             className={`${
-                                !matchesMobile &&
-                                'bubble-top-left-to-bottom-right'
+                                !mobileUI && 'bubble-top-left-to-bottom-right'
                             }  flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
                         >
                             <div className="flex w-[30%] items-center md:w-full md:flex-row-reverse md:justify-between md:px-4">
-                                {matchesMobile ? (
-                                    <DocumentTextIcon className="mx-4 h-4 w-4" />
-                                ) : (
-                                    <BookOpenIcon className="mx-4 md:h-10 md:w-10 lg:h-14 lg:w-14" />
-                                )}
-                                <span className="text-lg font-bold hover:text-white md:text-2xl">
-                                    Chapter 1
-                                </span>
-                            </div>
-                            <div className="flex items-center px-4 md:w-full">
-                                <span className="text-lg font-extralight text-gray-300 md:text-2xl">
-                                    5 ngày trước
-                                </span>
-                            </div>
-                        </a>
-                    </Link>
-                </li>
-                <li className="z-30">
-                    <Link href="">
-                        <a
-                            className={`${
-                                !matchesMobile &&
-                                'bubble-top-left-to-bottom-right'
-                            }  flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
-                        >
-                            <div className="flex w-[30%] items-center md:w-full md:flex-row-reverse md:justify-between md:px-4">
-                                {matchesMobile ? (
-                                    <DocumentTextIcon className="mx-4 h-4 w-4" />
-                                ) : (
-                                    <BookOpenIcon className="mx-4 md:h-10 md:w-10 lg:h-14 lg:w-14" />
-                                )}
-                                <span className="text-lg font-bold hover:text-white md:text-2xl">
-                                    Chapter 1
-                                </span>
-                            </div>
-                            <div className="flex items-center px-4 md:w-full">
-                                <span className="text-lg font-extralight text-gray-300 md:text-2xl">
-                                    5 ngày trước
-                                </span>
-                            </div>
-                        </a>
-                    </Link>
-                </li>
-                <li className="z-30">
-                    <Link href="">
-                        <a
-                            className={`${
-                                !matchesMobile &&
-                                'bubble-top-left-to-bottom-right'
-                            }  flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
-                        >
-                            <div className="flex w-[30%] items-center md:w-full md:flex-row-reverse md:justify-between md:px-4">
-                                {matchesMobile ? (
-                                    <DocumentTextIcon className="mx-4 h-4 w-4" />
-                                ) : (
-                                    <BookOpenIcon className="mx-4 md:h-10 md:w-10 lg:h-14 lg:w-14" />
-                                )}
-                                <span className="text-lg font-bold hover:text-white md:text-2xl">
-                                    Chapter 1
-                                </span>
-                            </div>
-                            <div className="flex items-center px-4 md:w-full">
-                                <span className="text-lg font-extralight text-gray-300 md:text-2xl">
-                                    5 ngày trước
-                                </span>
-                            </div>
-                        </a>
-                    </Link>
-                </li>
-                <li className="z-30">
-                    <Link href="">
-                        <a
-                            className={`${
-                                !matchesMobile &&
-                                'bubble-top-left-to-bottom-right'
-                            }  flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
-                        >
-                            <div className="flex w-[30%] items-center md:w-full md:flex-row-reverse md:justify-between md:px-4">
-                                {matchesMobile ? (
-                                    <DocumentTextIcon className="mx-4 h-4 w-4" />
-                                ) : (
-                                    <BookOpenIcon className="mx-4 md:h-10 md:w-10 lg:h-14 lg:w-14" />
-                                )}
-                                <span className="text-lg font-bold hover:text-white md:text-2xl">
-                                    Chapter 1
-                                </span>
-                            </div>
-                            <div className="flex items-center px-4 md:w-full">
-                                <span className="text-lg font-extralight text-gray-300 md:text-2xl">
-                                    5 ngày trước
-                                </span>
-                            </div>
-                        </a>
-                    </Link>
-                </li>
-                <li className="z-30">
-                    <Link href="">
-                        <a
-                            className={`${
-                                !matchesMobile &&
-                                'bubble-top-left-to-bottom-right'
-                            }  flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
-                        >
-                            <div className="flex w-[30%] items-center md:w-full md:flex-row-reverse md:justify-between md:px-4">
-                                {matchesMobile ? (
+                                {mobileUI ? (
                                     <DocumentTextIcon className="mx-4 h-4 w-4" />
                                 ) : (
                                     <BookOpenIcon className="mx-4 md:h-10 md:w-10 lg:h-14 lg:w-14" />
