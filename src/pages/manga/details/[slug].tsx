@@ -24,7 +24,7 @@ interface DetailsPageProps {
 }
 
 const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
-    const matchesMobile = useMediaQuery('(max-width: 740px)');
+    const matchesMobile = useMediaQuery('(max-width: 768px)');
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
 

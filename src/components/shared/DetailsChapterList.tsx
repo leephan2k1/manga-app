@@ -18,7 +18,7 @@ function DetailsChapterList({
     // const matchesMobile = useMediaQuery('(max-width: 768px)');
 
     return (
-        <div className="my-6 flex h-[500px] w-full flex-col overflow-auto rounded-xl bg-hight-light md:h-fit md:overflow-hidden">
+        <div className="my-6 flex h-[500px] w-full flex-col overflow-x-hidden rounded-xl bg-hight-light md:h-fit md:overflow-hidden">
             {/* chapter controls  */}
             <div className="z-40 my-4 flex  h-[60px] w-full items-center gap-4 text-white md:my-2">
                 <ChapterInput
@@ -29,7 +29,7 @@ function DetailsChapterList({
             </div>
 
             {/* chapter list  */}
-            <ul className="z-0 my-4 flex w-full flex-col  gap-2 px-4 text-white md:grid md:grid-cols-4 lg:grid-cols-7">
+            <ul className="z-0 my-4 flex w-full flex-col  gap-2 overflow-x-hidden px-4 text-white md:grid md:grid-cols-4  lg:grid-cols-7">
                 {chapterList &&
                     chapterList.map((chapter, idx) => {
                         return (
@@ -45,9 +45,9 @@ function DetailsChapterList({
                                             {mobileUI ? (
                                                 <DocumentTextIcon className="mx-4 h-4 w-4" />
                                             ) : (
-                                                <BookOpenIcon className="mx-4 md:h-10 md:w-10 lg:h-14 lg:w-14" />
+                                                <BookOpenIcon className="mx-4 md:h-10 md:w-10 lg:h-10 lg:w-14" />
                                             )}
-                                            <span className=" text-lg font-bold hover:text-white   md:text-2xl">
+                                            <span className="text-lg font-bold line-clamp-1 hover:text-white md:max-w-[100px] md:text-2xl">
                                                 {chapter.chapterTitle}
                                             </span>
                                         </div>
