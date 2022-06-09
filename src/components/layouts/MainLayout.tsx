@@ -32,7 +32,7 @@ export default function MainLayout({
             )}
             {matches && <Sidebar />}
             {showModal && <SearchModal />}
-            <main>{children}</main>
+            <main className="overflow-x-hidden">{children}</main>
             {showFooter && <Footer />}
         </>
     );
