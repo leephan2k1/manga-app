@@ -17,8 +17,6 @@ function DetailsChapterList({
 }: DetailsChapterListProps) {
     // const matchesMobile = useMediaQuery('(max-width: 768px)');
 
-    console.log('>>> ', mobileUI);
-
     return (
         <div className="my-6 flex h-[500px] w-full flex-col overflow-auto rounded-xl bg-hight-light md:h-fit md:overflow-hidden">
             {/* chapter controls  */}

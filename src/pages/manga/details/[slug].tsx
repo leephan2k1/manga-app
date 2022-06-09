@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import MainLayout from '~/components/layouts/MainLayout';
 import DetailsBanner from '~/components/shared/DetailsBanner';
@@ -8,6 +9,7 @@ import DetailsChapterList from '~/components/shared/DetailsChapterList';
 import DetailsDescription from '~/components/shared/DetailsDescription';
 import DetailsInfo from '~/components/shared/DetailsInfo';
 import Section from '~/components/shared/Section';
+import { REVALIDATE_TIME } from '~/constants';
 import RepositoryFactory from '~/services/repositoryFactory';
 import { MangaDetails } from '~/types';
 
@@ -23,18 +25,40 @@ interface DetailsPageProps {
 
 const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     const matchesMobile = useMediaQuery('(max-width: 740px)');
+    const router = useRouter();
+    const [isLoading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const handleRouteChange = () => {
+            setLoading(true);
+        };
+
+        const handleRouteComplete = () => {
+            setLoading(false);
+        };
+
+        router.events.on('routeChangeStart', handleRouteChange);
+        router.events.on('routeChangeComplete', handleRouteComplete);
+
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange);
+            router.events.off('routeChangeComplete', handleRouteComplete);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
-        <div className="flex h-fit min-h-screen flex-col ">
-            <DetailsBanner imgUrl={manga.thumbnail} />
+        <div className="flex h-fit min-h-screen flex-col">
+            <DetailsBanner isLoading={isLoading} imgUrl={manga.thumbnail} />
 
             <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
                 <Section style="h-fit w-full">
-                    <DetailsInfo manga={manga} />
+                    <DetailsInfo isLoading={isLoading} manga={manga} />
                 </Section>
 
                 <Section style="h-fit w-full">
                     <DetailsDescription
+                        isLoading={isLoading}
                         mangaReview={manga.review}
                         mobileUI={matchesMobile}
                     />
@@ -60,7 +84,12 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
         const res = await NtApi?.getManga(slug);
 
         if (res?.status === 200 && res?.data) {
-            return { props: { manga: res.data?.data } };
+            return {
+                props: { manga: res.data?.data },
+                revalidate: REVALIDATE_TIME,
+            };
+        } else {
+            return { notFound: true };
         }
     } catch (err) {
         console.log(err);

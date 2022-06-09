@@ -3381,7 +3381,12 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
-"react@*", "react@^16 || ^17 || ^18", "react@^17.0.2", "react@^17.0.2 || ^18.0.0-0", "react@>= 16", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.13.1", "react@>=16.9.0", "react@17.0.2":
+"react-loading-skeleton@^3.1.0":
+  "integrity" "sha512-j1U1CWWs68nBPOg7tkQqnlFcAMFF6oEK6MgqAo15f8A5p7mjH6xyKn2gHbkcimpwfO0VQXqxAswnSYVr8lWzjw=="
+  "resolved" "https://registry.npmjs.org/react-loading-skeleton/-/react-loading-skeleton-3.1.0.tgz"
+  "version" "3.1.0"
+
+"react@*", "react@^16 || ^17 || ^18", "react@^17.0.2", "react@^17.0.2 || ^18.0.0-0", "react@>= 16", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.13.1", "react@>=16.8.0", "react@>=16.9.0", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"

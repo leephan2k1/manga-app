@@ -20,6 +20,7 @@
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-icons": "^4.3.1",
+        "react-loading-skeleton": "^3.1.0",
         "recoil": "^0.7.3-alpha.2",
         "swiper": "^8.2.2",
         "usehooks-ts": "^2.5.4"

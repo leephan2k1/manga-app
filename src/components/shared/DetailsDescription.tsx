@@ -1,17 +1,33 @@
 import { Disclosure, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline';
 
+import CircleIcon from '../icons/CircleIcon';
+
 interface DetailsDescriptionProps {
     mobileUI: boolean;
     mangaReview: string;
+    isLoading: boolean;
 }
 
 export default function DetailsDescription({
     mobileUI,
     mangaReview,
+    isLoading,
 }: DetailsDescriptionProps) {
+    if (isLoading) {
+        return (
+            <div className="absolute-center">
+                <CircleIcon
+                    wraperStyles="circle"
+                    circleStyles="circle-loading"
+                />
+            </div>
+        );
+    }
+
     if (!mobileUI)
         return <p className="my-8 text-white">&quot;{mangaReview}&quot;</p>;
+    // return <p className="my-8 text-white">&quot;{mangaReview}&quot;</p>;
 
     return (
         <Disclosure>

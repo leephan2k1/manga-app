@@ -1,6 +1,7 @@
 import '~/styles/globals.scss';
 import 'animate.css';
 import '~/styles/magic.min.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import { ReactElement, ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
