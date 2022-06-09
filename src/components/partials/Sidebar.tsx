@@ -7,7 +7,11 @@ import { MangaGenresPreview, MangaTypesPreview } from '~/constants';
 
 import { Dialog } from '@headlessui/react';
 // eslint-disable-next-line prettier/prettier
-import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from '@heroicons/react/outline';
+import {
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    PlusIcon,
+} from '@heroicons/react/outline';
 
 import TextLogo from '../icons/TextLogo';
 
@@ -17,11 +21,11 @@ export default function Sidebar() {
     //prevent sidebar close before adding effects
     const sidebarRef = useRef<HTMLDivElement>(null);
     const handleSidebarClose = () => {
-        sidebarRef.current?.classList.remove('animate__fadeInLeft');
-        sidebarRef.current?.classList.add('animate__fadeOutLeft');
+        sidebarRef.current?.classList.remove('slideLeftReturn');
+        sidebarRef.current?.classList.add('slideLeft');
         setTimeout(() => {
             setShowSidebar(false);
-        }, 500);
+        }, 450);
     };
 
     return (
@@ -38,8 +42,8 @@ export default function Sidebar() {
             <aside
                 ref={sidebarRef}
                 className={`${
-                    showSidebar && 'animate__fadeInLeft'
-                } animate__animated animate__faster absolute-center	 fixed inset-0 z-[999] w-[65%] min-w-[230px] bg-secondary p-4 md:w-[40%]`}
+                    showSidebar && 'slideLeftReturn'
+                } magictime absolute-center	 fixed inset-0 z-[999] w-[65%] min-w-[230px] bg-secondary p-4 md:w-[40%]`}
             >
                 <div className="flex h-full w-full flex-col">
                     {/* control sidebar & logo */}
