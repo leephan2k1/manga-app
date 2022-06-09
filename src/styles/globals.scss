@@ -43,6 +43,7 @@ body {
     font-size: 1.6rem;
     text-rendering: optimizeSpeed;
     @apply bg-background;
+    height: fit-content;
 }
 
 *:focus {
