@@ -62,9 +62,20 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
             </span>
             {matches && showPreview && (
                 <div className="animate__faster animate__animated animate__fadeIn flex h-full w-full flex-col space-y-2 overflow-hidden rounded-xl bg-hight-light text-white">
-                    <h3 className="ml-4 mt-4 min-h-[40px] text-[100%] font-semibold line-clamp-2">
-                        {manga.name}
-                    </h3>
+                    <Link
+                        href={{
+                            pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                manga.slug,
+                            )}`,
+                            query: { src: srcId },
+                        }}
+                    >
+                        <a>
+                            <h3 className="ml-4 mt-4 min-h-[40px] text-[100%] font-semibold line-clamp-2 hover:text-primary">
+                                {manga.name}
+                            </h3>
+                        </a>
+                    </Link>
                     <p className="ml-4 flex flex-nowrap items-center">
                         <ClipboardListIcon className="h-6 w-6" />
                         <span className="ml-2 text-[90%] line-clamp-1">
