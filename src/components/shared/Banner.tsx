@@ -78,7 +78,7 @@ function Banner({ mangaList }: MangaBannerProps) {
                                     },
                                 }}
                             >
-                                <a>
+                                <div className="cursor-pointer">
                                     <figure
                                         style={{
                                             backgroundImage: `url(${manga.thumbnail})`,
@@ -118,12 +118,25 @@ function Banner({ mangaList }: MangaBannerProps) {
                                             <button className="absolute-center rounded-xl bg-primary py-3 px-5 transition-all   hover:scale-110 md:w-[100px]">
                                                 Đọc ngay
                                             </button>
-                                            <button className="absolute-center rounded-xl bg-white py-3 px-5 text-gray-800 transition-all  hover:scale-110 md:w-[100px]">
-                                                Chi tiết
-                                            </button>
+                                            <Link
+                                                href={{
+                                                    pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                                        manga.slug,
+                                                    )}`,
+                                                    query: {
+                                                        src: srcId,
+                                                    },
+                                                }}
+                                            >
+                                                <a>
+                                                    <button className="absolute-center rounded-xl bg-white py-3 px-5 text-gray-800 transition-all  hover:scale-110 md:w-[100px]">
+                                                        Chi tiết
+                                                    </button>
+                                                </a>
+                                            </Link>
                                         </div>
                                     </div>
-                                </a>
+                                </div>
                             </Link>
                         </SwiperSlide>
                     );
