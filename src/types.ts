@@ -5,6 +5,11 @@ export type sources =
     | 'mangadex'
     | 'mangareader';
 
+export interface SelectType {
+    value: string;
+    label: string;
+}
+
 export type SourcesId = 'nt' | 'lh' | 'qq' | 'mgdx' | 'mgrd';
 
 export interface MangaResource {

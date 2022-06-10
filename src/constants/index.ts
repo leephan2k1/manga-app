@@ -72,7 +72,8 @@ export const VIEW_NT = [
 ];
 
 export const STATUS_NT = [
-    { value: 'ongoing ', label: 'Đang tiến hành' },
+    { value: 'all', label: 'Tất cả' },
+    { value: 'ongoing', label: 'Đang tiến hành' },
     { value: 'completed ', label: 'Hoàn thành' },
     { value: 'new ', label: 'Mới ra' },
     { value: 'latest ', label: 'Chapter mới' },
