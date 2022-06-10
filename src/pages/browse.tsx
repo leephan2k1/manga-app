@@ -1,9 +1,7 @@
-import { NextPage } from 'next';
-
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
+import Filters from '~/components/features/Filters';
 import { REVALIDATE_TIME } from '~/constants';
 
-import Filters from '~/components/features/Filters';
 // import RepositoryFactory from '~/services/repositoryFactory';
 
 // const NtApi = RepositoryFactory('nettruyen');
@@ -31,6 +29,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     query,
     res,
 }) => {
+    console.log('>>>', query);
     //caching
     res.setHeader(
         'Cache-Control',
@@ -42,8 +41,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     // const { genres, sort, comic, page } = query;
 
     // const data = await NtApi?.filter();
-
-    console.log('>>>', query);
 
     return {
         props: { comicList: `Next.js is awesome` },

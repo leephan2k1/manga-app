@@ -1,14 +1,16 @@
 import classNames from 'classnames';
-import Select, { components, GroupBase, OptionProps } from 'react-select';
+import { useRouter } from 'next/router';
 import { AiFillCheckCircle } from 'react-icons/ai';
+import Select, { components, GroupBase, OptionProps } from 'react-select';
+import { SelectType } from '~/types';
 
-type SelectType = { value: string; label: string };
+type SelectValues = SelectType | SelectType[];
 
 interface FilterItemProps {
     title: string;
     instanceId: string;
     options: Array<SelectType>;
-    defaultValue: SelectType;
+    defaultValue?: SelectType;
     placeholder?: string;
     isMulti?: boolean;
 }
@@ -21,6 +23,36 @@ export default function FilterItem({
     isMulti,
     instanceId,
 }: FilterItemProps) {
+    const router = useRouter();
+
+    const handleChange = (selectValue: SelectValues) => {
+        if (!Array.isArray(selectValue)) {
+            router.replace(
+                {
+                    pathname: router.pathname,
+                    query: {
+                        ...router.query,
+                        [instanceId]: selectValue.value.trim(),
+                    },
+                },
+                undefined,
+            );
+        } else {
+            router.replace(
+                {
+                    pathname: router.pathname,
+                    query: {
+                        ...router.query,
+                        [instanceId]: [
+                            ...selectValue.map((value) => value.value.trim()),
+                        ].join(`,`),
+                    },
+                },
+                undefined,
+            );
+        }
+    };
+
     return (
         <div className="flex h-full w-full flex-col items-center justify-center ">
             <h2 className="my-2 font-secondary text-white lg:text-3xl">
@@ -30,9 +62,12 @@ export default function FilterItem({
                 defaultValue={[defaultValue]}
                 isMulti={isMulti}
                 placeholder={placeholder}
-                isClearable
+                isClearable={isMulti}
                 options={options}
                 classNamePrefix="select"
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                onChange={handleChange}
                 instanceId={instanceId}
                 hideSelectedOptions={false}
                 components={{ MultiValue, Option }}
@@ -72,7 +107,6 @@ export default function FilterItem({
                         return {
                             ...provided,
                             color: '#fff',
-                            flexWrap: 'nowrap',
                             padding: '4px',
                         };
                     },
@@ -101,7 +135,10 @@ export default function FilterItem({
                             backgroundColor: '#1a1a1a',
                         };
                     },
-                    menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
+                    menuPortal: (provided) => ({
+                        ...provided,
+                        zIndex: 9999,
+                    }),
                 }}
             />
         </div>

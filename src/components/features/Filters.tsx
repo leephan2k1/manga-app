@@ -17,7 +17,6 @@ export default function Filters() {
                 instanceId="genres"
                 title="Thể loại"
                 placeholder="thể loại..."
-                defaultValue={GENRES_NT[0]}
                 options={GENRES_NT}
             />
             <FilterItem
@@ -37,9 +36,8 @@ export default function Filters() {
             <FilterItem
                 isMulti={true}
                 title="Loại truyện"
-                instanceId="comic-genres"
+                instanceId="comics"
                 placeholder="trạng thái..."
-                defaultValue={COMIC_GENRES[0]}
                 options={COMIC_GENRES}
             />
             <FilterItem
