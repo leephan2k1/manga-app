@@ -49,7 +49,10 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
 
     return (
         <div className="flex h-fit min-h-screen flex-col">
-            <DetailsBanner isLoading={isLoading} imgUrl={manga.thumbnail} />
+            <DetailsBanner
+                isLoading={isLoading}
+                imgUrl={manga?.thumbnail || 'notFound'}
+            />
 
             <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
                 <Section style="h-fit w-full">
@@ -59,14 +62,14 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                 <Section style="h-fit w-full">
                     <DetailsDescription
                         isLoading={isLoading}
-                        mangaReview={manga.review}
+                        mangaReview={manga?.review || ''}
                         mobileUI={matchesMobile}
                     />
                 </Section>
 
                 <Section title="Danh sách chương" style="h-fit w-full">
                     <DetailsChapterList
-                        chapterList={manga.chapterList}
+                        chapterList={manga?.chapterList || []}
                         mobileUI={matchesMobile}
                     />
                 </Section>

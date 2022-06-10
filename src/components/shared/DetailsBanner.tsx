@@ -1,4 +1,6 @@
 import Skeleton from 'react-loading-skeleton';
+import torriGate from '/public/images/torri-gate.jpg';
+import Image from 'next/image';
 
 interface DetailsBannerProps {
     imgUrl: string;
@@ -21,12 +23,14 @@ export default function DetailsBanner({
                     highlightColor="#444"
                 />
             ) : (
-                <figure
-                    style={{
-                        backgroundImage: `url(${imgUrl})`,
-                    }}
-                    className={styles}
-                ></figure>
+                <figure className="deslide-cover">
+                    <Image
+                        alt="comic-banner"
+                        className=" count={10} object-fit absolute h-full w-full bg-cover bg-top bg-no-repeat object-cover blur"
+                        layout="fill"
+                        src={imgUrl !== 'notFound' ? imgUrl : torriGate}
+                    />
+                </figure>
             )}
         </div>
     );

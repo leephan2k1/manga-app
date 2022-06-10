@@ -34,6 +34,7 @@ function DetailsChapterList({
             {/* chapter list  */}
             <ul className="z-0 my-4 flex w-full flex-col  gap-2 overflow-x-hidden px-4 text-white md:grid md:grid-cols-4  lg:grid-cols-7">
                 {chapterList &&
+                    chapterList.length &&
                     chapterList.map((chapter, idx) => {
                         return (
                             <li key={chapter.chapterId || idx}>
