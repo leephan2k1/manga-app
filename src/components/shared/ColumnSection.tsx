@@ -30,7 +30,7 @@ function ColumnSection({ title, mangaList }: ColumnSectionProps) {
                         return (
                             <li
                                 key={manga.slug}
-                                className="flex w-full px-4 py-2 odd:bg-hight-light/40"
+                                className="flex w-full px-4 py-2 odd:bg-highlight/40"
                             >
                                 <Link
                                     href={{
@@ -99,7 +99,7 @@ function ColumnSection({ title, mangaList }: ColumnSectionProps) {
                         );
                     })}
 
-                <li className="flex w-full items-center justify-center rounded-xl py-4 px-4 transition-all hover:cursor-pointer hover:bg-hight-light">
+                <li className="flex w-full items-center justify-center rounded-xl py-4 px-4 transition-all hover:cursor-pointer hover:bg-highlight">
                     <button className="lg:text-3xl">Xem thêm</button>
                     <ChevronRightIcon className="h-8 w-8" />
                 </li>

@@ -52,12 +52,12 @@ function Banner({ mangaList }: MangaBannerProps) {
                         <>
                             <SwiperButton
                                 type="prev"
-                                styleButton="transition-all absolute-center z-[300] md:h-16 md:w-16 w-14 h-14 rounded-2xl text-white bg-hight-light hover:bg-primary"
+                                styleButton="transition-all absolute-center z-[300] md:h-16 md:w-16 w-14 h-14 rounded-2xl text-white bg-highlight hover:bg-primary"
                                 styleIcon="h-10 w-10"
                             />
                             <SwiperButton
                                 type="next"
-                                styleButton="transition-all absolute-center z-[300] md:h-16 md:w-16 w-14 h-14 rounded-2xl text-white bg-hight-light hover:bg-primary"
+                                styleButton="transition-all absolute-center z-[300] md:h-16 md:w-16 w-14 h-14 rounded-2xl text-white bg-highlight hover:bg-primary"
                                 styleIcon="h-10 w-10"
                             />
                         </>

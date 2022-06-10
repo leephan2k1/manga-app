@@ -119,7 +119,7 @@ function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
                                     return (
                                         <li
                                             key={genre.slug || idx}
-                                            className="rounded-xl bg-hight-light px-4 py-2"
+                                            className="rounded-xl bg-highlight px-4 py-2"
                                         >
                                             <Link
                                                 href={{
@@ -143,7 +143,7 @@ function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
                             <LightningBoltIcon className="h-8 w-8 text-primary" />{' '}
                             Chap mới nhất
                         </button>
-                        <button className="shine-effect absolute-center h-[50px] w-[50px] rounded-xl bg-hight-light transition-all hover:text-primary">
+                        <button className="shine-effect absolute-center bg-hight-light h-[50px] w-[50px] rounded-xl transition-all hover:text-primary">
                             <BookmarkIcon className=" h-8 w-8" />
                         </button>
                     </div>

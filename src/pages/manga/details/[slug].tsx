@@ -174,7 +174,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
                 slug: manga.slug,
             },
         }));
-        return { paths, fallback: 'blocking' };
+        return { paths, fallback: true };
     }
 };
 

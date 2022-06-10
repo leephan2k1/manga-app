@@ -9,7 +9,7 @@ module.exports = {
                 background: '#1f1f1f',
                 primary: '#f43f5e',
                 secondary: '#2f2f2f',
-                ['hight-light']: '#3f3f3f',
+                ['highlight']: '#3f3f3f',
                 ['deep-black']: '#1a1a1a',
             },
             listStyleType: {
