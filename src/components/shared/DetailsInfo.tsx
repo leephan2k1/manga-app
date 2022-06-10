@@ -1,3 +1,4 @@
+import torriGate from '/public/images/torri-gate.jpg';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -33,7 +34,7 @@ function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
                             className="absolute inset-0 rounded-2xl object-cover object-center"
                             layout="fill"
                             alt="manga-thumbnail"
-                            src={manga.thumbnail}
+                            src={manga?.thumbnail || torriGate}
                         />
                     </figure>
                 )}
@@ -73,32 +74,32 @@ function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
                         <>
                             <h1
                                 className={`font-secondary  font-bold leading-none ${
-                                    manga.title.length < 40
+                                    manga?.title.length < 40
                                         ? 'text-[6.5vw] md:text-[5.5vw] lg:text-[3.5vw]'
                                         : 'text-[5.5vw] md:text-[3.5vw] lg:text-[2.5vw]'
                                 }`}
                             >
-                                {manga.title}
+                                {manga?.title}
                             </h1>
                             <h2 className="text-[3vw] md:min-h-[28px] md:text-[2vw] lg:text-[1.2vw]">
-                                {manga.otherName !== 'undefined'
+                                {manga?.otherName !== 'undefined'
                                     ? manga.otherName
                                     : ''}
                             </h2>
                             <h3 className="text-center text-[3vw] md:text-left md:text-[2vw] lg:text-[1.1vw]">
-                                {manga.author !== 'undefined'
+                                {manga?.author !== 'undefined'
                                     ? manga.author
                                     : ''}
                             </h3>
                             <h4 className="flex items-center justify-center gap-4 md:justify-start">
                                 <span
                                     className={`block h-3 w-3 rounded-full ${
-                                        manga.status === 'Đang tiến hành'
+                                        manga?.status === 'Đang tiến hành'
                                             ? 'bg-green-500'
                                             : 'bg-cyan-500'
                                     } `}
                                 ></span>
-                                {manga.status}
+                                {manga?.status}
                             </h4>
                         </>
                     )}
@@ -114,8 +115,8 @@ function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
                     ) : (
                         <ul className="my-4 flex flex-wrap items-center gap-4">
                             <h3 className="px-2 py-2">Thể loại:</h3>
-                            {manga.genres.length &&
-                                manga.genres.map((genre, idx) => {
+                            {manga?.genres.length &&
+                                manga?.genres.map((genre, idx) => {
                                     return (
                                         <li
                                             key={genre.slug || idx}
