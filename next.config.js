@@ -16,6 +16,7 @@ module.exports = {
     },
     images: {
         domains: ['st.nettruyenco.com', 'st.ntcdntempv3.com'],
+        minimumCacheTTL: 24 * 60 * 60 * 7,
     },
     eslint: {
         ignoreDuringBuilds: true,
