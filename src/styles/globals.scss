@@ -63,6 +63,10 @@ body {
     animation-duration: 350ms !important;
 }
 
+.select__value-container {
+    flex-wrap: nowrap !important;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
