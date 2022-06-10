@@ -83,12 +83,12 @@ function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
                             </h1>
                             <h2 className="text-[3vw] md:min-h-[28px] md:text-[2vw] lg:text-[1.2vw]">
                                 {manga?.otherName !== 'undefined'
-                                    ? manga.otherName
+                                    ? manga?.otherName
                                     : ''}
                             </h2>
                             <h3 className="text-center text-[3vw] md:text-left md:text-[2vw] lg:text-[1.1vw]">
                                 {manga?.author !== 'undefined'
-                                    ? manga.author
+                                    ? manga?.author
                                     : ''}
                             </h3>
                             <h4 className="flex items-center justify-center gap-4 md:justify-start">
@@ -124,10 +124,10 @@ function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
                                         >
                                             <Link
                                                 href={{
-                                                    pathname: `browse/${genre.slug}`,
+                                                    pathname: `browse/${genre?.slug}`,
                                                 }}
                                             >
-                                                <a>{genre.genreTitle}</a>
+                                                <a>{genre?.genreTitle}</a>
                                             </Link>
                                         </li>
                                     );
