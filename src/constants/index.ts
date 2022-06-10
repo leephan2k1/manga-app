@@ -74,26 +74,26 @@ export const VIEW_NT = [
 export const STATUS_NT = [
     { value: 'all', label: 'Tất cả' },
     { value: 'ongoing', label: 'Đang tiến hành' },
-    { value: 'completed ', label: 'Hoàn thành' },
-    { value: 'new ', label: 'Mới ra' },
-    { value: 'latest ', label: 'Chapter mới' },
+    { value: 'completed', label: 'Hoàn thành' },
+    { value: 'new', label: 'Mới ra' },
+    { value: 'latest', label: 'Chapter mới' },
 ];
 
 export const COMIC_GENRES = [
     { value: 'manga-112', label: 'Manga' },
-    { value: 'manhua ', label: 'Manhua' },
-    { value: 'manhwa-11400 ', label: 'Manhwa' },
-    { value: 'doujinshi ', label: 'Doujinshi' },
+    { value: 'manhua', label: 'Manhua' },
+    { value: 'manhwa-11400', label: 'Manhwa' },
+    { value: 'doujinshi', label: 'Doujinshi' },
 ];
 
 export const SORT = [
-    { value: 'gt0', label: '> 0' },
-    { value: 'gt49 ', label: '>= 50' },
-    { value: 'gt99', label: '>= 100' },
-    { value: 'gt199 ', label: '>= 200' },
-    { value: 'gt299 ', label: '>= 300' },
-    { value: 'gt399 ', label: '>= 400' },
-    { value: 'gt499 ', label: '>= 500' },
+    { value: '1', label: '> 0' },
+    { value: '50', label: '>= 50' },
+    { value: '100', label: '>= 100' },
+    { value: '200', label: '>= 200' },
+    { value: '300', label: '>= 300' },
+    { value: '400', label: '>= 400' },
+    { value: '500', label: '>= 500' },
 ];
 
 export const GENDER = [
