@@ -20,12 +20,16 @@ export default function Sidebar() {
 
     //prevent sidebar close before adding effects
     const sidebarRef = useRef<HTMLDivElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
     const handleSidebarClose = () => {
         sidebarRef.current?.classList.remove('slideLeftReturn');
         sidebarRef.current?.classList.add('slideLeft');
+        overlayRef.current?.classList.remove('animate__fadeIn');
+        overlayRef.current?.classList.add('animate__fadeOut');
+
         setTimeout(() => {
             setShowSidebar(false);
-        }, 450);
+        }, 350);
     };
 
     return (
@@ -36,7 +40,8 @@ export default function Sidebar() {
         >
             {/* backdrop */}
             <Dialog.Overlay
-                className="fixed inset-0 z-[100] bg-black/30"
+                ref={overlayRef}
+                className="animate__fadeIn animate__animated animate__faster fixed inset-0 z-[100] bg-black/30"
                 aria-hidden="true"
             />
             <aside
@@ -49,7 +54,7 @@ export default function Sidebar() {
                     {/* control sidebar & logo */}
                     <div className="absolute-center mt-6 flex h-fit w-full items-center justify-between">
                         <button
-                            className="absolute-center ml-4 rounded-full bg-hight-light p-4 text-white md:p-5"
+                            className="absolute-center bg-hight-light ml-4 rounded-full p-4 text-white md:p-5"
                             onClick={handleSidebarClose}
                         >
                             <ChevronLeftIcon className="h-8 w-8 md:h-10 md:w-10" />
@@ -79,7 +84,7 @@ export default function Sidebar() {
                             {MangaTypesPreview.map((item) => (
                                 <button
                                     key={item.title}
-                                    className="absolute-center ml-4 mt-4 w-fit rounded-xl bg-hight-light py-2 px-4 md:mt-6"
+                                    className="absolute-center bg-hight-light ml-4 mt-4 w-fit rounded-xl py-2 px-4 md:mt-6"
                                 >
                                     <Link href={item.href}>
                                         <a className="text-xl md:text-3xl">
@@ -90,7 +95,7 @@ export default function Sidebar() {
                             ))}
                         </li>
                         {/* list title  */}
-                        <li className="mx-4 mt-4 border-t-[2px] border-hight-light pt-4 md:mt-8">
+                        <li className="border-hight-light mx-4 mt-4 border-t-[2px] pt-4 md:mt-8">
                             <h3 className="font-secondary text-3xl md:text-5xl">
                                 Thể loại
                             </h3>
@@ -101,7 +106,7 @@ export default function Sidebar() {
                                 return (
                                     <button
                                         key={manga.title}
-                                        className="ml-4 mt-4 flex w-full items-center rounded-xl py-2 px-4 hover:bg-hight-light md:mt-6"
+                                        className="hover:bg-hight-light ml-4 mt-4 flex w-full items-center rounded-xl py-2 px-4 md:mt-6"
                                     >
                                         <Link href={'/test'}>
                                             <a className="text-xl md:text-3xl">
@@ -111,7 +116,7 @@ export default function Sidebar() {
                                     </button>
                                 );
                             })}
-                            <button className="ml-4 mt-4 flex w-full items-center rounded-xl py-2 px-4 hover:bg-hight-light md:mt-6">
+                            <button className="hover:bg-hight-light ml-4 mt-4 flex w-full items-center rounded-xl py-2 px-4 md:mt-6">
                                 <Link href={'/test'}>
                                     <a className="flex items-center text-xl md:text-3xl">
                                         <PlusIcon className="mr-2 h-6 w-6" />{' '}
@@ -121,7 +126,7 @@ export default function Sidebar() {
                             </button>
                         </li>
                         {/* title  */}
-                        <li className="mx-4 mt-4 border-t-[2px] border-hight-light pt-4 md:mt-8">
+                        <li className="border-hight-light mx-4 mt-4 border-t-[2px] pt-4 md:mt-8">
                             <h3 className="font-secondary text-3xl md:text-5xl">
                                 <Link href="/justTest">
                                     <a className="flex items-center">
@@ -134,7 +139,7 @@ export default function Sidebar() {
                             </h3>
                         </li>
                         {/* title  */}
-                        <li className="mx-4 mt-4 border-t-[2px] border-hight-light pt-4 md:mt-8">
+                        <li className="border-hight-light mx-4 mt-4 border-t-[2px] pt-4 md:mt-8">
                             <h3 className="font-secondary text-3xl md:text-5xl">
                                 <Link href="/justTest">
                                     <a className="flex items-center">
