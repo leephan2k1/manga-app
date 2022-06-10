@@ -65,6 +65,7 @@ export default function FilterItem({
                             backgroundColor: '#1a1a1a',
                             width: '100%',
                             minWidth: '100%',
+                            color: '#fff',
                         };
                     },
                     input: (provided) => {
