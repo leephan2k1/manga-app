@@ -2,7 +2,7 @@ import 'tippy.js/dist/tippy.css';
 
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
-import LazyLoad from 'react-lazyload';
+import LazyLoad, { forceVisible } from 'react-lazyload';
 import { animateFill, followCursor } from 'tippy.js';
 import { ChapterList } from '~/types';
 
@@ -38,6 +38,8 @@ function DetailsChapterList({
             );
             return arr.reverse();
         });
+        //not lazy when searching
+        forceVisible();
     };
 
     return (
@@ -62,6 +64,7 @@ function DetailsChapterList({
                                 key={chapter.chapterId || idx}
                                 overflow={mobileUI}
                                 once
+                                offset={mobileUI ? 0 : 200}
                             >
                                 <li className="animate__fadeIn animate__animated">
                                     <LazyTippy

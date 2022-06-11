@@ -75,7 +75,9 @@ export default function SearchModal() {
         })();
 
         return () => {
-            handleCloseModal();
+            setMangaResult([]);
+            setIsSearching(false);
+            setSearchValue('');
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedValue]);
