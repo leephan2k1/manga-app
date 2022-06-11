@@ -38,6 +38,9 @@ function Banner({ mangaList }: MangaBannerProps) {
             <Swiper
                 autoHeight={true}
                 effect={'fade'}
+                fadeEffect={{
+                    crossFade: true,
+                }}
                 loop={true}
                 modules={[EffectFade, Autoplay]}
                 onSwiper={setSwiper}

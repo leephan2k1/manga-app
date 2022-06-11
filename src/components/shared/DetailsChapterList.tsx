@@ -1,13 +1,14 @@
-import { followCursor, animateFill } from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
-import { LazyTippy } from './LazyTippy';
 
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
+import { animateFill, followCursor } from 'tippy.js';
 import { ChapterList } from '~/types';
 
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
+
 import ChapterInput from './ChapterInput';
+import { LazyTippy } from './LazyTippy';
 
 interface DetailsChapterListProps {
     mobileUI?: boolean;

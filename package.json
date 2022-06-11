@@ -24,6 +24,7 @@
         "react-icons": "^4.3.1",
         "react-loading-skeleton": "^3.1.0",
         "react-select": "^5.3.2",
+        "react-window": "^1.8.7",
         "recoil": "^0.7.3-alpha.2",
         "swiper": "^8.2.2",
         "usehooks-ts": "^2.5.4"

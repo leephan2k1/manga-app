@@ -37,6 +37,8 @@
 html {
     font-size: 62.5%;
     -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
 }
 
 body {
