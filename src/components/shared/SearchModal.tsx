@@ -73,14 +73,14 @@ export default function SearchModal() {
                 }
             }
         })();
-
-        return () => {
-            setMangaResult([]);
-            setIsSearching(false);
-            setSearchValue('');
-        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedValue]);
+
+    useEffect(() => {
+        return () => {
+            handleCloseModal();
+        };
+    }, []);
 
     const handleOpenButtonClearSearch = () => {
         //Displayed only when input has value
