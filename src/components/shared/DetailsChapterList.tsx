@@ -41,7 +41,7 @@ function DetailsChapterList({
     return (
         <div className="my-6 flex h-[500px] w-full flex-col overflow-x-hidden rounded-xl bg-highlight md:h-fit md:overflow-hidden">
             {/* chapter controls  */}
-            <div className="z-40 my-4 flex  h-[60px] w-full items-center gap-4 text-white md:my-2">
+            <div className="z-40 my-4 flex min-h-[40px] w-full items-center gap-4 text-white md:my-2">
                 <ChapterInput
                     handleChangeNumber={filterChapterNumber}
                     inputType="number"
