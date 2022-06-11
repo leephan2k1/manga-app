@@ -1,12 +1,11 @@
 import 'react-tippy/dist/tippy.css';
 
 import Link from 'next/link';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Tooltip } from 'react-tippy';
 import { ChapterList } from '~/types';
 
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
-
 import ChapterInput from './ChapterInput';
 
 interface DetailsChapterListProps {
@@ -18,13 +17,32 @@ function DetailsChapterList({
     mobileUI,
     chapterList,
 }: DetailsChapterListProps) {
-    // const matchesMobile = useMediaQuery('(max-width: 768px)');
+    const [list, setList] = useState<ChapterList[]>(chapterList);
+
+    useEffect(() => {
+        setList(chapterList);
+    }, [chapterList]);
+
+    const filterChapterNumber = (chapterN: string) => {
+        if (!chapterN) {
+            setList(chapterList);
+            return;
+        }
+
+        setList(() => {
+            const arr = chapterList.filter((chapter) =>
+                chapter.chapterTitle.includes(String(chapterN)),
+            );
+            return arr.reverse();
+        });
+    };
 
     return (
         <div className="my-6 flex h-[500px] w-full flex-col overflow-x-hidden rounded-xl bg-highlight md:h-fit md:overflow-hidden">
             {/* chapter controls  */}
             <div className="z-40 my-4 flex  h-[60px] w-full items-center gap-4 text-white md:my-2">
                 <ChapterInput
+                    handleChangeNumber={filterChapterNumber}
                     inputType="number"
                     style="mx-4 flex h-[32px] w-[50%] items-center justify-center rounded-xl bg-[#5f5f5f] px-2 hover:bg-white/25 md:w-[30%] lg:w-[20%]"
                 />
@@ -33,11 +51,14 @@ function DetailsChapterList({
 
             {/* chapter list  */}
             <ul className="z-0 my-4 flex w-full flex-col  gap-2 overflow-x-hidden px-4 text-white md:grid md:grid-cols-4  lg:grid-cols-7">
-                {chapterList &&
-                    chapterList.length &&
-                    chapterList.map((chapter, idx) => {
+                {list &&
+                    list.length &&
+                    list.map((chapter, idx) => {
                         return (
-                            <li key={chapter.chapterId || idx}>
+                            <li
+                                className="animate__fadeIn animate__animated"
+                                key={chapter.chapterId || idx}
+                            >
                                 <Tooltip
                                     // options
                                     disabled={mobileUI}
