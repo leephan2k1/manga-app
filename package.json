@@ -11,6 +11,7 @@
     "dependencies": {
         "@headlessui/react": "^1.6.4",
         "@heroicons/react": "^1.0.6",
+        "@tippyjs/react": "^4.2.6",
         "animate.css": "^4.1.1",
         "axios": "^0.27.2",
         "classnames": "^2.3.1",
@@ -23,7 +24,6 @@
         "react-icons": "^4.3.1",
         "react-loading-skeleton": "^3.1.0",
         "react-select": "^5.3.2",
-        "react-tippy": "^1.4.0",
         "recoil": "^0.7.3-alpha.2",
         "swiper": "^8.2.2",
         "usehooks-ts": "^2.5.4"

@@ -44,6 +44,7 @@ body {
     text-rendering: optimizeSpeed;
     @apply bg-background;
     height: fit-content;
+    overflow-x: hidden;
 }
 
 *:focus {

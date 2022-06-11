@@ -1,8 +1,9 @@
-import 'react-tippy/dist/tippy.css';
+import { followCursor, animateFill } from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
+import { LazyTippy } from './LazyTippy';
 
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
-import { Tooltip } from 'react-tippy';
 import { ChapterList } from '~/types';
 
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
@@ -59,42 +60,42 @@ function DetailsChapterList({
                                 className="animate__fadeIn animate__animated"
                                 key={chapter.chapterId || idx}
                             >
-                                <Tooltip
-                                    // options
+                                <LazyTippy
                                     disabled={mobileUI}
-                                    title={chapter.chapterTitle}
-                                    position="bottom"
+                                    content={chapter.chapterTitle}
+                                    interactiveBorder={20}
                                     followCursor={true}
-                                    size={'big'}
-                                    theme={'light'}
-                                    animation={'none'}
+                                    animateFill={true}
+                                    plugins={[followCursor, animateFill]}
                                 >
-                                    <Link href="/">
-                                        <a
-                                            className={`${
-                                                !mobileUI &&
-                                                'bubble-top-left-to-bottom-right'
-                                            }  flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
-                                        >
-                                            <div className="flex w-[30%] min-w-max items-center    md:justify-between md:px-4">
-                                                {mobileUI && (
-                                                    <DocumentTextIcon className="mx-4 h-4 w-4" />
-                                                )}
-                                                <span className="max-w-[200px] text-lg font-bold line-clamp-1 hover:text-white md:max-w-[140px] md:text-xl  lg:max-w-[160px] lg:text-2xl">
-                                                    {chapter.chapterTitle}
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center px-4 md:w-full md:justify-between">
-                                                <span className="text-lg font-extralight text-gray-300 md:text-2xl">
-                                                    {chapter.updatedAt}
-                                                </span>
-                                                {!mobileUI && (
-                                                    <BookOpenIcon className="lg:min-w-14 md:h-10 md:w-10 lg:h-10 lg:w-14" />
-                                                )}
-                                            </div>
-                                        </a>
-                                    </Link>
-                                </Tooltip>
+                                    <button className="h-full w-full">
+                                        <Link href="/">
+                                            <a
+                                                className={`${
+                                                    !mobileUI &&
+                                                    'bubble-top-left-to-bottom-right'
+                                                }  flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
+                                            >
+                                                <div className="flex w-[30%] min-w-max items-center    md:justify-between md:px-4">
+                                                    {mobileUI && (
+                                                        <DocumentTextIcon className="mx-4 h-4 w-4" />
+                                                    )}
+                                                    <span className="max-w-[200px] text-lg font-bold line-clamp-1 hover:text-white md:max-w-[140px] md:text-xl  lg:max-w-[160px] lg:text-2xl">
+                                                        {chapter.chapterTitle}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center px-4 md:w-full md:justify-between">
+                                                    <span className="text-lg font-extralight text-gray-300 md:text-2xl">
+                                                        {chapter.updatedAt}
+                                                    </span>
+                                                    {!mobileUI && (
+                                                        <BookOpenIcon className="lg:min-w-14 md:h-10 md:w-10 lg:h-10 lg:w-14" />
+                                                    )}
+                                                </div>
+                                            </a>
+                                        </Link>
+                                    </button>
+                                </LazyTippy>
                             </li>
                         );
                     })}

@@ -73,6 +73,11 @@ export default function SearchModal() {
                 }
             }
         })();
+
+        return () => {
+            handleCloseModal();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedValue]);
 
     const handleOpenButtonClearSearch = () => {

@@ -1,5 +1,6 @@
 import { Disclosure, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline';
+import { memo } from 'react';
 
 import CircleIcon from '../icons/CircleIcon';
 
@@ -9,7 +10,7 @@ interface DetailsDescriptionProps {
     isLoading: boolean;
 }
 
-export default function DetailsDescription({
+function DetailsDescription({
     mobileUI,
     mangaReview,
     isLoading,
@@ -69,3 +70,5 @@ export default function DetailsDescription({
         </Disclosure>
     );
 }
+
+export default memo(DetailsDescription);
