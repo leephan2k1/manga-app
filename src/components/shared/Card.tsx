@@ -1,6 +1,9 @@
+import { BookOpenIcon } from '@heroicons/react/outline';
 import classNames from 'classnames';
-import { LayoutDetails } from './ListView';
 import Image from 'next/image';
+import { TailwindColors } from '~/constants';
+import { randomColors } from '~/utils/randomColors';
+import { LayoutDetails } from './ListView';
 
 interface CardProps {
     details: LayoutDetails;
@@ -28,14 +31,56 @@ export default function Card({ details }: CardProps) {
                             }
                         />
                     </figure>
-                    <div className="flex h-full flex-1 bg-orange-500 p-4 text-white">
-                        <h1 className="fond-bold text-lg line-clamp-2 md:text-xl lg:text-2xl">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing
-                            elit. Accusantium mollitia facilis atque molestias
-                            aliquid cum totam officia enim ipsam minima qui
-                            deserunt animi quaerat nihil numquam deleniti
-                            quisquam, suscipit blanditiis!
+                    <div className="flex h-full flex-1 flex-col space-y-4 bg-orange-500/0 p-4 text-white md:space-y-2 xl:space-y-4">
+                        <h1 className="fond-bold h-fit min-h-[20px] w-full font-bold line-clamp-2 ssm:text-3xl md:text-xl  lg:text-3xl">
+                            Nartuo
                         </h1>
+                        <h2 className="h-fit w-full font-light line-clamp-3 ssm:text-xl md:text-sm md:line-clamp-2 lg:line-clamp-3 xl:text-xl">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Delectus impedit, accusamus voluptate quidem
+                            voluptatem labore. Consequuntur beatae nemo
+                            aspernatur. Error molestias harum quisquam
+                            doloremque atque nulla pariatur optio officiis sit.
+                        </h2>
+                        <h3 className="text-xs text-gray-300 lg:text-lg">
+                            Đang tiến hành
+                        </h3>
+                        <div className="w-fill h-fit flex-1 md:max-h-[15px] lg:h-fit">
+                            <ul className="flex w-full flex-wrap items-center gap-2 overflow-hidden   text-lg md:text-sm xl:text-lg">
+                                <li
+                                    className="h-fit w-fit overflow-hidden whitespace-nowrap rounded-lg border-[1px] border-gray-400 px-2"
+                                    style={{
+                                        color: randomColors(TailwindColors, 0),
+                                    }}
+                                >
+                                    Action
+                                </li>
+                                <li
+                                    className="h-fit w-fit overflow-hidden whitespace-nowrap rounded-lg border-[1px] border-gray-400 px-2"
+                                    style={{
+                                        color: randomColors(TailwindColors, 0),
+                                    }}
+                                >
+                                    Action
+                                </li>
+                                <li
+                                    className="h-fit w-fit overflow-hidden whitespace-nowrap rounded-lg border-[1px] border-gray-400 px-2"
+                                    style={{
+                                        color: randomColors(TailwindColors, 0),
+                                    }}
+                                >
+                                    Action
+                                </li>
+                                <li
+                                    className="h-fit w-fit overflow-hidden whitespace-nowrap rounded-lg border-[1px] border-gray-400 px-2"
+                                    style={{
+                                        color: randomColors(TailwindColors, 0),
+                                    }}
+                                >
+                                    Action
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -50,8 +95,42 @@ export default function Card({ details }: CardProps) {
                     'mx-auto h-[100px] w-[95%] bg-deep-black',
                 )}
             >
-                <div className="flex h-full w-full bg-cyan-500">
-                    <figure className="h-full w-[35%] bg-red-500"></figure>
+                <div className="flex h-full w-full  ">
+                    <figure className="relative h-full w-[10%] lg:w-[7%]">
+                        <Image
+                            alt="manga-thumbnail"
+                            layout="fill"
+                            className="absolute inset-0 rounded-xl object-cover object-center"
+                            src={
+                                'http://st.nettruyenco.com/data/comics/144/jirai-nandesuka-chihara-san-5968.jpg'
+                            }
+                        />
+                    </figure>
+                    <div className="flex flex-1   p-4 text-white">
+                        <div className="h-full w-[75%]">
+                            <h1 className="font-secondary text-3xl line-clamp-1">
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit. Corrupti tempora architecto
+                                quisquam possimus quas molestiae est. Ipsum
+                                voluptas excepturi recusandae! Veniam
+                                dignissimos unde recusandae necessitatibus
+                                pariatur molestiae aliquid repudiandae minima.
+                            </h1>
+                            <div className="h-full flex-1">
+                                <ul className="flex flex-wrap gap-4 py-4">
+                                    <li className="h-fit w-fit rounded-lg border-[1px] border-gray-500 px-2 py-1 text-xl">
+                                        Action
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="flex h-full w-[25%] items-center">
+                            <p className="flex space-x-4">
+                                <BookOpenIcon className="h-8 w-8" />
+                                <span>Chapter 62.6</span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
