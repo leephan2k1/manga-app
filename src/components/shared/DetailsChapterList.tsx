@@ -63,7 +63,6 @@ function DetailsChapterList({
                             <LazyLoad
                                 key={chapter.chapterId || idx}
                                 overflow={mobileUI}
-                                once
                                 offset={mobileUI ? 0 : 200}
                             >
                                 <li className="animate__fadeIn animate__animated">

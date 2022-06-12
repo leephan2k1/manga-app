@@ -1,6 +1,8 @@
 import { GetServerSideProps, NextPage } from 'next';
 import Filters from '~/components/features/Filters';
 import { REVALIDATE_TIME } from '~/constants';
+import Section from '~/components/shared/Section';
+import ListView from '~/components/shared/ListView';
 
 // import RepositoryFactory from '~/services/repositoryFactory';
 
@@ -15,10 +17,14 @@ import { REVALIDATE_TIME } from '~/constants';
 
 const BrowsePage: NextPage = () => {
     return (
-        <div className="flex min-h-screen flex-col  ">
-            <div className="z-10 mx-auto min-h-screen w-[98%] md:w-[90%]">
+        <div className="flex min-h-screen flex-col">
+            <Section style="z-10 mx-auto min-h-fit w-[98%] md:w-[90%]">
                 <Filters />
-            </div>
+            </Section>
+
+            <Section style="my-4 z-0 mx-auto min-h-[900px] w-[98%] bg-red-400/0 md:w-[90%]">
+                <ListView />
+            </Section>
         </div>
     );
 };
