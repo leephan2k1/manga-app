@@ -28,6 +28,10 @@ export default function FilterItem({
     const [queryValue, setQueryValue] = useState<Array<SelectType>>([]);
 
     useEffect(() => {
+        setQueryValue([]);
+
+        console.log(router.query);
+
         for (const key in router.query) {
             if (key === instanceId) {
                 const values = String(router.query[key]).split(',');
@@ -47,7 +51,7 @@ export default function FilterItem({
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [router.query]);
 
     const handleChange = (selectValue: SelectValues) => {
         if (!Array.isArray(selectValue)) {

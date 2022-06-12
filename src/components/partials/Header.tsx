@@ -5,7 +5,11 @@ import { useState } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { useRecoilState } from 'recoil';
 import { sidebarState } from '~/atoms/sidebarAtom';
-import { MangaGenresPreview, MangaTypesPreview } from '~/constants';
+import {
+    MANGA_BROWSE_PAGE,
+    MangaGenresPreview,
+    MangaTypesPreview,
+} from '~/constants';
 
 import { ChevronDownIcon } from '@heroicons/react/outline';
 
@@ -116,12 +120,12 @@ export default function Header({ style }: HeaderProps) {
                             </div>
                         </li>
                         <li className="transition-all hover:text-primary  ">
-                            <Link href="/">
+                            <Link href={`/${MANGA_BROWSE_PAGE}?status=latest`}>
                                 <a>Mới cập nhật</a>
                             </Link>
                         </li>
                         <li className="transition-all hover:text-primary  ">
-                            <Link href="/">
+                            <Link href={`/${MANGA_BROWSE_PAGE}?view=all`}>
                                 <a>Bảng xếp hạng</a>
                             </Link>
                         </li>

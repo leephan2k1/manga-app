@@ -5,6 +5,8 @@ export const REVALIDATE_TIME = 3 * 60 * 60; //3h
 
 //ref: src/pages
 export const MANGA_PATH_NAME = 'manga';
+//ref: src/pages
+export const MANGA_BROWSE_PAGE = 'browse';
 //ref: src/pages/manga
 export const MANGA_PATH_DETAILS_NAME = 'details';
 //ref: src/pages/manga
@@ -136,57 +138,57 @@ export const TailwindColors = [
 export const MangaTypesPreview: DropDownLink[] = [
     {
         title: 'Manga',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?comics=manga-112`,
     },
     {
         title: 'Manhua',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?comics=manhua`,
     },
     {
         title: 'Manhwa',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?comics=manhwa-11400`,
     },
     {
         title: 'Doujinshi',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?comics=doujinshi`,
     },
 ];
 
 export const MangaGenresPreview: DropDownLink[] = [
     {
         title: 'Action',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?genres=action`,
     },
     {
         title: 'Adventure',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?genres=adventure`,
     },
     {
         title: 'Comedy',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?genres=comedy-99`,
     },
     {
         title: 'Horror',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?genres=horror`,
     },
     {
         title: 'Romance',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?genres=romance-121`,
     },
     {
         title: 'Shoujo',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?genres=shoujo`,
     },
     {
         title: 'Slice of Life',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?genres=slice-of-life`,
     },
     {
         title: 'Drama',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}?genres=drama-103`,
     },
     {
         title: 'Xem thêm',
-        href: '/justTest',
+        href: `/${MANGA_BROWSE_PAGE}`,
     },
 ];

@@ -3,7 +3,11 @@ import Link from 'next/link';
 import { useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import { sidebarState } from '~/atoms/sidebarAtom';
-import { MangaGenresPreview, MangaTypesPreview } from '~/constants';
+import {
+    MANGA_BROWSE_PAGE,
+    MangaGenresPreview,
+    MangaTypesPreview,
+} from '~/constants';
 
 import { Dialog } from '@headlessui/react';
 // eslint-disable-next-line prettier/prettier
@@ -83,6 +87,7 @@ export default function Sidebar() {
                         <li className="flex flex-wrap">
                             {MangaTypesPreview.map((item) => (
                                 <button
+                                    onClick={handleSidebarClose}
                                     key={item.title}
                                     className="absolute-center bg-hight-light ml-4 mt-4 w-fit rounded-xl py-2 px-4 md:mt-6"
                                 >
@@ -105,10 +110,11 @@ export default function Sidebar() {
                                 if (manga.title === 'Xem thêm') return null;
                                 return (
                                     <button
+                                        onClick={handleSidebarClose}
                                         key={manga.title}
                                         className="hover:bg-hight-light ml-4 mt-4 flex w-full items-center rounded-xl py-2 px-4 md:mt-6"
                                     >
-                                        <Link href={'/test'}>
+                                        <Link href={manga.href}>
                                             <a className="text-xl md:text-3xl">
                                                 {manga.title}
                                             </a>
@@ -116,8 +122,11 @@ export default function Sidebar() {
                                     </button>
                                 );
                             })}
-                            <button className="hover:bg-hight-light ml-4 mt-4 flex w-full items-center rounded-xl py-2 px-4 md:mt-6">
-                                <Link href={'/test'}>
+                            <button
+                                onClick={handleSidebarClose}
+                                className="hover:bg-hight-light ml-4 mt-4 flex w-full items-center rounded-xl py-2 px-4 md:mt-6"
+                            >
+                                <Link href={`/${MANGA_BROWSE_PAGE}`}>
                                     <a className="flex items-center text-xl md:text-3xl">
                                         <PlusIcon className="mr-2 h-6 w-6" />{' '}
                                         Xem thêm
@@ -128,8 +137,13 @@ export default function Sidebar() {
                         {/* title  */}
                         <li className="border-hight-light mx-4 mt-4 border-t-[2px] pt-4 md:mt-8">
                             <h3 className="font-secondary text-3xl md:text-5xl">
-                                <Link href="/justTest">
-                                    <a className="flex items-center">
+                                <Link
+                                    href={`/${MANGA_BROWSE_PAGE}?status=latest`}
+                                >
+                                    <a
+                                        onClick={handleSidebarClose}
+                                        className="flex items-center"
+                                    >
                                         Mới cập nhật
                                         <button className="absolute-center h-full">
                                             <ChevronRightIcon className="ml-2 h-6 w-6" />
@@ -141,8 +155,11 @@ export default function Sidebar() {
                         {/* title  */}
                         <li className="border-hight-light mx-4 mt-4 border-t-[2px] pt-4 md:mt-8">
                             <h3 className="font-secondary text-3xl md:text-5xl">
-                                <Link href="/justTest">
-                                    <a className="flex items-center">
+                                <Link href={`/${MANGA_BROWSE_PAGE}?view=all`}>
+                                    <a
+                                        onClick={handleSidebarClose}
+                                        className="flex items-center"
+                                    >
                                         Bảng xếp hạng
                                         <button className="absolute-center h-full">
                                             <ChevronRightIcon className="ml-2 h-6 w-6" />
