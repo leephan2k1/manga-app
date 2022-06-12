@@ -66,9 +66,9 @@ export const GENRES_NT = [
 
 export const VIEW_NT = [
     { value: 'all', label: 'Tất cả' },
-    { value: 'month ', label: 'Tháng' },
-    { value: 'week  ', label: 'Tuần' },
-    { value: 'day  ', label: 'Ngày' },
+    { value: 'month', label: 'Tháng' },
+    { value: 'week', label: 'Tuần' },
+    { value: 'day', label: 'Ngày' },
 ];
 
 export const STATUS_NT = [

@@ -13,7 +13,7 @@ export default function Filters() {
     return (
         <div className="grid min-h-[100px] w-full grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
             <FilterItem
-                isMulti={true}
+                isMulti
                 instanceId="genres"
                 title="Thể loại"
                 placeholder="thể loại..."
@@ -23,18 +23,18 @@ export default function Filters() {
                 title="Top lượt xem"
                 instanceId="view"
                 placeholder="thể loại..."
-                defaultValue={VIEW_NT[0]}
+                defaultValue={[VIEW_NT[0]]}
                 options={VIEW_NT}
             />
             <FilterItem
                 title="Trạng thái"
                 instanceId="status"
                 placeholder="trạng thái..."
-                defaultValue={STATUS_NT[0]}
+                defaultValue={[STATUS_NT[0]]}
                 options={STATUS_NT}
             />
             <FilterItem
-                isMulti={true}
+                isMulti
                 title="Loại truyện"
                 instanceId="comics"
                 placeholder="trạng thái..."
@@ -44,14 +44,14 @@ export default function Filters() {
                 title="Số chương"
                 instanceId="chapter"
                 placeholder="số chương..."
-                defaultValue={SORT[0]}
+                defaultValue={[SORT[0]]}
                 options={SORT}
             />
             <FilterItem
                 title="Giới tính"
                 instanceId="gender"
                 placeholder="giới tính..."
-                defaultValue={GENDER[0]}
+                defaultValue={[GENDER[0]]}
                 options={GENDER}
             />
         </div>

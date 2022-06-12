@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import Select, { components, GroupBase, OptionProps } from 'react-select';
 import { SelectType } from '~/types';
@@ -10,7 +11,7 @@ interface FilterItemProps {
     title: string;
     instanceId: string;
     options: Array<SelectType>;
-    defaultValue?: SelectType;
+    defaultValue?: Array<SelectType>;
     placeholder?: string;
     isMulti?: boolean;
 }
@@ -24,6 +25,29 @@ export default function FilterItem({
     instanceId,
 }: FilterItemProps) {
     const router = useRouter();
+    const [queryValue, setQueryValue] = useState<Array<SelectType>>([]);
+
+    useEffect(() => {
+        for (const key in router.query) {
+            if (key === instanceId) {
+                const values = String(router.query[key]).split(',');
+                values.forEach((value) => {
+                    setQueryValue((prevState) => [
+                        ...prevState,
+                        {
+                            value,
+                            label: String(
+                                options.find((option) => option.value === value)
+                                    ?.label,
+                            ),
+                        },
+                    ]);
+                });
+            }
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleChange = (selectValue: SelectValues) => {
         if (!Array.isArray(selectValue)) {
@@ -54,12 +78,15 @@ export default function FilterItem({
     };
 
     return (
-        <div className="flex h-full w-full flex-col items-center justify-center ">
+        <div
+            key={queryValue.length}
+            className="flex h-full w-full flex-col items-center justify-center "
+        >
             <h2 className="my-2 font-secondary text-white lg:text-3xl">
                 {title}
             </h2>
             <Select
-                defaultValue={[defaultValue]}
+                defaultValue={queryValue.length ? queryValue : defaultValue}
                 isMulti={isMulti}
                 placeholder={placeholder}
                 isClearable={isMulti}
