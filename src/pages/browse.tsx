@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
+import { useEffect, useState } from 'react';
 import Filters from '~/components/features/Filters';
 import Pagination from '~/components/features/Pagination';
 import ListView from '~/components/shared/ListView';
@@ -7,16 +8,48 @@ import { COMIC_GENRES, GENRES_NT, REVALIDATE_TIME } from '~/constants';
 import { QueryObject } from '~/services/nettruyenRepository';
 import RepositoryFactory from '~/services/repositoryFactory';
 import { Manga } from '~/types';
+import { EmojiSadIcon } from '@heroicons/react/outline';
 
 const NtApi = RepositoryFactory('nettruyen');
 
 interface BrowsePageProps {
+    queryObj: QueryObject;
+}
+
+interface Comic {
     comicList: Manga[];
     totalPages: number;
 }
 
-const BrowsePage: NextPage<BrowsePageProps> = ({ comicList, totalPages }) => {
-    console.log('>> ', comicList);
+const BrowsePage: NextPage<BrowsePageProps> = ({ queryObj }) => {
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState<Comic>({
+        comicList: [],
+        totalPages: 0,
+    });
+
+    useEffect(() => {
+        (async function () {
+            try {
+                setLoading(true);
+                const result = await NtApi?.advancedSearch(queryObj);
+                if (result?.data) {
+                    setData({
+                        comicList: result.data.data,
+                        totalPages: result?.data.totalPages,
+                    });
+                    setLoading(false);
+                }
+            } catch (err) {
+                setLoading(false);
+                setData({
+                    comicList: [],
+                    totalPages: -1,
+                });
+                console.log(err);
+            }
+        })();
+    }, [queryObj]);
 
     return (
         <div className="flex min-h-screen flex-col">
@@ -24,13 +57,29 @@ const BrowsePage: NextPage<BrowsePageProps> = ({ comicList, totalPages }) => {
                 <Filters />
             </Section>
 
-            <Section style="my-4 z-0 mx-auto min-h-[900px] w-[98%]   md:w-[90%]">
-                <ListView comicList={comicList} />
-            </Section>
+            {!loading && data.totalPages === -1 ? (
+                <Section style="my-14 z-0 mx-auto min-h-[900px] w-[98%]   md:w-[90%]">
+                    <div className="absolute-center w-full gap-4 text-white">
+                        <h1>Dữ liệu bạn cần chưa có!</h1>
+                        <EmojiSadIcon className="h-12 w-12" />
+                    </div>
+                </Section>
+            ) : (
+                <>
+                    <Section style="my-4 z-0 mx-auto min-h-[900px] w-[98%]   md:w-[90%]">
+                        <ListView
+                            isLoading={loading}
+                            comicList={data?.comicList}
+                        />
+                    </Section>
 
-            <Section style="my-4 z-0 h-fit w-full">
-                {totalPages > 1 && <Pagination totalPages={totalPages} />}
-            </Section>
+                    <Section style="my-4 z-0 h-fit w-full">
+                        {data?.totalPages > 1 && (
+                            <Pagination totalPages={data?.totalPages} />
+                        )}
+                    </Section>
+                </>
+            )}
         </div>
     );
 };
@@ -77,18 +126,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     if (chapter) queryObj['minchapter'] = Number(chapter);
     if (gender) queryObj['gender'] = Number(gender);
 
-    const result = await NtApi?.advancedSearch(queryObj);
-
-    if (!result?.data.data) {
-        return {
-            notFound: true,
-        };
-    }
-
     return {
         props: {
-            comicList: result?.data.data,
-            totalPages: result?.data.totalPages,
+            queryObj,
         },
     };
 };

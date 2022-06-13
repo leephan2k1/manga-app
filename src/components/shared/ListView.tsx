@@ -16,9 +16,10 @@ interface Layout {
 
 interface ListViewProps {
     comicList: Manga[];
+    isLoading: boolean;
 }
 
-function ListView({ comicList }: ListViewProps) {
+function ListView({ comicList, isLoading }: ListViewProps) {
     const [layout, setLayout] = useState<Layout>({
         style: 'md:grid-cols-5 grid-cols-2',
         details: 'multiple',
@@ -85,6 +86,7 @@ function ListView({ comicList }: ListViewProps) {
                     comicList.map((comic, index) => {
                         return (
                             <Card
+                                isLoading={isLoading}
                                 comic={comic}
                                 key={comic.slug || index}
                                 details={layout.details}
