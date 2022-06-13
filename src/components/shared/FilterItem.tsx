@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import Select, { components, GroupBase, OptionProps } from 'react-select';
+import usePushQuery from '~/hooks/usePushQuery';
 import { SelectType } from '~/types';
 
 type SelectValues = SelectType | SelectType[];
@@ -25,27 +26,29 @@ export default function FilterItem({
     instanceId,
 }: FilterItemProps) {
     const router = useRouter();
+    const [query] = usePushQuery();
     const [queryValue, setQueryValue] = useState<Array<SelectType>>([]);
 
     useEffect(() => {
         setQueryValue([]);
 
-        console.log(router.query);
-
         for (const key in router.query) {
             if (key === instanceId) {
                 const values = String(router.query[key]).split(',');
                 values.forEach((value) => {
-                    setQueryValue((prevState) => [
-                        ...prevState,
-                        {
-                            value,
-                            label: String(
-                                options.find((option) => option.value === value)
-                                    ?.label,
-                            ),
-                        },
-                    ]);
+                    const existQuery = options.find(
+                        (option) => option.value === value,
+                    )?.label;
+
+                    if (existQuery) {
+                        setQueryValue((prevState) => [
+                            ...prevState,
+                            {
+                                value,
+                                label: String(existQuery),
+                            },
+                        ]);
+                    }
                 });
             }
         }
@@ -55,28 +58,12 @@ export default function FilterItem({
 
     const handleChange = (selectValue: SelectValues) => {
         if (!Array.isArray(selectValue)) {
-            router.replace(
-                {
-                    pathname: router.pathname,
-                    query: {
-                        ...router.query,
-                        [instanceId]: selectValue.value.trim(),
-                    },
-                },
-                undefined,
-            );
+            query.push(instanceId, selectValue.value.trim(), true);
         } else {
-            router.replace(
-                {
-                    pathname: router.pathname,
-                    query: {
-                        ...router.query,
-                        [instanceId]: [
-                            ...selectValue.map((value) => value.value.trim()),
-                        ].join(`,`),
-                    },
-                },
-                undefined,
+            query.push(
+                instanceId,
+                [...selectValue.map((value) => value.value.trim())].join(`,`),
+                true,
             );
         }
     };
