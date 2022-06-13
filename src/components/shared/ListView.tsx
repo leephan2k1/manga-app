@@ -5,6 +5,7 @@ import ListIcon from '../icons/ListIcon';
 import LListIcon from '../icons/LListIcon';
 import SListIcon from '../icons/SListIcon';
 import Card from './Card';
+import { Manga } from '~/types';
 
 export type LayoutDetails = 'multiple' | 'details' | 'column';
 
@@ -13,7 +14,11 @@ interface Layout {
     details: LayoutDetails;
 }
 
-function ListView() {
+interface ListViewProps {
+    comicList: Manga[];
+}
+
+function ListView({ comicList }: ListViewProps) {
     const [layout, setLayout] = useState<Layout>({
         style: 'md:grid-cols-5 grid-cols-2',
         details: 'multiple',
@@ -43,10 +48,10 @@ function ListView() {
     };
 
     return (
-        <div className="min-h-[500px] w-full bg-cyan-400/0">
+        <div className="min-h-[500px] w-full">
             {/* optional layout  */}
-            <div className="flex h-[50px] w-full items-center justify-end bg-red-500/0">
-                <div className="flex space-x-6 bg-blue-600/0 px-4 py-2 text-gray-400 lg:space-x-4">
+            <div className="flex h-[50px] w-full items-center justify-end">
+                <div className="flex space-x-6  px-4 py-2 text-gray-400 lg:space-x-4">
                     <button
                         className="transition-all hover:text-gray-200"
                         data-id="multiple"
@@ -75,12 +80,17 @@ function ListView() {
                 key={layout.style}
                 className={classNames('grid gap-6 lg:gap-10', layout.style)}
             >
-                <Card details={layout.details} />
-                <Card details={layout.details} />
-                <Card details={layout.details} />
-                <Card details={layout.details} />
-                <Card details={layout.details} />
-                <Card details={layout.details} />
+                {comicList &&
+                    comicList.length &&
+                    comicList.map((comic, index) => {
+                        return (
+                            <Card
+                                comic={comic}
+                                key={comic.slug || index}
+                                details={layout.details}
+                            />
+                        );
+                    })}
             </div>
         </div>
     );

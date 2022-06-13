@@ -20,7 +20,7 @@ export default function Filters() {
                 options={GENRES_NT}
             />
             <FilterItem
-                title="Top lượt xem"
+                title="Sắp xếp"
                 instanceId="view"
                 placeholder="thể loại..."
                 defaultValue={[VIEW_NT[0]]}

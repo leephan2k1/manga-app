@@ -3,10 +3,13 @@ import PageInput from '../shared/PageInput';
 import usePushQuery from '~/hooks/usePushQuery';
 import { useRouter } from 'next/router';
 
-export default function Pagination() {
+interface PaginationProps {
+    totalPages: number;
+}
+
+export default function Pagination({ totalPages }: PaginationProps) {
     const [query] = usePushQuery();
     const router = useRouter();
-    const totalPages = 313;
     const [currentPage, setCurrentPage] = useState(1);
 
     const handleChangePage = (e: MouseEvent<HTMLLIElement>) => {
