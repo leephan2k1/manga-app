@@ -24,7 +24,19 @@ interface MangaDetailsResponse extends ServerResponse {
     data: MangaDetails;
 }
 
+export interface QueryObject {
+    genres?: string;
+    gender?: number;
+    status?: string;
+    top?: string;
+    minchapter?: number;
+    page?: number;
+}
+
 export interface NtRepository {
+    advancedSearch: (
+        queryObj: QueryObject,
+    ) => Promise<AxiosResponse<MangaPreviewResponse>>;
     search: (mangaTitle: string) => Promise<AxiosResponse<NtSearchResponse>>;
     filter: (
         page?: number,
@@ -99,6 +111,11 @@ const NtApi: NtRepository = {
     },
     getManga: (slug: string) => {
         return axiosClient.get(`${resource}/manga/${slug}`);
+    },
+    advancedSearch: (queryObj: QueryObject) => {
+        return axiosClient.get(`${resource}/advanced-search`, {
+            params: queryObj,
+        });
     },
 };
 
