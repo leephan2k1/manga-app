@@ -71,6 +71,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
                     if (number > 1 && number < totalPages)
                         return (
                             <li
+                                key={number}
                                 onClick={handleChangePage}
                                 data-id={number}
                                 className={`pagination-active rounded-lg ${

@@ -5,7 +5,7 @@ import MangaBanner from '~/components/shared/Banner';
 import ColumnSection from '~/components/shared/ColumnSection';
 import Section from '~/components/shared/Section';
 import SectionSwiper from '~/components/shared/SectionSwiper';
-import { REVALIDATE_TIME } from '~/constants';
+import { MANGA_BROWSE_PAGE, REVALIDATE_TIME } from '~/constants';
 import RepositoryFactory from '~/services/repositoryFactory';
 import { Manga } from '~/types';
 
@@ -39,6 +39,7 @@ const Home: NextPage<HomeProps> = ({
             <MangaBanner mangaList={topMonthList.slice(0, 10)} />
 
             <Section
+                link={`/${MANGA_BROWSE_PAGE}?view=newComic`}
                 title="Mới cập nhật"
                 style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
                 linkHints={true}
@@ -51,23 +52,28 @@ const Home: NextPage<HomeProps> = ({
                     <ColumnSection
                         mangaList={topAllManga.slice(0, 5)}
                         title="Manga nổi bật nhất"
+                        link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=all`}
                     />
                     <ColumnSection
                         mangaList={topMonthManga.slice(0, 5)}
                         title="Manga nổi bật tháng"
+                        link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=month`}
                     />
                     <ColumnSection
                         mangaList={topWeekManga.slice(0, 5)}
                         title="Manga nổi bật tuần"
+                        link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=week`}
                     />
                     <ColumnSection
                         mangaList={topDayManga.slice(0, 5)}
                         title="Manga nổi bật ngày"
+                        link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=day`}
                     />
                 </div>
             </Section>
 
             <Section
+                link={`/${MANGA_BROWSE_PAGE}?view=new`}
                 title="Truyện mới"
                 style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
                 linkHints={true}

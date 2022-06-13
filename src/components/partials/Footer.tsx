@@ -23,13 +23,13 @@ export default function Footer() {
                     Kyoto Manga là website đọc truyện tranh miễn phí
                 </h1>
                 <div className="flex items-center justify-center space-x-8">
-                    <Link href="">
+                    <Link href="/">
                         <a className="hover:text-primary">Điều khoản dịch vụ</a>
                     </Link>
-                    <Link href="">
+                    <Link href="/">
                         <a className="hover:text-primary">DMCA</a>
                     </Link>
-                    <Link href="">
+                    <Link href="/">
                         <a className="hover:text-primary">Liên hệ</a>
                     </Link>
                 </div>

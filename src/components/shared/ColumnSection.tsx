@@ -10,10 +10,11 @@ import { ChevronRightIcon } from '@heroicons/react/outline';
 
 interface ColumnSectionProps {
     title?: string;
+    link: string;
     mangaList: Manga[];
 }
 
-function ColumnSection({ title, mangaList }: ColumnSectionProps) {
+function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
     const [srcId] = useSource();
 
     return (
@@ -100,7 +101,11 @@ function ColumnSection({ title, mangaList }: ColumnSectionProps) {
                     })}
 
                 <li className="flex w-full items-center justify-center rounded-xl py-4 px-4 transition-all hover:cursor-pointer hover:bg-highlight">
-                    <button className="lg:text-3xl">Xem thêm</button>
+                    <button className="lg:text-3xl">
+                        <Link href={link}>
+                            <a>Xem thêm</a>
+                        </Link>
+                    </button>
                     <ChevronRightIcon className="h-8 w-8" />
                 </li>
             </ul>

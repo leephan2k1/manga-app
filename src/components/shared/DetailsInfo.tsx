@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { MANGA_BROWSE_PAGE } from '~/constants';
 import { MangaDetails } from '~/types';
 
 import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
@@ -124,7 +125,10 @@ function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
                                         >
                                             <Link
                                                 href={{
-                                                    pathname: `browse/${genre?.slug}`,
+                                                    pathname: `/${MANGA_BROWSE_PAGE}`,
+                                                    query: {
+                                                        genres: genre?.slug,
+                                                    },
                                                 }}
                                             >
                                                 <a>{genre?.genreTitle}</a>

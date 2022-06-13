@@ -73,8 +73,8 @@ export const VIEW_NT = [
     { value: 'month', label: 'View Tháng' },
     { value: 'week', label: 'View Tuần' },
     { value: 'day', label: 'View Ngày' },
-    { value: 'newComic', label: 'Mới ra' },
-    { value: 'new', label: 'Chapter mới' },
+    { value: 'new', label: 'Mới ra' },
+    { value: 'newComic', label: 'Chapter mới' },
 ];
 
 export const STATUS_NT = [
