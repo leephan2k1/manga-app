@@ -25,6 +25,7 @@
         "react-lazyload": "^3.2.0",
         "react-loading-skeleton": "^3.1.0",
         "react-select": "^5.3.2",
+        "react-virtuoso": "^2.13.2",
         "recoil": "^0.7.3-alpha.2",
         "swiper": "^8.2.2",
         "usehooks-ts": "^2.5.4"
