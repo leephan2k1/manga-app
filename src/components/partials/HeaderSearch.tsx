@@ -1,5 +1,7 @@
 import { useRecoilState } from 'recoil';
 import { searchModalState } from '~/atoms/searchModelAtom';
+import Link from 'next/link';
+import { MANGA_BROWSE_PAGE } from '~/constants';
 
 import { AdjustmentsIcon, SearchIcon } from '@heroicons/react/solid';
 
@@ -16,7 +18,11 @@ export default function HeaderSearch({ styles }: HeaderSearchProps) {
         >
             {/* advanced search  */}
             <button className="mx-4 hidden rounded-xl bg-rose-300 px-2 py-1 text-rose-600 transition-all hover:bg-rose-500 hover:text-white/80 md:block">
-                <AdjustmentsIcon className="h-8 w-8" />
+                <Link href={`/${MANGA_BROWSE_PAGE}`}>
+                    <a>
+                        <AdjustmentsIcon className="h-8 w-8" />
+                    </a>
+                </Link>
             </button>
 
             {/* search input  */}
