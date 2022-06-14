@@ -9,6 +9,8 @@
         "postinstall": "husky install"
     },
     "dependencies": {
+        "@emotion/react": "^11.9.3",
+        "@emotion/styled": "^11.9.3",
         "@headlessui/react": "^1.6.4",
         "@heroicons/react": "^1.0.6",
         "@tippyjs/react": "^4.2.6",
@@ -41,7 +43,7 @@
         "@typescript-eslint/eslint-plugin": "^5.26.0",
         "@typescript-eslint/parser": "^5.26.0",
         "autoprefixer": "^10.4.0",
-        "eslint": "8.16.0",
+        "eslint": "^8.16.0",
         "eslint-config-next": "12.1.6",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.0.0",
