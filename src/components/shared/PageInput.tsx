@@ -15,7 +15,7 @@ function PageInput({ totalPages, setCurrentPage }: PageInputProps) {
 
     const handleNavigatePage = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            setCurrentPage(Number(e.currentTarget.value));
+            setCurrentPage(parseInt(e.currentTarget.value));
             setShowInput(false);
         }
     };

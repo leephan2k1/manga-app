@@ -36,7 +36,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
 
     useEffect(() => {
         const { page } = router.query;
-        setCurrentPage(page ? Number(page) : 1);
+        setCurrentPage(page ? parseInt(String(page)) : 1);
     }, [router.query]);
 
     return (
