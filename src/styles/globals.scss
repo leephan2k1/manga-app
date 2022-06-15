@@ -39,6 +39,8 @@ html {
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 5000px;
 }
 
 body {
@@ -98,6 +100,14 @@ input[type='number'] {
     animation: dash 1.5s ease-in-out infinite;
 }
 
+.vertical-slide-demo-page {
+    animation: v-slide-demo-page 3s infinite;
+}
+
+.horizontal-slide-demo-page {
+    animation: h-slide-demo-page 3s infinite;
+}
+
 @keyframes rotate {
     100% {
         transform: rotate(360deg);
@@ -115,6 +125,24 @@ input[type='number'] {
     }
     100% {
         stroke-dashoffset: -125px;
+    }
+}
+
+@keyframes v-slide-demo-page {
+    0% {
+        transform: translateY(40px);
+    }
+    100% {
+        transform: translateY(-35px); /* The image width */
+    }
+}
+
+@keyframes h-slide-demo-page {
+    0% {
+        transform: translateX(-26px);
+    }
+    100% {
+        transform: translateX(25px); /* The image width */
     }
 }
 
