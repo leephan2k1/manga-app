@@ -2,8 +2,11 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { ReactNode, useEffect, useState } from 'react';
-import { useMediaQuery } from 'usehooks-ts';
+import { useRecoilState } from 'recoil';
+import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
+import { chapterList } from '~/atoms/chapterListAtom';
 import MainLayout from '~/components/layouts/MainLayout';
+import ClientOnly from '~/components/shared/ClientOnly';
 import DetailsBanner from '~/components/shared/DetailsBanner';
 import DetailsChapterList from '~/components/shared/DetailsChapterList';
 import DetailsDescription from '~/components/shared/DetailsDescription';
@@ -27,6 +30,11 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     const matchesMobile = useMediaQuery('(max-width: 768px)');
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
+    const [_, setChapterList] = useRecoilState(chapterList);
+
+    useEffectOnce(() => {
+        setChapterList(manga.chapterList);
+    });
 
     useEffect(() => {
         const handleRouteChange = () => {
@@ -48,33 +56,43 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     }, []);
 
     return (
-        <div className="flex h-fit min-h-screen flex-col">
-            <DetailsBanner
-                isLoading={isLoading}
-                imgUrl={manga?.thumbnail || 'notFound'}
-            />
+        <ClientOnly>
+            <div className="flex h-fit min-h-screen flex-col">
+                <DetailsBanner
+                    isLoading={isLoading}
+                    imgUrl={manga?.thumbnail || 'notFound'}
+                />
 
-            <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
-                <Section style="h-fit w-full">
-                    <DetailsInfo isLoading={isLoading} manga={manga} />
-                </Section>
+                <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
+                    <Section style="h-fit w-full">
+                        <DetailsInfo isLoading={isLoading} manga={manga} />
+                    </Section>
 
-                <Section style="h-fit w-full">
-                    <DetailsDescription
-                        isLoading={isLoading}
-                        mangaReview={manga?.review || ''}
-                        mobileUI={matchesMobile}
-                    />
-                </Section>
+                    <Section style="h-fit w-full">
+                        <DetailsDescription
+                            isLoading={isLoading}
+                            mangaReview={manga?.review || ''}
+                            mobileUI={matchesMobile}
+                        />
+                    </Section>
 
-                <Section title="Danh sách chương" style="h-fit w-full">
-                    <DetailsChapterList
-                        chapterList={manga?.chapterList || []}
-                        mobileUI={matchesMobile}
-                    />
-                </Section>
+                    <Section title="Danh sách chương" style="h-fit w-full">
+                        <DetailsChapterList
+                            containerStyle="my-6 flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
+                            maxWTitleMobile={200}
+                            selectSource
+                            mobileHeight={600}
+                            chapterList={manga?.chapterList || []}
+                            comicSlug={router.asPath.slice(
+                                router.asPath.lastIndexOf('/') + 1,
+                                router.asPath.indexOf('?'),
+                            )}
+                            mobileUI={matchesMobile}
+                        />
+                    </Section>
+                </div>
             </div>
-        </div>
+        </ClientOnly>
     );
 };
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
