@@ -10,6 +10,13 @@ export interface SelectType {
     label: string;
 }
 
+export type ReadMode = 'vertical' | 'horizontal';
+
+export interface ReadModeSettings {
+    readMode: ReadMode;
+    readDirection: 'rtl' | 'ltr';
+}
+
 export type SourcesId = 'nt' | 'lh' | 'qq' | 'mgdx' | 'mgrd';
 
 export interface MangaResource {
