@@ -52,7 +52,7 @@ export default function Sidebar() {
                 ref={sidebarRef}
                 className={`${
                     showSidebar && 'slideLeftReturn'
-                } magictime absolute-center	 fixed inset-0 z-[999] w-[65%] min-w-[230px] bg-secondary p-4 md:w-[40%]`}
+                } magictime absolute-center	 fixed inset-0 z-[999] w-[250px] min-w-[230px] bg-secondary p-4 md:w-[40%]`}
             >
                 <div className="flex h-full w-full flex-col">
                     {/* control sidebar & logo */}
@@ -100,7 +100,7 @@ export default function Sidebar() {
                             ))}
                         </li>
                         {/* list title  */}
-                        <li className="border-hight-light mx-4 mt-4 border-t-[2px] pt-4 md:mt-8">
+                        <li className="mx-4 mt-4 border-t-[2px] border-highlight pt-4 md:mt-8">
                             <h3 className="font-secondary text-3xl md:text-5xl">
                                 Thể loại
                             </h3>
@@ -135,7 +135,7 @@ export default function Sidebar() {
                             </button>
                         </li>
                         {/* title  */}
-                        <li className="border-hight-light mx-4 mt-4 border-t-[2px] pt-4 md:mt-8">
+                        <li className="mx-4 mt-4 border-t-[2px] border-highlight pt-4 md:mt-8">
                             <h3 className="font-secondary text-3xl md:text-5xl">
                                 <Link
                                     href={`/${MANGA_BROWSE_PAGE}?status=latest`}
@@ -153,7 +153,7 @@ export default function Sidebar() {
                             </h3>
                         </li>
                         {/* title  */}
-                        <li className="border-hight-light mx-4 mt-4 border-t-[2px] pt-4 md:mt-8">
+                        <li className="mx-4 mt-4 border-t-[2px] border-highlight pt-4 md:mt-8">
                             <h3 className="font-secondary text-3xl md:text-5xl">
                                 <Link href={`/${MANGA_BROWSE_PAGE}?view=all`}>
                                     <a
