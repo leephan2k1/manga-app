@@ -10,6 +10,8 @@ export interface SelectType {
     label: string;
 }
 
+export type ImageMode = 'full' | 'fitW' | 'fitH';
+
 export type ReadMode = 'vertical' | 'horizontal';
 
 export interface ReadModeSettings {
