@@ -4,6 +4,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline';
 import { useOnClickOutside } from 'usehooks-ts';
 
 interface ListBoxProps {
+    highlightSelect?: string;
     style?: string;
     title?: string;
     options: Array<string>;
@@ -17,6 +18,7 @@ function ListBox({
     style,
     backgroundColor,
     activeBackgroundColor,
+    highlightSelect,
 }: ListBoxProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const [showOptions, setShowOptions] = useState(false);
@@ -44,21 +46,21 @@ function ListBox({
                 showOptions ? activeBackgroundColor : backgroundColor
             }`}
         >
-            {title} {option}
+            {title} <span className={highlightSelect}>{option}</span>
             {showOptions ? (
                 <ChevronUpIcon className="animate__rotateIn animate__animated animate__faster h-8 w-8" />
             ) : (
                 <ChevronDownIcon className="animate__rotateIn animate__animated animate__faster h-8 w-8" />
             )}
             {showOptions && (
-                <ul className="animate__fadeIn animate__animated animate__faster absolute top-full left-0 z-[500] w-full space-y-4 rounded-xl bg-black/70 py-4">
+                <ul className="animate__fadeIn animate__animated animate__faster absolute top-full left-0 z-[500] w-full space-y-4 rounded-xl bg-black/80 py-4">
                     {options.length > 0 &&
                         options.map((option, index) => {
                             return (
                                 <li
                                     onClick={handleSelectOption}
                                     key={index}
-                                    className={`rounded-lg transition-all line-clamp-1 hover:bg-highlight`}
+                                    className={`rounded-lg  transition-all line-clamp-1 hover:bg-highlight`}
                                 >
                                     {option}
                                 </li>

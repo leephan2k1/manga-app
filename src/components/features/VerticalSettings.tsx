@@ -1,7 +1,8 @@
+import LogoSVG from '/public/images/torii-gate-japan.svg';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
+import useSettingsMode from '~/context/SettingsContext';
 import { ChapterList } from '~/types';
-import LogoSVG from '/public/images/torii-gate-japan.svg';
 
 import {
     ArrowLeftIcon,
@@ -27,10 +28,15 @@ export default function SettingsSide({
     comicSlug,
 }: SettingsSideProps) {
     const router = useRouter();
+    const settings = useSettingsMode();
     const sideSettingsRef = useRef<HTMLDivElement>(null);
 
     const handleCloseSideSettings = () => {
         handleClose();
+    };
+
+    const handleShowSettingsMode = () => {
+        settings?.toggleSettings();
     };
 
     return (
@@ -102,7 +108,10 @@ export default function SettingsSide({
                 />
             </div>
 
-            <button className="absolute-center gap-4 transition-all hover:text-primary">
+            <button
+                onClick={handleShowSettingsMode}
+                className="absolute-center gap-4 transition-all hover:text-primary"
+            >
                 <CogIcon className="h-8 w-8" />
                 Cài đặt
             </button>

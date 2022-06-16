@@ -5,7 +5,13 @@ import { ReadModeSettings, ReadMode } from '~/types';
 import { Dialog, Transition } from '@headlessui/react';
 import { CogIcon } from '@heroicons/react/outline';
 
-export default function SettingsModal() {
+interface SettingsModalProps {
+    triggerShowSideSettings: () => void;
+}
+
+export default function SettingsModal({
+    triggerShowSideSettings,
+}: SettingsModalProps) {
     const [_, setRmSettings] = useLocalStorage<ReadModeSettings | null>(
         'settings',
         null,
@@ -13,13 +19,13 @@ export default function SettingsModal() {
     const [showModal, setShowModal] = useState(true);
 
     const handleCloseModal = (e: MouseEvent<HTMLButtonElement>) => {
-        console.log('clicked:: ', e.currentTarget.dataset.id);
         if (e.currentTarget.dataset.id) {
             setRmSettings({
                 readMode: e.currentTarget.dataset.id as ReadMode,
                 readDirection: 'rtl',
             });
             setShowModal(false);
+            triggerShowSideSettings();
         }
     };
 

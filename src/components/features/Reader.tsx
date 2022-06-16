@@ -1,0 +1,80 @@
+import dynamic from 'next/dynamic';
+import { useEffect, useRef, useState } from 'react';
+import { useTransition } from 'transition-hook';
+import { useElementSize, useEventListener, useMediaQuery } from 'usehooks-ts';
+import HorizontalSettings from '~/components/features/HorizontalSettings';
+import useSettingsMode from '~/context/SettingsContext';
+
+const SettingsMode = dynamic(() => import('./SettingsMode'));
+
+interface ReaderProps {
+    sideSettingState: boolean;
+}
+
+export default function Reader({ sideSettingState }: ReaderProps) {
+    const settings = useSettingsMode();
+    const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
+    const [showHorizontalSettings, setShowHorizontalSettings] = useState(true);
+    const { shouldMount } = useTransition(Boolean(settings?.show), 150);
+    const lastScrollTop = useRef(0);
+    const [readerPageRef, { width }] = useElementSize();
+
+    const onScroll = () => {
+        const st = window.pageYOffset;
+
+        if (!matchesTouchScreen) return;
+
+        if (st > lastScrollTop.current) {
+            setShowHorizontalSettings(false);
+        } else {
+            setShowHorizontalSettings(true);
+        }
+        lastScrollTop.current = st;
+    };
+
+    useEffect(() => {
+        if (!sideSettingState) {
+            settings?.turnOffSettings();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sideSettingState]);
+
+    useEventListener('scroll', onScroll);
+
+    return (
+        <div ref={readerPageRef} className="h-fit min-h-screen w-full bg-black">
+            <div
+                style={{
+                    width: `${width}px`,
+                }}
+                className={`fixed top-0 right-0 min-h-[50px] px-24`}
+            >
+                <SettingsMode
+                    show={Boolean(settings?.show)}
+                    styles={`${
+                        shouldMount && settings?.show
+                            ? 'slideUpReturn'
+                            : 'slideUp'
+                    } `}
+                />
+            </div>
+
+            {showHorizontalSettings && matchesTouchScreen && (
+                <HorizontalSettings />
+            )}
+
+            <div className={`${matchesTouchScreen && 'pt-24'}`}>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
+            </div>
+        </div>
+    );
+}
