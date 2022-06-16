@@ -47,6 +47,7 @@ body {
     @apply bg-background;
     height: fit-content;
     overflow-x: hidden;
+    transition-duration: 350ms;
 }
 
 *:focus {
