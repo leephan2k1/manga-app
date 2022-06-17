@@ -1,8 +1,9 @@
-import LogoSVG from '/public/images/torii-gate-japan.svg';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
+import { useRecoilValue } from 'recoil';
+import { chapterList } from '~/atoms/chapterListAtom';
 import useSettingsMode from '~/context/SettingsContext';
-import { ChapterList } from '~/types';
+import LogoSVG from '/public/images/torii-gate-japan.svg';
 
 import {
     ArrowLeftIcon,
@@ -19,17 +20,16 @@ import ListBox from '../shared/ListBox';
 interface SettingsSideProps {
     handleClose: () => void;
     comicSlug: string;
-    chapterList: ChapterList[];
 }
 
 export default function SettingsSide({
     handleClose,
-    chapterList,
     comicSlug,
 }: SettingsSideProps) {
     const router = useRouter();
     const settings = useSettingsMode();
     const sideSettingsRef = useRef<HTMLDivElement>(null);
+    const chapters = useRecoilValue(chapterList);
 
     const handleCloseSideSettings = () => {
         handleClose();
@@ -104,7 +104,7 @@ export default function SettingsSide({
                     selectSource={false}
                     comicSlug={comicSlug}
                     mobileUI={true}
-                    chapterList={chapterList}
+                    chapterList={chapters}
                 />
             </div>
 

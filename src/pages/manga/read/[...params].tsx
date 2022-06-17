@@ -2,9 +2,7 @@ import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import { useEffectOnce, useLocalStorage, useMediaQuery } from 'usehooks-ts';
-import { chapterList } from '~/atoms/chapterListAtom';
 import Reader from '~/components/features/Reader';
 import MainLayout from '~/components/layouts/MainLayout';
 import ClientOnly from '~/components/shared/ClientOnly';
@@ -29,7 +27,6 @@ const ReadPage: NextPage = () => {
     );
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
     const [showSideSettings, setShowSideSettings] = useState(true);
-    const chapters = useRecoilValue(chapterList);
     const router = useRouter();
 
     const handleCloseSideSettings = () => {
@@ -95,7 +92,6 @@ const ReadPage: NextPage = () => {
                                             router.asPath.lastIndexOf('/') + 1,
                                             router.asPath.indexOf('?'),
                                         )}
-                                        chapterList={chapters}
                                         handleClose={handleCloseSideSettings}
                                     />
                                 </div>

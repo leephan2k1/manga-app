@@ -33,7 +33,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     const [_, setChapterList] = useRecoilState(chapterList);
 
     useEffectOnce(() => {
-        setChapterList(manga.chapterList);
+        if (manga) setChapterList(manga.chapterList);
     });
 
     useEffect(() => {
