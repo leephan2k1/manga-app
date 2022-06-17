@@ -122,6 +122,7 @@ export interface MangaDetails {
 
 export interface ChapterList {
     chapterId: string;
+    chapterNumber: string;
     chapterTitle: string;
     updatedAt: string;
     view: string;

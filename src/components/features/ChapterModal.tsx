@@ -7,10 +7,12 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 
 import DetailsChapterList from '../shared/DetailsChapterList';
+import { useRouter } from 'next/router';
 
 export default function ChapterModal() {
     const [showModal, setShowModal] = useRecoilState(chapterModal);
     const chapters = useRecoilValue(chapterList);
+    const router = useRouter();
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -67,7 +69,11 @@ export default function ChapterModal() {
                                         containerStyle="flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
                                         mobileHeight={300}
                                         selectSource={false}
-                                        comicSlug={'blabla'}
+                                        comicSlug={
+                                            (router.query.params &&
+                                                router.query.params[0]) ||
+                                            ''
+                                        }
                                         mobileUI={true}
                                         chapterList={chapters}
                                     />

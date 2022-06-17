@@ -88,10 +88,11 @@ const ReadPage: NextPage = () => {
                                     } `}
                                 >
                                     <SettingsSide
-                                        comicSlug={router.asPath.slice(
-                                            router.asPath.lastIndexOf('/') + 1,
-                                            router.asPath.indexOf('?'),
-                                        )}
+                                        comicSlug={
+                                            (router.query.params &&
+                                                router.query.params[0]) ||
+                                            ''
+                                        }
                                         handleClose={handleCloseSideSettings}
                                     />
                                 </div>

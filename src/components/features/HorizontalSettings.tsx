@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
+import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 
 import {
     ArrowLeftIcon,
@@ -30,7 +31,17 @@ export default function HorizontalSettings() {
         <div className="slideUpReturn magictime fixed top-0 left-0 h-[60px] w-full bg-[#141313]">
             <div className="flex h-full w-full items-center text-lg md:text-2xl">
                 <div className="flex h-full w-fit items-center gap-4 px-4 md:space-x-4">
-                    <button onClick={() => router.back()}>
+                    <button
+                        onClick={() =>
+                            router.push(
+                                `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
+                                    (router.query.params &&
+                                        router.query.params[0]) ||
+                                    ''
+                                }`,
+                            )
+                        }
+                    >
                         <ArrowNarrowLeftIcon className="h-8 w-8" />
                     </button>
 

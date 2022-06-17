@@ -1,9 +1,10 @@
+import LogoSVG from '/public/images/torii-gate-japan.svg';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { chapterList } from '~/atoms/chapterListAtom';
+import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useSettingsMode from '~/context/SettingsContext';
-import LogoSVG from '/public/images/torii-gate-japan.svg';
 
 import {
     ArrowLeftIcon,
@@ -47,7 +48,11 @@ export default function SettingsSide({
             {/* logo & control */}
             <div className="absolute-center my-2 h-[70px] w-full border-b-2 border-white/5">
                 <button
-                    onClick={() => router.back()}
+                    onClick={() =>
+                        router.push(
+                            `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comicSlug}`,
+                        )
+                    }
                     className="rounded-full p-4 transition-all hover:bg-white/25"
                 >
                     <ArrowNarrowLeftIcon className="h-8 w-8" />

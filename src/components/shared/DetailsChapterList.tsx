@@ -97,9 +97,7 @@ function DetailsChapterList({
                         <div className="animate__fadeIn animate__animated m-2 overflow-hidden text-white">
                             <button className="h-full w-full">
                                 <Link
-                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${
-                                        list.length - index
-                                    }/${list[index].chapterId}`}
+                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${list[index].chapterNumber}/${list[index].chapterId}`}
                                 >
                                     <a
                                         className={`flex h-[30px] items-center justify-between rounded-lg bg-deep-black`}
@@ -152,9 +150,7 @@ function DetailsChapterList({
                                     >
                                         <button className="h-full w-full">
                                             <Link
-                                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${
-                                                    list.length - index
-                                                }/${list[index].chapterId}`}
+                                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${list[index].chapterNumber}/${list[index].chapterId}`}
                                             >
                                                 <a
                                                     className={`bubble-top-left-to-bottom-right
