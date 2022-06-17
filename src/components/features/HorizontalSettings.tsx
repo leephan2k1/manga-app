@@ -1,4 +1,7 @@
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { chapterModal } from '~/atoms/chapterModalAtom';
+import { settingsModal } from '~/atoms/settingsModalAtom';
 
 import {
     ArrowLeftIcon,
@@ -10,7 +13,18 @@ import {
 import ListBox from '../shared/ListBox';
 
 export default function HorizontalSettings() {
+    const [_, setShowModal] = useRecoilState(chapterModal);
+    const [__, setSettingsModal] = useRecoilState(settingsModal);
+
     const router = useRouter();
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    const handleOpenSettingsModal = () => {
+        setSettingsModal(true);
+    };
 
     return (
         <div className="slideUpReturn magictime fixed top-0 left-0 h-[60px] w-full bg-[#141313]">
@@ -27,7 +41,10 @@ export default function HorizontalSettings() {
                         beatae ad magni, ducimus maxime tempora maiores at quam.
                     </h1>
 
-                    <button className="h-[60%] max-w-[80px] whitespace-nowrap rounded-xl bg-highlight p-2 text-lg line-clamp-1">
+                    <button
+                        onClick={handleOpenModal}
+                        className="h-[60%] max-w-[80px] whitespace-nowrap rounded-xl bg-highlight p-2 text-lg line-clamp-1"
+                    >
                         Chapter 123
                     </button>
 
@@ -53,7 +70,10 @@ export default function HorizontalSettings() {
                         />
                     </button>
 
-                    <button className="rounded-lg bg-highlight p-2">
+                    <button
+                        onClick={handleOpenSettingsModal}
+                        className="rounded-lg bg-highlight p-2"
+                    >
                         <CogIcon className="h-8 w-8" />
                     </button>
                 </div>

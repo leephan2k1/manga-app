@@ -1,7 +1,12 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { useTransition } from 'transition-hook';
 import { useElementSize, useEventListener, useMediaQuery } from 'usehooks-ts';
+import { chapterModal } from '~/atoms/chapterModalAtom';
+import { settingsModal } from '~/atoms/settingsModalAtom';
+import ChapterModal from '~/components/features/ChapterModal';
+import SettingsModeModal from '~/components/features/SettingsModeModal';
 import HorizontalSettings from '~/components/features/HorizontalSettings';
 import useSettingsMode from '~/context/SettingsContext';
 
@@ -13,8 +18,10 @@ interface ReaderProps {
 
 export default function Reader({ sideSettingState }: ReaderProps) {
     const settings = useSettingsMode();
-    const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
     const [showHorizontalSettings, setShowHorizontalSettings] = useState(true);
+    const chapterModalState = useRecoilValue(chapterModal);
+    const settingsModalState = useRecoilValue(settingsModal);
+    const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
     const { shouldMount } = useTransition(Boolean(settings?.show), 150);
     const lastScrollTop = useRef(0);
     const [readerPageRef, { width }] = useElementSize();
@@ -62,6 +69,10 @@ export default function Reader({ sideSettingState }: ReaderProps) {
             {showHorizontalSettings && matchesTouchScreen && (
                 <HorizontalSettings />
             )}
+
+            {matchesTouchScreen && chapterModalState && <ChapterModal />}
+
+            {matchesTouchScreen && settingsModalState && <SettingsModeModal />}
 
             <div className={`${matchesTouchScreen && 'pt-24'}`}>
                 <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
