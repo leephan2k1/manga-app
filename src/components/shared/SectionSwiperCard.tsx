@@ -97,12 +97,17 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                         <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-primary py-2 px-4 transition-all hover:scale-[110%]">
                             <BiGlasses />{' '}
                             <Link
-                                href={{
-                                    pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${encodeURIComponent(
-                                        manga.slug,
-                                    )}`,
-                                    query: { src: srcId },
-                                }}
+                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${
+                                    manga.slug
+                                }/${
+                                    manga?.chapters &&
+                                    manga.chapters[manga.chapters?.length - 1]
+                                        .chapterNumber
+                                }/${
+                                    manga?.chapters &&
+                                    manga?.chapters[manga.chapters?.length - 1]
+                                        .chapterId
+                                }`}
                             >
                                 <a>Đọc ngay</a>
                             </Link>

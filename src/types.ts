@@ -113,6 +113,7 @@ export interface Manga extends NtSearchResponseData {
     otherName: string;
     review: string;
     updatedAt: string;
+    chapters?: Chapter[];
 }
 
 export interface MangaDetails {

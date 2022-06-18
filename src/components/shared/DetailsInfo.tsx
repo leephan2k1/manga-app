@@ -3,7 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { MANGA_BROWSE_PAGE } from '~/constants';
+import {
+    MANGA_BROWSE_PAGE,
+    MANGA_PATH_NAME,
+    MANGA_PATH_READ_NAME,
+} from '~/constants';
 import { MangaDetails } from '~/types';
 
 import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
@@ -12,9 +16,10 @@ import { LightningBoltIcon } from '@heroicons/react/solid';
 interface DetailsInfoProps {
     manga: MangaDetails;
     isLoading: boolean;
+    comicSlug: string;
 }
 
-function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
+function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
     return (
         <div className="flex h-full w-full flex-col items-center overflow-x-hidden md:flex-row md:items-start">
             {/* manga thumbnail  */}
@@ -141,13 +146,36 @@ function DetailsInfo({ manga, isLoading }: DetailsInfoProps) {
 
                     {/* manga interrace  */}
                     <div className="flex h-[150px] w-full flex-col items-center gap-6   md:flex-row md:items-start">
-                        <button className="pulse-effect-primary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-primary transition-all hover:scale-[110%]">
-                            <BookOpenIcon className="h-8 w-8" /> Đọc ngay
-                        </button>
-                        <button className="pulse-effect-secondary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-white text-gray-800 transition-all hover:scale-[110%]">
-                            <LightningBoltIcon className="h-8 w-8 text-primary" />{' '}
-                            Chap mới nhất
-                        </button>
+                        <Link
+                            href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${
+                                manga?.chapterList[
+                                    manga?.chapterList.length - 1
+                                ].chapterNumber
+                            }/${
+                                manga?.chapterList[
+                                    manga?.chapterList.length - 1
+                                ].chapterId
+                            }`}
+                        >
+                            <a>
+                                <button className="pulse-effect-primary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-primary transition-all hover:scale-[110%]">
+                                    <BookOpenIcon className="h-8 w-8" /> Đọc
+                                    ngay
+                                </button>
+                            </a>
+                        </Link>
+
+                        <Link
+                            href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${manga?.chapterList[0].chapterNumber}/${manga?.chapterList[0].chapterId}`}
+                        >
+                            <a>
+                                <button className="pulse-effect-secondary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-white text-gray-800 transition-all hover:scale-[110%]">
+                                    <LightningBoltIcon className="h-8 w-8 text-primary" />{' '}
+                                    Chap mới nhất
+                                </button>
+                            </a>
+                        </Link>
+
                         <button className="shine-effect absolute-center bg-hight-light h-[50px] w-[50px] rounded-xl transition-all hover:text-primary">
                             <BookmarkIcon className=" h-8 w-8" />
                         </button>

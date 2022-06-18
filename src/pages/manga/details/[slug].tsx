@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
 import { chapterList } from '~/atoms/chapterListAtom';
@@ -59,6 +59,13 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const comicSlug = useMemo(() => {
+        return router.asPath.slice(
+            router.asPath.lastIndexOf('/') + 1,
+            router.asPath.indexOf('?'),
+        );
+    }, [router.asPath]);
+
     return (
         <ClientOnly>
             <div className="flex h-fit min-h-screen flex-col">
@@ -69,7 +76,11 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
 
                 <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
                     <Section style="h-fit w-full">
-                        <DetailsInfo isLoading={isLoading} manga={manga} />
+                        <DetailsInfo
+                            isLoading={isLoading}
+                            manga={manga}
+                            comicSlug={comicSlug}
+                        />
                     </Section>
 
                     <Section style="h-fit w-full">
@@ -87,10 +98,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                             selectSource
                             mobileHeight={600}
                             chapterList={manga?.chapterList || []}
-                            comicSlug={router.asPath.slice(
-                                router.asPath.lastIndexOf('/') + 1,
-                                router.asPath.indexOf('?'),
-                            )}
+                            comicSlug={comicSlug}
                             mobileUI={matchesMobile}
                         />
                     </Section>
