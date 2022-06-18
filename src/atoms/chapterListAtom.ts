@@ -1,7 +1,10 @@
 import { atom } from 'recoil';
-import { ChapterList } from '~/types';
+import { HeadlessManga } from '~/types';
 
 export const chapterList = atom({
     key: 'chapterListAtom',
-    default: [] as ChapterList[],
+    default: {
+        title: '',
+        chapterList: [],
+    } as HeadlessManga,
 });

@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 
 export default function ChapterModal() {
     const [showModal, setShowModal] = useRecoilState(chapterModal);
-    const chapters = useRecoilValue(chapterList);
+    const manga = useRecoilValue(chapterList);
     const router = useRouter();
 
     const handleCloseModal = () => {
@@ -48,7 +48,7 @@ export default function ChapterModal() {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <Dialog.Panel className="max-h-[70vh] w-[85%] transform overflow-x-hidden overflow-y-scroll rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all md:w-[75%] lg:max-h-[85vh]">
+                            <Dialog.Panel className="max-h-[70vh] w-[85%] transform overflow-x-hidden rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all md:w-[75%] lg:max-h-[85vh]">
                                 <div className="flex items-center justify-between">
                                     <Dialog.Title
                                         as="h3"
@@ -75,7 +75,7 @@ export default function ChapterModal() {
                                             ''
                                         }
                                         mobileUI={true}
-                                        chapterList={chapters}
+                                        chapterList={manga.chapterList}
                                     />
                                 </div>
                             </Dialog.Panel>

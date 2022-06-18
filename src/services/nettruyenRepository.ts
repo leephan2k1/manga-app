@@ -6,6 +6,7 @@ import {
     NtSearchResponseData,
     ServerResponse,
     MangaDetails,
+    ImagesChapter,
 } from '~/types';
 
 import axiosClient from './axiosClient';
@@ -24,6 +25,10 @@ interface MangaDetailsResponse extends ServerResponse {
     data: MangaDetails;
 }
 
+interface ChaptersResponse extends ServerResponse {
+    data: ImagesChapter[];
+}
+
 export interface QueryObject {
     genres?: string;
     gender?: number;
@@ -37,6 +42,11 @@ export interface NtRepository {
     advancedSearch: (
         queryObj: QueryObject,
     ) => Promise<AxiosResponse<MangaPreviewResponse>>;
+    getChapters: (
+        slug: string,
+        chapter: string,
+        id: string,
+    ) => Promise<AxiosResponse<ChaptersResponse>>;
     search: (mangaTitle: string) => Promise<AxiosResponse<NtSearchResponse>>;
     filter: (
         page?: number,
@@ -61,6 +71,9 @@ export interface NtRepository {
 }
 
 const NtApi: NtRepository = {
+    getChapters: (slug: string, chapter: string, id: string) => {
+        return axiosClient.get(`${resource}/chapter/${slug}/${chapter}/${id}`);
+    },
     getNewManga: (page?: number, genres?: string) => {
         return axiosClient.get(`${resource}/new`, {
             params: {

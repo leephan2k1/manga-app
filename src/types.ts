@@ -10,9 +10,17 @@ export interface SelectType {
     label: string;
 }
 
+export interface ImagesChapter {
+    id: string;
+    imgSrc: string;
+    imgSrcFallback?: string;
+}
+
 export type ImageMode = 'full' | 'fitW' | 'fitH';
 
 export type ReadMode = 'vertical' | 'horizontal';
+
+export type NavigateDirection = 'next' | 'prev';
 
 export interface ReadModeSettings {
     readMode: ReadMode;
@@ -117,10 +125,12 @@ export interface MangaDetails {
     genres: Genre[];
     view: string;
     review: string;
-    chapterList: ChapterList[];
+    chapterList: Chapter[];
 }
 
-export interface ChapterList {
+export type HeadlessManga = Pick<MangaDetails, 'chapterList' | 'title'>;
+
+export interface Chapter {
     chapterId: string;
     chapterNumber: string;
     chapterTitle: string;

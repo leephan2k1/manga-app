@@ -1,10 +1,13 @@
 import LogoSVG from '/public/images/torii-gate-japan.svg';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { chapterList } from '~/atoms/chapterListAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
+import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
+import { NavigateDirection } from '~/types';
+import { memo } from 'react';
 
 import {
     ArrowLeftIcon,
@@ -23,14 +26,13 @@ interface SettingsSideProps {
     comicSlug: string;
 }
 
-export default function SettingsSide({
-    handleClose,
-    comicSlug,
-}: SettingsSideProps) {
+function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
     const router = useRouter();
     const settings = useSettingsMode();
     const sideSettingsRef = useRef<HTMLDivElement>(null);
-    const chapters = useRecoilValue(chapterList);
+    const manga = useRecoilValue(chapterList);
+    const read = useReading();
+    const [isHovering, setIsHovering] = useState(false);
 
     const handleCloseSideSettings = () => {
         handleClose();
@@ -40,10 +42,15 @@ export default function SettingsSide({
         settings?.toggleSettings();
     };
 
+    const handleNavigateChapter = (e: MouseEvent<HTMLButtonElement>) => {
+        // console.log(e.currentTarget.dataset.id);
+        read?.navigateChapter(e.currentTarget.dataset.id as NavigateDirection);
+    };
+
     return (
         <aside
             ref={sideSettingsRef}
-            className="flex min-h-screen min-w-[250px] max-w-[250px] flex-col gap-8 overflow-hidden bg-highlight/60 px-4 text-white transition-all "
+            className="flex min-h-screen min-w-[250px] max-w-[250px] flex-col gap-8 overflow-hidden bg-highlight/60 px-4 text-white transition-all"
         >
             {/* logo & control */}
             <div className="absolute-center my-2 h-[70px] w-full border-b-2 border-white/5">
@@ -76,13 +83,10 @@ export default function SettingsSide({
             </div>
             {/* manga title  */}
             <h1 className="w-ful font-secondary font-bold capitalize line-clamp-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-                accusamus quaerat libero velit dolore debitis consectetur aut
-                iusto quod dolorem architecto eius at voluptate adipisci, ad
-                beatae exercitationem ducimus! Nostrum?
+                {manga.title}
             </h1>
 
-            <h2>Chapter XXX</h2>
+            <h2>{`Chapter: ${read?.currentChapter?.chapterNumber}`}</h2>
 
             <ListBox
                 style="rounded-xl p-4 gap-2 transition-all"
@@ -93,10 +97,18 @@ export default function SettingsSide({
             />
 
             <div className="flex justify-center gap-2">
-                <button className="absolute-center w-[40%] rounded-lg bg-highlight py-4 px-8 transition-all hover:bg-highlight/40">
+                <button
+                    onClick={handleNavigateChapter}
+                    data-id="prev"
+                    className="absolute-center w-[40%] rounded-lg bg-highlight py-4 px-8 transition-all hover:bg-highlight/40"
+                >
                     <ArrowLeftIcon className="h-8 w-8" />
                 </button>
-                <button className="absolute-center w-[40%] rounded-lg bg-highlight py-4 px-8 transition-all hover:bg-highlight/40">
+                <button
+                    onClick={handleNavigateChapter}
+                    data-id="next"
+                    className="absolute-center w-[40%] rounded-lg bg-highlight py-4 px-8 transition-all hover:bg-highlight/40"
+                >
                     <ArrowRightIcon className="h-8 w-8" />
                 </button>
             </div>
@@ -109,17 +121,25 @@ export default function SettingsSide({
                     selectSource={false}
                     comicSlug={comicSlug}
                     mobileUI={true}
-                    chapterList={chapters}
+                    chapterList={manga.chapterList}
                 />
             </div>
 
             <button
                 onClick={handleShowSettingsMode}
-                className="absolute-center gap-4 transition-all hover:text-primary"
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+                className={`absolute-center gap-4 transition-all hover:text-primary`}
             >
-                <CogIcon className="h-8 w-8" />
+                <CogIcon
+                    className={`${
+                        isHovering && 'animate__rotateIn'
+                    } animate__animated animate__faster h-8 w-8 transition-all`}
+                />
                 Cài đặt
             </button>
         </aside>
     );
 }
+
+export default memo(SettingsSide);

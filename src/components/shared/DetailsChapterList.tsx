@@ -5,7 +5,7 @@ import { ComponentType, memo, useEffect, useState } from 'react';
 import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
 import { animateFill, followCursor } from 'tippy.js';
 import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
-import { ChapterList } from '~/types';
+import { Chapter } from '~/types';
 import classNames from 'classnames';
 
 import styled from '@emotion/styled';
@@ -16,7 +16,7 @@ import { LazyTippy } from './LazyTippy';
 
 interface DetailsChapterListProps {
     mobileUI?: boolean;
-    chapterList: ChapterList[];
+    chapterList: Chapter[];
     comicSlug: string;
     containerStyle: string;
     selectSource: boolean;
@@ -52,7 +52,7 @@ function DetailsChapterList({
     chapterList,
     containerStyle,
 }: DetailsChapterListProps) {
-    const [list, setList] = useState<ChapterList[]>(chapterList);
+    const [list, setList] = useState<Chapter[]>(chapterList);
 
     useEffect(() => {
         setList(chapterList);

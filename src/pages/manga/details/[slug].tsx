@@ -14,7 +14,7 @@ import DetailsInfo from '~/components/shared/DetailsInfo';
 import Section from '~/components/shared/Section';
 import { REVALIDATE_TIME } from '~/constants';
 import RepositoryFactory from '~/services/repositoryFactory';
-import { MangaDetails } from '~/types';
+import { HeadlessManga, MangaDetails } from '~/types';
 
 const NtApi = RepositoryFactory('nettruyen');
 
@@ -33,7 +33,11 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     const [_, setChapterList] = useRecoilState(chapterList);
 
     useEffectOnce(() => {
-        if (manga) setChapterList(manga.chapterList);
+        if (manga)
+            setChapterList({
+                title: manga.title,
+                chapterList: manga.chapterList,
+            } as HeadlessManga);
     });
 
     useEffect(() => {

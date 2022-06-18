@@ -9,6 +9,8 @@ import ChapterModal from '~/components/features/ChapterModal';
 import SettingsModeModal from '~/components/features/SettingsModeModal';
 import HorizontalSettings from '~/components/features/HorizontalSettings';
 import useSettingsMode from '~/context/SettingsContext';
+import ChapterImages from '../shared/ChapterImages';
+import useReading from '~/context/ReadingContext';
 
 const SettingsMode = dynamic(() => import('./SettingsMode'));
 
@@ -17,6 +19,7 @@ interface ReaderProps {
 }
 
 export default function Reader({ sideSettingState }: ReaderProps) {
+    const reader = useReading();
     const settings = useSettingsMode();
     const [showHorizontalSettings, setShowHorizontalSettings] = useState(true);
     const chapterModalState = useRecoilValue(chapterModal);
@@ -24,6 +27,7 @@ export default function Reader({ sideSettingState }: ReaderProps) {
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
     const { shouldMount } = useTransition(Boolean(settings?.show), 150);
     const lastScrollTop = useRef(0);
+
     const [readerPageRef, { width }] = useElementSize();
 
     const onScroll = () => {
@@ -54,7 +58,7 @@ export default function Reader({ sideSettingState }: ReaderProps) {
                 style={{
                     width: `${width}px`,
                 }}
-                className={`fixed top-0 right-0 min-h-[50px] px-24`}
+                className={`fixed top-0 right-0 z-[888] min-h-[50px] px-24`}
             >
                 <SettingsMode
                     show={Boolean(settings?.show)}
@@ -74,18 +78,12 @@ export default function Reader({ sideSettingState }: ReaderProps) {
 
             {matchesTouchScreen && settingsModalState && <SettingsModeModal />}
 
-            <div className={`${matchesTouchScreen && 'pt-24'}`}>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-                <div className="my-4 mx-auto h-[500px] w-[60%] bg-red-500"></div>
-            </div>
+            <ChapterImages
+                matchesTouchScreen={matchesTouchScreen}
+                srcId={reader?.sourceId || ''}
+                images={reader?.images || []}
+                useProxy={true}
+            />
         </div>
     );
 }

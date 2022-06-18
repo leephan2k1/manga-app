@@ -14,6 +14,10 @@ export const MANGA_PATH_READ_NAME = 'read';
 
 export const DEFAULT_SRC: SourcesId = 'nt';
 
+export const SOURCE_COLLECTIONS: { [key: string]: string } = {
+    nt: 'http://www.nettruyenco.com',
+};
+
 export const GENRES_NT = [
     { id: '1', value: 'action', label: 'Action' },
     { id: '3', value: 'adventure', label: 'Adventure' },
