@@ -3,11 +3,15 @@ import 'swiper/css/effect-fade';
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { memo, useEffect, useState } from 'react';
-import SwiperCore, { Autoplay, EffectFade } from 'swiper';
+import { memo } from 'react';
+import { Autoplay, EffectFade } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
-import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
+import {
+    MANGA_PATH_DETAILS_NAME,
+    MANGA_PATH_NAME,
+    MANGA_PATH_READ_NAME,
+} from '~/constants';
 import useSource from '~/hooks/useSource';
 import { Manga } from '~/types';
 
@@ -20,18 +24,8 @@ interface MangaBannerProps {
 }
 
 function Banner({ mangaList }: MangaBannerProps) {
-    const [swiper, setSwiper] = useState<SwiperCore | null>(null);
-    const [currentActiveSlide, setCurrentActiveSlide] = useState(1);
     const matchesTablet = useMediaQuery('(min-width: 768px)');
     const [srcId] = useSource();
-
-    useEffect(() => {
-        if (swiper) {
-            swiper.on('slideChange', () => {
-                setCurrentActiveSlide(swiper.realIndex);
-            });
-        }
-    }, [swiper]);
 
     return (
         <div className="relative h-fit w-full overflow-hidden">
@@ -43,7 +37,6 @@ function Banner({ mangaList }: MangaBannerProps) {
                 }}
                 loop={true}
                 modules={[EffectFade, Autoplay]}
-                onSwiper={setSwiper}
                 autoplay={{
                     delay: 2000,
                     disableOnInteraction: false,
@@ -89,10 +82,9 @@ function Banner({ mangaList }: MangaBannerProps) {
                                         className={`deslide-cover h-[250px] w-full bg-cover bg-center bg-no-repeat blur md:h-[350px] lg:h-[450px]`}
                                     ></figure>
                                     <SwiperCard
-                                        key={currentActiveSlide}
                                         imgSrc={manga.thumbnail}
                                         style="aspect-[3/4] 0 absolute-center absolute top-1/2 right-[5%] md:right-[10%] z-10 flex h-[80%] w-[150px]  -translate-y-1/2 items-center md:w-[200px] lg:w-[250px]"
-                                        childStyle="relative magictime vanishIn h-full w-[90%] overflow-hidden rounded-2xl"
+                                        childStyle="relative h-full w-[90%] overflow-hidden rounded-2xl magictime"
                                     />
                                     <div className="absolute top-12 left-5 z-40 flex h-[70%] w-[50%] flex-col space-x-4 space-y-4 font-secondary text-white  md:left-[5%] md:w-[55%]  md:py-4 lg:space-y-6">
                                         <h3 className="mx-4 mt-6 text-xl md:text-4xl">
@@ -118,9 +110,30 @@ function Banner({ mangaList }: MangaBannerProps) {
                                         </ul>
 
                                         <div className="flex space-x-6 text-xl md:text-2xl lg:pt-6">
-                                            <button className="absolute-center rounded-xl bg-primary py-3 px-5 transition-all   hover:scale-110 md:w-[100px]">
-                                                Đọc ngay
-                                            </button>
+                                            <Link
+                                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${
+                                                    manga.slug
+                                                }/${
+                                                    manga?.chapters &&
+                                                    manga.chapters[
+                                                        manga.chapters?.length -
+                                                            1
+                                                    ].chapterNumber
+                                                }/${
+                                                    manga?.chapters &&
+                                                    manga?.chapters[
+                                                        manga.chapters?.length -
+                                                            1
+                                                    ].chapterId
+                                                }`}
+                                            >
+                                                <a>
+                                                    <button className="absolute-center rounded-xl bg-primary py-3 px-5 transition-all   hover:scale-110 md:w-[100px]">
+                                                        Đọc ngay
+                                                    </button>
+                                                </a>
+                                            </Link>
+
                                             <Link
                                                 href={{
                                                     pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
