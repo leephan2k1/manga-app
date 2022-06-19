@@ -10,6 +10,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { EmojiSadIcon, XIcon } from '@heroicons/react/outline';
 import { SearchIcon } from '@heroicons/react/solid';
 
+import SearchInput from './SearchInput';
+
 const SearchResult = dynamic(() => import('./SearchResult'));
 
 const NtAPI = RepositoryFactory('nettruyen');
@@ -139,15 +141,15 @@ export default function SearchModal() {
                                     {/* search icon  */}
                                     <SearchIcon className="mx-2 h-10 w-10 md:mx-6 md:h-14 md:w-14" />
                                     {/* search input  */}
-                                    <input
+                                    <SearchInput
                                         ref={inputRef}
-                                        type="text"
-                                        className="w-full bg-transparent p-4"
-                                        onBlur={handleOpenButtonClearSearch}
-                                        onFocus={() =>
-                                            setShowBtnClearInput(false)
+                                        setShowBtnClearInput={
+                                            setShowBtnClearInput
                                         }
-                                        onChange={handleSearch}
+                                        handleOpenButtonClearSearch={
+                                            handleOpenButtonClearSearch
+                                        }
+                                        handleSearch={handleSearch}
                                     />
                                     {/* clear input  */}
                                     {showBtnClearInput && (
