@@ -33,31 +33,50 @@ export default function SettingsMode({
                     <div className="absolute-center h-full w-full gap-4">
                         <div className="absolute-center h-full w-fit">
                             <ListBox
+                                defaultOption={convertMode(
+                                    settings?.readMode || 'vertical',
+                                )}
                                 handleSelect={handleSelect}
                                 highlightSelect="text-primary mx-2"
                                 title="Chế độc đọc: "
                                 options={['ngang', 'dọc']}
                             />
                         </div>
-                        <div className="absolute-center h-full w-fit">
-                            <ListBox
-                                handleSelect={handleSelect}
-                                highlightSelect="text-primary mx-2"
-                                title="Hướng đọc: "
-                                options={['phải sang trái', 'trái sang phải']}
-                            />
-                        </div>
-                        <div className="absolute-center h-full w-fit">
-                            <ListBox
-                                defaultOption={convertMode(
-                                    settings?.imageMode || 'full',
-                                )}
-                                handleSelect={handleSelect}
-                                highlightSelect="text-primary mx-2"
-                                title="Chế độ ảnh: "
-                                options={['full', 'fit width', 'fit height']}
-                            />
-                        </div>
+
+                        {settings?.readMode === 'horizontal' && (
+                            <div className="absolute-center h-full w-fit">
+                                <ListBox
+                                    defaultOption={convertMode(
+                                        settings?.readDirection || 'rtl',
+                                    )}
+                                    handleSelect={handleSelect}
+                                    highlightSelect="text-primary mx-2"
+                                    title="Hướng đọc: "
+                                    options={[
+                                        'phải sang trái',
+                                        'trái sang phải',
+                                    ]}
+                                />
+                            </div>
+                        )}
+
+                        {settings?.readMode === 'vertical' && (
+                            <div className="absolute-center h-full w-fit">
+                                <ListBox
+                                    defaultOption={convertMode(
+                                        settings?.imageMode || 'full',
+                                    )}
+                                    handleSelect={handleSelect}
+                                    highlightSelect="text-primary mx-2"
+                                    title="Chế độ ảnh: "
+                                    options={[
+                                        'full',
+                                        'fit width',
+                                        'fit height',
+                                    ]}
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div className="h-full w-fit">

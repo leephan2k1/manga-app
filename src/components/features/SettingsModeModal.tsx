@@ -71,43 +71,56 @@ export default function SettingsModeModal({
                                         <XIcon className="h-8 w-8" />
                                     </button>
                                 </div>
-                                <div className="my-4 flex flex-col gap-4 space-y-4 text-white">
-                                    <div className="mx-auto h-fit md:w-[50%]">
+                                <div className="mx-2 my-4 flex h-fit w-full flex-col gap-4 space-y-4   text-white">
+                                    <div className="my-4 flex w-fit">
                                         <ListBox
+                                            defaultOption={convertMode(
+                                                settings?.readMode ||
+                                                    'vertical',
+                                            )}
                                             handleSelect={handleSelect}
                                             highlightSelect="text-primary mx-2"
-                                            title="Chế độc đọc: "
+                                            title="Chế độ đọc: "
                                             options={['ngang', 'dọc']}
                                         />
                                     </div>
 
-                                    <div className="absolute-center mx-auto h-fit md:w-[50%]">
-                                        <ListBox
-                                            handleSelect={handleSelect}
-                                            highlightSelect="text-primary mx-2"
-                                            title="Hướng đọc: "
-                                            options={[
-                                                'phải sang trái',
-                                                'trái sang phải',
-                                            ]}
-                                        />
-                                    </div>
+                                    {settings?.readMode === 'horizontal' && (
+                                        <div className="my-4 flex w-fit">
+                                            <ListBox
+                                                defaultOption={convertMode(
+                                                    settings?.readDirection ||
+                                                        'rtl',
+                                                )}
+                                                handleSelect={handleSelect}
+                                                highlightSelect="text-primary mx-2"
+                                                title="Hướng đọc: "
+                                                options={[
+                                                    'phải sang trái',
+                                                    'trái sang phải',
+                                                ]}
+                                            />
+                                        </div>
+                                    )}
 
-                                    <div className="absolute-center mx-auto h-fit md:w-[50%]">
-                                        <ListBox
-                                            defaultOption={convertMode(
-                                                settings?.imageMode || 'full',
-                                            )}
-                                            handleSelect={handleSelect}
-                                            highlightSelect="text-primary mx-2"
-                                            title="Chế độ ảnh: "
-                                            options={[
-                                                'full',
-                                                'fit width',
-                                                'fit height',
-                                            ]}
-                                        />
-                                    </div>
+                                    {settings?.readMode === 'vertical' && (
+                                        <div className="my-4 flex w-fit">
+                                            <ListBox
+                                                defaultOption={convertMode(
+                                                    settings?.imageMode ||
+                                                        'full',
+                                                )}
+                                                handleSelect={handleSelect}
+                                                highlightSelect="text-primary mx-2"
+                                                title="Chế độ ảnh: "
+                                                options={[
+                                                    'full',
+                                                    'fit width',
+                                                    'fit height',
+                                                ]}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>

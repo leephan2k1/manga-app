@@ -157,11 +157,13 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
     if (!rmSettings) {
         return (
             <ClientOnly>
-                <div className="flex h-fit min-h-screen flex-col bg-deep-black">
-                    <SettingsModal
-                        triggerShowSideSettings={handleShowSideSettings}
-                    />
-                </div>
+                <SettingsContextProvider>
+                    <div className="flex h-fit min-h-screen flex-col bg-deep-black">
+                        <SettingsModal
+                            triggerShowSideSettings={handleShowSideSettings}
+                        />
+                    </div>
+                </SettingsContextProvider>
             </ClientOnly>
         );
     }
@@ -212,7 +214,12 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                                         <ChevronRightIcon className="h-8 w-8" />
                                     </button>
                                 )}
-                                <Reader sideSettingState={showSideSettings} />
+                                <Reader
+                                    handleCloseSideSettings={
+                                        handleCloseSideSettings
+                                    }
+                                    sideSettingState={showSideSettings}
+                                />
                             </div>
                         </Section>
                     </SettingsContextProvider>

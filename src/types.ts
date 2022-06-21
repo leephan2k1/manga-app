@@ -25,11 +25,13 @@ export type ImageMode = 'full' | 'fitW' | 'fitH';
 
 export type ReadMode = 'vertical' | 'horizontal';
 
+export type ReadDirection = 'rtl' | 'ltr';
+
 export type NavigateDirection = 'next' | 'prev';
 
 export interface ReadModeSettings {
     readMode: ReadMode;
-    readDirection: 'rtl' | 'ltr';
+    readDirection: ReadDirection;
 }
 
 export type SourcesId = 'nt' | 'lh' | 'qq' | 'mgdx' | 'mgrd';

@@ -39,6 +39,7 @@ function HorizontalReading({
     const [imgRef, imgSize] = useElementSize();
     const { width } = useWindowSize();
     const matchesMobile = useMediaQuery('(max-width: 640px)');
+    const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
 
     const handleNavigateHorizontalPage = (e: MouseEvent<HTMLDivElement>) => {
         const readerDom = $('#reader-page');
@@ -90,8 +91,33 @@ function HorizontalReading({
             if (elem) {
                 elem.classList.remove('md:opacity-20');
                 elem.classList.add('md:opacity-100');
+
+                const currentIdxElem = elem.getAttribute('data-id');
+
+                //prevent conflicts double click on touchscreen
+                if (!matchesTouchScreen) {
+                    //navgigate by click on next/prev image
+                    $(`#page-${Number(currentIdxElem) + 1}`)?.addEventListener(
+                        'click',
+                        () => {
+                            if (settings?.readDirection === 'rtl')
+                                readerDom?.scrollBy(-imgSize.width, 0);
+                            else readerDom?.scrollBy(imgSize.width, 0);
+                        },
+                    );
+
+                    $(`#page-${Number(currentIdxElem) - 1}`)?.addEventListener(
+                        'click',
+                        () => {
+                            if (settings?.readDirection === 'rtl')
+                                readerDom?.scrollBy(imgSize.width, 0);
+                            else readerDom?.scrollBy(-imgSize.width, 0);
+                        },
+                    );
+                }
             }
         };
+
         if (readerDom) readerDom.addEventListener('scroll', observerMiddleElem);
 
         return () => {
@@ -99,7 +125,12 @@ function HorizontalReading({
                 readerDom.removeEventListener('scroll', observerMiddleElem);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [settings?.readMode, readerSize.width, readerSize.height]);
+    }, [
+        settings?.readMode,
+        readerSize.width,
+        readerSize.height,
+        settings?.readDirection,
+    ]);
 
     useEffect(() => {
         const refCurrentpage = document.querySelector(
@@ -120,7 +151,9 @@ function HorizontalReading({
         <div
             id="reader-page"
             ref={readerRef}
-            className="flex h-fit w-screen flex-row-reverse gap-4 overflow-x-auto scroll-smooth transition-all scrollbar-hide"
+            className={`flex h-fit w-screen ${
+                settings?.readDirection === 'rtl' ? 'flex-row-reverse' : ''
+            } gap-4 overflow-x-auto scroll-smooth transition-all scrollbar-hide`}
         >
             <div
                 data-id="left"
@@ -138,7 +171,7 @@ function HorizontalReading({
                 style={{
                     minWidth: `${matchesMobile ? `${width}px` : ''}`,
                 }}
-                className={`img-wrapper absolute-center transition-al flex h-screen min-w-[530px]  max-w-[600px] touch-auto flex-col justify-center`}
+                className={`img-wrapper absolute-center transition-al flex h-screen min-w-[535px]  max-w-[600px] touch-auto flex-col justify-center`}
             >
                 <h1 className="py-4 text-center uppercase text-primary">
                     Mẹo đọc trên chế độ ngang
@@ -202,7 +235,7 @@ function HorizontalReading({
                                     matchesMobile ? `${width}px` : ''
                                 }`,
                             }}
-                            className={`img-wrapper absolute-center h-screen min-w-[530px] max-w-[600px] touch-auto  transition-all`}
+                            className={`img-wrapper absolute-center h-screen min-w-[535px] max-w-[600px] touch-auto  transition-all`}
                         >
                             <Img
                                 saveCurrentPage={handleSaveCurrentPage}
@@ -221,8 +254,10 @@ function HorizontalReading({
                 style={{
                     minWidth: `${matchesMobile ? `${width}px` : ''}`,
                 }}
-                className={`img-wrapper absolute-center h-screen min-w-[530px] max-w-[600px] touch-auto  transition-all`}
-            ></div>
+                className={`img-wrapper absolute-center h-screen min-w-[535px] max-w-[600px] touch-auto  transition-all`}
+            >
+                <h1>Hết Chap.</h1>
+            </div>
         </div>
     );
 }

@@ -18,9 +18,10 @@ const SettingsMode = dynamic(() => import('./SettingsMode'));
 
 interface ReaderProps {
     sideSettingState: boolean;
+    handleCloseSideSettings: () => void;
 }
 
-function Reader({ sideSettingState }: ReaderProps) {
+function Reader({ sideSettingState, handleCloseSideSettings }: ReaderProps) {
     const reader = useReading();
     const settings = useSettingsMode();
     const [showHorizontalSettings, setShowHorizontalSettings] = useState(false);
@@ -69,10 +70,22 @@ function Reader({ sideSettingState }: ReaderProps) {
                 settings?.setImageMode('fitH');
                 break;
             case 'ngang':
+                //close all settings ui
+                handleCloseSideSettings();
+                setShowHorizontalSettings(false);
                 settings?.setReadMode('horizontal');
                 break;
             case 'dọc':
+                //close all settings ui
+                handleCloseSideSettings();
+                setShowHorizontalSettings(false);
                 settings?.setReadMode('vertical');
+                break;
+            case 'phải sang trái':
+                settings?.setReadDirection('rtl');
+                break;
+            case 'trái sang phải':
+                settings?.setReadDirection('ltr');
                 break;
         }
     };

@@ -1,9 +1,9 @@
 import { Fragment, MouseEvent, useState } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
-import { ReadModeSettings, ReadMode } from '~/types';
+import { ReadMode } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { CogIcon } from '@heroicons/react/outline';
+import useSettingsMode from '~/context/SettingsContext';
 
 interface SettingsModalProps {
     triggerShowSideSettings: () => void;
@@ -12,18 +12,12 @@ interface SettingsModalProps {
 export default function SettingsModal({
     triggerShowSideSettings,
 }: SettingsModalProps) {
-    const [_, setRmSettings] = useLocalStorage<ReadModeSettings | null>(
-        'settings',
-        null,
-    );
     const [showModal, setShowModal] = useState(true);
+    const settings = useSettingsMode();
 
     const handleCloseModal = (e: MouseEvent<HTMLButtonElement>) => {
         if (e.currentTarget.dataset.id) {
-            setRmSettings({
-                readMode: e.currentTarget.dataset.id as ReadMode,
-                readDirection: 'rtl',
-            });
+            settings?.setReadMode(e.currentTarget.dataset.id as ReadMode);
             setShowModal(false);
             triggerShowSideSettings();
         }

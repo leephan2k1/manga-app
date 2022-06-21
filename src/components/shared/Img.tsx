@@ -25,6 +25,7 @@ function Img({ useProxy, url, src, index, saveCurrentPage }: ImgProps) {
             <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
+                    data-id={index}
                     ref={ref}
                     alt="chapter-img"
                     className={`comic-img mx-auto h-screen w-full
