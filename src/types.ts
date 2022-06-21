@@ -16,6 +16,11 @@ export interface ImagesChapter {
     imgSrcFallback?: string;
 }
 
+export interface ImgRatio {
+    index: number;
+    ratio: number;
+}
+
 export type ImageMode = 'full' | 'fitW' | 'fitH';
 
 export type ReadMode = 'vertical' | 'horizontal';

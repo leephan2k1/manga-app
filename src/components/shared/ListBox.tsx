@@ -7,9 +7,11 @@ interface ListBoxProps {
     highlightSelect?: string;
     style?: string;
     title?: string;
-    options: Array<string>;
     backgroundColor?: string;
     activeBackgroundColor?: string;
+    defaultOption?: string;
+    options: Array<string>;
+    handleSelect: (value: string) => void;
 }
 
 function ListBox({
@@ -19,6 +21,8 @@ function ListBox({
     backgroundColor,
     activeBackgroundColor,
     highlightSelect,
+    defaultOption,
+    handleSelect,
 }: ListBoxProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const [showOptions, setShowOptions] = useState(false);
@@ -36,6 +40,7 @@ function ListBox({
 
     const handleSelectOption = (e: MouseEvent<HTMLLIElement>) => {
         setOption(e.currentTarget.innerText);
+        handleSelect(e.currentTarget.innerText);
     };
 
     return (
@@ -46,7 +51,8 @@ function ListBox({
                 showOptions ? activeBackgroundColor : backgroundColor
             }`}
         >
-            {title} <span className={highlightSelect}>{option}</span>
+            {title}{' '}
+            <span className={highlightSelect}>{defaultOption || option}</span>
             {showOptions ? (
                 <ChevronUpIcon className="animate__rotateIn animate__animated animate__faster h-8 w-8" />
             ) : (

@@ -41,7 +41,7 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
     };
 
     return (
-        <div className="mt-4 lg:mt-6">
+        <div className="mt-4 hover:cursor-grab lg:mt-6">
             <Swiper
                 className="section-swiper"
                 spaceBetween={8}

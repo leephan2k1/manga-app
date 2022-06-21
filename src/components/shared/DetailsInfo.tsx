@@ -148,10 +148,12 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
                     <div className="flex h-[150px] w-full flex-col items-center gap-6   md:flex-row md:items-start">
                         <Link
                             href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${
+                                manga?.chapterList.length &&
                                 manga?.chapterList[
                                     manga?.chapterList.length - 1
                                 ].chapterNumber
                             }/${
+                                manga?.chapterList.length &&
                                 manga?.chapterList[
                                     manga?.chapterList.length - 1
                                 ].chapterId
@@ -166,7 +168,13 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
                         </Link>
 
                         <Link
-                            href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${manga?.chapterList[0].chapterNumber}/${manga?.chapterList[0].chapterId}`}
+                            href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${
+                                manga?.chapterList.length &&
+                                manga?.chapterList[0].chapterNumber
+                            }/${
+                                manga?.chapterList.length &&
+                                manga?.chapterList[0].chapterId
+                            }`}
                         >
                             <a>
                                 <button className="pulse-effect-secondary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-white text-gray-800 transition-all hover:scale-[110%]">

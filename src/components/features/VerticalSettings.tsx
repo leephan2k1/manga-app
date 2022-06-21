@@ -38,6 +38,10 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
         handleClose();
     };
 
+    const handleSourceSettings = () => {
+        console.log();
+    };
+
     const handleShowSettingsMode = () => {
         settings?.toggleSettings();
     };
@@ -89,6 +93,7 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
             <h2>{`Chapter: ${read?.currentChapter?.chapterNumber}`}</h2>
 
             <ListBox
+                handleSelect={handleSourceSettings}
                 style="rounded-xl p-4 gap-2 transition-all"
                 title="Nguồn: "
                 options={['NT']}

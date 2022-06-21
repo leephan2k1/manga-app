@@ -33,6 +33,10 @@ export default function HorizontalSettings() {
         setSettingsModal(true);
     };
 
+    const handleSourceSettings = () => {
+        console.log();
+    };
+
     const handleNavigateChapter = (e: MouseEvent<HTMLButtonElement>) => {
         read?.navigateChapter(e.currentTarget.dataset.id as NavigateDirection);
     };
@@ -90,6 +94,7 @@ export default function HorizontalSettings() {
                 <div className="flex h-full w-fit items-center pr-2 md:gap-10 md:px-4">
                     <button className="hidden items-center justify-center md:flex">
                         <ListBox
+                            handleSelect={handleSourceSettings}
                             style="rounded-xl p-4 gap-2 transition-all"
                             title="Nguồn: "
                             options={['NT']}

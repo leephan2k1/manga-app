@@ -1,15 +1,29 @@
+import { Fragment } from 'react';
+import { useRecoilState } from 'recoil';
+import { settingsModal } from '~/atoms/settingsModalAtom';
+import ListBox from '~/components/shared/ListBox';
+import useSettingsMode from '~/context/SettingsContext';
+import convertMode from '~/utils/modeConverter';
+
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
-import { Fragment } from 'react';
-import ListBox from '~/components/shared/ListBox';
-import { settingsModal } from '~/atoms/settingsModalAtom';
-import { useRecoilState } from 'recoil';
 
-export default function SettingsModeModal() {
+interface SettingsModeModalProps {
+    handleConfig: (value: string) => void;
+}
+
+export default function SettingsModeModal({
+    handleConfig,
+}: SettingsModeModalProps) {
     const [modalState, setModalState] = useRecoilState(settingsModal);
+    const settings = useSettingsMode();
 
     const handleCloseModal = () => {
         setModalState(false);
+    };
+
+    const handleSelect = (val: string) => {
+        handleConfig(val);
     };
 
     return (
@@ -31,7 +45,7 @@ export default function SettingsModeModal() {
                     <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
                 </Transition.Child>
 
-                <div className="fixed top-[10%] left-0 right-0">
+                <div className="fixed top-1/2 left-0 right-0 -translate-y-1/2">
                     <div className="flex min-h-full items-center justify-center p-4 text-center">
                         <Transition.Child
                             as={Fragment}
@@ -60,6 +74,7 @@ export default function SettingsModeModal() {
                                 <div className="my-4 flex flex-col gap-4 space-y-4 text-white">
                                     <div className="mx-auto h-fit md:w-[50%]">
                                         <ListBox
+                                            handleSelect={handleSelect}
                                             highlightSelect="text-primary mx-2"
                                             title="Chế độc đọc: "
                                             options={['ngang', 'dọc']}
@@ -68,6 +83,7 @@ export default function SettingsModeModal() {
 
                                     <div className="absolute-center mx-auto h-fit md:w-[50%]">
                                         <ListBox
+                                            handleSelect={handleSelect}
                                             highlightSelect="text-primary mx-2"
                                             title="Hướng đọc: "
                                             options={[
@@ -79,6 +95,10 @@ export default function SettingsModeModal() {
 
                                     <div className="absolute-center mx-auto h-fit md:w-[50%]">
                                         <ListBox
+                                            defaultOption={convertMode(
+                                                settings?.imageMode || 'full',
+                                            )}
+                                            handleSelect={handleSelect}
                                             highlightSelect="text-primary mx-2"
                                             title="Chế độ ảnh: "
                                             options={[

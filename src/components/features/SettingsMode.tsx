@@ -1,19 +1,28 @@
 import { useMediaQuery } from 'usehooks-ts';
 import ListBox from '~/components/shared/ListBox';
 import useSettingsMode from '~/context/SettingsContext';
+import convertMode from '~/utils/modeConverter';
+
 import { XIcon } from '@heroicons/react/outline';
 
 interface SettingsModeProps {
     styles?: string;
     show: boolean;
+    handleConfig: (value: string) => void;
 }
 
-export default function SettingsMode({ styles, show }: SettingsModeProps) {
+export default function SettingsMode({
+    styles,
+    show,
+    handleConfig,
+}: SettingsModeProps) {
     const settings = useSettingsMode();
-
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
-
     if (matchesTouchScreen) return null;
+
+    const handleSelect = (val: string) => {
+        handleConfig(val);
+    };
 
     return (
         <div
@@ -21,9 +30,10 @@ export default function SettingsMode({ styles, show }: SettingsModeProps) {
         >
             {show && (
                 <div className="mx-4 flex h-full w-full justify-between">
-                    <div className="flex h-full w-full gap-4">
+                    <div className="absolute-center h-full w-full gap-4">
                         <div className="absolute-center h-full w-fit">
                             <ListBox
+                                handleSelect={handleSelect}
                                 highlightSelect="text-primary mx-2"
                                 title="Chế độc đọc: "
                                 options={['ngang', 'dọc']}
@@ -31,6 +41,7 @@ export default function SettingsMode({ styles, show }: SettingsModeProps) {
                         </div>
                         <div className="absolute-center h-full w-fit">
                             <ListBox
+                                handleSelect={handleSelect}
                                 highlightSelect="text-primary mx-2"
                                 title="Hướng đọc: "
                                 options={['phải sang trái', 'trái sang phải']}
@@ -38,6 +49,10 @@ export default function SettingsMode({ styles, show }: SettingsModeProps) {
                         </div>
                         <div className="absolute-center h-full w-fit">
                             <ListBox
+                                defaultOption={convertMode(
+                                    settings?.imageMode || 'full',
+                                )}
+                                handleSelect={handleSelect}
                                 highlightSelect="text-primary mx-2"
                                 title="Chế độ ảnh: "
                                 options={['full', 'fit width', 'fit height']}

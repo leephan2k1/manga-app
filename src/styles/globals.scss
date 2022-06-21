@@ -12,7 +12,7 @@
 
 @layer base {
     body {
-        @apply font-primary;
+        @apply bg-background font-primary;
     }
 }
 
@@ -44,7 +44,6 @@ html {
 body {
     font-size: 1.6rem;
     text-rendering: optimizeSpeed;
-    @apply bg-background;
     height: fit-content;
     overflow-x: hidden;
     transition-duration: 350ms;

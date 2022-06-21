@@ -37,7 +37,7 @@ export default function ChapterModal() {
                     <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
                 </Transition.Child>
 
-                <div className="fixed top-[10%] left-0 right-0 overflow-y-auto">
+                <div className="fixed top-1/2 left-0 right-0 -translate-y-1/2 overflow-y-auto">
                     <div className="flex min-h-full items-center justify-center p-4 text-center">
                         <Transition.Child
                             as={Fragment}

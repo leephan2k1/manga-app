@@ -1,16 +1,18 @@
 import dynamic from 'next/dynamic';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTransition } from 'transition-hook';
 import { useElementSize, useEventListener, useMediaQuery } from 'usehooks-ts';
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
 import ChapterModal from '~/components/features/ChapterModal';
-import SettingsModeModal from '~/components/features/SettingsModeModal';
 import HorizontalSettings from '~/components/features/HorizontalSettings';
-import useSettingsMode from '~/context/SettingsContext';
-import ChapterImages from '../shared/ChapterImages';
+import SettingsModeModal from '~/components/features/SettingsModeModal';
 import useReading from '~/context/ReadingContext';
+import useSettingsMode from '~/context/SettingsContext';
+
+import HorizontalReading from './HorizontalReading';
+import VerticalReading from './VerticalReading';
 
 const SettingsMode = dynamic(() => import('./SettingsMode'));
 
@@ -18,15 +20,23 @@ interface ReaderProps {
     sideSettingState: boolean;
 }
 
-export default function Reader({ sideSettingState }: ReaderProps) {
+function Reader({ sideSettingState }: ReaderProps) {
     const reader = useReading();
     const settings = useSettingsMode();
-    const [showHorizontalSettings, setShowHorizontalSettings] = useState(true);
+    const [showHorizontalSettings, setShowHorizontalSettings] = useState(false);
     const chapterModalState = useRecoilValue(chapterModal);
     const settingsModalState = useRecoilValue(settingsModal);
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
     const { shouldMount } = useTransition(Boolean(settings?.show), 150);
     const lastScrollTop = useRef(0);
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const handleSaveCurrentPage = useCallback(
+        (currPage: number) => {
+            setCurrentPage(currPage);
+        },
+        [settings?.readMode],
+    );
 
     const [readerPageRef, { width }] = useElementSize();
 
@@ -43,6 +53,30 @@ export default function Reader({ sideSettingState }: ReaderProps) {
         lastScrollTop.current = st;
     };
 
+    const onDoubleClick = () => {
+        setShowHorizontalSettings((prevState) => !prevState);
+    };
+
+    const handleConfig = (value: string) => {
+        switch (value) {
+            case 'full':
+                settings?.setImageMode('full');
+                break;
+            case 'fit width':
+                settings?.setImageMode('fitW');
+                break;
+            case 'fit height':
+                settings?.setImageMode('fitH');
+                break;
+            case 'ngang':
+                settings?.setReadMode('horizontal');
+                break;
+            case 'dọc':
+                settings?.setReadMode('vertical');
+                break;
+        }
+    };
+
     useEffect(() => {
         if (!sideSettingState) {
             settings?.turnOffSettings();
@@ -51,6 +85,7 @@ export default function Reader({ sideSettingState }: ReaderProps) {
     }, [sideSettingState]);
 
     useEventListener('scroll', onScroll);
+    useEventListener('dblclick', onDoubleClick);
 
     return (
         <div ref={readerPageRef} className="h-fit min-h-screen w-full bg-black">
@@ -61,6 +96,7 @@ export default function Reader({ sideSettingState }: ReaderProps) {
                 className={`fixed top-0 right-0 z-[888] min-h-[50px] px-24`}
             >
                 <SettingsMode
+                    handleConfig={handleConfig}
                     show={Boolean(settings?.show)}
                     styles={`${
                         shouldMount && settings?.show
@@ -76,14 +112,30 @@ export default function Reader({ sideSettingState }: ReaderProps) {
 
             {matchesTouchScreen && chapterModalState && <ChapterModal />}
 
-            {matchesTouchScreen && settingsModalState && <SettingsModeModal />}
+            {matchesTouchScreen && settingsModalState && (
+                <SettingsModeModal handleConfig={handleConfig} />
+            )}
 
-            <ChapterImages
-                matchesTouchScreen={matchesTouchScreen}
-                srcId={reader?.sourceId || ''}
-                images={reader?.images || []}
-                useProxy={true}
-            />
+            {settings?.readMode === 'horizontal' ? (
+                <HorizontalReading
+                    images={reader?.images || []}
+                    srcId={reader?.sourceId || ''}
+                    useProxy
+                    currentPage={currentPage}
+                    handleSaveCurrentPage={handleSaveCurrentPage}
+                />
+            ) : (
+                <VerticalReading
+                    images={reader?.images || []}
+                    srcId={reader?.sourceId || ''}
+                    useProxy
+                    matchesTouchScreen={matchesTouchScreen}
+                    currentPage={currentPage}
+                    handleSaveCurrentPage={handleSaveCurrentPage}
+                />
+            )}
         </div>
     );
 }
+
+export default memo(Reader);
