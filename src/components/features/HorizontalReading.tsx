@@ -158,13 +158,13 @@ function HorizontalReading({
             <div
                 data-id="left"
                 onClick={handleNavigateHorizontalPage}
-                className="absolute left-0 top-0 z-[500] h-screen w-[75px]"
+                className="absolute left-0 top-0 z-[700] h-screen w-[75px]"
             ></div>
 
             <div
                 data-id="right"
                 onClick={handleNavigateHorizontalPage}
-                className="absolute right-0 top-0 z-[500] h-screen w-[75px]"
+                className="absolute right-0 top-0 z-[700] h-screen w-[75px]"
             ></div>
 
             <div

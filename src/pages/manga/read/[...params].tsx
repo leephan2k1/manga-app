@@ -214,6 +214,21 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                                         <ChevronRightIcon className="h-8 w-8" />
                                     </button>
                                 )}
+
+                                <div
+                                    onDoubleClick={() =>
+                                        handleChangeChapter('prev')
+                                    }
+                                    className="absolute top-0 left-0 z-[699] h-full w-[75px]"
+                                ></div>
+
+                                <div
+                                    onDoubleClick={() =>
+                                        handleChangeChapter('next')
+                                    }
+                                    className="absolute top-0 right-0 z-[699] h-full w-[75px]"
+                                ></div>
+
                                 <Reader
                                     handleCloseSideSettings={
                                         handleCloseSideSettings

@@ -1,5 +1,12 @@
 import dynamic from 'next/dynamic';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import {
+    memo,
+    MouseEvent,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTransition } from 'transition-hook';
 import { useElementSize, useEventListener, useMediaQuery } from 'usehooks-ts';
@@ -11,6 +18,9 @@ import SettingsModeModal from '~/components/features/SettingsModeModal';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/outline';
+
+import { NavigateDirection } from '~/types';
 import HorizontalReading from './HorizontalReading';
 import VerticalReading from './VerticalReading';
 
@@ -90,6 +100,13 @@ function Reader({ sideSettingState, handleCloseSideSettings }: ReaderProps) {
         }
     };
 
+    const handleNavigateChapter = (e: MouseEvent<HTMLButtonElement>) => {
+        // console.log(e.currentTarget.dataset.id);
+        reader?.navigateChapter(
+            e.currentTarget.dataset.id as NavigateDirection,
+        );
+    };
+
     useEffect(() => {
         if (!sideSettingState) {
             settings?.turnOffSettings();
@@ -146,6 +163,37 @@ function Reader({ sideSettingState, handleCloseSideSettings }: ReaderProps) {
                     currentPage={currentPage}
                     handleSaveCurrentPage={handleSaveCurrentPage}
                 />
+            )}
+
+            {settings?.readMode === 'vertical' && (
+                <div className="h-[200px] w-full overflow-hidden py-4">
+                    <div className="mx-auto flex h-full w-full flex-col space-y-4 md:w-1/2">
+                        <div className="flex h-full w-full gap-4 ">
+                            <button
+                                onClick={handleNavigateChapter}
+                                data-id="prev"
+                                className="absolute-center h-full w-[20%] border-2 border-dashed border-white/40 px-2 text-white/40 transition-all hover:border-white hover:text-white md:gap-2"
+                            >
+                                {' '}
+                                <ArrowLeftIcon className="inline h-8 w-8" />{' '}
+                                Chapter trước
+                            </button>
+                            <button
+                                onClick={handleNavigateChapter}
+                                data-id="next"
+                                className="absolute-center h-full w-[80%] gap-2 border-2 border-dashed border-white/40 text-white/40 transition-all hover:border-white hover:text-white"
+                            >
+                                Chapter kế tiếp{' '}
+                                <ArrowRightIcon className="inline-block h-8 w-8" />
+                            </button>
+                        </div>
+                        <h1 className="py-4 px-2 text-center text-white/75">
+                            Mẹo: Bạn có thể double tap/click vào 2 cạnh của màn
+                            hình để chuyển chap ở bất cứ vị trí nào ở chế độ
+                            dọc!
+                        </h1>
+                    </div>
+                </div>
             )}
         </div>
     );

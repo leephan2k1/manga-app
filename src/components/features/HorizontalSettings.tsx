@@ -44,7 +44,7 @@ export default function HorizontalSettings() {
     return (
         <div className="slideUpReturn magictime fixed top-0 left-0 z-[999] h-[60px] w-full bg-[#141313]">
             <div className="flex h-full w-full items-center justify-between text-lg md:text-2xl">
-                <div className="flex h-full w-fit items-center gap-4 px-4 md:space-x-4">
+                <div className="flex h-full w-fit items-center justify-between gap-4 px-4 md:space-x-4">
                     <button
                         onClick={() =>
                             router.push(
@@ -59,7 +59,7 @@ export default function HorizontalSettings() {
                         <ArrowNarrowLeftIcon className="h-8 w-8" />
                     </button>
 
-                    <h1 className="fond-bold h-fit w-[20%]  capitalize line-clamp-1 md:w-[25%] ">
+                    <h1 className="fond-bold h-fit w-[25%] capitalize line-clamp-1 md:w-[30%] ">
                         {manga.title}
                     </h1>
 
@@ -76,7 +76,7 @@ export default function HorizontalSettings() {
                         <button
                             onClick={handleNavigateChapter}
                             data-id="prev"
-                            className="rounded-lg bg-highlight p-2 md:p-4"
+                            className="rounded-lg bg-highlight p-4 md:p-4"
                         >
                             <ArrowLeftIcon className="h-6 w-6" />
                         </button>
@@ -84,7 +84,7 @@ export default function HorizontalSettings() {
                         <button
                             onClick={handleNavigateChapter}
                             data-id="next"
-                            className="rounded-lg bg-highlight p-2 md:p-4"
+                            className="rounded-lg bg-highlight p-4 md:p-4 "
                         >
                             <ArrowRightIcon className="h-6 w-6" />
                         </button>
