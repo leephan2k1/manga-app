@@ -142,10 +142,10 @@ function HorizontalReading({
 
             setTimeout(() => {
                 handleStyleSnapScroll();
-            }, 500);
+            }, 100);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [settings?.readDirection, settings?.readDirection]);
 
     return (
         <div
@@ -153,7 +153,7 @@ function HorizontalReading({
             ref={readerRef}
             className={`flex h-fit w-screen ${
                 settings?.readDirection === 'rtl' ? 'flex-row-reverse' : ''
-            } gap-4 overflow-x-auto scroll-smooth transition-all scrollbar-hide`}
+            } overflow-x-auto scroll-smooth transition-all scrollbar-hide`}
         >
             <div
                 data-id="left"
@@ -184,8 +184,8 @@ function HorizontalReading({
                 <ul className="mx-auto w-[80%] list-disc space-y-4 px-6">
                     <li>2 chạm để bật/tắt thanh điều khiển trên màn hình.</li>
                     <li>
-                        1 chạm vào (2) cạnh màn hình để tiến/lùi trang trên màn
-                        hình.
+                        Vuốt sang trái/phải hoặc 1 chạm vào (2) cạnh màn hình để
+                        tiến/lùi trang trên màn hình.
                     </li>
                 </ul>
                 <h2 className="my-4 text-center text-primary">
