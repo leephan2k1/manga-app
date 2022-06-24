@@ -104,16 +104,15 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
 ) => {
     try {
         const { slug } = ctx.params as Params;
-        const host = process.env['HOST_NAME'];
+        const res = await NtApi?.getManga(slug);
 
-        //config dynamic source later
-        const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
-
-        if (res.success) {
+        if (res?.status === 200 && res?.data) {
             return {
-                props: { manga: res.data },
+                props: { manga: res.data?.data },
                 revalidate: REVALIDATE_TIME,
             };
+        } else {
+            return { notFound: true };
         }
     } catch (err) {
         console.log(err);
