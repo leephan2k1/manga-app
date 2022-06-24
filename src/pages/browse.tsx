@@ -116,8 +116,8 @@ export const getServerSideProps: GetServerSideProps = async ({
         .join(',');
 
     let queryGenres = '';
-    if (realGenres) queryGenres += realGenres;
-    if (realComics) queryGenres += `,${realComics}`;
+    if (realGenres) queryGenres += `${realGenres},`;
+    if (realComics) queryGenres += realComics;
 
     const queryObj: QueryObject = {};
 

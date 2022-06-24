@@ -45,7 +45,6 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                             />
                         ) : (
                             <Link
-                                prefetch={false}
                                 href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                             >
                                 <Image
@@ -84,7 +83,6 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                         ) : (
                             <>
                                 <Link
-                                    prefetch={false}
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                                 >
                                     <a className="md:space-y-2 xl:space-y-4">
@@ -119,7 +117,6 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                                         }}
                                                     >
                                                         <Link
-                                                            prefetch={false}
                                                             href={`/${MANGA_BROWSE_PAGE}?genres=${
                                                                 GENRES_NT.find(
                                                                     (item) =>
@@ -175,7 +172,6 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                             />
                         ) : (
                             <Link
-                                prefetch={false}
                                 href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                             >
                                 <Image
@@ -197,7 +193,6 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                 />
                             ) : (
                                 <Link
-                                    prefetch={false}
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                                 >
                                     <h1 className="font-secondary text-3xl transition-all line-clamp-1 hover:cursor-pointer hover:text-primary">
@@ -230,7 +225,6 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                                         }}
                                                     >
                                                         <Link
-                                                            prefetch={false}
                                                             href={`/${MANGA_BROWSE_PAGE}?genres=${
                                                                 GENRES_NT.find(
                                                                     (item) =>
@@ -290,7 +284,6 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                         />
                     ) : (
                         <Link
-                            prefetch={false}
                             href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                         >
                             <Image
@@ -312,7 +305,6 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                 ) : (
                     <h1 className="my-2 flex items-center px-4 text-lg transition-all line-clamp-1 hover:text-primary md:text-xl lg:text-2xl">
                         <Link
-                            prefetch={false}
                             href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                         >
                             <a>{comic?.name}</a>
