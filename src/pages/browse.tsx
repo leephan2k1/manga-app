@@ -2,12 +2,14 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import Filters from '~/components/features/Filters';
 import Pagination from '~/components/features/Pagination';
+import withDbScroll from '~/components/hoc/withDbScroll';
 import ListView from '~/components/shared/ListView';
 import Section from '~/components/shared/Section';
 import { COMIC_GENRES, GENRES_NT, REVALIDATE_TIME } from '~/constants';
 import { QueryObject } from '~/services/nettruyenRepository';
 import RepositoryFactory from '~/services/repositoryFactory';
 import { Manga } from '~/types';
+
 import { EmojiSadIcon } from '@heroicons/react/outline';
 
 const NtApi = RepositoryFactory('nettruyen');
@@ -133,4 +135,4 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
 };
 
-export default BrowsePage;
+export default withDbScroll<BrowsePageProps>(BrowsePage);

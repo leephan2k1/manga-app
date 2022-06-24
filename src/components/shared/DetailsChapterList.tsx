@@ -135,11 +135,11 @@ function DetailsChapterList({
                                 List: ListContainer as ComponentType,
                                 Item: ItemContainer,
                             }}
-                            overscan={200}
+                            overscan={50}
                             itemContent={(index) => (
                                 <div
                                     key={list[index].chapterId || index}
-                                    className="h-ful animate__faster animate__pulse animate__animated w-full text-white"
+                                    className="h-ful  animate__fadeIn animate__animated w-full text-white"
                                 >
                                     <LazyTippy
                                         content={list[index].chapterTitle}

@@ -5,6 +5,7 @@ import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
 import { chapterList } from '~/atoms/chapterListAtom';
+import withDbScroll from '~/components/hoc/withDbScroll';
 import MainLayout from '~/components/layouts/MainLayout';
 import ClientOnly from '~/components/shared/ClientOnly';
 import DetailsBanner from '~/components/shared/DetailsBanner';
@@ -200,9 +201,13 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
     }
 };
 
+const DetailsPageWidthDbScrollTT = withDbScroll<DetailsPageProps>(DetailsPage);
+
+export default DetailsPageWidthDbScrollTT;
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-DetailsPage.getLayout = (page: ReactNode) => {
+DetailsPageWidthDbScrollTT.getLayout = (page: ReactNode) => {
     return (
         <MainLayout
             showHeader
@@ -215,5 +220,3 @@ DetailsPage.getLayout = (page: ReactNode) => {
         </MainLayout>
     );
 };
-
-export default DetailsPage;
