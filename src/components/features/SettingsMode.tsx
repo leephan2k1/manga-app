@@ -64,6 +64,20 @@ export default function SettingsMode({
                             <div className="absolute-center h-full w-fit">
                                 <ListBox
                                     defaultOption={convertMode(
+                                        settings?.nextDirection || 'right',
+                                    )}
+                                    handleSelect={handleSelect}
+                                    highlightSelect="text-primary mx-2"
+                                    title="Chuyển chap bên: "
+                                    options={['cạnh phải', 'cạnh trái']}
+                                />
+                            </div>
+                        )}
+
+                        {settings?.readMode === 'vertical' && (
+                            <div className="absolute-center h-full w-fit">
+                                <ListBox
+                                    defaultOption={convertMode(
                                         settings?.imageMode || 'full',
                                     )}
                                     handleSelect={handleSelect}

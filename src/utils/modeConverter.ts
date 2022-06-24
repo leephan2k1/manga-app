@@ -1,7 +1,7 @@
-import { ImageMode, ReadMode, ReadDirection } from '~/types';
+import { ImageMode, ReadMode, ReadDirection, NextDirection } from '~/types';
 
 export default function convertMode(
-    mode: ImageMode | ReadMode | ReadDirection,
+    mode: ImageMode | ReadMode | ReadDirection | NextDirection,
 ) {
     switch (mode) {
         case 'fitH':
@@ -18,5 +18,9 @@ export default function convertMode(
             return 'phải sang trái';
         case 'ltr':
             return 'trái sang phải';
+        case 'right':
+            return 'cạnh phải';
+        case 'left':
+            return 'cạnh trái';
     }
 }

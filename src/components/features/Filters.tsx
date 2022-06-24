@@ -37,7 +37,7 @@ export default function Filters() {
                 isMulti
                 title="Loại truyện"
                 instanceId="comics"
-                placeholder="trạng thái..."
+                placeholder="loại truyện..."
                 options={COMIC_GENRES}
             />
             <FilterItem

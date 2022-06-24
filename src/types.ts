@@ -29,9 +29,12 @@ export type ReadDirection = 'rtl' | 'ltr';
 
 export type NavigateDirection = 'next' | 'prev';
 
+export type NextDirection = 'right' | 'left';
+
 export interface ReadModeSettings {
     readMode: ReadMode;
     readDirection: ReadDirection;
+    nextDirection: NextDirection;
 }
 
 export type SourcesId = 'nt' | 'lh' | 'qq' | 'mgdx' | 'mgrd';

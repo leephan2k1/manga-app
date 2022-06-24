@@ -13,7 +13,7 @@ import { useElementSize, useEventListener, useMediaQuery } from 'usehooks-ts';
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
 import ChapterModal from '~/components/features/ChapterModal';
-import HorizontalSettings from '~/components/features/HorizontalSettings';
+import HorizontalSettings from '~/components/features/HorizontalPanel';
 import SettingsModeModal from '~/components/features/SettingsModeModal';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
@@ -96,6 +96,12 @@ function Reader({ sideSettingState, handleCloseSideSettings }: ReaderProps) {
                 break;
             case 'trái sang phải':
                 settings?.setReadDirection('ltr');
+                break;
+            case 'cạnh phải':
+                settings?.setNextDirection('right');
+                break;
+            case 'cạnh trái':
+                settings?.setNextDirection('left');
                 break;
         }
     };

@@ -30,9 +30,9 @@ const SettingsModal = dynamic(
             ssr: false,
         } as ImportCallOptions),
 );
-const SettingsSide = dynamic(
+const VerticalPanel = dynamic(
     () =>
-        import('~/components/features/VerticalSettings', {
+        import('~/components/features/VerticalPanel', {
             ssr: false,
         } as ImportCallOptions),
 );
@@ -191,7 +191,7 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                                                 : 'slideLeft magictime'
                                         } `}
                                     >
-                                        <SettingsSide
+                                        <VerticalPanel
                                             comicSlug={
                                                 (router.query.params &&
                                                     router.query.params[0]) ||
@@ -217,14 +217,23 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
 
                                 <div
                                     onDoubleClick={() =>
-                                        handleChangeChapter('prev')
+                                        handleChangeChapter(
+                                            rmSettings?.nextDirection === 'left'
+                                                ? 'next'
+                                                : 'prev',
+                                        )
                                     }
                                     className="absolute top-0 left-0 z-[699] h-full w-[75px]"
                                 ></div>
 
                                 <div
                                     onDoubleClick={() =>
-                                        handleChangeChapter('next')
+                                        handleChangeChapter(
+                                            rmSettings?.nextDirection ===
+                                                'right'
+                                                ? 'next'
+                                                : 'prev',
+                                        )
                                     }
                                     className="absolute top-0 right-0 z-[699] h-full w-[75px]"
                                 ></div>

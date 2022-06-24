@@ -1,6 +1,12 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { ImageMode, ReadDirection, ReadMode, ReadModeSettings } from '~/types';
+import {
+    ImageMode,
+    ReadDirection,
+    ReadMode,
+    ReadModeSettings,
+    NextDirection,
+} from '~/types';
 
 interface SettingsContextProps {
     children: ReactNode;
@@ -10,11 +16,13 @@ interface SettingsContextType {
     show: boolean;
     readMode: ReadMode;
     readDirection: ReadDirection;
+    nextDirection: NextDirection;
     imageMode: ImageMode;
     toggleSettings: () => void;
     turnOffSettings: () => void;
     turnOnSettings: () => void;
     setReadDirection: (drt: ReadDirection) => void;
+    setNextDirection: (drt: NextDirection) => void;
     setImageMode: (mode: ImageMode) => void;
     setReadMode: (mode: ReadMode) => void;
 }
@@ -24,7 +32,7 @@ const SettingsContext = createContext<SettingsContextType | null>(null);
 export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
     const [savedSettings, setSettingsLc] = useLocalStorage<ReadModeSettings>(
         'settings',
-        { readDirection: 'rtl', readMode: 'vertical' },
+        { readDirection: 'rtl', readMode: 'vertical', nextDirection: 'right' },
     );
     const [showSettings, setShowSettings] = useState(false);
     const [imageMode, setImageMode] = useState<ImageMode>('full');
@@ -34,6 +42,7 @@ export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
     const [readDrt, setReadDrt] = useState<ReadDirection>(
         savedSettings?.readDirection || 'rtl',
     );
+    const [nextDirection, setNextDirection] = useState<NextDirection>('right');
 
     const turnOffSettings = () => {
         setShowSettings(false);
@@ -54,17 +63,25 @@ export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
     const handleSetReadMode = (mode: ReadMode) => {
         setReadMode(mode);
 
-        setSettingsLc(() => {
-            return { readDirection: readDrt || 'rtl', readMode: mode };
+        setSettingsLc((prevState) => {
+            return { ...prevState, readMode: mode };
+        });
+    };
+
+    const handleSetNextDirection = (drt: NextDirection) => {
+        setNextDirection(drt);
+
+        setSettingsLc((prevState) => {
+            return { ...prevState, nextDirection: drt };
         });
     };
 
     const handleSetDirection = (direction: ReadDirection) => {
         setReadDrt(direction);
 
-        setSettingsLc(() => {
+        setSettingsLc((prevState) => {
             return {
-                readMode: readMode || 'vertical',
+                ...prevState,
                 readDirection: direction,
             };
         });
@@ -75,10 +92,12 @@ export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
         imageMode,
         readMode,
         readDirection: readDrt,
+        nextDirection,
         turnOffSettings,
         turnOnSettings,
         toggleSettings,
         setImageMode: handleImageMode,
+        setNextDirection: handleSetNextDirection,
         setReadMode: handleSetReadMode,
         setReadDirection: handleSetDirection,
     } as const;

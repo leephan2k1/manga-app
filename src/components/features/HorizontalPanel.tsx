@@ -44,7 +44,7 @@ export default function HorizontalSettings() {
     return (
         <div className="slideUpReturn magictime fixed top-0 left-0 z-[999] h-[60px] w-full bg-[#141313]">
             <div className="flex h-full w-full items-center justify-between text-lg md:text-2xl">
-                <div className="flex h-full w-fit items-center justify-between gap-4 px-4 md:space-x-4">
+                <div className="flex h-full w-fit items-center justify-evenly gap-4 px-4 md:space-x-4">
                     <button
                         onClick={() =>
                             router.push(

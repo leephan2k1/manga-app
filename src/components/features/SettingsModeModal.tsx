@@ -71,7 +71,7 @@ export default function SettingsModeModal({
                                         <XIcon className="h-8 w-8" />
                                     </button>
                                 </div>
-                                <div className="mx-2 my-4 flex h-fit w-full flex-col gap-4 space-y-4   text-white">
+                                <div className="mx-2 my-4 flex h-fit w-full flex-col gap-4   text-white">
                                     <div className="my-4 flex w-fit">
                                         <ListBox
                                             defaultOption={convertMode(
@@ -117,6 +117,24 @@ export default function SettingsModeModal({
                                                     'full',
                                                     'fit width',
                                                     'fit height',
+                                                ]}
+                                            />
+                                        </div>
+                                    )}
+
+                                    {settings?.readMode === 'vertical' && (
+                                        <div className="my-4 flex w-fit">
+                                            <ListBox
+                                                defaultOption={convertMode(
+                                                    settings?.nextDirection ||
+                                                        'right',
+                                                )}
+                                                handleSelect={handleSelect}
+                                                highlightSelect="text-primary mx-2"
+                                                title="Chuyển chap bên: "
+                                                options={[
+                                                    'cạnh phải',
+                                                    'cạnh trái',
                                                 ]}
                                             />
                                         </div>
