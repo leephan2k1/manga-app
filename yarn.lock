@@ -1972,7 +1972,7 @@
     "shebang-command" "^2.0.0"
     "which" "^2.0.1"
 
-"css-select@^4.1.3":
+"css-select@^4.1.3", "css-select@^4.2.1":
   "integrity" "sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ=="
   "resolved" "https://registry.npmjs.org/css-select/-/css-select-4.3.0.tgz"
   "version" "4.3.0"
@@ -2770,6 +2770,11 @@
   dependencies:
     "function-bind" "^1.1.1"
 
+"he@1.2.0":
+  "integrity" "sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw=="
+  "resolved" "https://registry.npmjs.org/he/-/he-1.2.0.tgz"
+  "version" "1.2.0"
+
 "hoist-non-react-statics@^3.3.1":
   "integrity" "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw=="
   "resolved" "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz"
@@ -3248,6 +3253,14 @@
   dependencies:
     "nprogress" "^0.2.0"
     "prop-types" "^15.7.2"
+
+"node-html-parser@^5.3.3":
+  "integrity" "sha512-ncg1033CaX9UexbyA7e1N0aAoAYRDiV8jkTvzEnfd1GDvzFdrsXLzR4p4ik8mwLgnaKP/jyUFWDy9q3jvRT2Jw=="
+  "resolved" "https://registry.npmjs.org/node-html-parser/-/node-html-parser-5.3.3.tgz"
+  "version" "5.3.3"
+  dependencies:
+    "css-select" "^4.2.1"
+    "he" "1.2.0"
 
 "node-releases@^2.0.3":
   "integrity" "sha512-U9h1NLROZTq9uE1SNffn6WuPDg8icmi3ns4rEl/oTfIle4iLjTliCzgTsbaIFMq/Xn078/lfY/BL0GWZ+psK4Q=="
