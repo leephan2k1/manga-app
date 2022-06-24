@@ -14,6 +14,8 @@ export const MANGA_PATH_READ_NAME = 'read';
 
 export const DEFAULT_SRC: SourcesId = 'nt';
 
+export const WEBSITE_URL = 'example.domain.com';
+
 export const SOURCE_COLLECTIONS: { [key: string]: string } = {
     nt: 'http://www.nettruyenco.com',
 };
