@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import withDbScroll from '~/components/hoc/withDbScroll';
 import MangaBanner from '~/components/shared/Banner';
 import ColumnSection from '~/components/shared/ColumnSection';
 import Section from '~/components/shared/Section';
@@ -169,4 +170,4 @@ export const getStaticProps: GetStaticProps = async () => {
     };
 };
 
-export default Home;
+export default withDbScroll<HomeProps>(Home);
