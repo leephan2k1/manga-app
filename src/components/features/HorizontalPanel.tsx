@@ -60,7 +60,7 @@ export default function HorizontalSettings() {
                     </button>
 
                     <h1 className="fond-bold h-fit w-[25%] capitalize line-clamp-1 md:w-[30%] ">
-                        {manga.title}
+                        {manga?.title || ''}
                     </h1>
 
                     <button

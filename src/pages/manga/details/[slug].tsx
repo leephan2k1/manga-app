@@ -41,23 +41,12 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     });
 
     useEffect(() => {
-        const handleRouteChange = () => {
+        if (router.isFallback) {
             setLoading(true);
-        };
-
-        const handleRouteComplete = () => {
+        } else {
             setLoading(false);
-        };
-
-        router.events.on('routeChangeStart', handleRouteChange);
-        router.events.on('routeChangeComplete', handleRouteComplete);
-
-        return () => {
-            router.events.off('routeChangeStart', handleRouteChange);
-            router.events.off('routeChangeComplete', handleRouteComplete);
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        }
+    }, [router.isFallback]);
 
     const comicSlug = useMemo(() => {
         return router.asPath.slice(

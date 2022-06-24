@@ -87,10 +87,10 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
             </div>
             {/* manga title  */}
             <h1 className="w-ful font-secondary font-bold capitalize line-clamp-2">
-                {manga.title}
+                {manga?.title || ''}
             </h1>
 
-            <h2>{`Chapter: ${read?.currentChapter?.chapterNumber}`}</h2>
+            <h2>{`Chapter: ${read?.currentChapter?.chapterNumber || ''}`}</h2>
 
             <ListBox
                 handleSelect={handleSourceSettings}
