@@ -138,7 +138,7 @@ export default function Sidebar() {
                         <li className="mx-4 mt-4 border-t-[2px] border-highlight pt-4 md:mt-8">
                             <h3 className="font-secondary text-3xl md:text-5xl">
                                 <Link
-                                    href={`/${MANGA_BROWSE_PAGE}?status=latest`}
+                                    href={`/${MANGA_BROWSE_PAGE}?view=newComic`}
                                 >
                                     <a
                                         onClick={handleSidebarClose}

@@ -12,6 +12,7 @@ import DetailsBanner from '~/components/shared/DetailsBanner';
 import DetailsChapterList from '~/components/shared/DetailsChapterList';
 import DetailsDescription from '~/components/shared/DetailsDescription';
 import DetailsInfo from '~/components/shared/DetailsInfo';
+import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
 import { REVALIDATE_TIME } from '~/constants';
 import RepositoryFactory from '~/services/repositoryFactory';
@@ -58,6 +59,12 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
 
     return (
         <ClientOnly>
+            <Head
+                title={`${manga?.title} - Kyoto Manga`}
+                description={`${manga?.review}`}
+                image={`${manga?.thumbnail}`}
+            />
+
             <div className="flex h-fit min-h-screen flex-col">
                 <DetailsBanner
                     isLoading={isLoading}

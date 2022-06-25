@@ -1,18 +1,22 @@
 import 'tippy.js/dist/tippy.css';
 
+import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ComponentType, memo, useEffect, useState } from 'react';
 import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
 import { animateFill, followCursor } from 'tippy.js';
 import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
 import { Chapter } from '~/types';
-import classNames from 'classnames';
 
 import styled from '@emotion/styled';
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
 
 import ChapterInput from './ChapterInput';
-import { LazyTippy } from './LazyTippy';
+import LazyTippy from './LazyTippy';
+import { MANGA_RESOURCE } from '~/constants';
+
+const ListBox = dynamic(() => import('../buttons/ListBoxButton'));
 
 interface DetailsChapterListProps {
     mobileUI?: boolean;
@@ -78,14 +82,21 @@ function DetailsChapterList({
             <div className="z-40 my-4 flex min-h-[40px] w-full items-center gap-4 text-white md:my-2">
                 <ChapterInput
                     handleChangeNumber={filterChapterNumber}
-                    inputType="number"
                     style={`${
                         selectSource
                             ? 'mx-4 flex h-[32px] w-[50%] items-center justify-center rounded-xl bg-[#5f5f5f] px-2 hover:bg-white/25 md:w-[30%] lg:w-[20%]'
                             : 'flex w-full h-[32px] bg-[#5f5f5f] px-2 mx-4 rounded-xl'
                     }`}
                 />
-                {selectSource && <ChapterInput inputType="select" />}
+                {selectSource && (
+                    <ListBox
+                        title="Nguồn:"
+                        listDropDown={MANGA_RESOURCE.map((item) => ({
+                            title: item.sourceName,
+                            id: item.sourceId,
+                        }))}
+                    />
+                )}
             </div>
 
             {/* chapter list  */}

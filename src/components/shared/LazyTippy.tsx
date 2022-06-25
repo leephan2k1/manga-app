@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import Tippy, { TippyProps } from '@tippyjs/react';
 
 // Export own set of props (even if they are the same for now) to enable clients to be more future-proof
 export type LazyTippyProps = TippyProps;
 
-export const LazyTippy = (props: LazyTippyProps) => {
+const LazyTippy = (props: LazyTippyProps) => {
     const [mounted, setMounted] = React.useState(false);
 
     const lazyPlugin = {
@@ -28,3 +28,5 @@ export const LazyTippy = (props: LazyTippyProps) => {
 
     return <Tippy {...computedProps} />;
 };
+
+export default memo(LazyTippy);

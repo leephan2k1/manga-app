@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Filters from '~/components/features/Filters';
 import Pagination from '~/components/features/Pagination';
 import withDbScroll from '~/components/hoc/withDbScroll';
+import Head from '~/components/shared/Head';
 import ListView from '~/components/shared/ListView';
 import Section from '~/components/shared/Section';
 import { COMIC_GENRES, GENRES_NT, REVALIDATE_TIME } from '~/constants';
@@ -55,6 +56,8 @@ const BrowsePage: NextPage<BrowsePageProps> = ({ queryObj }) => {
 
     return (
         <div className="flex min-h-screen flex-col">
+            <Head title="Danh sách truyện - Kyoto Manga" />
+
             <Section style="z-10 mx-auto min-h-fit w-[98%] md:w-[90%]">
                 <Filters />
             </Section>

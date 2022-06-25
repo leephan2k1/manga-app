@@ -8,6 +8,7 @@ import { chapterList } from '~/atoms/chapterListAtom';
 import Reader from '~/components/features/Reader';
 import MainLayout from '~/components/layouts/MainLayout';
 import ClientOnly from '~/components/shared/ClientOnly';
+import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
 import Teleport from '~/components/shared/Teleport';
 import {
@@ -170,6 +171,11 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
 
     return (
         <ClientOnly>
+            <Head
+                title={`${currentChapter?.chapterTitle} - ${manga?.title} | Kyoto Manga`}
+                image={imagesChapter[0]?.imgSrc}
+            />
+
             <div className="flex h-fit min-h-screen flex-col bg-black">
                 <ReadingContextProvider
                     value={{
