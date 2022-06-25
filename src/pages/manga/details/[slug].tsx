@@ -116,11 +116,13 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
         //config dynamic source later
         const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
 
-        if (res.success) {
+        if (res.success && res.data.title) {
             return {
                 props: { manga: res.data },
                 revalidate: REVALIDATE_TIME,
             };
+        } else {
+            return { notFound: true };
         }
     } catch (err) {
         console.log(err);
