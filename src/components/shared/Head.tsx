@@ -18,6 +18,7 @@ export default function Head({
     return (
         <NextHead>
             <title>{title}</title>
+            <link rel="manifest" href="/manifest.json" />
 
             <meta name="title" content={title} />
             <meta name="description" content={description} />
