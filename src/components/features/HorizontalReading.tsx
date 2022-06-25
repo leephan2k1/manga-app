@@ -7,9 +7,9 @@ import { ImagesChapter } from '~/types';
 import {
     ArrowLeftIcon,
     ArrowRightIcon,
+    DesktopComputerIcon,
     DeviceMobileIcon,
     DeviceTabletIcon,
-    DesktopComputerIcon,
 } from '@heroicons/react/outline';
 
 import Img from '../shared/Img';
@@ -20,6 +20,7 @@ interface HorizontalReadingProps {
     useProxy?: boolean;
     currentPage: number;
     handleSaveCurrentPage: (page: number) => void;
+    handleConfig: (val: string) => void;
 }
 
 function HorizontalReading({
@@ -28,6 +29,7 @@ function HorizontalReading({
     srcId,
     currentPage,
     handleSaveCurrentPage,
+    handleConfig,
 }: HorizontalReadingProps) {
     const url = SOURCE_COLLECTIONS[srcId];
     const $ = document.querySelector.bind(document);
@@ -76,6 +78,8 @@ function HorizontalReading({
         const readerDom = $('#reader-page');
 
         const observerMiddleElem = () => {
+            handleConfig('onReading');
+
             const elem = document.elementFromPoint(
                 readerSize.width / 2,
                 readerSize.height / 2,
@@ -145,7 +149,7 @@ function HorizontalReading({
             }, 100);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [settings?.readDirection, settings?.readDirection]);
+    }, [settings?.readDirection]);
 
     return (
         <div
@@ -256,7 +260,21 @@ function HorizontalReading({
                 }}
                 className={`img-wrapper absolute-center h-screen min-w-[535px] max-w-[600px] touch-auto  transition-all`}
             >
-                <h1>Hết Chap.</h1>
+                <div className="flex h-1/5 w-full flex-col items-center justify-center gap-4 px-4">
+                    <button
+                        data-id="next"
+                        className="absolute-center h-full w-full gap-2 border-2 border-dashed border-white/40 text-white/40 transition-all hover:border-white hover:text-white"
+                    >
+                        Chapter kế tiếp{' '}
+                    </button>
+                    <button
+                        data-id="prev"
+                        className="absolute-center h-full w-fit  px-2 text-white/40 transition-all  hover:text-white md:gap-2"
+                    >
+                        {' '}
+                        Chapter trước
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -245,10 +245,8 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                                 ></div>
 
                                 <Reader
-                                    handleCloseSideSettings={
-                                        handleCloseSideSettings
-                                    }
                                     sideSettingState={showSideSettings}
+                                    closeDesktopPanel={handleCloseSideSettings}
                                 />
                             </div>
                         </Section>
