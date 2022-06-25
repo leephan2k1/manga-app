@@ -33,14 +33,14 @@ interface ReaderProps {
 
 function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
     const reader = useReading();
+    const lastScrollTop = useRef(0);
     const settings = useSettingsMode();
-    const [showHorizontalSettings, setShowHorizontalSettings] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0);
     const chapterModalState = useRecoilValue(chapterModal);
     const settingsModalState = useRecoilValue(settingsModal);
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
     const { shouldMount } = useTransition(Boolean(settings?.show), 150);
-    const lastScrollTop = useRef(0);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [showHorizontalSettings, setShowHorizontalSettings] = useState(false);
 
     const handleSaveCurrentPage = useCallback(
         (currPage: number) => {
