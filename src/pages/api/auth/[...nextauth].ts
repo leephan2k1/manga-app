@@ -20,5 +20,19 @@ export default NextAuth({
     session: {
         strategy: 'jwt',
     },
+    callbacks: {
+        async session({ session, token }) {
+            session = {
+                ...session,
+                user: {
+                    ...session.user,
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
+                    id: token?.sub,
+                },
+            };
+            return session;
+        },
+    },
     adapter: MongoDBAdapter(clientPromise),
 });
