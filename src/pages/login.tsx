@@ -45,7 +45,12 @@ const LoginPage: NextPage = () => {
                             <FcGoogle className="inline-block h-8 w-8" />{' '}
                             <span>Đăng nhập với Google</span>
                         </button>
-                        <button className="z-10 w-3/4 justify-evenly space-x-4 rounded-2xl bg-blue-600 py-4 transition-all duration-300 hover:scale-95">
+                        <button
+                            onClick={() =>
+                                signIn('facebook', { callbackUrl: '/' })
+                            }
+                            className="z-10 w-3/4 justify-evenly space-x-4 rounded-2xl bg-blue-600 py-4 transition-all duration-300 hover:scale-95"
+                        >
                             <FaFacebookF className="inline-block h-8 w-8" />{' '}
                             <span>Đăng nhập với Facebook</span>
                         </button>

@@ -1,9 +1,9 @@
 import type { NextPage } from 'next';
 import { GetStaticProps } from 'next';
-import Head from 'next/head';
 import withDbScroll from '~/components/hoc/withDbScroll';
 import MangaBanner from '~/components/shared/Banner';
 import ColumnSection from '~/components/shared/ColumnSection';
+import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
 import SectionSwiper from '~/components/shared/SectionSwiper';
 import { MANGA_BROWSE_PAGE, REVALIDATE_TIME } from '~/constants';
@@ -33,9 +33,7 @@ const Home: NextPage<HomeProps> = ({
 }) => {
     return (
         <div className="flex h-fit min-h-screen flex-col">
-            <Head>
-                <title>Kyoto Manga</title>
-            </Head>
+            <Head />
 
             <MangaBanner mangaList={topMonthList.slice(0, 10)} />
 
