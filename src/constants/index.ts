@@ -11,6 +11,8 @@ export const MANGA_BROWSE_PAGE = 'browse';
 export const MANGA_PATH_DETAILS_NAME = 'details';
 //ref: src/pages/manga
 export const MANGA_PATH_READ_NAME = 'read';
+//ref: src/pages
+export const MANGA_PATH_FOLLOW = 'follows';
 
 export const DEFAULT_SRC: SourcesId = 'nt';
 

@@ -31,6 +31,15 @@ export type NavigateDirection = 'next' | 'prev';
 
 export type NextDirection = 'right' | 'left';
 
+export interface ComicFollowed {
+    _id: string;
+    mangaSlug: string;
+    userId: string;
+    createAt: Date;
+    source: string;
+    status: string;
+}
+
 export type FollowState =
     | 'reading'
     | 'on-hold'

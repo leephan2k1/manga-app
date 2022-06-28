@@ -7,20 +7,18 @@ import { followModal } from '~/atoms/followModaAtom';
 import ListBox from '~/components/shared/ListBox';
 import { FOLLOW_STATE } from '~/constants';
 import useFollow from '~/hooks/useFollow';
-import { FollowState } from '~/types';
+import { FollowState, MangaDetails } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 
 interface FollowModalProps {
-    comicImage: string;
-    comicTitle: string;
+    manga: MangaDetails;
     callbackMessage: (message: string, status: string) => void;
 }
 
 export default function FollowModal({
-    comicImage,
-    comicTitle,
+    manga,
     callbackMessage,
 }: FollowModalProps) {
     const router = useRouter();
@@ -28,7 +26,7 @@ export default function FollowModal({
     const mangaSlug = path.slice(path.lastIndexOf('/') + 1, path.indexOf('?'));
 
     const follow = useFollow();
-    const followId = useRef('');
+    const followId = useRef('reading');
     const savedSelectDb = useRef('Đang đọc');
     const { data: session, status } = useSession();
     const [followStatus, setFollowStatus] = useState('Đang đọc');
@@ -63,6 +61,7 @@ export default function FollowModal({
                 mangaSlug,
                 'nt',
                 followId.current as FollowState,
+                manga,
             );
             //show toast
             if (success) {
@@ -177,7 +176,7 @@ export default function FollowModal({
                                     <div className="max-h-1/2 flex items-center justify-center md:col-span-1 md:items-start">
                                         <figure
                                             style={{
-                                                backgroundImage: `url(${comicImage})`,
+                                                backgroundImage: `url(${manga?.thumbnail})`,
                                             }}
                                             className=" h-[300px] w-[200px] rounded-xl bg-cover bg-no-repeat md:mt-6 lg:h-[400px] lg:w-[300px]"
                                         ></figure>
@@ -186,7 +185,7 @@ export default function FollowModal({
                                     <div className="flex flex-col justify-between md:col-span-2 md:mt-4 md:px-10 lg:px-4">
                                         <div className="flex flex-col gap-4">
                                             <h1 className="ld:px-0 text-center font-secondary text-3xl font-bold line-clamp-1 md:px-4 md:text-left md:text-4xl">
-                                                {comicTitle}
+                                                {manga?.title}
                                             </h1>
 
                                             <h2 className="ld:px-0 text-center font-secondary line-clamp-1 md:my-8 md:px-4 md:text-left md:text-2xl lg:text-3xl">

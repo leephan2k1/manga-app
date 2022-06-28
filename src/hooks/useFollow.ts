@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FollowState } from '~/types';
+import { FollowState, MangaDetails } from '~/types';
 
 export default function useFollow() {
     const add = async (
@@ -7,12 +7,25 @@ export default function useFollow() {
         mangaSlug: string,
         source: string,
         status: FollowState,
+        manga: MangaDetails,
     ) => {
         try {
             await axios.post(`/api/follow/${mangaSlug}`, {
                 userId,
                 source,
                 status,
+                details: {
+                    thumbnail: manga.thumbnail,
+                    name: manga.title,
+                    newChapter: manga.chapterList[0].chapterTitle,
+                    genres: manga.genres.map((genre) => genre.genreTitle),
+                    status: manga.status,
+                    author: manga.author,
+                    otherName: manga.otherName,
+                    review: manga.review,
+                    updatedAt: manga.updatedAt,
+                    slug: mangaSlug,
+                },
             });
 
             return true;

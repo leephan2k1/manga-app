@@ -1,8 +1,10 @@
 import { signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { BiUser } from 'react-icons/bi';
 import { useOnClickOutside } from 'usehooks-ts';
+import { MANGA_PATH_FOLLOW } from '~/constants';
 
 import { BookmarkIcon, LogoutIcon } from '@heroicons/react/outline';
 
@@ -73,10 +75,14 @@ export default function HeaderUser() {
                         </h1>
 
                         <div className="absolute-center w-ful">
-                            <button className="my-4 space-x-2 rounded-xl p-4 transition-all hover:bg-highlight hover:text-primary">
-                                <BookmarkIcon className="inline-block h-8 w-8" />
-                                <span>Theo dõi</span>
-                            </button>
+                            <Link href={`/${MANGA_PATH_FOLLOW}`}>
+                                <a onClick={() => setShowProfilePanel(false)}>
+                                    <button className="my-4 space-x-2 rounded-xl p-4 transition-all hover:bg-highlight hover:text-primary">
+                                        <BookmarkIcon className="inline-block h-8 w-8" />
+                                        <span>Theo dõi</span>
+                                    </button>
+                                </a>
+                            </Link>
                         </div>
 
                         <div className="absolute-center w-ful">

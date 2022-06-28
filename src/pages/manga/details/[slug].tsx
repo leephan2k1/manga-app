@@ -122,11 +122,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                     </Section>
 
                     {followModalState && (
-                        <FollowModal
-                            callbackMessage={notify}
-                            comicImage={manga?.thumbnail}
-                            comicTitle={manga.title}
-                        />
+                        <FollowModal callbackMessage={notify} manga={manga} />
                     )}
 
                     <Toaster position="bottom-center" />
