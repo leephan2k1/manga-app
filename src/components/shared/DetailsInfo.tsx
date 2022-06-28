@@ -37,6 +37,18 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
         setShowModal(true);
     };
 
+    const convertQuery = (value: string) => {
+        switch (value.toLowerCase()) {
+            case 'manga':
+            case 'manhua':
+            case 'manhwa':
+            case 'doujinshi':
+                return 'comics';
+            default:
+                return 'genres';
+        }
+    };
+
     return (
         <div className="flex h-full w-full flex-col items-center overflow-x-hidden md:flex-row md:items-start">
             {/* manga thumbnail  */}
@@ -149,7 +161,9 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
                                                 href={{
                                                     pathname: `/${MANGA_BROWSE_PAGE}`,
                                                     query: {
-                                                        genres: genre?.slug,
+                                                        [convertQuery(
+                                                            genre?.genreTitle,
+                                                        )]: genre?.slug,
                                                     },
                                                 }}
                                             >
