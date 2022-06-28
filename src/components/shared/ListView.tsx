@@ -93,6 +93,18 @@ function ListView({ comicList, isLoading }: ListViewProps) {
                           );
                       })
                     : null}
+                {isLoading
+                    ? Array.from(Array(36).keys()).map((e) => {
+                          return (
+                              <Card
+                                  isLoading
+                                  comic={{} as Manga}
+                                  key={e}
+                                  details={layout.details}
+                              />
+                          );
+                      })
+                    : null}
             </div>
         </div>
     );
