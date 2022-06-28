@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
 export const searchModalState = atom({
-    key: 'searchModal',
+    key: 'searchModalState',
     default: false,
 });

@@ -31,6 +31,14 @@ export type NavigateDirection = 'next' | 'prev';
 
 export type NextDirection = 'right' | 'left';
 
+export type FollowState =
+    | 'reading'
+    | 'on-hold'
+    | 'dropped'
+    | 'plan-to-read'
+    | 'completed'
+    | 're-reading';
+
 export interface ReadModeSettings {
     readMode: ReadMode;
     readDirection: ReadDirection;

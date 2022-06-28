@@ -1,10 +1,13 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import toast, { Toaster } from 'react-hot-toast';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
 import { chapterList } from '~/atoms/chapterListAtom';
+import { followModal } from '~/atoms/followModaAtom';
 import withDbScroll from '~/components/hoc/withDbScroll';
 import MainLayout from '~/components/layouts/MainLayout';
 import ClientOnly from '~/components/shared/ClientOnly';
@@ -20,6 +23,13 @@ import { HeadlessManga, MangaDetails } from '~/types';
 
 const NtApi = RepositoryFactory('nettruyen');
 
+const FollowModal = dynamic(
+    () =>
+        import('~/components/features/FollowModal', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+
 interface Params extends ParsedUrlQuery {
     slug: string;
 }
@@ -33,6 +43,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
     const [_, setChapterList] = useRecoilState(chapterList);
+    const followModalState = useRecoilValue(followModal);
 
     useEffectOnce(() => {
         if (manga)
@@ -56,6 +67,16 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
             router.asPath.indexOf('?'),
         );
     }, [router.asPath]);
+
+    const notify = (message: string, status: string) => {
+        if (status === 'success')
+            toast.success(message, { duration: 3000, style: { zIndex: 899 } });
+        else
+            toast.error(message, {
+                duration: 3000,
+                style: { zIndex: 899 },
+            });
+    };
 
     return (
         <ClientOnly>
@@ -99,6 +120,16 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                             mobileUI={matchesMobile}
                         />
                     </Section>
+
+                    {followModalState && (
+                        <FollowModal
+                            callbackMessage={notify}
+                            comicImage={manga?.thumbnail}
+                            comicTitle={manga.title}
+                        />
+                    )}
+
+                    <Toaster position="bottom-center" />
                 </div>
             </div>
         </ClientOnly>

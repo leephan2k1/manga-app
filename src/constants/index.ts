@@ -1,5 +1,5 @@
 import { DropDownLink } from '~/components/shared/DropDown';
-import { MangaResource, SourcesId } from '~/types';
+import { MangaResource, SourcesId, FollowState } from '~/types';
 
 export const REVALIDATE_TIME = 3 * 60 * 60; //3h
 
@@ -19,6 +19,33 @@ export const WEBSITE_URL = 'example.domain.com';
 export const SOURCE_COLLECTIONS: { [key: string]: string } = {
     nt: 'http://www.nettruyenco.com',
 };
+
+export const FOLLOW_STATE: Array<{ id: FollowState; title: string }> = [
+    {
+        id: 'reading',
+        title: 'Đang đọc',
+    },
+    {
+        id: 'completed',
+        title: 'Hoàn thành',
+    },
+    {
+        id: 'dropped',
+        title: 'Tạm ngưng',
+    },
+    {
+        id: 'on-hold',
+        title: 'Giữ lại',
+    },
+    {
+        id: 'plan-to-read',
+        title: 'Dự định đọc',
+    },
+    {
+        id: 're-reading',
+        title: 'Đọc lại',
+    },
+];
 
 export const GENRES_NT = [
     { id: '1', value: 'action', label: 'Action' },
