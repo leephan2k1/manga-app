@@ -134,7 +134,9 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
     }, [matchesTouchScreen]);
 
     useEffect(() => {
-        if (!manga.chapterList.length) {
+        const mangaSlugParams = params && params[0];
+
+        if (manga.mangaSlug !== mangaSlugParams) {
             (async function () {
                 try {
                     if (!params?.length) return;
@@ -143,6 +145,7 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
 
                     if (res?.success) {
                         setManga({
+                            mangaSlug: params[0],
                             title: res.data.title,
                             chapterList: res.data.chapterList,
                         });

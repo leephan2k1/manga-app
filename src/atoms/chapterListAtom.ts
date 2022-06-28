@@ -5,6 +5,7 @@ export const chapterList = atom({
     key: 'chapterListAtom',
     default: {
         title: '',
+        mangaSlug: '',
         chapterList: [],
     } as HeadlessManga,
 });

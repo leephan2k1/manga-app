@@ -156,7 +156,9 @@ export interface MangaDetails {
     chapterList: Chapter[];
 }
 
-export type HeadlessManga = Pick<MangaDetails, 'chapterList' | 'title'>;
+export type HeadlessManga = Pick<MangaDetails, 'chapterList' | 'title'> & {
+    mangaSlug: string;
+};
 
 export interface Chapter {
     chapterId: string;

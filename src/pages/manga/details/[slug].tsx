@@ -49,6 +49,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
         if (manga)
             setChapterList({
                 title: manga.title,
+                mangaSlug: comicSlug,
                 chapterList: manga.chapterList,
             } as HeadlessManga);
     });
