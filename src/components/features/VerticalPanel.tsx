@@ -120,6 +120,7 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
 
             <div className="flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight">
                 <DetailsChapterList
+                    highlightCurrentChapter
                     maxWTitleMobile={90}
                     containerStyle="flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
                     mobileHeight={300}

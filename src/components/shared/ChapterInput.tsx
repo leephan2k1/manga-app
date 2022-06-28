@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDebounce } from 'usehooks-ts';
 
-import { ChevronRightIcon } from '@heroicons/react/outline';
+import { FilterIcon } from '@heroicons/react/outline';
 
 interface ChapterInputProps {
     style?: string;
@@ -44,8 +44,8 @@ export default function ChapterInput({
                 onChange={handleSearch}
                 value={selectValue}
             />
-            <button className="transition-all hover:text-primary">
-                <ChevronRightIcon className="h-8 w-8" />
+            <button className="px-4 transition-all">
+                <FilterIcon className="h-6 w-6" />
             </button>
         </div>
     );
