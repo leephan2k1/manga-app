@@ -57,7 +57,7 @@ export interface ReadModeSettings {
 export type SourcesId = 'nt' | 'lh' | 'qq' | 'mgdx' | 'mgrd';
 
 export interface MangaResource {
-    sourceName: sources;
+    sourceName: string;
     sourceId: SourcesId;
 }
 

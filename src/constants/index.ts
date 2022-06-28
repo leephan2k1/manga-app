@@ -143,16 +143,8 @@ export const GENDER = [
 
 export const MANGA_RESOURCE: MangaResource[] = [
     {
-        sourceName: 'nettruyen',
+        sourceName: 'NT',
         sourceId: 'nt',
-    },
-    {
-        sourceName: 'lhmanga',
-        sourceId: 'lh',
-    },
-    {
-        sourceName: 'truyenqq',
-        sourceId: 'qq',
     },
 ];
 
