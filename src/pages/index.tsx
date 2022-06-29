@@ -33,56 +33,58 @@ const Home: NextPage<HomeProps> = ({
     newManga,
 }) => {
     return (
-        <ClientOnly>
-            <div className="flex h-fit min-h-screen flex-col">
-                <Head />
+        <>
+            <Head />
 
-                <MangaBanner mangaList={topMonthList.slice(0, 10)} />
+            <ClientOnly>
+                <div className="flex h-fit min-h-screen flex-col">
+                    <MangaBanner mangaList={topMonthList.slice(0, 10)} />
 
-                <Section
-                    link={`/${MANGA_BROWSE_PAGE}?view=newComic`}
-                    title="Mới cập nhật"
-                    style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
-                    linkHints={true}
-                >
-                    <SectionSwiper mangaList={newMangaUpdated} />
-                </Section>
+                    <Section
+                        link={`/${MANGA_BROWSE_PAGE}?view=newComic`}
+                        title="Mới cập nhật"
+                        style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
+                        linkHints={true}
+                    >
+                        <SectionSwiper mangaList={newMangaUpdated} />
+                    </Section>
 
-                <Section style="w-[90%] mx-auto min-w-[333px] w-max-[1300px] mt-6 overflow-x-hidden">
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                        <ColumnSection
-                            mangaList={topAllManga.slice(0, 5)}
-                            title="Manga nổi bật nhất"
-                            link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=all`}
-                        />
-                        <ColumnSection
-                            mangaList={topMonthManga.slice(0, 5)}
-                            title="Manga nổi bật tháng"
-                            link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=month`}
-                        />
-                        <ColumnSection
-                            mangaList={topWeekManga.slice(0, 5)}
-                            title="Manga nổi bật tuần"
-                            link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=week`}
-                        />
-                        <ColumnSection
-                            mangaList={topDayManga.slice(0, 5)}
-                            title="Manga nổi bật ngày"
-                            link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=day`}
-                        />
-                    </div>
-                </Section>
+                    <Section style="w-[90%] mx-auto min-w-[333px] w-max-[1300px] mt-6 overflow-x-hidden">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                            <ColumnSection
+                                mangaList={topAllManga.slice(0, 5)}
+                                title="Manga nổi bật nhất"
+                                link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=all`}
+                            />
+                            <ColumnSection
+                                mangaList={topMonthManga.slice(0, 5)}
+                                title="Manga nổi bật tháng"
+                                link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=month`}
+                            />
+                            <ColumnSection
+                                mangaList={topWeekManga.slice(0, 5)}
+                                title="Manga nổi bật tuần"
+                                link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=week`}
+                            />
+                            <ColumnSection
+                                mangaList={topDayManga.slice(0, 5)}
+                                title="Manga nổi bật ngày"
+                                link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=day`}
+                            />
+                        </div>
+                    </Section>
 
-                <Section
-                    link={`/${MANGA_BROWSE_PAGE}?view=new`}
-                    title="Truyện mới"
-                    style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
-                    linkHints={true}
-                >
-                    <SectionSwiper mangaList={newManga} />
-                </Section>
-            </div>
-        </ClientOnly>
+                    <Section
+                        link={`/${MANGA_BROWSE_PAGE}?view=new`}
+                        title="Truyện mới"
+                        style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
+                        linkHints={true}
+                    >
+                        <SectionSwiper mangaList={newManga} />
+                    </Section>
+                </div>
+            </ClientOnly>
+        </>
     );
 };
 

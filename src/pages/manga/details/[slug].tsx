@@ -80,56 +80,60 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     };
 
     return (
-        <ClientOnly>
+        <>
             <Head
                 title={`${manga?.title} - Kyoto Manga`}
                 description={`${manga?.review}`}
                 image={`${manga?.thumbnail}`}
             />
+            <ClientOnly>
+                <div className="flex h-fit min-h-screen flex-col">
+                    <DetailsBanner
+                        isLoading={isLoading}
+                        imgUrl={manga?.thumbnail || 'notFound'}
+                    />
 
-            <div className="flex h-fit min-h-screen flex-col">
-                <DetailsBanner
-                    isLoading={isLoading}
-                    imgUrl={manga?.thumbnail || 'notFound'}
-                />
+                    <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
+                        <Section style="h-fit w-full">
+                            <DetailsInfo
+                                isLoading={isLoading}
+                                manga={manga}
+                                comicSlug={comicSlug}
+                            />
+                        </Section>
 
-                <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
-                    <Section style="h-fit w-full">
-                        <DetailsInfo
-                            isLoading={isLoading}
-                            manga={manga}
-                            comicSlug={comicSlug}
-                        />
-                    </Section>
+                        <Section style="h-fit w-full">
+                            <DetailsDescription
+                                isLoading={isLoading}
+                                mangaReview={manga?.review || ''}
+                                mobileUI={matchesMobile}
+                            />
+                        </Section>
 
-                    <Section style="h-fit w-full">
-                        <DetailsDescription
-                            isLoading={isLoading}
-                            mangaReview={manga?.review || ''}
-                            mobileUI={matchesMobile}
-                        />
-                    </Section>
+                        <Section title="Danh sách chương" style="h-fit w-full">
+                            <DetailsChapterList
+                                containerStyle="my-6 flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
+                                maxWTitleMobile={200}
+                                selectSource
+                                mobileHeight={600}
+                                chapterList={manga?.chapterList || []}
+                                comicSlug={comicSlug}
+                                mobileUI={matchesMobile}
+                            />
+                        </Section>
 
-                    <Section title="Danh sách chương" style="h-fit w-full">
-                        <DetailsChapterList
-                            containerStyle="my-6 flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
-                            maxWTitleMobile={200}
-                            selectSource
-                            mobileHeight={600}
-                            chapterList={manga?.chapterList || []}
-                            comicSlug={comicSlug}
-                            mobileUI={matchesMobile}
-                        />
-                    </Section>
+                        {followModalState && (
+                            <FollowModal
+                                callbackMessage={notify}
+                                manga={manga}
+                            />
+                        )}
 
-                    {followModalState && (
-                        <FollowModal callbackMessage={notify} manga={manga} />
-                    )}
-
-                    <Toaster position="bottom-center" />
+                        <Toaster position="bottom-center" />
+                    </div>
                 </div>
-            </div>
-        </ClientOnly>
+            </ClientOnly>
+        </>
     );
 };
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

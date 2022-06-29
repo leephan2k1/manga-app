@@ -40,28 +40,29 @@ const FollowPage: NextPage = () => {
     }, [router.query]);
 
     return (
-        <ClientOnly>
+        <>
             <Head title={`Theo dõi - ${session?.user?.name} | Kyoto Manga`} />
+            <ClientOnly>
+                <Container>
+                    <Section
+                        title="Danh sách theo dõi"
+                        backLink="/"
+                        style="w-max-[1300px] mx-auto mt-6 w-[90%] text-white"
+                    >
+                        <TabSelect />
+                    </Section>
 
-            <Container>
-                <Section
-                    title="Danh sách theo dõi"
-                    backLink="/"
-                    style="w-max-[1300px] mx-auto mt-6 w-[90%] text-white"
-                >
-                    <TabSelect />
-                </Section>
-
-                <Section style="w-max-[1300px] mx-auto mt-6 w-[90%] text-white">
-                    <ListView
-                        isLoading={!data ? true : false}
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
-                        comicList={data?.data.map((item) => item.details)}
-                    />
-                </Section>
-            </Container>
-        </ClientOnly>
+                    <Section style="w-max-[1300px] mx-auto mt-6 w-[90%] text-white">
+                        <ListView
+                            isLoading={!data ? true : false}
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-ignore
+                            comicList={data?.data.map((item) => item.details)}
+                        />
+                    </Section>
+                </Container>
+            </ClientOnly>
+        </>
     );
 };
 
