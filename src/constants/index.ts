@@ -16,7 +16,7 @@ export const MANGA_PATH_FOLLOW = 'follows';
 
 export const DEFAULT_SRC: SourcesId = 'nt';
 
-export const WEBSITE_URL = 'example.domain.com';
+export const WEBSITE_URL = 'https://kyotomanga.live';
 
 export const SOURCE_COLLECTIONS: { [key: string]: string } = {
     nt: 'http://www.nettruyenco.com',

@@ -18,24 +18,29 @@ export default function Footer() {
                 />
             </figure>
 
-            <div className="mx-auto flex w-[70%] flex-col justify-center space-y-4 text-lg md:text-3xl">
+            <div className="mx-auto flex w-[70%] flex-col justify-center space-y-4 text-lg md:text-2xl">
                 <h1 className="text-center text-2xl font-bold md:text-4xl">
                     Kyoto Manga là website đọc truyện tranh miễn phí
                 </h1>
                 <div className="flex items-center justify-center space-x-8">
-                    <Link href="/">
+                    <Link href="/terms-of-service">
                         <a className="hover:text-primary">Điều khoản dịch vụ</a>
                     </Link>
-                    <Link href="/">
+                    <Link href="/privacy-policy">
+                        <a className="hover:text-primary">
+                            Chính sách riêng tư
+                        </a>
+                    </Link>
+                    <Link href="/dmca">
                         <a className="hover:text-primary">DMCA</a>
                     </Link>
-                    <Link href="/">
+                    <Link href="/contact">
                         <a className="hover:text-primary">Liên hệ</a>
                     </Link>
                 </div>
             </div>
 
-            <div className="my-4 mx-auto w-[70%] space-y-4">
+            <div className="my-4 mx-auto w-[70%] space-y-4 lg:w-1/2">
                 <p className="text-center text-lg text-white/40 md:text-2xl">
                     Kyoto Manga không lưu trữ bất kì tệp tin nào trên máy chủ,
                     chúng tôi chỉ liên kết tới những phương tiện truyền thông
