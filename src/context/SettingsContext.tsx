@@ -42,7 +42,9 @@ export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
     const [readDrt, setReadDrt] = useState<ReadDirection>(
         savedSettings?.readDirection || 'rtl',
     );
-    const [nextDirection, setNextDirection] = useState<NextDirection>('right');
+    const [nextDirection, setNextDirection] = useState<NextDirection>(
+        savedSettings?.nextDirection || 'right',
+    );
 
     const turnOffSettings = () => {
         setShowSettings(false);

@@ -120,7 +120,7 @@ export default function Header({ style }: HeaderProps) {
                             </div>
                         </li>
                         <li className="transition-all hover:text-primary  ">
-                            <Link href={`/${MANGA_BROWSE_PAGE}?status=latest`}>
+                            <Link href={`/${MANGA_BROWSE_PAGE}?view=newComic`}>
                                 <a>Mới cập nhật</a>
                             </Link>
                         </li>

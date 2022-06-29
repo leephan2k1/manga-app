@@ -106,6 +106,19 @@ input[type='number'] {
     animation: h-slide-demo-page 3s infinite;
 }
 
+.zoom-animate {
+    animation: zoom-effect 100ms;
+}
+
+@keyframes zoom-effect {
+    0% {
+        transform: scale(0.8, 0.8);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
 @keyframes rotate {
     100% {
         transform: rotate(360deg);

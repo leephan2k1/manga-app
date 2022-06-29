@@ -65,6 +65,7 @@ export default function ChapterModal() {
                                 </div>
                                 <div className="my-4 flex flex-col">
                                     <DetailsChapterList
+                                        highlightCurrentChapter
                                         maxWTitleMobile={90}
                                         containerStyle="flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
                                         mobileHeight={300}

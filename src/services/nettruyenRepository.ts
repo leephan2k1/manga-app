@@ -17,7 +17,7 @@ interface NtSearchResponse extends ServerResponse {
     data: NtSearchResponseData[];
 }
 
-interface MangaPreviewResponse extends ServerResponse {
+export interface MangaPreviewResponse extends ServerResponse {
     data: Manga[];
 }
 

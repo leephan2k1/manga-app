@@ -31,6 +31,23 @@ export type NavigateDirection = 'next' | 'prev';
 
 export type NextDirection = 'right' | 'left';
 
+export interface ComicFollowed {
+    _id: string;
+    mangaSlug: string;
+    userId: string;
+    createAt: Date;
+    source: string;
+    status: string;
+}
+
+export type FollowState =
+    | 'reading'
+    | 'on-hold'
+    | 'dropped'
+    | 'plan-to-read'
+    | 'completed'
+    | 're-reading';
+
 export interface ReadModeSettings {
     readMode: ReadMode;
     readDirection: ReadDirection;
@@ -40,7 +57,7 @@ export interface ReadModeSettings {
 export type SourcesId = 'nt' | 'lh' | 'qq' | 'mgdx' | 'mgrd';
 
 export interface MangaResource {
-    sourceName: sources;
+    sourceName: string;
     sourceId: SourcesId;
 }
 
@@ -139,7 +156,9 @@ export interface MangaDetails {
     chapterList: Chapter[];
 }
 
-export type HeadlessManga = Pick<MangaDetails, 'chapterList' | 'title'>;
+export type HeadlessManga = Pick<MangaDetails, 'chapterList' | 'title'> & {
+    mangaSlug: string;
+};
 
 export interface Chapter {
     chapterId: string;

@@ -1,18 +1,20 @@
+import { useRouter } from 'next/router';
 import { memo, MouseEvent, useEffect } from 'react';
 import { useElementSize, useMediaQuery, useWindowSize } from 'usehooks-ts';
 import { SOURCE_COLLECTIONS } from '~/constants';
 import useSettingsMode from '~/context/SettingsContext';
-import { ImagesChapter } from '~/types';
+import { ImagesChapter, NavigateDirection } from '~/types';
 
 import {
     ArrowLeftIcon,
     ArrowRightIcon,
+    DesktopComputerIcon,
     DeviceMobileIcon,
     DeviceTabletIcon,
-    DesktopComputerIcon,
 } from '@heroicons/react/outline';
 
 import Img from '../shared/Img';
+import useReading from '~/context/ReadingContext';
 
 interface HorizontalReadingProps {
     images: ImagesChapter[];
@@ -20,6 +22,7 @@ interface HorizontalReadingProps {
     useProxy?: boolean;
     currentPage: number;
     handleSaveCurrentPage: (page: number) => void;
+    handleConfig: (val: string) => void;
 }
 
 function HorizontalReading({
@@ -28,16 +31,19 @@ function HorizontalReading({
     srcId,
     currentPage,
     handleSaveCurrentPage,
+    handleConfig,
 }: HorizontalReadingProps) {
     const url = SOURCE_COLLECTIONS[srcId];
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
     const comicImgs = $$('.comic-img');
 
-    const settings = useSettingsMode();
-    const [readerRef, readerSize] = useElementSize();
-    const [imgRef, imgSize] = useElementSize();
+    const router = useRouter();
+    const reader = useReading();
     const { width } = useWindowSize();
+    const settings = useSettingsMode();
+    const [imgRef, imgSize] = useElementSize();
+    const [readerRef, readerSize] = useElementSize();
     const matchesMobile = useMediaQuery('(max-width: 640px)');
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
 
@@ -72,10 +78,19 @@ function HorizontalReading({
         }
     };
 
+    const handleNavigateChapter = (e: MouseEvent<HTMLButtonElement>) => {
+        // console.log(e.currentTarget.dataset.id);
+        reader?.navigateChapter(
+            e.currentTarget.dataset.id as NavigateDirection,
+        );
+    };
+
     useEffect(() => {
         const readerDom = $('#reader-page');
 
         const observerMiddleElem = () => {
+            handleConfig('onReading');
+
             const elem = document.elementFromPoint(
                 readerSize.width / 2,
                 readerSize.height / 2,
@@ -145,7 +160,17 @@ function HorizontalReading({
             }, 100);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [settings?.readDirection, settings?.readDirection]);
+    }, [settings?.readDirection]);
+
+    //scroll to first page when navigate chapter
+    useEffect(() => {
+        const readerPage = $('#reader-page');
+
+        if (readerPage) {
+            if (settings?.readDirection === 'rtl') readerPage.scrollTo(1000, 0);
+            else readerPage.scrollTo(0, 1000);
+        }
+    }, [router.query]);
 
     return (
         <div
@@ -256,7 +281,23 @@ function HorizontalReading({
                 }}
                 className={`img-wrapper absolute-center h-screen min-w-[535px] max-w-[600px] touch-auto  transition-all`}
             >
-                <h1>Hết Chap.</h1>
+                <div className="flex h-1/5 w-full flex-col items-center justify-center gap-4 px-4">
+                    <button
+                        onClick={handleNavigateChapter}
+                        data-id="next"
+                        className="absolute-center h-full w-full gap-2 border-2 border-dashed border-white/40 text-white/40 transition-all hover:border-white hover:text-white"
+                    >
+                        Chapter kế tiếp{' '}
+                    </button>
+                    <button
+                        onClick={handleNavigateChapter}
+                        data-id="prev"
+                        className="absolute-center h-full w-fit  px-2 text-white/40 transition-all  hover:text-white md:gap-2"
+                    >
+                        {' '}
+                        Chapter trước
+                    </button>
+                </div>
             </div>
         </div>
     );

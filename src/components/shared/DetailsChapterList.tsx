@@ -1,18 +1,23 @@
 import 'tippy.js/dist/tippy.css';
 
+import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { ComponentType, memo, useEffect, useState } from 'react';
+import { ComponentType, memo, useEffect, useRef, useState } from 'react';
 import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
 import { animateFill, followCursor } from 'tippy.js';
 import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
 import { Chapter } from '~/types';
-import classNames from 'classnames';
 
 import styled from '@emotion/styled';
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
 
+import { useRouter } from 'next/router';
+import { MANGA_RESOURCE } from '~/constants';
 import ChapterInput from './ChapterInput';
-import { LazyTippy } from './LazyTippy';
+import LazyTippy from './LazyTippy';
+
+const ListBox = dynamic(() => import('../buttons/ListBoxButton'));
 
 interface DetailsChapterListProps {
     mobileUI?: boolean;
@@ -22,6 +27,7 @@ interface DetailsChapterListProps {
     selectSource: boolean;
     mobileHeight: number;
     maxWTitleMobile: number;
+    highlightCurrentChapter?: boolean;
 }
 
 const ListContainer = styled.div`
@@ -51,12 +57,29 @@ function DetailsChapterList({
     selectSource,
     chapterList,
     containerStyle,
+    highlightCurrentChapter,
 }: DetailsChapterListProps) {
     const [list, setList] = useState<Chapter[]>(chapterList);
+    const router = useRouter();
+    const { params } = router.query;
+    const virtuoso = useRef(null);
 
     useEffect(() => {
         setList(chapterList);
     }, [chapterList]);
+
+    useEffect(() => {
+        if (highlightCurrentChapter) {
+            const paramIndex = params && params[1];
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            virtuoso.current?.scrollToIndex({
+                index: list.findIndex((e) => e.chapterNumber === paramIndex),
+                align: 'center',
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params, chapterList, list]);
 
     const filterChapterNumber = (chapterN: string) => {
         if (!chapterN) {
@@ -78,19 +101,27 @@ function DetailsChapterList({
             <div className="z-40 my-4 flex min-h-[40px] w-full items-center gap-4 text-white md:my-2">
                 <ChapterInput
                     handleChangeNumber={filterChapterNumber}
-                    inputType="number"
                     style={`${
                         selectSource
                             ? 'mx-4 flex h-[32px] w-[50%] items-center justify-center rounded-xl bg-[#5f5f5f] px-2 hover:bg-white/25 md:w-[30%] lg:w-[20%]'
                             : 'flex w-full h-[32px] bg-[#5f5f5f] px-2 mx-4 rounded-xl'
                     }`}
                 />
-                {selectSource && <ChapterInput inputType="select" />}
+                {selectSource && (
+                    <ListBox
+                        title="Nguồn:"
+                        listDropDown={MANGA_RESOURCE.map((item) => ({
+                            title: item.sourceName,
+                            id: item.sourceId,
+                        }))}
+                    />
+                )}
             </div>
 
             {/* chapter list  */}
             {list && list.length > 0 && mobileUI ? (
                 <Virtuoso
+                    ref={virtuoso}
                     style={{ height: `${mobileHeight}px` }}
                     totalCount={list.length}
                     itemContent={(index) => (
@@ -100,7 +131,14 @@ function DetailsChapterList({
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${list[index].chapterNumber}/${list[index].chapterId}`}
                                 >
                                     <a
-                                        className={`flex h-[30px] items-center justify-between rounded-lg bg-deep-black`}
+                                        className={`${
+                                            highlightCurrentChapter &&
+                                            params &&
+                                            params[1] ===
+                                                list[index].chapterNumber
+                                                ? 'bg-primary'
+                                                : 'bg-deep-black'
+                                        } flex h-[30px] items-center justify-between rounded-lg`}
                                     >
                                         <div className="flex w-[30%] min-w-max items-center">
                                             <DocumentTextIcon className="mx-4 h-4 w-4" />

@@ -8,6 +8,7 @@ import { chapterList } from '~/atoms/chapterListAtom';
 import Reader from '~/components/features/Reader';
 import MainLayout from '~/components/layouts/MainLayout';
 import ClientOnly from '~/components/shared/ClientOnly';
+import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
 import Teleport from '~/components/shared/Teleport';
 import {
@@ -133,7 +134,9 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
     }, [matchesTouchScreen]);
 
     useEffect(() => {
-        if (!manga.chapterList.length) {
+        const mangaSlugParams = params && params[0];
+
+        if (manga.mangaSlug !== mangaSlugParams) {
             (async function () {
                 try {
                     if (!params?.length) return;
@@ -142,6 +145,7 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
 
                     if (res?.success) {
                         setManga({
+                            mangaSlug: params[0],
                             title: res.data.title,
                             chapterList: res.data.chapterList,
                         });
@@ -170,6 +174,11 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
 
     return (
         <ClientOnly>
+            <Head
+                title={`${currentChapter?.chapterTitle} - ${manga?.title} | Kyoto Manga`}
+                image={imagesChapter[0]?.imgSrc}
+            />
+
             <div className="flex h-fit min-h-screen flex-col bg-black">
                 <ReadingContextProvider
                     value={{
@@ -239,10 +248,8 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                                 ></div>
 
                                 <Reader
-                                    handleCloseSideSettings={
-                                        handleCloseSideSettings
-                                    }
                                     sideSettingState={showSideSettings}
+                                    closeDesktopPanel={handleCloseSideSettings}
                                 />
                             </div>
                         </Section>

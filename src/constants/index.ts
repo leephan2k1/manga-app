@@ -1,5 +1,5 @@
 import { DropDownLink } from '~/components/shared/DropDown';
-import { MangaResource, SourcesId } from '~/types';
+import { MangaResource, SourcesId, FollowState } from '~/types';
 
 export const REVALIDATE_TIME = 3 * 60 * 60; //3h
 
@@ -11,12 +11,43 @@ export const MANGA_BROWSE_PAGE = 'browse';
 export const MANGA_PATH_DETAILS_NAME = 'details';
 //ref: src/pages/manga
 export const MANGA_PATH_READ_NAME = 'read';
+//ref: src/pages
+export const MANGA_PATH_FOLLOW = 'follows';
 
 export const DEFAULT_SRC: SourcesId = 'nt';
+
+export const WEBSITE_URL = 'example.domain.com';
 
 export const SOURCE_COLLECTIONS: { [key: string]: string } = {
     nt: 'http://www.nettruyenco.com',
 };
+
+export const FOLLOW_STATE: Array<{ id: FollowState; title: string }> = [
+    {
+        id: 'reading',
+        title: 'Đang đọc',
+    },
+    {
+        id: 'completed',
+        title: 'Hoàn thành',
+    },
+    {
+        id: 'dropped',
+        title: 'Tạm ngưng',
+    },
+    {
+        id: 'on-hold',
+        title: 'Giữ lại',
+    },
+    {
+        id: 'plan-to-read',
+        title: 'Dự định đọc',
+    },
+    {
+        id: 're-reading',
+        title: 'Đọc lại',
+    },
+];
 
 export const GENRES_NT = [
     { id: '1', value: 'action', label: 'Action' },
@@ -112,16 +143,8 @@ export const GENDER = [
 
 export const MANGA_RESOURCE: MangaResource[] = [
     {
-        sourceName: 'nettruyen',
+        sourceName: 'NT',
         sourceId: 'nt',
-    },
-    {
-        sourceName: 'lhmanga',
-        sourceId: 'lh',
-    },
-    {
-        sourceName: 'truyenqq',
-        sourceId: 'qq',
     },
 ];
 

@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { useRecoilState } from 'recoil';
+import { followModal } from '~/atoms/followModaAtom';
 import {
     MANGA_BROWSE_PAGE,
     MANGA_PATH_NAME,
@@ -12,6 +14,8 @@ import { MangaDetails } from '~/types';
 
 import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
 import { LightningBoltIcon } from '@heroicons/react/solid';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 interface DetailsInfoProps {
     manga: MangaDetails;
@@ -20,6 +24,31 @@ interface DetailsInfoProps {
 }
 
 function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
+    const [_, setShowModal] = useRecoilState(followModal);
+    const router = useRouter();
+    const { status } = useSession();
+
+    const handleShowFollowModal = () => {
+        if (status === 'unauthenticated') {
+            router.push('/login');
+            return;
+        }
+
+        setShowModal(true);
+    };
+
+    const convertQuery = (value: string) => {
+        switch (value.toLowerCase()) {
+            case 'manga':
+            case 'manhua':
+            case 'manhwa':
+            case 'doujinshi':
+                return 'comics';
+            default:
+                return 'genres';
+        }
+    };
+
     return (
         <div className="flex h-full w-full flex-col items-center overflow-x-hidden md:flex-row md:items-start">
             {/* manga thumbnail  */}
@@ -132,7 +161,9 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
                                                 href={{
                                                     pathname: `/${MANGA_BROWSE_PAGE}`,
                                                     query: {
-                                                        genres: genre?.slug,
+                                                        [convertQuery(
+                                                            genre?.genreTitle,
+                                                        )]: genre?.slug,
                                                     },
                                                 }}
                                             >
@@ -184,7 +215,10 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
                             </a>
                         </Link>
 
-                        <button className="shine-effect absolute-center bg-hight-light h-[50px] w-[50px] rounded-xl transition-all hover:text-primary">
+                        <button
+                            onClick={handleShowFollowModal}
+                            className="shine-effect absolute-center bg-hight-light h-[50px] w-[50px] rounded-xl transition-all hover:text-primary"
+                        >
                             <BookmarkIcon className=" h-8 w-8" />
                         </button>
                     </div>

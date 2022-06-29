@@ -81,18 +81,30 @@ function ListView({ comicList, isLoading }: ListViewProps) {
                 key={layout.style}
                 className={classNames('grid gap-6 lg:gap-10', layout.style)}
             >
-                {comicList &&
-                    comicList.length &&
-                    comicList.map((comic, index) => {
-                        return (
-                            <Card
-                                isLoading={isLoading}
-                                comic={comic}
-                                key={comic.slug || index}
-                                details={layout.details}
-                            />
-                        );
-                    })}
+                {comicList && comicList.length
+                    ? comicList.map((comic, index) => {
+                          return (
+                              <Card
+                                  isLoading={isLoading}
+                                  comic={comic}
+                                  key={comic.slug || index}
+                                  details={layout.details}
+                              />
+                          );
+                      })
+                    : null}
+                {isLoading
+                    ? Array.from(Array(36).keys()).map((e) => {
+                          return (
+                              <Card
+                                  isLoading
+                                  comic={{} as Manga}
+                                  key={e}
+                                  details={layout.details}
+                              />
+                          );
+                      })
+                    : null}
             </div>
         </div>
     );

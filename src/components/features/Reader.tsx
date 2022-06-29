@@ -28,19 +28,19 @@ const SettingsMode = dynamic(() => import('./SettingsMode'));
 
 interface ReaderProps {
     sideSettingState: boolean;
-    handleCloseSideSettings: () => void;
+    closeDesktopPanel: () => void;
 }
 
-function Reader({ sideSettingState, handleCloseSideSettings }: ReaderProps) {
+function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
     const reader = useReading();
+    const lastScrollTop = useRef(0);
     const settings = useSettingsMode();
-    const [showHorizontalSettings, setShowHorizontalSettings] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0);
     const chapterModalState = useRecoilValue(chapterModal);
     const settingsModalState = useRecoilValue(settingsModal);
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
     const { shouldMount } = useTransition(Boolean(settings?.show), 150);
-    const lastScrollTop = useRef(0);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [showHorizontalSettings, setShowHorizontalSettings] = useState(false);
 
     const handleSaveCurrentPage = useCallback(
         (currPage: number) => {
@@ -81,13 +81,13 @@ function Reader({ sideSettingState, handleCloseSideSettings }: ReaderProps) {
                 break;
             case 'ngang':
                 //close all settings ui
-                handleCloseSideSettings();
+                closeDesktopPanel();
                 setShowHorizontalSettings(false);
                 settings?.setReadMode('horizontal');
                 break;
             case 'dọc':
                 //close all settings ui
-                handleCloseSideSettings();
+                closeDesktopPanel();
                 setShowHorizontalSettings(false);
                 settings?.setReadMode('vertical');
                 break;
@@ -102,6 +102,10 @@ function Reader({ sideSettingState, handleCloseSideSettings }: ReaderProps) {
                 break;
             case 'cạnh trái':
                 settings?.setNextDirection('left');
+                break;
+            case 'onReading':
+                closeDesktopPanel();
+                setShowHorizontalSettings(false);
                 break;
         }
     };
@@ -159,6 +163,7 @@ function Reader({ sideSettingState, handleCloseSideSettings }: ReaderProps) {
                     useProxy
                     currentPage={currentPage}
                     handleSaveCurrentPage={handleSaveCurrentPage}
+                    handleConfig={handleConfig}
                 />
             ) : (
                 <VerticalReading

@@ -1,10 +1,13 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import toast, { Toaster } from 'react-hot-toast';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
 import { chapterList } from '~/atoms/chapterListAtom';
+import { followModal } from '~/atoms/followModaAtom';
 import withDbScroll from '~/components/hoc/withDbScroll';
 import MainLayout from '~/components/layouts/MainLayout';
 import ClientOnly from '~/components/shared/ClientOnly';
@@ -12,12 +15,20 @@ import DetailsBanner from '~/components/shared/DetailsBanner';
 import DetailsChapterList from '~/components/shared/DetailsChapterList';
 import DetailsDescription from '~/components/shared/DetailsDescription';
 import DetailsInfo from '~/components/shared/DetailsInfo';
+import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
 import { REVALIDATE_TIME } from '~/constants';
 import RepositoryFactory from '~/services/repositoryFactory';
 import { HeadlessManga, MangaDetails } from '~/types';
 
 const NtApi = RepositoryFactory('nettruyen');
+
+const FollowModal = dynamic(
+    () =>
+        import('~/components/features/FollowModal', {
+            ssr: false,
+        } as ImportCallOptions),
+);
 
 interface Params extends ParsedUrlQuery {
     slug: string;
@@ -32,11 +43,13 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
     const [_, setChapterList] = useRecoilState(chapterList);
+    const followModalState = useRecoilValue(followModal);
 
     useEffectOnce(() => {
         if (manga)
             setChapterList({
                 title: manga.title,
+                mangaSlug: comicSlug,
                 chapterList: manga.chapterList,
             } as HeadlessManga);
     });
@@ -56,8 +69,24 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
         );
     }, [router.asPath]);
 
+    const notify = (message: string, status: string) => {
+        if (status === 'success')
+            toast.success(message, { duration: 3000, style: { zIndex: 899 } });
+        else
+            toast.error(message, {
+                duration: 3000,
+                style: { zIndex: 899 },
+            });
+    };
+
     return (
         <ClientOnly>
+            <Head
+                title={`${manga?.title} - Kyoto Manga`}
+                description={`${manga?.review}`}
+                image={`${manga?.thumbnail}`}
+            />
+
             <div className="flex h-fit min-h-screen flex-col">
                 <DetailsBanner
                     isLoading={isLoading}
@@ -92,6 +121,12 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                             mobileUI={matchesMobile}
                         />
                     </Section>
+
+                    {followModalState && (
+                        <FollowModal callbackMessage={notify} manga={manga} />
+                    )}
+
+                    <Toaster position="bottom-center" />
                 </div>
             </div>
         </ClientOnly>
@@ -109,11 +144,13 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
         //config dynamic source later
         const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
 
-        if (res.success) {
+        if (res.success && res.data.title) {
             return {
                 props: { manga: res.data },
                 revalidate: REVALIDATE_TIME,
             };
+        } else {
+            return { notFound: true };
         }
     } catch (err) {
         console.log(err);
