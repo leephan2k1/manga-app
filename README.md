@@ -1,23 +1,132 @@
-# Next.js + Tailwind CSS Example
+# Kyoto Manga - Free website to read comics!
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+![logo](https://res.cloudinary.com/lee1002/image/upload/v1656521375/personal/s3xxxnifckkingetv4p8.png)
 
-## Deploy your own
+## The official website is [Kyotomanga.live](http://kyotomanga.live/)
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+| Table content                                                          |
+| ---------------------------------------------------------------------- |
+| [Tech stack](https://github.com/leephan2k1/manga-app#Tech-stack)       |
+| [Inspiration](https://github.com/leephan2k1/manga-app#inspiration)     |
+| [Screenshots](https://github.com/leephan2k1/manga-app#screenshots)     |
+| [Project setup](https://github.com/leephan2k1/manga-app#project-setup) |
+| [Plans](https://github.com/leephan2k1/manga-app#plans)                 |
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+## Tech stack
 
-## How to use
+-   NextJS + ReactJS
+-   Recoil
+-   Mongodb
+-   Next-auth
+-   TailwindCSS + HeadlessUI
+    Screenshots
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+## Inspiration
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-# or
-pnpm create next-app -- --example with-tailwindcss with-tailwindcss-app
+### Name
+
+Kyoto comes from the name of an old Japanese place. I was impressed by the beauty of Kyoto so I used this name
+
+### Inspired UI
+
+-   [Kaguya.live](https://kaguya.live/) (Also a manga website. But they have full anime and manga and more amazing)
+-   [Zoro.to](https://zoro.to)
+-   [Mangareader.to](https://mangareader.to/)
+-   [Mangadex.org](https://mangadex.org)
+-   [Project on Behance](https://www.behance.net/gallery/127797927/Manga-Reader-Website-design-freelance-project/modules/724762653?fbclid=IwAR0y_RgdUybLajZZMWpnDYUWxf1IHytDsrOSsJheEAopC-wmNVqzISjZatk)
+
+### Refer project other nextjs
+
+-   Special thanks: [Kaguya](https://github.com/hoangvu12/Kaguya)
+
+## Screenshots
+
+### Home page:
+
+![home-page-kyoto-manga](https://res.cloudinary.com/lee1002/image/upload/v1656087170/personal/dqpi0v4gfsoj6kkwg7oc.png)
+
+### Browse page:
+
+-   Multiple layout:
+
+![browse-page-mutilple-layout](https://res.cloudinary.com/lee1002/image/upload/v1656522858/personal/wo6mcb9ns4adr620gt6u.png)
+
+-   Details layout:
+
+![details-layout](https://res.cloudinary.com/lee1002/image/upload/v1656522973/personal/qjc3pznflejhthtysjbs.png)
+
+-   Column layout:
+
+![Column layout](https://res.cloudinary.com/lee1002/image/upload/v1656523036/personal/bsqssrxxxqgtvzes4hbm.png)
+
+### Details page
+
+![details page](https://res.cloudinary.com/lee1002/image/upload/v1656523136/personal/vzkbstxjgo62tvz8grxl.png)
+
+### Read page
+
+-   Desktop vertical:
+
+![read-page-desktop-vertical](https://res.cloudinary.com/lee1002/image/upload/v1656523214/personal/j3usixubbkjcxtlpjk0k.png)
+
+-   Desktop horizontal:
+
+![read-page-desktop-hr](https://res.cloudinary.com/lee1002/image/upload/v1656523313/personal/wwqvuoud5dlcs6mqdlgz.png)
+
+-   Mobile vertical:
+
+![Mobile-vertical-read](https://res.cloudinary.com/lee1002/image/upload/v1656523418/personal/o9xlpliyd9blxjtq6lof.png)
+
+-   Mobile horizontal:
+
+![mobile-horizontal-reading](https://res.cloudinary.com/lee1002/image/upload/v1656523548/personal/ldcmg19fp3rzemo5a8oe.png)
+
+### Login page
+
+![login-page](https://res.cloudinary.com/lee1002/image/upload/v1656523611/personal/fuwgteshnqlftmzb3ssb.png)
+
+### Follow page
+
+![follow-page](https://res.cloudinary.com/lee1002/image/upload/v1656523730/personal/l554kot7wopcmm4zqznu.png)
+
+### Search
+
+![search ui](https://res.cloudinary.com/lee1002/image/upload/v1656523786/personal/ryzjmqmxlmpq2egyfwz5.png)
+
+## Project setup
+
+-   Enviroment Variables
+
+```
+# Node service (See: https://github.com/leephan2k1/manga-scraper, but i plan to move to vercel and maybe change the end point in the future)
+NEXT_PUBLIC_BASE_URL=your-node-service
+HOST_NAME=vercel-host-name
+
+# Mongodb: (See: https://www.mongodb.com/atlas/database)
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster....
+MONGODB_DB=your-db-name
+
+## Note: Because i use next-auth You must provide callback uri for facebook and google has the following form: your-domain.com/api/auth/callback/<provider> .Otherwise the authentication won't work!
+
+# Google Oauth2 (See: https://console.cloud.google.com/)
+GOOGLE_ID=your-google-client-id
+GOOGLE_SECRET=your-google-secret
+
+# Facebook Oauth (See: https://developers.facebook.com/apps)
+FACEBOOK_CLIENT_ID=your-facebook-client-id
+FACEBOOK_CLIENT_SECRET=your-facebook-secret
+
+# Random Secret (Easy generate: https://generate-secret.vercel.app/32)
+JWT_SECRET=your-jwt-secret
+
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+## Plans:
+
+-   [ ] save chapter
+-   [ ] automatically switch chapters
+-   [ ] notify
+-   [ ] comments
+-   [ ] add more source
+-   [ ] import follow list from user anilist (public)
+-   [ ] recommended from users
