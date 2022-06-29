@@ -6,7 +6,7 @@
 
 | Table content                                                          |
 | ---------------------------------------------------------------------- |
-| [Tech stack](https://github.com/leephan2k1/manga-app#Tech-stack)       |
+| [Tech stack](https://github.com/leephan2k1/manga-app#tech-stack)       |
 | [Inspiration](https://github.com/leephan2k1/manga-app#inspiration)     |
 | [Screenshots](https://github.com/leephan2k1/manga-app#screenshots)     |
 | [Project setup](https://github.com/leephan2k1/manga-app#project-setup) |
@@ -19,7 +19,6 @@
 -   Mongodb
 -   Next-auth
 -   TailwindCSS + HeadlessUI
-    Screenshots
 
 ## Inspiration
 
@@ -35,7 +34,7 @@ Kyoto comes from the name of an old Japanese place. I was impressed by the beaut
 -   [Mangadex.org](https://mangadex.org)
 -   [Project on Behance](https://www.behance.net/gallery/127797927/Manga-Reader-Website-design-freelance-project/modules/724762653?fbclid=IwAR0y_RgdUybLajZZMWpnDYUWxf1IHytDsrOSsJheEAopC-wmNVqzISjZatk)
 
-### Refer project other nextjs
+### Refer other project nextjs
 
 -   Special thanks: [Kaguya](https://github.com/hoangvu12/Kaguya)
 
@@ -106,7 +105,7 @@ HOST_NAME=vercel-host-name
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster....
 MONGODB_DB=your-db-name
 
-## Note: Because i use next-auth You must provide callback uri for facebook and google has the following form: your-domain.com/api/auth/callback/<provider> .Otherwise the authentication won't work!
+# Note: Because i use next-auth You must provide callback uri for facebook and google has the following form: your-domain.com/api/auth/callback/<provider> .Otherwise the authentication won't work!
 
 # Google Oauth2 (See: https://console.cloud.google.com/)
 GOOGLE_ID=your-google-client-id
