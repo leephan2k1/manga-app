@@ -167,7 +167,11 @@ function DetailsChapterList({
                 <>
                     {list && list.length > 0 && (
                         <VirtuosoGrid
-                            style={{ height: '750px' }}
+                            style={{
+                                height: `${
+                                    chapterList.length > 50 ? '750px' : '450px'
+                                }`,
+                            }}
                             totalCount={list.length}
                             components={{
                                 List: ListContainer as ComponentType,
