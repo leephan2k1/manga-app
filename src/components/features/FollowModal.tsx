@@ -23,7 +23,10 @@ export default function FollowModal({
 }: FollowModalProps) {
     const router = useRouter();
     const path = router.asPath;
-    const mangaSlug = path.slice(path.lastIndexOf('/') + 1, path.indexOf('?'));
+    const mangaSlug = path.slice(
+        path.lastIndexOf('/') + 1,
+        path.indexOf('?') > 0 ? path.indexOf('?') : path.length,
+    );
 
     const follow = useFollow();
     const followId = useRef('reading');
