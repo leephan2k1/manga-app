@@ -22,7 +22,7 @@ export default function Footer() {
                 <h1 className="text-center text-2xl font-bold md:text-4xl">
                     Kyoto Manga là website đọc truyện tranh miễn phí
                 </h1>
-                <div className="flex items-center justify-center space-x-8">
+                <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:space-x-8 md:text-2xl">
                     <Link href="/terms-of-service">
                         <a className="hover:text-primary">Điều khoản dịch vụ</a>
                     </Link>
