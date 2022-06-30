@@ -65,7 +65,7 @@ export default function HeaderUser() {
                                             : ''
                                     })`,
                                 }}
-                                className="rounded-ful h-20 w-20 bg-cover bg-no-repeat md:h-24 md:w-24"
+                                className="h-20 w-20 rounded-full bg-cover bg-no-repeat md:h-24 md:w-24"
                             ></figure>
                         </div>
 
