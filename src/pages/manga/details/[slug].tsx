@@ -1,7 +1,7 @@
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { ParsedUrlQuery } from 'querystring';
+// import { ParsedUrlQuery } from 'querystring';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -31,9 +31,9 @@ const FollowModal = dynamic(
         } as ImportCallOptions),
 );
 
-interface Params extends ParsedUrlQuery {
-    slug: string;
-}
+// interface Params extends ParsedUrlQuery {
+//     slug: string;
+// }
 
 interface DetailsPageProps {
     manga: MangaDetails;
@@ -136,24 +136,32 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
         </>
     );
 };
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
-export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
-    ctx,
-) => {
+// @ts-ignore
+export const getServerSideProps: GetServerSideProps = async ({
+    query,
+    res,
+}) => {
+    res.setHeader(
+        'Cache-Control',
+        `public, s-maxage=${REVALIDATE_TIME}, stale-while-revalidate=${
+            REVALIDATE_TIME * 6
+        }`,
+    );
+
     try {
-        const { slug } = ctx.params as Params;
+        const { slug } = query;
         // const host = process.env['HOST_NAME'];
 
         //config dynamic source later
         // const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
 
-        const res = await NtApi?.getManga(slug);
+        const res = await NtApi?.getManga(slug as string);
 
         if (res?.data.success) {
             return {
                 props: { manga: res?.data.data },
-                revalidate: REVALIDATE_TIME,
             };
         } else {
             return { notFound: true };
@@ -163,87 +171,116 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
         return { notFound: true };
     }
 };
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
-export const getStaticPaths: GetStaticPaths<Params> = async () => {
-    const [
-        topMonthList,
-        newMangaUpdated,
-        topAllManga,
-        topMonthManga,
-        topWeekManga,
-        topDayManga,
-        newManga,
-    ] = await Promise.all([
-        NtApi?.filter(1, 'manga-112', 'month').then((res) => {
-            if (res.status === 200 && res.data) {
-                return res.data.data;
-            }
-            return [];
-        }),
-        NtApi?.getNewMangaUpdated(1).then((res) => {
-            if (res.status === 200 && res.data) {
-                return res.data.data;
-            }
-            return [];
-        }),
-        NtApi?.getRankingmanga(undefined, 'all', 1).then((res) => {
-            if (res.status === 200 && res.data) {
-                return res.data.data;
-            }
-            return [];
-        }),
-        NtApi?.getRankingmanga(undefined, 'month', 1).then((res) => {
-            if (res.status === 200 && res.data) {
-                return res.data.data;
-            }
-            return [];
-        }),
-        NtApi?.getRankingmanga(undefined, 'week', 1).then((res) => {
-            if (res.status === 200 && res.data) {
-                return res.data.data;
-            }
-            return [];
-        }),
-        NtApi?.getRankingmanga(undefined, 'day', 1).then((res) => {
-            if (res.status === 200 && res.data) {
-                return res.data.data;
-            }
-            return [];
-        }),
-        NtApi?.getNewManga(1).then((res) => {
-            if (res.status === 200 && res.data) {
-                return res.data.data;
-            }
-            return [];
-        }),
-    ]);
+// export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
+//     ctx,
+// ) => {
+//     try {
+//         const { slug } = ctx.params as Params;
+//         // const host = process.env['HOST_NAME'];
 
-    if (
-        topMonthList &&
-        newMangaUpdated &&
-        topAllManga &&
-        topMonthManga &&
-        topWeekManga &&
-        topDayManga &&
-        newManga
-    ) {
-        const paths = [
-            ...topMonthList,
-            ...newMangaUpdated,
-            ...topAllManga,
-            ...topMonthManga,
-            ...topWeekManga,
-            ...topDayManga,
-            ...newManga,
-        ].map((manga) => ({
-            params: {
-                slug: manga.slug,
-            },
-        }));
-        return { paths, fallback: true };
-    }
-};
+//         //config dynamic source later
+//         // const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
+
+//         const res = await NtApi?.getManga(slug);
+
+//         if (res?.data.success) {
+//             return {
+//                 props: { manga: res?.data.data },
+//                 revalidate: REVALIDATE_TIME,
+//             };
+//         } else {
+//             return { notFound: true };
+//         }
+//     } catch (err) {
+//         console.log(err);
+//         return { notFound: true };
+//     }
+// };
+
+// // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// //@ts-ignore
+// export const getStaticPaths: GetStaticPaths<Params> = async () => {
+//     const [
+//         topMonthList,
+//         newMangaUpdated,
+//         topAllManga,
+//         topMonthManga,
+//         topWeekManga,
+//         topDayManga,
+//         newManga,
+//     ] = await Promise.all([
+//         NtApi?.filter(1, 'manga-112', 'month').then((res) => {
+//             if (res.status === 200 && res.data) {
+//                 return res.data.data;
+//             }
+//             return [];
+//         }),
+//         NtApi?.getNewMangaUpdated(1).then((res) => {
+//             if (res.status === 200 && res.data) {
+//                 return res.data.data;
+//             }
+//             return [];
+//         }),
+//         NtApi?.getRankingmanga(undefined, 'all', 1).then((res) => {
+//             if (res.status === 200 && res.data) {
+//                 return res.data.data;
+//             }
+//             return [];
+//         }),
+//         NtApi?.getRankingmanga(undefined, 'month', 1).then((res) => {
+//             if (res.status === 200 && res.data) {
+//                 return res.data.data;
+//             }
+//             return [];
+//         }),
+//         NtApi?.getRankingmanga(undefined, 'week', 1).then((res) => {
+//             if (res.status === 200 && res.data) {
+//                 return res.data.data;
+//             }
+//             return [];
+//         }),
+//         NtApi?.getRankingmanga(undefined, 'day', 1).then((res) => {
+//             if (res.status === 200 && res.data) {
+//                 return res.data.data;
+//             }
+//             return [];
+//         }),
+//         NtApi?.getNewManga(1).then((res) => {
+//             if (res.status === 200 && res.data) {
+//                 return res.data.data;
+//             }
+//             return [];
+//         }),
+//     ]);
+
+//     if (
+//         topMonthList &&
+//         newMangaUpdated &&
+//         topAllManga &&
+//         topMonthManga &&
+//         topWeekManga &&
+//         topDayManga &&
+//         newManga
+//     ) {
+//         const paths = [
+//             ...topMonthList,
+//             ...newMangaUpdated,
+//             ...topAllManga,
+//             ...topMonthManga,
+//             ...topWeekManga,
+//             ...topDayManga,
+//             ...newManga,
+//         ].map((manga) => ({
+//             params: {
+//                 slug: manga.slug,
+//             },
+//         }));
+//         return { paths, fallback: true };
+//     }
+// };
 
 const DetailsPageWidthDbScrollTT = withDbScroll<DetailsPageProps>(DetailsPage);
 
