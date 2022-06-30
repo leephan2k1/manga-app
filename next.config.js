@@ -21,5 +21,5 @@ module.exports = {
     eslint: {
         ignoreDuringBuilds: true,
     },
-    staticPageGenerationTimeout: 1000,
+    staticPageGenerationTimeout: 5 * 6 * 1000,
 };
