@@ -20,6 +20,7 @@ export const WEBSITE_URL = 'https://kyotomanga.live';
 
 export const SOURCE_COLLECTIONS: { [key: string]: string } = {
     nt: 'http://www.nettruyenco.com',
+    lh: 'https://truyentranhlh.net',
 };
 
 export const FOLLOW_STATE: Array<{ id: FollowState; title: string }> = [

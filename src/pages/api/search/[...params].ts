@@ -1,24 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { SOURCE_COLLECTIONS } from '~/constants';
-import NtModel from '~/serverless/models/Nt.model';
+import LhModel from '~/serverless/models/Lh.model';
 
-const comic = async (req: NextApiRequest, res: NextApiResponse) => {
+const search = async (req: NextApiRequest, res: NextApiResponse) => {
     const { params } = req.query;
+    const { title } = req.query;
 
     const source = params[0];
-    const slug = params[1];
 
     let model;
 
     switch (source) {
-        case 'nt':
-            model = NtModel.getInstance(SOURCE_COLLECTIONS[source]);
+        case 'lh':
+            model = LhModel.getInstance(SOURCE_COLLECTIONS[source]);
             break;
         default:
             return res.status(401).json({ success: false });
     }
 
-    const comic = await model.getComic(slug);
+    const comic = await model.search(title as string);
 
     res.status(200).json({
         success: true,
@@ -26,4 +26,4 @@ const comic = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 };
 
-export default comic;
+export default search;
