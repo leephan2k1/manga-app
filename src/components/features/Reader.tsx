@@ -183,7 +183,7 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
                             <button
                                 onClick={handleNavigateChapter}
                                 data-id="prev"
-                                className="absolute-center h-full w-[20%] border-2 border-dashed border-white/40 px-2 text-white/40 transition-all hover:border-white hover:text-white md:gap-2"
+                                className="absolute-center z-[700] h-full w-[20%] border-2 border-dashed border-white/40 px-2 text-white/40 transition-all hover:border-white hover:text-white md:gap-2"
                             >
                                 {' '}
                                 <ArrowLeftIcon className="inline h-8 w-8" />{' '}

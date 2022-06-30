@@ -22,6 +22,7 @@ import RepositoryFactory from '~/services/repositoryFactory';
 import { ImagesChapter, NavigateDirection, ReadModeSettings } from '~/types';
 
 import { ChevronRightIcon } from '@heroicons/react/outline';
+import webtoonChecker from '~/utils/webtoonChecker';
 
 const NtApi = RepositoryFactory('nettruyen');
 
@@ -148,6 +149,7 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                             mangaSlug: params[0],
                             title: res.data.title,
                             chapterList: res.data.chapterList,
+                            isWebtoon: webtoonChecker(res.data),
                         });
                     }
                 } catch (err) {

@@ -158,6 +158,7 @@ export interface MangaDetails {
 
 export type HeadlessManga = Pick<MangaDetails, 'chapterList' | 'title'> & {
     mangaSlug: string;
+    isWebtoon?: boolean;
 };
 
 export interface Chapter {

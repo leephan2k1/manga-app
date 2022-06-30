@@ -1,8 +1,10 @@
 import { memo, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import { SOURCE_COLLECTIONS } from '~/constants';
 import useSettingsMode from '~/context/SettingsContext';
 import { ImagesChapter } from '~/types';
 import Img from '../shared/Img';
+import { chapterList } from '~/atoms/chapterListAtom';
 
 interface VerticalReadingProps {
     images: ImagesChapter[];
@@ -22,6 +24,7 @@ function VerticalReading({
     handleSaveCurrentPage,
 }: VerticalReadingProps) {
     const url = SOURCE_COLLECTIONS[srcId];
+    const chapterState = useRecoilValue(chapterList);
 
     const settings = useSettingsMode();
 
@@ -46,7 +49,9 @@ function VerticalReading({
                         <div
                             id={`page-${index}`}
                             key={img.id}
-                            className="relative my-4 h-fit w-full"
+                            className={`relative ${
+                                chapterState.isWebtoon ? 'my-0' : 'my-4'
+                            } h-fit w-full`}
                         >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <Img

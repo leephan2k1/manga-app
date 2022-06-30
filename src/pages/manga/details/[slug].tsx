@@ -20,6 +20,7 @@ import Section from '~/components/shared/Section';
 import { REVALIDATE_TIME } from '~/constants';
 import RepositoryFactory from '~/services/repositoryFactory';
 import { HeadlessManga, MangaDetails } from '~/types';
+import webtoonChecker from '~/utils/webtoonChecker';
 
 const NtApi = RepositoryFactory('nettruyen');
 
@@ -39,11 +40,11 @@ interface DetailsPageProps {
 }
 
 const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
-    const matchesMobile = useMediaQuery('(max-width: 768px)');
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
-    const [_, setChapterList] = useRecoilState(chapterList);
     const followModalState = useRecoilValue(followModal);
+    const [_, setChapterList] = useRecoilState(chapterList);
+    const matchesMobile = useMediaQuery('(max-width: 768px)');
 
     useEffectOnce(() => {
         if (manga)
@@ -51,21 +52,20 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                 title: manga.title,
                 mangaSlug: comicSlug,
                 chapterList: manga.chapterList,
+                isWebtoon: webtoonChecker(manga),
             } as HeadlessManga);
     });
 
     useEffect(() => {
-        if (router.isFallback) {
-            setLoading(true);
-        } else {
-            setLoading(false);
-        }
+        setLoading(router.isFallback);
     }, [router.isFallback]);
 
     const comicSlug = useMemo(() => {
         return router.asPath.slice(
             router.asPath.lastIndexOf('/') + 1,
-            router.asPath.indexOf('?'),
+            router.asPath.indexOf('?') > 0
+                ? router.asPath.indexOf('?')
+                : router.asPath.length,
         );
     }, [router.asPath]);
 
