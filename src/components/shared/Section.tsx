@@ -20,7 +20,12 @@ const Section = forwardRef<HTMLDivElement, SectionProps>(
                 {title && (
                     <h2 className="mt-4 flex select-none items-center font-secondary text-3xl text-white hover:cursor-pointer  md:text-4xl lg:text-5xl">
                         {backLink ? (
-                            <ArrowLeftIcon className="mr-4 h-8 w-8 transition-all hover:text-primary lg:h-10 lg:w-10" />
+                            <Link href={backLink}>
+                                <a>
+                                    {' '}
+                                    <ArrowLeftIcon className="mr-4 h-8 w-8 transition-all hover:text-primary lg:h-10 lg:w-10" />
+                                </a>
+                            </Link>
                         ) : null}
 
                         <div className="flex items-center transition-all hover:text-primary">
