@@ -115,50 +115,6 @@ export const getStaticProps: GetStaticProps = async () => {
         NtApi?.getNewManga(1).then((res) => res.data.data),
     ]);
 
-    if (topMonthList)
-        for (let i = 0; i < 10; i++) {
-            try {
-                const chapterRes = await NtApi?.getManga(topMonthList[i].slug);
-                if (chapterRes?.status === 200) {
-                    Object.assign(topMonthList[i], {
-                        chapters: chapterRes.data.data.chapterList,
-                    });
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-    if (newMangaUpdated)
-        for (let i = 0; i < newMangaUpdated?.length; i++) {
-            try {
-                const chapterRes = await NtApi?.getManga(
-                    newMangaUpdated[i].slug,
-                );
-                if (chapterRes?.status === 200) {
-                    Object.assign(newMangaUpdated[i], {
-                        chapters: chapterRes.data.data.chapterList,
-                    });
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-    if (newManga)
-        for (let i = 0; i < newManga?.length; i++) {
-            try {
-                const chapterRes = await NtApi?.getManga(newManga[i].slug);
-                if (chapterRes?.status === 200) {
-                    Object.assign(newManga[i], {
-                        chapters: chapterRes.data.data.chapterList,
-                    });
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
     return {
         props: {
             topMonthList,
