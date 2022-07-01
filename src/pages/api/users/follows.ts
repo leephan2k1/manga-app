@@ -13,6 +13,7 @@ const follows = async (req: NextApiRequest, res: NextApiResponse) => {
             const data = await db
                 .collection('watchlists')
                 .find({ userId: userid, status })
+                .sort({ createdAt: -1 })
                 .toArray();
 
             if (!data)

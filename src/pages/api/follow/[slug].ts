@@ -17,7 +17,7 @@ const follow = async (req: NextApiRequest, res: NextApiResponse) => {
                             mangaSlug: slug,
                             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                             //@ts-ignore
-                            createAt: new Date(Date.now()),
+                            createdAt: new Date(Date.now()),
                         },
                     },
                     { upsert: true },
