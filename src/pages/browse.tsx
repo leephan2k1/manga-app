@@ -26,7 +26,7 @@ const BrowsePage: NextPage<BrowsePageProps> = ({ queryObj }) => {
     const resouce = 'nt';
 
     const { data, error } = useSWR<Comic>(
-        `${Object.values(queryObj).map((i) => i)}`,
+        `${Object.values(queryObj)}`,
         async () => {
             const res = await (
                 await axiosClient.get(`${resouce}/advanced-search`, {

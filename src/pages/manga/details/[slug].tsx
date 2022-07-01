@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useMemo } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
@@ -18,11 +18,8 @@ import DetailsInfo from '~/components/shared/DetailsInfo';
 import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
 import { REVALIDATE_TIME } from '~/constants';
-// import RepositoryFactory from '~/services/repositoryFactory';
 import { HeadlessManga, MangaDetails } from '~/types';
 import webtoonChecker from '~/utils/webtoonChecker';
-
-// const NtApi = RepositoryFactory('nettruyen');
 
 const FollowModal = dynamic(
     () =>
@@ -41,11 +38,11 @@ interface DetailsPageProps {
 
 const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     const router = useRouter();
-    const [isLoading, setLoading] = useState(false);
     const followModalState = useRecoilValue(followModal);
     const [_, setChapterList] = useRecoilState(chapterList);
     const matchesMobile = useMediaQuery('(max-width: 768px)');
 
+    //cached for read page
     useEffectOnce(() => {
         if (manga)
             setChapterList({
@@ -55,10 +52,6 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                 isWebtoon: webtoonChecker(manga),
             } as HeadlessManga);
     });
-
-    useEffect(() => {
-        setLoading(router.isFallback);
-    }, [router.isFallback]);
 
     const comicSlug = useMemo(() => {
         return router.asPath.slice(
@@ -82,21 +75,21 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     return (
         <>
             <Head
-                title={`${manga?.title} - Kyoto Manga`}
+                title={`${manga?.title + '-' || ''}  Kyoto Manga`}
                 description={`${manga?.review}`}
                 image={`${manga?.thumbnail}`}
             />
             <ClientOnly>
                 <div className="flex h-fit min-h-screen flex-col">
                     <DetailsBanner
-                        isLoading={isLoading}
+                        isLoading={router.isFallback}
                         imgUrl={manga?.thumbnail || 'notFound'}
                     />
 
                     <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
                         <Section style="h-fit w-full">
                             <DetailsInfo
-                                isLoading={isLoading}
+                                isLoading={router.isFallback}
                                 manga={manga}
                                 comicSlug={comicSlug}
                             />
@@ -104,7 +97,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
 
                         <Section style="h-fit w-full">
                             <DetailsDescription
-                                isLoading={isLoading}
+                                isLoading={router.isFallback}
                                 mangaReview={manga?.review || ''}
                                 mobileUI={matchesMobile}
                             />
@@ -136,41 +129,6 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
         </>
     );
 };
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// export const getServerSideProps: GetServerSideProps = async ({
-//     query,
-//     res,
-// }) => {
-//     res.setHeader(
-//         'Cache-Control',
-//         `public, s-maxage=${REVALIDATE_TIME}, stale-while-revalidate=${
-//             REVALIDATE_TIME * 6
-//         }`,
-//     );
-
-//     try {
-//         const { slug } = query;
-//         // const host = process.env['HOST_NAME'];
-
-//         //config dynamic source later
-//         // const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
-
-//         const res = await NtApi?.getManga(slug as string);
-
-//         if (res?.data.success) {
-//             return {
-//                 props: { manga: res?.data.data },
-//             };
-//         } else {
-//             return { notFound: true };
-//         }
-//     } catch (err) {
-//         console.log(err);
-//         return { notFound: true };
-//     }
-// };
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
