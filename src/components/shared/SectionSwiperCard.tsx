@@ -1,13 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { memo, useState } from 'react';
+import { memo, MouseEvent, useState } from 'react';
 import { BiGlasses } from 'react-icons/bi';
 import { useMediaQuery } from 'usehooks-ts';
-import {
-    MANGA_PATH_DETAILS_NAME,
-    MANGA_PATH_NAME,
-    MANGA_PATH_READ_NAME,
-} from '~/constants';
+import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useSource from '~/hooks/useSource';
 import { Manga } from '~/types';
 
@@ -17,15 +13,25 @@ import {
     InformationCircleIcon,
     StatusOnlineIcon,
 } from '@heroicons/react/outline';
+import useChapters from '~/hooks/useChapters';
 
 interface SectionSwiperCardProps {
     manga: Manga;
 }
 
 function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
+    const [srcId] = useSource();
+    const chapters = useChapters();
     const matches = useMediaQuery('(min-width: 1259px)');
     const [showPreview, setShowPreview] = useState(false);
-    const [srcId] = useSource();
+
+    const handleGoToFirstChapter = async (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        const mangaSlug = e.currentTarget.dataset.id;
+
+        if (mangaSlug) chapters.goToFirstChapter(mangaSlug);
+    };
 
     return (
         <div
@@ -94,23 +100,12 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                     </p>
 
                     <div className="flex h-fit w-full flex-col items-center space-y-4 py-6">
-                        <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-primary py-2 px-4 transition-all hover:scale-[110%]">
-                            <BiGlasses />{' '}
-                            <Link
-                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${
-                                    manga.slug
-                                }/${
-                                    manga?.chapters &&
-                                    manga.chapters[manga.chapters?.length - 1]
-                                        .chapterNumber
-                                }/${
-                                    manga?.chapters &&
-                                    manga?.chapters[manga.chapters?.length - 1]
-                                        .chapterId
-                                }`}
-                            >
-                                <a>Đọc ngay</a>
-                            </Link>
+                        <button
+                            data-id={manga.slug}
+                            onClick={handleGoToFirstChapter}
+                            className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-primary py-2 px-4 transition-all hover:scale-[110%]"
+                        >
+                            <BiGlasses /> Đọc ngay
                         </button>
                         <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-white py-2 px-4 text-gray-700 transition-all hover:scale-[110%]">
                             <InformationCircleIcon className="h-6 w-6" />{' '}

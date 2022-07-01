@@ -4,7 +4,7 @@ import NtModel from '~/serverless/models/Nt.model';
 import LhModel from '~/serverless/models/Lh.model';
 
 const comic = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { params } = req.query;
+    const { params, limit } = req.query;
 
     const source = params[0];
     const slug = params[1];
@@ -22,7 +22,7 @@ const comic = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(401).json({ success: false });
     }
 
-    const comic = await model.getComic(slug);
+    const comic = await model.getComic(slug, +limit);
 
     res.status(200).json({
         success: true,

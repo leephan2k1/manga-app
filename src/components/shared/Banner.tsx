@@ -3,15 +3,12 @@ import 'swiper/css/effect-fade';
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { memo } from 'react';
+import { memo, MouseEvent } from 'react';
 import { Autoplay, EffectFade } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
-import {
-    MANGA_PATH_DETAILS_NAME,
-    MANGA_PATH_NAME,
-    MANGA_PATH_READ_NAME,
-} from '~/constants';
+import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
+import useChapters from '~/hooks/useChapters';
 import useSource from '~/hooks/useSource';
 import { Manga } from '~/types';
 
@@ -24,8 +21,17 @@ interface MangaBannerProps {
 }
 
 function Banner({ mangaList }: MangaBannerProps) {
-    const matchesTablet = useMediaQuery('(min-width: 768px)');
     const [srcId] = useSource();
+    const chapters = useChapters();
+    const matchesTablet = useMediaQuery('(min-width: 768px)');
+
+    const handleGoToFirstChapter = async (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        const mangaSlug = e.currentTarget.dataset.id;
+
+        if (mangaSlug) chapters.goToFirstChapter(mangaSlug);
+    };
 
     return (
         <div className="relative h-fit w-full overflow-hidden">
@@ -110,29 +116,13 @@ function Banner({ mangaList }: MangaBannerProps) {
                                         </ul>
 
                                         <div className="flex space-x-6 text-xl md:text-2xl lg:pt-6">
-                                            <Link
-                                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${
-                                                    manga.slug
-                                                }/${
-                                                    manga?.chapters &&
-                                                    manga.chapters[
-                                                        manga.chapters?.length -
-                                                            1
-                                                    ].chapterNumber
-                                                }/${
-                                                    manga?.chapters &&
-                                                    manga?.chapters[
-                                                        manga.chapters?.length -
-                                                            1
-                                                    ].chapterId
-                                                }`}
+                                            <button
+                                                data-id={manga.slug}
+                                                onClick={handleGoToFirstChapter}
+                                                className="absolute-center rounded-xl bg-primary py-3 px-5 transition-all   hover:scale-110 md:w-[100px]"
                                             >
-                                                <a>
-                                                    <button className="absolute-center rounded-xl bg-primary py-3 px-5 transition-all   hover:scale-110 md:w-[100px]">
-                                                        Đọc ngay
-                                                    </button>
-                                                </a>
-                                            </Link>
+                                                Đọc ngay
+                                            </button>
 
                                             <Link
                                                 href={{
