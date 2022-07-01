@@ -43,7 +43,33 @@ export default class LhModel extends Scraper {
         }
     }
 
-    public async getComic(slug: string) {
+    private parseChapters(chapters: HTMLElement[]) {
+        return [...chapters].map((item) => {
+            const chapterId = item
+                .getAttribute('href')
+                ?.slice(
+                    String(item.getAttribute('href'))?.lastIndexOf('/') + 1,
+                );
+
+            const chapterTitle = item
+                ?.querySelector('.chapter-name')
+                ?.textContent?.trim();
+
+            const updatedAt = item?.querySelector('.chapter-time')?.textContent;
+
+            return {
+                chapterId,
+                chapterNumber: chapterId
+                    ?.slice(0, chapterId.lastIndexOf('-'))
+                    .replace(/^\D+/g, ''),
+                chapterTitle,
+                updatedAt,
+                view: 'updating',
+            };
+        });
+    }
+
+    public async getComic(slug: string, limit?: number) {
         try {
             const { data } = await this.client.get(
                 `${this.baseUrl}/truyen-tranh/${slug}`,
@@ -120,30 +146,38 @@ export default class LhModel extends Scraper {
             const review =
                 document?.querySelector('.summary-content')?.textContent;
 
-            const chapterList = Array.from(
-                document?.querySelectorAll('.list-chapters a'),
-            ).map((item) => {
-                const chapterId = item
-                    .getAttribute('href')
-                    ?.slice(
-                        String(item.getAttribute('href'))?.lastIndexOf('/') + 1,
-                    );
-                const chapterTitle = item
-                    ?.querySelector('.chapter-name')
-                    ?.textContent.trim();
-                const updatedAt =
-                    item?.querySelector('.chapter-time')?.textContent;
+            let chapterList:
+                | {
+                      chapterId: string | undefined;
+                      chapterNumber: string | undefined;
+                      chapterTitle: string | undefined;
+                      updatedAt: string | undefined;
+                      view: string;
+                  }[]
+                | undefined;
 
-                return {
-                    chapterId,
-                    chapterNumber: chapterId
-                        ?.slice(0, chapterId.lastIndexOf('-'))
-                        .replace(/^\D+/g, ''),
-                    chapterTitle,
-                    updatedAt,
-                    view: 'updating',
-                };
-            });
+            if (limit && limit > 0) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                chapterList = this.parseChapters(
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
+                    Array.from(
+                        document
+                            ?.querySelectorAll('.list-chapters a')
+                            .reverse()
+                            .slice(0, limit),
+                    ),
+                );
+            } else {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                chapterList = this.parseChapters(
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
+                    Array.from(document?.querySelectorAll('.list-chapters a')),
+                );
+            }
 
             return {
                 title,

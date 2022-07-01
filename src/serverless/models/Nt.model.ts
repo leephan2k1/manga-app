@@ -27,7 +27,42 @@ export default class NtModel extends Scraper {
         return this.instance;
     }
 
-    public async getComic(mangaSlug: string) {
+    private parseChapters(chapters: HTMLElement[]) {
+        return [...chapters].map((chapter) => {
+            const chapterTitle = normalizeString(
+                String(chapter.querySelector('a')?.textContent),
+            );
+            const chapterId = chapter
+                .querySelector('a')
+                ?.getAttribute('data-id');
+
+            const arr = String(
+                chapter.querySelector('a')?.getAttribute('href'),
+            ).split('/');
+
+            const chapterStr = arr[arr.length - 2];
+
+            const chapterNumber = chapterStr.slice(chapterStr.indexOf('-') + 1);
+
+            const updatedAt = normalizeString(
+                String(chapter.querySelectorAll('div')[1].textContent),
+            );
+
+            const view = normalizeString(
+                String(chapter.querySelectorAll('div')[2].textContent),
+            );
+
+            return {
+                chapterId,
+                chapterNumber,
+                chapterTitle,
+                updatedAt,
+                view,
+            };
+        });
+    }
+
+    public async getComic(mangaSlug: string, limit?: number) {
         const baseUrlMangaDetail = 'truyen-tranh';
 
         try {
@@ -108,40 +143,31 @@ export default class NtModel extends Scraper {
             const chapterListRaw = document.querySelectorAll(
                 `${rootSelector} #nt_listchapter ul .row`,
             );
-            const chapterList = [...chapterListRaw].map((chapter) => {
-                const chapterTitle = normalizeString(
-                    String(chapter.querySelector('a')?.textContent),
+
+            let chapterList:
+                | {
+                      chapterId: string | undefined;
+                      chapterNumber: string;
+                      chapterTitle: string;
+                      updatedAt: string;
+                      view: string;
+                  }
+                | undefined;
+            [];
+
+            if (limit && limit > 0) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                chapterList = this.parseChapters(
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
+                    [...chapterListRaw].reverse().slice(0, limit),
                 );
-                const chapterId = chapter
-                    .querySelector('a')
-                    ?.getAttribute('data-id');
-
-                const arr = String(
-                    chapter.querySelector('a')?.getAttribute('href'),
-                ).split('/');
-
-                const chapterStr = arr[arr.length - 2];
-
-                const chapterNumber = chapterStr.slice(
-                    chapterStr.indexOf('-') + 1,
-                );
-
-                const updatedAt = normalizeString(
-                    String(chapter.querySelectorAll('div')[1].textContent),
-                );
-
-                const view = normalizeString(
-                    String(chapter.querySelectorAll('div')[2].textContent),
-                );
-
-                return {
-                    chapterId,
-                    chapterNumber,
-                    chapterTitle,
-                    updatedAt,
-                    view,
-                };
-            });
+            } else {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                chapterList = this.parseChapters(chapterListRaw);
+            }
 
             const thumbnail = super.unshiftProtocol(
                 String(
