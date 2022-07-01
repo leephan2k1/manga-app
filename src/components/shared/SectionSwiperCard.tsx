@@ -105,7 +105,7 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                             onClick={handleGoToFirstChapter}
                             className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-primary py-2 px-4 transition-all hover:scale-[110%]"
                         >
-                            <BiGlasses /> Đọc ngay
+                            <BiGlasses /> <span>Đọc ngay</span>
                         </button>
                         <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-white py-2 px-4 text-gray-700 transition-all hover:scale-[110%]">
                             <InformationCircleIcon className="h-6 w-6" />{' '}
