@@ -20,6 +20,8 @@ const search = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const comic = await model.search(title as string);
 
+    if (!comic?.data?.length) return res.status(404).json({ message: 'error' });
+
     res.status(200).json({
         success: true,
         data: comic,
