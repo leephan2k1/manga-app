@@ -82,10 +82,15 @@ input[type='number'] {
     -moz-appearance: textfield;
 }
 
-.circle {
+.circle,
+.circle-sm {
     width: 3.75em;
     transform-origin: center;
     animation: rotate 2s linear infinite;
+}
+
+.circle-sm {
+    width: 2.5rem;
 }
 
 .circle-loading {

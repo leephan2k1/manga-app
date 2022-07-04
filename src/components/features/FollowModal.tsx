@@ -4,6 +4,7 @@ import { Fragment, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useEffectOnce } from 'usehooks-ts';
 import { followModal } from '~/atoms/followModaAtom';
+import CircleIcon from '~/components/icons/CircleIcon';
 import ListBox from '~/components/shared/ListBox';
 import { FOLLOW_STATE } from '~/constants';
 import useFollow from '~/hooks/useFollow';
@@ -23,6 +24,7 @@ export default function FollowModal({
 }: FollowModalProps) {
     const router = useRouter();
     const path = router.asPath;
+
     const mangaSlug = path.slice(
         path.lastIndexOf('/') + 1,
         path.indexOf('?') > 0 ? path.indexOf('?') : path.length,
@@ -31,9 +33,10 @@ export default function FollowModal({
     const follow = useFollow();
     const followId = useRef('reading');
     const savedSelectDb = useRef('Đang đọc');
+    const [loading, setLoading] = useState(true);
+    const [isSaved, setIsSaved] = useState(false);
     const { data: session, status } = useSession();
     const [followStatus, setFollowStatus] = useState('Đang đọc');
-    const [isSaved, setIsSaved] = useState(false);
     const [showModal, setShowModal] = useRecoilState(followModal);
 
     const handleCloseModal = () => {
@@ -57,6 +60,8 @@ export default function FollowModal({
 
     const handleAddStatus = async () => {
         if (status === 'authenticated' && followId.current) {
+            setLoading(true);
+
             const success = await follow.add(
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
@@ -68,20 +73,22 @@ export default function FollowModal({
             );
             //show toast
             if (success) {
-                setShowModal(false);
                 callbackMessage('Thêm vào danh sách thành công!', 'success');
             } else {
-                setShowModal(false);
                 callbackMessage(
                     'Opps! Có gì đó không đúng, thử lại sau',
                     'error',
                 );
             }
+            setLoading(false);
+            setShowModal(false);
         }
     };
 
     const handleDeleteStatus = async () => {
         if (status === 'authenticated') {
+            setLoading(true);
+
             const success = await follow._delete(
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
@@ -91,15 +98,16 @@ export default function FollowModal({
 
             //show toast
             if (success) {
-                setShowModal(false);
                 callbackMessage('Xoá khỏi danh sách thành công!', 'success');
             } else {
-                setShowModal(false);
                 callbackMessage(
                     'Opps! Có gì đó không đúng, thử lại sau',
                     'error',
                 );
             }
+
+            setShowModal(false);
+            setLoading(false);
         }
     };
 
@@ -109,7 +117,7 @@ export default function FollowModal({
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
                 session?.user?.id as string,
-                mangaSlug,
+                manga.title,
             );
 
             if (res) {
@@ -123,6 +131,8 @@ export default function FollowModal({
                     setIsSaved(true);
                 }
             }
+
+            setLoading(false);
         })();
     });
 
@@ -210,7 +220,7 @@ export default function FollowModal({
                                         </div>
 
                                         <div className="my-4 mb-20 flex w-full justify-center gap-4 md:mb-4 md:justify-end">
-                                            {isSaved && (
+                                            {isSaved && !loading && (
                                                 <button
                                                     onClick={handleDeleteStatus}
                                                     className="w-full rounded-xl py-6 font-secondary text-4xl text-primary transition-all hover:bg-primary/20 md:w-[30%]"
@@ -219,15 +229,24 @@ export default function FollowModal({
                                                 </button>
                                             )}
 
-                                            <button
-                                                onClick={handleAddStatus}
-                                                className="ld:w-[30%] w-full rounded-xl bg-primary  py-6 font-secondary text-4xl md:w-[35%]"
-                                            >
-                                                {savedSelectDb.current !==
-                                                followStatus
-                                                    ? 'Cập nhật'
-                                                    : 'Lưu'}
-                                            </button>
+                                            {loading ? (
+                                                <div className="ld:w-[30%] rounded-x absolute-center w-full py-6 font-secondary text-4xl md:w-[35%]">
+                                                    <CircleIcon
+                                                        wraperStyles="circle-sm"
+                                                        circleStyles="circle-loading"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    onClick={handleAddStatus}
+                                                    className="ld:w-[30%] w-full rounded-xl bg-primary  py-6 font-secondary text-4xl md:w-[35%]"
+                                                >
+                                                    {savedSelectDb.current !==
+                                                    followStatus
+                                                        ? 'Cập nhật'
+                                                        : 'Lưu'}
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
