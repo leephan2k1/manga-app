@@ -1,4 +1,3 @@
-import torriGate from '/public/images/torri-gate.jpg';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -11,6 +10,7 @@ import {
     MANGA_PATH_READ_NAME,
 } from '~/constants';
 import { MangaDetails } from '~/types';
+import torriGate from '/public/images/torri-gate.jpg';
 
 import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
 import { LightningBoltIcon } from '@heroicons/react/solid';
@@ -24,9 +24,9 @@ interface DetailsInfoProps {
 }
 
 function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
-    const [_, setShowModal] = useRecoilState(followModal);
     const router = useRouter();
     const { status } = useSession();
+    const [_, setShowModal] = useRecoilState(followModal);
 
     const handleShowFollowModal = () => {
         if (status === 'unauthenticated') {
@@ -188,7 +188,7 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
                                 manga?.chapterList[
                                     manga?.chapterList.length - 1
                                 ].chapterId
-                            }`}
+                            }/nt`}
                         >
                             <a>
                                 <button className="pulse-effect-primary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-primary transition-all hover:scale-[110%]">
@@ -205,7 +205,7 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
                             }/${
                                 manga?.chapterList.length &&
                                 manga?.chapterList[0].chapterId
-                            }`}
+                            }/nt`}
                         >
                             <a>
                                 <button className="pulse-effect-secondary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-white text-gray-800 transition-all hover:scale-[110%]">

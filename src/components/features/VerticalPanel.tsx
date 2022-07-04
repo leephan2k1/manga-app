@@ -1,13 +1,13 @@
 import LogoSVG from '/public/images/torii-gate-japan.svg';
 import { useRouter } from 'next/router';
-import { MouseEvent, useRef, useState } from 'react';
+import { memo, MouseEvent, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { chapterList } from '~/atoms/chapterListAtom';
+import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import { NavigateDirection } from '~/types';
-import { memo } from 'react';
 
 import {
     ArrowLeftIcon,
@@ -27,12 +27,13 @@ interface SettingsSideProps {
 }
 
 function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
+    const read = useReading();
     const router = useRouter();
     const settings = useSettingsMode();
-    const sideSettingsRef = useRef<HTMLDivElement>(null);
     const manga = useRecoilValue(chapterList);
-    const read = useReading();
     const [isHovering, setIsHovering] = useState(false);
+    const availableSource = useRecoilValue(mangaSources);
+    const sideSettingsRef = useRef<HTMLDivElement>(null);
 
     const handleCloseSideSettings = () => {
         handleClose();
@@ -96,7 +97,8 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
                 handleSelect={handleSourceSettings}
                 style="rounded-xl p-4 gap-2 transition-all"
                 title="Nguồn: "
-                options={['NT']}
+                defaultOption={availableSource[0].sourceName}
+                options={availableSource.map((src) => src.sourceName)}
                 backgroundColor="bg-highlight"
                 activeBackgroundColor="bg-primary"
             />

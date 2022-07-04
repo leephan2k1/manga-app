@@ -3,19 +3,21 @@ import 'tippy.js/dist/tippy.css';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ComponentType, memo, useEffect, useRef, useState } from 'react';
 import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
+import { useRecoilValue } from 'recoil';
 import { animateFill, followCursor } from 'tippy.js';
+import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
 import { Chapter } from '~/types';
 
 import styled from '@emotion/styled';
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
 
-import { useRouter } from 'next/router';
-import { MANGA_RESOURCE } from '~/constants';
 import ChapterInput from './ChapterInput';
 import LazyTippy from './LazyTippy';
+import { mangaSrc } from '~/atoms/mangaSrcAtom';
 
 const ListBox = dynamic(() => import('../buttons/ListBoxButton'));
 
@@ -59,10 +61,12 @@ function DetailsChapterList({
     containerStyle,
     highlightCurrentChapter,
 }: DetailsChapterListProps) {
-    const [list, setList] = useState<Chapter[]>(chapterList);
     const router = useRouter();
-    const { params } = router.query;
     const virtuoso = useRef(null);
+    const { params } = router.query;
+    const src = useRecoilValue(mangaSrc);
+    const availableSource = useRecoilValue(mangaSources);
+    const [list, setList] = useState<Chapter[]>(chapterList);
 
     useEffect(() => {
         setList(chapterList);
@@ -110,7 +114,7 @@ function DetailsChapterList({
                 {selectSource && (
                     <ListBox
                         title="Nguồn:"
-                        listDropDown={MANGA_RESOURCE.map((item) => ({
+                        listDropDown={availableSource.map((item) => ({
                             title: item.sourceName,
                             id: item.sourceId,
                         }))}
@@ -128,7 +132,7 @@ function DetailsChapterList({
                         <div className="animate__fadeIn animate__animated m-2 overflow-hidden text-white">
                             <button className="h-full w-full">
                                 <Link
-                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${list[index].chapterNumber}/${list[index].chapterId}`}
+                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${list[index].chapterNumber}/${list[index].chapterId}/${src}`}
                                 >
                                     <a
                                         className={`${
@@ -192,7 +196,7 @@ function DetailsChapterList({
                                     >
                                         <button className="h-full w-full">
                                             <Link
-                                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${list[index].chapterNumber}/${list[index].chapterId}`}
+                                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${list[index].chapterNumber}/${list[index].chapterId}/${src}`}
                                             >
                                                 <a
                                                     className={`bubble-top-left-to-bottom-right

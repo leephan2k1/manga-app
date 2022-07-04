@@ -4,7 +4,12 @@ export default function usePushQuery() {
     const router = useRouter();
 
     const query = {
-        push: (key: string, value: string, refreshPage?: boolean) => {
+        push: (
+            key: string,
+            value: string,
+            refreshPage?: boolean,
+            isShallow?: boolean,
+        ) => {
             const queryObj = {
                 ...router.query,
                 [key]: value,
@@ -17,12 +22,16 @@ export default function usePushQuery() {
                 }
             }
 
-            router.replace({
-                pathname: router.pathname,
-                query: queryObj,
-            });
+            router.replace(
+                {
+                    pathname: router.pathname,
+                    query: queryObj,
+                },
+                undefined,
+                { shallow: !!isShallow },
+            );
         },
     };
 
-    return [query];
+    return query;
 }

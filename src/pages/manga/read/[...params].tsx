@@ -18,13 +18,12 @@ import {
 } from '~/constants';
 import { ReadingContextProvider } from '~/context/ReadingContext';
 import { SettingsContextProvider } from '~/context/SettingsContext';
-import RepositoryFactory from '~/services/repositoryFactory';
+import axiosClient from '~/services/axiosClient';
 import { ImagesChapter, NavigateDirection, ReadModeSettings } from '~/types';
-
-import { ChevronRightIcon } from '@heroicons/react/outline';
+import proxyObserver from '~/utils/proxyObserver';
 import webtoonChecker from '~/utils/webtoonChecker';
 
-const NtApi = RepositoryFactory('nettruyen');
+import { ChevronRightIcon } from '@heroicons/react/outline';
 
 const SettingsModal = dynamic(
     () =>
@@ -89,7 +88,7 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                     const nextChapId = manga.chapterList[index].chapterId;
 
                     router.replace(
-                        `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${nextChapNumber}/${nextChapId}`,
+                        `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${nextChapNumber}/${nextChapId}/${params[3]}`,
                     );
 
                     break;
@@ -101,7 +100,7 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                     const prevChapId = manga.chapterList[index].chapterId;
 
                     router.replace(
-                        `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${prevChapNumber}/${prevChapId}`,
+                        `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${prevChapNumber}/${prevChapId}/${params[3]}`,
                     );
 
                     break;
@@ -142,7 +141,12 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                 try {
                     if (!params?.length) return;
 
-                    const res = (await NtApi?.getManga(params[0]))?.data;
+                    const source = params[3];
+                    const slug = params[0];
+
+                    const res = (
+                        await axiosClient.get(`${source}/manga/${slug}`)
+                    )?.data;
 
                     if (res?.success) {
                         setManga({
@@ -186,7 +190,7 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                     <ReadingContextProvider
                         value={{
                             images: imagesChapter,
-                            useProxy: true,
+                            useProxy: proxyObserver(params && params[3]),
                             sourceId: 'nt',
                             navigateChapter: handleChangeChapter,
                             currentChapter: currentChapter,
@@ -282,27 +286,42 @@ export const getServerSideProps: GetServerSideProps = async ({
     );
 
     const { params } = query;
+    const mangaSlug = params && params[0];
+    const mangaChapter = params && params[1];
+    const mangaChapterId = params && params[2];
+    const mangaSource = params && params[3];
 
     if (!params?.length) return { notFound: true };
 
-    const realSlug = params[0].slice(0, params[0]?.lastIndexOf('-'));
+    //because nt source slug embed with id
+    //need to separate id from slug to fetch images chapter
+    const realSlug =
+        mangaSource === 'nt' && !isNaN(+String(mangaSlug?.slice(-1)))
+            ? mangaSlug?.slice(0, mangaSlug?.lastIndexOf('-'))
+            : mangaSlug;
+
+    console.log(
+        ':::::::::::: ',
+        realSlug,
+        mangaSource,
+        !isNaN(+String(mangaSlug?.slice(-1))),
+    );
 
     try {
-        const imgsRes = await NtApi?.getChapters(
-            realSlug,
-            params[1],
-            params[2],
+        // const imgsRes = await NtApi?.getChapters(realSlug, params[1], params[2]);
+
+        const imgsRes = await axiosClient.get(
+            `${mangaSource}/chapter/${realSlug}/${mangaChapter}/${mangaChapterId}`,
         );
 
         if (imgsRes?.status !== 200) return { notFound: true };
-
         return {
             props: {
                 imagesChapter: imgsRes.data.data,
             },
         };
     } catch (err) {
-        console.log(err);
+        console.log('err slug');
         return { notFound: true };
     }
 };

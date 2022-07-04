@@ -26,7 +26,7 @@ export default function FilterItem({
     instanceId,
 }: FilterItemProps) {
     const router = useRouter();
-    const [query] = usePushQuery();
+    const query = usePushQuery();
     const [queryValue, setQueryValue] = useState<Array<SelectType>>([]);
 
     useEffect(() => {

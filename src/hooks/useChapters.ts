@@ -16,7 +16,7 @@ export default function useChapters() {
                 const { chapterId } = res.data.chapterList[0];
 
                 router.push(
-                    `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${mangaSlug}/${chapterNumber}/${chapterId}`,
+                    `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${mangaSlug}/${chapterNumber}/${chapterId}/nt`,
                 );
             }
         } catch (err) {

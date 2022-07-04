@@ -144,7 +144,7 @@ export const GENDER = [
 
 export const MANGA_RESOURCE: MangaResource[] = [
     {
-        sourceName: 'NT',
+        sourceName: 'NTC',
         sourceId: 'nt',
     },
 ];

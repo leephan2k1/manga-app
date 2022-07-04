@@ -8,8 +8,8 @@ interface PaginationProps {
 }
 
 export default function Pagination({ totalPages }: PaginationProps) {
-    const [query] = usePushQuery();
     const router = useRouter();
+    const query = usePushQuery();
     const [currentPage, setCurrentPage] = useState(1);
 
     const handleChangePage = (e: MouseEvent<HTMLLIElement>) => {

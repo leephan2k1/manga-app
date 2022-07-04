@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { mangaSrc } from '~/atoms/mangaSrcAtom';
 
 import { Listbox, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline';
@@ -19,13 +21,30 @@ export default function ListBoxButton({
     listDropDown,
     defaultSelected,
 }: ListBoxButtonProps) {
-    const [selectedSource, setSelectedSource] = useState(
-        defaultSelected || listDropDown[0].title,
-    );
+    const [_, setSrc] = useRecoilState(mangaSrc);
+    const [selectedSource, setSelectedSource] = useState(() => {
+        return defaultSelected || listDropDown[0].title;
+    });
+
+    const handleSelect = (val: string) => {
+        setSelectedSource(val);
+        switch (val) {
+            case 'LHM':
+                setSrc('lh');
+                break;
+
+            case 'NTC':
+                setSrc('nt');
+                break;
+        }
+    };
 
     return (
         <div className="relative">
-            <Listbox value={selectedSource} onChange={setSelectedSource}>
+            <Listbox
+                value={selectedSource}
+                onChange={(val) => handleSelect(val)}
+            >
                 {({ open }) => (
                     <>
                         <Listbox.Button>

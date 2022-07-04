@@ -160,7 +160,7 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
                 <HorizontalReading
                     images={reader?.images || []}
                     srcId={reader?.sourceId || ''}
-                    useProxy
+                    useProxy={reader?.useProxy}
                     currentPage={currentPage}
                     handleSaveCurrentPage={handleSaveCurrentPage}
                     handleConfig={handleConfig}
@@ -169,7 +169,7 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
                 <VerticalReading
                     images={reader?.images || []}
                     srcId={reader?.sourceId || ''}
-                    useProxy
+                    useProxy={reader?.useProxy}
                     matchesTouchScreen={matchesTouchScreen}
                     currentPage={currentPage}
                     handleSaveCurrentPage={handleSaveCurrentPage}

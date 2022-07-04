@@ -173,3 +173,22 @@ export interface Genre {
     genreTitle: string;
     slug: string;
 }
+
+export interface LHSearchRes {
+    success: boolean;
+    data: DataLHSearchRes;
+}
+
+export interface DataLHSearchRes {
+    status: number;
+    success: boolean;
+    data: LHMangaSearch[];
+}
+
+export interface LHMangaSearch {
+    id: number;
+    name: string;
+    cover_url: string;
+    pilot: string;
+    url: string;
+}
