@@ -6,17 +6,21 @@ const follow = async (req: NextApiRequest, res: NextApiResponse) => {
     const { slug, userId } = query;
     const { db } = await connectToDatabase();
 
+    // console.log(':: details ', details);
+
     switch (method) {
         case 'POST':
             try {
+                console.log(':: body ', body.details.name);
                 await db.collection('watchlists').updateOne(
-                    { userId: body.userId, mangaSlug: slug },
+                    {
+                        userId: body.userId,
+                        'details.name': body.details.name,
+                    },
                     {
                         $set: {
                             ...body,
                             mangaSlug: slug,
-                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                            //@ts-ignore
                             createdAt: new Date(Date.now()),
                         },
                     },
@@ -35,7 +39,7 @@ const follow = async (req: NextApiRequest, res: NextApiResponse) => {
             try {
                 const data = await db
                     .collection('watchlists')
-                    .findOne({ userId, mangaSlug: slug });
+                    .findOne({ userId, 'details.name': slug });
 
                 if (!data)
                     return res.status(404).json({ message: 'items not found' });

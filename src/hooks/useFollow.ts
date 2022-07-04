@@ -35,10 +35,10 @@ export default function useFollow() {
         }
     };
 
-    const get = async (userId: string, mangaSlug: string) => {
+    const get = async (userId: string, mangaTitle: string) => {
         try {
             const response = await axios.get(
-                `/api/follow/${mangaSlug}?userId=${userId}`,
+                `/api/follow/${mangaTitle}?userId=${userId}`,
             );
             return response.data;
         } catch (err) {
