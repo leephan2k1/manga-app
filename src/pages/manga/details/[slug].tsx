@@ -58,7 +58,13 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
             ).data;
         },
         {
-            onError: async () => {
+            onErrorRetry: async (_, __, ___, revalidate, { retryCount }) => {
+                // Only retry up to 2 times.
+                if (retryCount >= 2) return;
+
+                // Retry after 3.5 seconds.
+                setTimeout(() => revalidate({ retryCount }), 3500);
+
                 return await (
                     await axios.get(`/api/search/lh?title=${manga?.otherName}`)
                 ).data;
@@ -67,9 +73,11 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     );
 
     const { data: LHManga } = useSWR<MangaDetails>(
-        `/lh/manga/${LHSearch?.data?.data[0].url?.slice(
-            LHSearch?.data?.data[0].url.lastIndexOf('/'),
-        )}`,
+        LHSearch
+            ? `/lh/manga/${LHSearch?.data?.data[0].url?.slice(
+                  LHSearch?.data?.data[0].url.lastIndexOf('/'),
+              )}`
+            : null,
         async (slug) => {
             const res = await (await axiosClient.get(slug)).data;
 
