@@ -26,7 +26,7 @@ function ListBox({
 }: ListBoxProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const [showOptions, setShowOptions] = useState(false);
-    const [option, setOption] = useState(options[0]);
+    const [option, setOption] = useState('');
 
     useOnClickOutside(ref, () => {
         if (showOptions) {
@@ -52,7 +52,7 @@ function ListBox({
             }`}
         >
             {title}{' '}
-            <span className={highlightSelect}>{defaultOption || option}</span>
+            <span className={highlightSelect}>{option || defaultOption}</span>
             {showOptions ? (
                 <ChevronUpIcon className="animate__rotateIn animate__animated animate__faster h-8 w-8" />
             ) : (
