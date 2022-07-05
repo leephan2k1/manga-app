@@ -46,9 +46,9 @@ export default function useFollow() {
         }
     };
 
-    const _delete = async (userId: string, mangaSlug: string) => {
+    const _delete = async (userId: string, mangaTitle: string) => {
         try {
-            await axios.delete(`/api/follow/${mangaSlug}?userId=${userId}`);
+            await axios.delete(`/api/follow/${mangaTitle}?userId=${userId}`);
             return true;
         } catch (err) {
             console.error(err);

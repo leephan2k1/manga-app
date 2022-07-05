@@ -93,7 +93,7 @@ export default function FollowModal({
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
                 session?.user?.id as string,
-                mangaSlug,
+                manga.title,
             );
 
             //show toast

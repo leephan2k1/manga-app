@@ -54,7 +54,7 @@ const follow = async (req: NextApiRequest, res: NextApiResponse) => {
             try {
                 await db
                     .collection('watchlists')
-                    .deleteOne({ userId, mangaSlug: slug });
+                    .deleteOne({ userId, 'details.name': slug });
 
                 res.status(200).json({
                     success: true,
