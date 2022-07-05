@@ -21,7 +21,11 @@ import DetailsDescription from '~/components/shared/DetailsDescription';
 import DetailsInfo from '~/components/shared/DetailsInfo';
 import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
-import { MANGA_RESOURCE, REVALIDATE_TIME } from '~/constants';
+import {
+    COMPARISON_CHAPTERS_FACTOR,
+    MANGA_RESOURCE,
+    REVALIDATE_TIME,
+} from '~/constants';
 import axiosClient from '~/services/axiosClient';
 import { HeadlessManga, LHSearchRes, MangaDetails } from '~/types';
 import webtoonChecker from '~/utils/webtoonChecker';
@@ -86,23 +90,35 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     );
 
     useEffect(() => {
-        if (LHManga?.chapterList?.length) {
-            setAvailableSource((prevState) => [
-                ...prevState,
-                {
-                    sourceName: 'LHM',
-                    sourceId: 'lh',
-                },
-            ]);
+        /* Checking if the chapterList of LHManga is not empty and the difference between the length of
+    manga.chapterList and LHManga.chapterList is less than COMPARISON_CHAPTERS_FACTOR, if it is, it will
+    add LHM to the availableSource, if not, it will set the availableSource to MANGA_RESOURCE. */
+        if (
+            LHManga?.chapterList?.length &&
+            Math.abs(manga.chapterList.length - LHManga?.chapterList?.length) <
+                COMPARISON_CHAPTERS_FACTOR
+        ) {
+            setAvailableSource((prevState) => {
+                if (prevState.find((src) => src.sourceName === 'LHM'))
+                    return prevState;
+
+                return [
+                    ...prevState,
+                    {
+                        sourceName: 'LHM',
+                        sourceId: 'lh',
+                    },
+                ];
+            });
+        } else {
+            setAvailableSource(MANGA_RESOURCE);
         }
 
-        //clean up every manga
-        return () => {
-            setAvailableSource(MANGA_RESOURCE);
-        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [LHManga]);
 
+    /* Checking if the source is nt or lh, if it is nt, it will set the currentChapters to
+    manga?.chapterList, if it is lh, it will set the currentChapters to LHManga?.chapterList. */
     useEffect(() => {
         switch (src) {
             case 'nt':
@@ -148,7 +164,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     const comicSlug = useMemo(() => {
         if (src === 'lh' && LHSearch) {
             return LHSearch?.data?.data[0].url?.slice(
-                LHSearch?.data?.data[0].url.lastIndexOf('/'),
+                LHSearch?.data?.data[0].url.lastIndexOf('/') + 1,
             );
         }
 

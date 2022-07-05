@@ -1,13 +1,15 @@
 import LogoSVG from '/public/images/torii-gate-japan.svg';
 import { useRouter } from 'next/router';
 import { memo, MouseEvent, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { chapterList } from '~/atoms/chapterListAtom';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
+import { mangaSrc } from '~/atoms/mangaSrcAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
-import { NavigateDirection } from '~/types';
+import useMultipleSources from '~/context/SourcesContext';
+import { Chapter, NavigateDirection } from '~/types';
 
 import {
     ArrowLeftIcon,
@@ -29,18 +31,49 @@ interface SettingsSideProps {
 function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
     const read = useReading();
     const router = useRouter();
+    const { params } = router.query;
     const settings = useSettingsMode();
     const manga = useRecoilValue(chapterList);
+    const [_, setSrc] = useRecoilState(mangaSrc);
+    const multipleSources = useMultipleSources();
     const [isHovering, setIsHovering] = useState(false);
+    const [sourceSlug, setSourceSlug] = useState(comicSlug);
     const availableSource = useRecoilValue(mangaSources);
     const sideSettingsRef = useRef<HTMLDivElement>(null);
+    const [currentChapters, setCurrentChapters] = useState(manga?.chapterList);
 
     const handleCloseSideSettings = () => {
         handleClose();
     };
 
-    const handleSourceSettings = () => {
-        console.log();
+    const handleSourceSettings = (value: string) => {
+        if (multipleSources)
+            switch (value) {
+                case 'LHM':
+                    setSrc('lh');
+                    const LH_Instance = multipleSources.sources.find(
+                        (src) => src.srcId === 'lh',
+                    );
+
+                    setCurrentChapters(
+                        LH_Instance?.details?.chapterList as Chapter[],
+                    );
+
+                    setSourceSlug(LH_Instance?.slug as string);
+                    break;
+                case 'NTC':
+                    setSrc('nt');
+                    const NT_Instance = multipleSources.sources.find(
+                        (src) => src.srcId === 'nt',
+                    );
+
+                    setCurrentChapters(
+                        NT_Instance?.details?.chapterList as Chapter[],
+                    );
+
+                    setSourceSlug(NT_Instance?.slug as string);
+                    break;
+            }
     };
 
     const handleShowSettingsMode = () => {
@@ -62,7 +95,7 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
                 <button
                     onClick={() =>
                         router.push(
-                            `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comicSlug}`,
+                            `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${sourceSlug}`,
                         )
                     }
                     className="rounded-full p-4 transition-all hover:bg-white/25"
@@ -97,7 +130,11 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
                 handleSelect={handleSourceSettings}
                 style="rounded-xl p-4 gap-2 transition-all"
                 title="Nguồn: "
-                defaultOption={availableSource[0].sourceName}
+                defaultOption={
+                    params &&
+                    availableSource.find((src) => src.sourceId === params[3])
+                        ?.sourceName
+                }
                 options={availableSource.map((src) => src.sourceName)}
                 backgroundColor="bg-highlight"
                 activeBackgroundColor="bg-primary"
@@ -127,9 +164,13 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
                     containerStyle="flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
                     mobileHeight={300}
                     selectSource={false}
-                    comicSlug={comicSlug}
+                    comicSlug={sourceSlug}
                     mobileUI={true}
-                    chapterList={manga.chapterList}
+                    chapterList={
+                        currentChapters.length > 0
+                            ? currentChapters
+                            : manga?.chapterList
+                    }
                 />
             </div>
 

@@ -18,6 +18,7 @@ import {
 } from '~/constants';
 import { ReadingContextProvider } from '~/context/ReadingContext';
 import { SettingsContextProvider } from '~/context/SettingsContext';
+import { SourcesContextProvider } from '~/context/SourcesContext';
 import axiosClient from '~/services/axiosClient';
 import { ImagesChapter, NavigateDirection, ReadModeSettings } from '~/types';
 import proxyObserver from '~/utils/proxyObserver';
@@ -43,15 +44,17 @@ interface ReadPageProps {
 }
 
 const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
+    const router = useRouter();
+    const { params } = router.query;
+
     const [rmSettings] = useLocalStorage<ReadModeSettings | null>(
         'settings',
         null,
     );
-    const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
-    const [showSideSettings, setShowSideSettings] = useState(true);
+
     const [manga, setManga] = useRecoilState(chapterList);
-    const router = useRouter();
-    const { params } = router.query;
+    const [showSideSettings, setShowSideSettings] = useState(true);
+    const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
 
     const handleCloseSideSettings = () => {
         const body = document.querySelector('body');
@@ -185,89 +188,94 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                 image={imagesChapter[0]?.imgSrc}
             />
 
-            <ClientOnly>
-                <div className="flex h-fit min-h-screen flex-col bg-black">
-                    <ReadingContextProvider
-                        value={{
-                            images: imagesChapter,
-                            useProxy: proxyObserver(params && params[3]),
-                            sourceId: 'nt',
-                            navigateChapter: handleChangeChapter,
-                            currentChapter: currentChapter,
-                        }}
-                    >
-                        <SettingsContextProvider>
-                            <Section style="flex h-fit relative">
-                                {!matchesTouchScreen && showSideSettings && (
-                                    <Teleport selector="body">
-                                        <div
-                                            className={`fixed top-0 left-0 z-[999] h-full w-fit bg-black ${
-                                                showSideSettings
-                                                    ? 'slideLeftReturn magictime'
-                                                    : 'slideLeft magictime'
-                                            } `}
-                                        >
-                                            <VerticalPanel
-                                                comicSlug={
-                                                    (router.query.params &&
-                                                        router.query
-                                                            .params[0]) ||
-                                                    ''
-                                                }
-                                                handleClose={
-                                                    handleCloseSideSettings
-                                                }
-                                            />
-                                        </div>
-                                    </Teleport>
-                                )}
-
-                                <div className="relative flex h-fit flex-1 text-white">
-                                    {!matchesTouchScreen && !showSideSettings && (
-                                        <button
-                                            onClick={handleShowSideSettings}
-                                            className={`${'fixed top-4 left-4 z-[889] rounded-full bg-highlight p-4 transition-all hover:bg-highlight/70'}`}
-                                        >
-                                            <ChevronRightIcon className="h-8 w-8" />
-                                        </button>
+            <SourcesContextProvider comicTitle={manga.title}>
+                <ClientOnly>
+                    <div className="flex h-fit min-h-screen flex-col bg-black">
+                        <ReadingContextProvider
+                            value={{
+                                images: imagesChapter,
+                                useProxy: proxyObserver(params && params[3]),
+                                sourceId: 'nt',
+                                navigateChapter: handleChangeChapter,
+                                currentChapter: currentChapter,
+                            }}
+                        >
+                            <SettingsContextProvider>
+                                <Section style="flex h-fit relative">
+                                    {!matchesTouchScreen && showSideSettings && (
+                                        <Teleport selector="body">
+                                            <div
+                                                className={`fixed top-0 left-0 z-[999] h-full w-fit bg-black ${
+                                                    showSideSettings
+                                                        ? 'slideLeftReturn magictime'
+                                                        : 'slideLeft magictime'
+                                                } `}
+                                            >
+                                                <VerticalPanel
+                                                    comicSlug={
+                                                        (router.query.params &&
+                                                            router.query
+                                                                .params[0]) ||
+                                                        ''
+                                                    }
+                                                    handleClose={
+                                                        handleCloseSideSettings
+                                                    }
+                                                />
+                                            </div>
+                                        </Teleport>
                                     )}
 
-                                    <div
-                                        onDoubleClick={() =>
-                                            handleChangeChapter(
-                                                rmSettings?.nextDirection ===
-                                                    'left'
-                                                    ? 'next'
-                                                    : 'prev',
-                                            )
-                                        }
-                                        className="absolute top-0 left-0 z-[699] h-full w-[75px]"
-                                    ></div>
+                                    <div className="relative flex h-fit flex-1 text-white">
+                                        {!matchesTouchScreen &&
+                                            !showSideSettings && (
+                                                <button
+                                                    onClick={
+                                                        handleShowSideSettings
+                                                    }
+                                                    className={`${'fixed top-4 left-4 z-[889] rounded-full bg-highlight p-4 transition-all hover:bg-highlight/70'}`}
+                                                >
+                                                    <ChevronRightIcon className="h-8 w-8" />
+                                                </button>
+                                            )}
 
-                                    <div
-                                        onDoubleClick={() =>
-                                            handleChangeChapter(
-                                                rmSettings?.nextDirection ===
-                                                    'right'
-                                                    ? 'next'
-                                                    : 'prev',
-                                            )
-                                        }
-                                        className="absolute top-0 right-0 z-[699] h-full w-[75px]"
-                                    ></div>
+                                        <div
+                                            onDoubleClick={() =>
+                                                handleChangeChapter(
+                                                    rmSettings?.nextDirection ===
+                                                        'left'
+                                                        ? 'next'
+                                                        : 'prev',
+                                                )
+                                            }
+                                            className="absolute top-0 left-0 z-[699] h-full w-[75px]"
+                                        ></div>
 
-                                    <Reader
-                                        sideSettingState={showSideSettings}
-                                        closeDesktopPanel={
-                                            handleCloseSideSettings
-                                        }
-                                    />
-                                </div>
-                            </Section>
-                        </SettingsContextProvider>
-                    </ReadingContextProvider>
-                </div>
-            </ClientOnly>
+                                        <div
+                                            onDoubleClick={() =>
+                                                handleChangeChapter(
+                                                    rmSettings?.nextDirection ===
+                                                        'right'
+                                                        ? 'next'
+                                                        : 'prev',
+                                                )
+                                            }
+                                            className="absolute top-0 right-0 z-[699] h-full w-[75px]"
+                                        ></div>
+
+                                        <Reader
+                                            sideSettingState={showSideSettings}
+                                            closeDesktopPanel={
+                                                handleCloseSideSettings
+                                            }
+                                        />
+                                    </div>
+                                </Section>
+                            </SettingsContextProvider>
+                        </ReadingContextProvider>
+                    </div>
+                </ClientOnly>
+            </SourcesContextProvider>
         </>
     );
 };
@@ -300,13 +308,6 @@ export const getServerSideProps: GetServerSideProps = async ({
             ? mangaSlug?.slice(0, mangaSlug?.lastIndexOf('-'))
             : mangaSlug;
 
-    console.log(
-        ':::::::::::: ',
-        realSlug,
-        mangaSource,
-        !isNaN(+String(mangaSlug?.slice(-1))),
-    );
-
     try {
         // const imgsRes = await NtApi?.getChapters(realSlug, params[1], params[2]);
 
@@ -315,6 +316,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         );
 
         if (imgsRes?.status !== 200) return { notFound: true };
+
         return {
             props: {
                 imagesChapter: imgsRes.data.data,

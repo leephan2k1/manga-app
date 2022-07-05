@@ -6,12 +6,9 @@ const follow = async (req: NextApiRequest, res: NextApiResponse) => {
     const { slug, userId } = query;
     const { db } = await connectToDatabase();
 
-    // console.log(':: details ', details);
-
     switch (method) {
         case 'POST':
             try {
-                console.log(':: body ', body.details.name);
                 await db.collection('watchlists').updateOne(
                     {
                         userId: body.userId,
