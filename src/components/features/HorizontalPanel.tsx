@@ -35,6 +35,12 @@ export default function HorizontalSettings() {
                     `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${NT_Instance?.slug}`,
                 );
             }
+        } else {
+            router.push(
+                `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
+                    router.query.params && router.query.params[0]
+                }`,
+            );
         }
     };
 

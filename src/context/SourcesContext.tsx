@@ -116,13 +116,7 @@ export const SourcesContextProvider = ({
 
     /* It's checking if the NTManga has a chapterList, if it does, it will set the availableSource to the NTManga. */
     useEffect(() => {
-        if (
-            NTManga?.chapterList.length &&
-            LHManga &&
-            Math.abs(
-                NTManga?.chapterList.length - LHManga?.chapterList.length,
-            ) < COMPARISON_CHAPTERS_FACTOR
-        ) {
+        if (NTManga?.chapterList.length) {
             setSources((prevState) => {
                 if (prevState.find((src) => src.srcId === 'nt'))
                     return prevState;
@@ -138,7 +132,7 @@ export const SourcesContextProvider = ({
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [NTManga, LHManga]);
+    }, [NTManga]);
 
     const value = {
         sources,

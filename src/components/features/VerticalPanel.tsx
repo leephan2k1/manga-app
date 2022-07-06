@@ -86,6 +86,12 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
                     `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${NT_Instance?.slug}`,
                 );
             }
+        } else {
+            router.push(
+                `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
+                    params && params[0]
+                }`,
+            );
         }
     };
 
