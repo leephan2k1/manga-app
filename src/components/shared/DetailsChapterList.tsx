@@ -9,6 +9,7 @@ import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
 import { useRecoilValue } from 'recoil';
 import { animateFill, followCursor } from 'tippy.js';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
+import { mangaSrc } from '~/atoms/mangaSrcAtom';
 import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
 import { Chapter } from '~/types';
 
@@ -17,7 +18,6 @@ import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
 
 import ChapterInput from './ChapterInput';
 import LazyTippy from './LazyTippy';
-import { mangaSrc } from '~/atoms/mangaSrcAtom';
 
 const ListBox = dynamic(() => import('../buttons/ListBoxButton'));
 

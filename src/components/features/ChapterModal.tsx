@@ -1,22 +1,45 @@
-import { Fragment } from 'react';
+import { useRouter } from 'next/router';
+import { Fragment, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { chapterList } from '~/atoms/chapterListAtom';
 import { chapterModal } from '~/atoms/chapterModalAtom';
+import { mangaSrc } from '~/atoms/mangaSrcAtom';
+import useMultipleSources from '~/context/SourcesContext';
+import { Chapter } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 
 import DetailsChapterList from '../shared/DetailsChapterList';
-import { useRouter } from 'next/router';
 
 export default function ChapterModal() {
-    const [showModal, setShowModal] = useRecoilState(chapterModal);
-    const manga = useRecoilValue(chapterList);
     const router = useRouter();
+    const src = useRecoilValue(mangaSrc);
+    const manga = useRecoilValue(chapterList);
+
+    const [sourceSlug, setSourceSlug] = useState(
+        router.query.params && String(router.query.params[0]),
+    );
+    const [currentChapter, setCurrentChapter] = useState(manga?.chapterList);
+
+    const multipleSources = useMultipleSources();
+    const [showModal, setShowModal] = useRecoilState(chapterModal);
 
     const handleCloseModal = () => {
         setShowModal(false);
     };
+
+    useEffect(() => {
+        if (multipleSources) {
+            const srcInstance = multipleSources.sources.find(
+                (source) => source.srcId === src,
+            );
+
+            setCurrentChapter(srcInstance?.details.chapterList as Chapter[]);
+            setSourceSlug(srcInstance?.slug as string);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [src]);
 
     return (
         <Transition appear show={showModal} as={Fragment}>
@@ -69,14 +92,14 @@ export default function ChapterModal() {
                                         maxWTitleMobile={90}
                                         containerStyle="flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
                                         mobileHeight={300}
-                                        selectSource={false}
-                                        comicSlug={
-                                            (router.query.params &&
-                                                router.query.params[0]) ||
-                                            ''
-                                        }
+                                        selectSource
+                                        comicSlug={sourceSlug as string}
                                         mobileUI={true}
-                                        chapterList={manga.chapterList}
+                                        chapterList={
+                                            currentChapter.length > 0
+                                                ? currentChapter
+                                                : manga.chapterList
+                                        }
                                     />
                                 </div>
                             </Dialog.Panel>
