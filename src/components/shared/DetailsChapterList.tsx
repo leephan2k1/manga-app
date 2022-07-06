@@ -132,6 +132,7 @@ function DetailsChapterList({
                         <div className="animate__fadeIn animate__animated m-2 overflow-hidden text-white">
                             <button className="h-full w-full">
                                 <Link
+                                    prefetch={false}
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${list[index].chapterNumber}/${list[index].chapterId}/${src}`}
                                 >
                                     <a
@@ -196,6 +197,7 @@ function DetailsChapterList({
                                     >
                                         <button className="h-full w-full">
                                             <Link
+                                                prefetch={false}
                                                 href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${list[index].chapterNumber}/${list[index].chapterId}/${src}`}
                                             >
                                                 <a
