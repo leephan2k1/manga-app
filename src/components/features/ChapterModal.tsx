@@ -96,7 +96,7 @@ export default function ChapterModal() {
                                         comicSlug={sourceSlug as string}
                                         mobileUI={true}
                                         chapterList={
-                                            currentChapter.length > 0
+                                            currentChapter?.length > 0
                                                 ? currentChapter
                                                 : manga.chapterList
                                         }

@@ -76,6 +76,19 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
             }
     };
 
+    const handleBackToDetails = () => {
+        if (multipleSources) {
+            const NT_Instance = multipleSources.sources.find(
+                (src) => src.srcId === 'nt',
+            );
+            if (NT_Instance && NT_Instance?.slug) {
+                router.push(
+                    `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${NT_Instance?.slug}`,
+                );
+            }
+        }
+    };
+
     const handleShowSettingsMode = () => {
         settings?.toggleSettings();
     };
@@ -93,11 +106,7 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
             {/* logo & control */}
             <div className="absolute-center my-2 h-[70px] w-full border-b-2 border-white/5">
                 <button
-                    onClick={() =>
-                        router.push(
-                            `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${sourceSlug}`,
-                        )
-                    }
+                    onClick={handleBackToDetails}
                     className="rounded-full p-4 transition-all hover:bg-white/25"
                 >
                     <ArrowNarrowLeftIcon className="h-8 w-8" />
@@ -167,7 +176,7 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
                     comicSlug={sourceSlug}
                     mobileUI={true}
                     chapterList={
-                        currentChapters.length > 0
+                        currentChapters?.length > 0
                             ? currentChapters
                             : manga?.chapterList
                     }

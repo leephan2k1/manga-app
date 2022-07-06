@@ -259,6 +259,8 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
         const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
         // const res = await NtApi?.getManga(slug);
 
+        console.log('>>>>>>>>>>', res.data);
+
         if (res.success) {
             return {
                 props: { manga: res.data },

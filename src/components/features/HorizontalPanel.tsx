@@ -7,6 +7,7 @@ import { settingsModal } from '~/atoms/settingsModalAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useReading from '~/context/ReadingContext';
 import { NavigateDirection } from '~/types';
+import useMultipleSources from '~/context/SourcesContext';
 
 import {
     ArrowLeftIcon,
@@ -15,15 +16,27 @@ import {
     CogIcon,
 } from '@heroicons/react/outline';
 
-import ListBox from '../shared/ListBox';
-
 export default function HorizontalSettings() {
+    const read = useReading();
+    const manga = useRecoilValue(chapterList);
+    const multipleSources = useMultipleSources();
     const [_, setShowModal] = useRecoilState(chapterModal);
     const [__, setSettingsModal] = useRecoilState(settingsModal);
-    const manga = useRecoilValue(chapterList);
-    const read = useReading();
 
     const router = useRouter();
+
+    const handleBackToDetails = () => {
+        if (multipleSources) {
+            const NT_Instance = multipleSources.sources.find(
+                (src) => src.srcId === 'nt',
+            );
+            if (NT_Instance && NT_Instance?.slug) {
+                router.push(
+                    `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${NT_Instance?.slug}`,
+                );
+            }
+        }
+    };
 
     const handleOpenModal = () => {
         setShowModal(true);
@@ -31,10 +44,6 @@ export default function HorizontalSettings() {
 
     const handleOpenSettingsModal = () => {
         setSettingsModal(true);
-    };
-
-    const handleSourceSettings = () => {
-        console.log();
     };
 
     const handleNavigateChapter = (e: MouseEvent<HTMLButtonElement>) => {
@@ -45,17 +54,7 @@ export default function HorizontalSettings() {
         <div className="slideUpReturn magictime fixed top-0 left-0 z-[999] h-[60px] w-full bg-[#141313]">
             <div className="flex h-full w-full items-center justify-between text-lg md:text-2xl">
                 <div className="flex h-full w-fit items-center justify-evenly gap-4 px-4 md:space-x-4">
-                    <button
-                        onClick={() =>
-                            router.push(
-                                `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
-                                    (router.query.params &&
-                                        router.query.params[0]) ||
-                                    ''
-                                }`,
-                            )
-                        }
-                    >
+                    <button onClick={handleBackToDetails}>
                         <ArrowNarrowLeftIcon className="h-8 w-8" />
                     </button>
 
@@ -92,17 +91,6 @@ export default function HorizontalSettings() {
                 </div>
 
                 <div className="flex h-full w-fit items-center pr-2 md:gap-10 md:px-4">
-                    <button className="hidden items-center justify-center md:flex">
-                        <ListBox
-                            handleSelect={handleSourceSettings}
-                            style="rounded-xl p-4 gap-2 transition-all"
-                            title="Nguồn: "
-                            options={['NT']}
-                            backgroundColor="bg-highlight"
-                            activeBackgroundColor="bg-primary"
-                        />
-                    </button>
-
                     <button
                         onClick={handleOpenSettingsModal}
                         className="rounded-lg bg-highlight p-2"
