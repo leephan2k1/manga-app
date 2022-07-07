@@ -12,19 +12,52 @@ import { useTransition } from 'transition-hook';
 import { useElementSize, useEventListener, useMediaQuery } from 'usehooks-ts';
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
-import ChapterModal from '~/components/features/ChapterModal';
-import HorizontalSettings from '~/components/features/HorizontalPanel';
-import SettingsModeModal from '~/components/features/SettingsModeModal';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
+import { NavigateDirection } from '~/types';
 
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/outline';
 
-import { NavigateDirection } from '~/types';
-import HorizontalReading from './HorizontalReading';
-import VerticalReading from './VerticalReading';
+const VerticalReading = dynamic(
+    () =>
+        import('./VerticalReading', {
+            ssr: false,
+        } as ImportCallOptions),
+);
 
-const SettingsMode = dynamic(() => import('./SettingsMode'));
+const HorizontalReading = dynamic(
+    () =>
+        import('./HorizontalReading', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+
+const SettingsModeModal = dynamic(
+    () =>
+        import('~/components/features/SettingsModeModal', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+
+const SettingsMode = dynamic(
+    () =>
+        import('./SettingsMode', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+const HorizontalSettings = dynamic(
+    () =>
+        import('~/components/features/HorizontalPanel', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+
+const ChapterModal = dynamic(
+    () =>
+        import('~/components/features/ChapterModal', {
+            ssr: false,
+        } as ImportCallOptions),
+);
 
 interface ReaderProps {
     sideSettingState: boolean;
