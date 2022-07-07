@@ -14,12 +14,11 @@ import DetailsChapterList from '../shared/DetailsChapterList';
 
 export default function ChapterModal() {
     const router = useRouter();
+    const { params } = router.query;
     const src = useRecoilValue(mangaSrc);
     const manga = useRecoilValue(chapterList);
 
-    const [sourceSlug, setSourceSlug] = useState(
-        router.query.params && String(router.query.params[0]),
-    );
+    const [sourceSlug, setSourceSlug] = useState(params && String(params[0]));
     const [currentChapter, setCurrentChapter] = useState(manga?.chapterList);
 
     const multipleSources = useMultipleSources();
@@ -93,8 +92,8 @@ export default function ChapterModal() {
                                         containerStyle="flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
                                         mobileHeight={300}
                                         selectSource
+                                        mobileUI
                                         comicSlug={sourceSlug as string}
-                                        mobileUI={true}
                                         chapterList={
                                             currentChapter?.length > 0
                                                 ? currentChapter

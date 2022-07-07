@@ -72,7 +72,8 @@ export const SourcesContextProvider = ({
         },
     );
 
-    /* It's checking if the LHManga has a chapterList, if it does, it will set the availableSource to the LHManga. */
+    /* It's checking if the length of the chapter list of the manga from the two sources
+    are close enough to each other. If they are, then it adds the manga to the sources state. */
     useEffect(() => {
         if (
             LHManga?.chapterList?.length &&
@@ -82,9 +83,6 @@ export const SourcesContextProvider = ({
             ) < COMPARISON_CHAPTERS_FACTOR
         ) {
             setSources((prevState) => {
-                if (prevState.find((src) => src.srcId === 'lh'))
-                    return prevState;
-
                 return [
                     ...prevState,
                     {
@@ -111,16 +109,8 @@ export const SourcesContextProvider = ({
             });
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [LHManga, NTManga]);
-
-    /* It's checking if the NTManga has a chapterList, if it does, it will set the availableSource to the NTManga. */
-    useEffect(() => {
         if (NTManga?.chapterList.length) {
             setSources((prevState) => {
-                if (prevState.find((src) => src.srcId === 'nt'))
-                    return prevState;
-
                 return [
                     ...prevState,
                     {
@@ -131,8 +121,13 @@ export const SourcesContextProvider = ({
                 ];
             });
         }
+
+        return () => {
+            setSources([]);
+        };
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [NTManga]);
+    }, [LHManga, NTManga]);
 
     const value = {
         sources,

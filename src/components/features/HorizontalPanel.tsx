@@ -6,8 +6,8 @@ import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useReading from '~/context/ReadingContext';
-import { NavigateDirection } from '~/types';
 import useMultipleSources from '~/context/SourcesContext';
+import { NavigateDirection } from '~/types';
 
 import {
     ArrowLeftIcon,
@@ -33,6 +33,12 @@ export default function HorizontalSettings() {
             if (NT_Instance && NT_Instance?.slug) {
                 router.push(
                     `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${NT_Instance?.slug}`,
+                );
+            } else {
+                router.push(
+                    `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
+                        router.query.params && router.query.params[0]
+                    }`,
                 );
             }
         } else {

@@ -10,6 +10,7 @@ import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import useMultipleSources from '~/context/SourcesContext';
 import { Chapter, NavigateDirection } from '~/types';
+import convertIdToLabel from '~/utils/convertSrouceId';
 
 import {
     ArrowLeftIcon,
@@ -81,9 +82,16 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
             const NT_Instance = multipleSources.sources.find(
                 (src) => src.srcId === 'nt',
             );
+
             if (NT_Instance && NT_Instance?.slug) {
                 router.push(
                     `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${NT_Instance?.slug}`,
+                );
+            } else {
+                router.push(
+                    `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
+                        params && params[0]
+                    }`,
                 );
             }
         } else {
@@ -146,9 +154,11 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
                 style="rounded-xl p-4 gap-2 transition-all"
                 title="Nguồn: "
                 defaultOption={
-                    params &&
-                    availableSource.find((src) => src.sourceId === params[3])
-                        ?.sourceName
+                    (params &&
+                        availableSource.find(
+                            (src) => src.sourceId === params[3],
+                        )?.sourceName) ||
+                    convertIdToLabel((params?.length && params[3]) || '')
                 }
                 options={availableSource.map((src) => src.sourceName)}
                 backgroundColor="bg-highlight"

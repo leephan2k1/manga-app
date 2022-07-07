@@ -12,6 +12,7 @@ import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
 import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
 import { Chapter } from '~/types';
+import convertIdToLabel from '~/utils/convertSrouceId';
 
 import styled from '@emotion/styled';
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
@@ -114,6 +115,7 @@ function DetailsChapterList({
                 {selectSource && (
                     <ListBox
                         title="Nguồn:"
+                        defaultSelected={params && convertIdToLabel(params[3])}
                         listDropDown={availableSource.map((item) => ({
                             title: item.sourceName,
                             id: item.sourceId,
