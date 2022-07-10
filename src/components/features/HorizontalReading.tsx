@@ -269,8 +269,6 @@ function HorizontalReading({
                                 url={url}
                                 src={img.imgSrc}
                             />
-
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
                         </div>
                     );
                 })}
