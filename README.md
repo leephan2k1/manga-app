@@ -54,7 +54,7 @@ Kyoto comes from the name of an old Japanese place. I was impressed by the beaut
 
 ![details-layout](https://res.cloudinary.com/lee1002/image/upload/v1656522973/personal/qjc3pznflejhthtysjbs.png)
 
--   Column layout:
+-   Row layout:
 
 ![Column layout](https://res.cloudinary.com/lee1002/image/upload/v1656523036/personal/bsqssrxxxqgtvzes4hbm.png)
 
@@ -97,9 +97,9 @@ Kyoto comes from the name of an old Japanese place. I was impressed by the beaut
 -   Enviroment Variables
 
 ```
-# Node service (See: https://github.com/leephan2k1/manga-scraper, but i plan to move to vercel and maybe change the end point in the future)
+# Node service (See: https://github.com/leephan2k1/manga-scraper)
 NEXT_PUBLIC_BASE_URL=your-node-service
-HOST_NAME=vercel-host-name
+HOST_NAME=your-nextjs-host-name
 
 # Mongodb: (See: https://www.mongodb.com/atlas/database)
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster....
@@ -123,9 +123,9 @@ JWT_SECRET=your-jwt-secret
 ## Plans:
 
 -   [ ] save chapter
--   [ ] automatically switch chapters
+-   [x] automatically switch chapters
 -   [ ] notify
 -   [ ] comments
--   [ ] add more source
+-   [x] add more source (+1 LHM)
 -   [ ] import follow list from user anilist (public)
 -   [ ] recommended from users
