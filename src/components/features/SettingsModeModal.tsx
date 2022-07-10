@@ -8,6 +8,8 @@ import convertMode from '~/utils/modeConverter';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 
+import Toggle from '~/components/buttons/ToggleButton';
+
 interface SettingsModeModalProps {
     handleConfig: (value: string) => void;
 }
@@ -24,6 +26,11 @@ export default function SettingsModeModal({
 
     const handleSelect = (val: string) => {
         handleConfig(val);
+    };
+
+    const handleToggleAutoNextChap = (state: boolean) => {
+        console.log(state);
+        settings?.setAutoNext(state);
     };
 
     return (
@@ -56,7 +63,7 @@ export default function SettingsModeModal({
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <Dialog.Panel className="min-h-[300px] w-[85%] transform overflow-x-hidden rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all md:w-[60%] lg:max-h-[85vh]">
+                            <Dialog.Panel className="min-h-[350px] w-[85%] transform overflow-x-hidden rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all md:w-[60%] lg:max-h-[85vh]">
                                 <div className="flex items-center justify-between text-white">
                                     <Dialog.Title
                                         as="h3"
@@ -82,6 +89,16 @@ export default function SettingsModeModal({
                                             highlightSelect="text-primary mx-2"
                                             title="Chế độ đọc: "
                                             options={['ngang', 'dọc']}
+                                        />
+                                    </div>
+
+                                    <div className="absolute-center my-4 flex w-fit">
+                                        <h3>Chuyển chap tự động:</h3>
+                                        <Toggle
+                                            defaultState={settings?.autoNext}
+                                            handleToggle={
+                                                handleToggleAutoNextChap
+                                            }
                                         />
                                     </div>
 

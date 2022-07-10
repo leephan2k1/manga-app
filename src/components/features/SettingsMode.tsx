@@ -43,6 +43,18 @@ export default function SettingsMode({
                             />
                         </div>
 
+                        <div className="absolute-center h-full w-fit">
+                            <ListBox
+                                defaultOption={
+                                    !settings?.autoNext ? 'tắt' : 'bật'
+                                }
+                                handleSelect={handleSelect}
+                                highlightSelect="text-primary mx-2"
+                                title="Chuyển chap tự động: "
+                                options={['bật', 'tắt']}
+                            />
+                        </div>
+
                         {settings?.readMode === 'horizontal' && (
                             <div className="absolute-center h-full w-fit">
                                 <ListBox

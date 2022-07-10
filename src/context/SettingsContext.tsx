@@ -14,17 +14,19 @@ interface SettingsContextProps {
 
 interface SettingsContextType {
     show: boolean;
+    autoNext: boolean;
     readMode: ReadMode;
+    imageMode: ImageMode;
     readDirection: ReadDirection;
     nextDirection: NextDirection;
-    imageMode: ImageMode;
     toggleSettings: () => void;
     turnOffSettings: () => void;
     turnOnSettings: () => void;
+    setReadMode: (mode: ReadMode) => void;
+    setAutoNext: (state: boolean) => void;
+    setImageMode: (mode: ImageMode) => void;
     setReadDirection: (drt: ReadDirection) => void;
     setNextDirection: (drt: NextDirection) => void;
-    setImageMode: (mode: ImageMode) => void;
-    setReadMode: (mode: ReadMode) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -32,19 +34,36 @@ const SettingsContext = createContext<SettingsContextType | null>(null);
 export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
     const [savedSettings, setSettingsLc] = useLocalStorage<ReadModeSettings>(
         'settings',
-        { readDirection: 'rtl', readMode: 'vertical', nextDirection: 'right' },
+        {
+            readDirection: 'rtl',
+            readMode: 'vertical',
+            nextDirection: 'right',
+            autoNext: false,
+        },
     );
     const [showSettings, setShowSettings] = useState(false);
+    const [autoNext, setAutoNext] = useState(savedSettings?.autoNext || false);
     const [imageMode, setImageMode] = useState<ImageMode>('full');
+
     const [readMode, setReadMode] = useState<ReadMode>(
         savedSettings?.readMode || 'vertical',
     );
+
     const [readDrt, setReadDrt] = useState<ReadDirection>(
         savedSettings?.readDirection || 'rtl',
     );
+
     const [nextDirection, setNextDirection] = useState<NextDirection>(
         savedSettings?.nextDirection || 'right',
     );
+
+    const handleSetAutoNext = (state: boolean) => {
+        setAutoNext(state);
+
+        setSettingsLc((prevState) => {
+            return { ...prevState, autoNext: state };
+        });
+    };
 
     const turnOffSettings = () => {
         setShowSettings(false);
@@ -91,6 +110,7 @@ export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
 
     const values = {
         show: showSettings,
+        autoNext,
         imageMode,
         readMode,
         readDirection: readDrt,
@@ -99,9 +119,10 @@ export const SettingsContextProvider = ({ children }: SettingsContextProps) => {
         turnOnSettings,
         toggleSettings,
         setImageMode: handleImageMode,
-        setNextDirection: handleSetNextDirection,
+        setAutoNext: handleSetAutoNext,
         setReadMode: handleSetReadMode,
         setReadDirection: handleSetDirection,
+        setNextDirection: handleSetNextDirection,
     } as const;
 
     return (

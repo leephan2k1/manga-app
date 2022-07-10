@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
-import { memo, MouseEvent, useEffect } from 'react';
+import { memo, MouseEvent, useEffect, useRef } from 'react';
 import { useElementSize, useMediaQuery, useWindowSize } from 'usehooks-ts';
 import { SOURCE_COLLECTIONS } from '~/constants';
+import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import { ImagesChapter, NavigateDirection } from '~/types';
 
@@ -14,7 +15,6 @@ import {
 } from '@heroicons/react/outline';
 
 import Img from '../shared/Img';
-import useReading from '~/context/ReadingContext';
 
 interface HorizontalReadingProps {
     images: ImagesChapter[];
@@ -42,7 +42,9 @@ function HorizontalReading({
     const reader = useReading();
     const { width } = useWindowSize();
     const settings = useSettingsMode();
+    const currentPageWhenNavigate = useRef(0);
     const [imgRef, imgSize] = useElementSize();
+
     const [readerRef, readerSize] = useElementSize();
     const matchesMobile = useMediaQuery('(max-width: 640px)');
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
@@ -79,11 +81,24 @@ function HorizontalReading({
     };
 
     const handleNavigateChapter = (e: MouseEvent<HTMLButtonElement>) => {
-        // console.log(e.currentTarget.dataset.id);
         reader?.navigateChapter(
             e.currentTarget.dataset.id as NavigateDirection,
         );
     };
+
+    //Auto navigate chapter
+    useEffect(() => {
+        if (currentPage === 0) currentPageWhenNavigate.current = 0;
+
+        if (settings?.autoNext && images.length - 1 === currentPage) {
+            if (currentPageWhenNavigate.current > 0) return;
+
+            setTimeout(() => {
+                reader?.navigateChapter('next');
+            }, 1000);
+            currentPageWhenNavigate.current++;
+        }
+    }, [currentPage]);
 
     useEffect(() => {
         const readerDom = $('#reader-page');
@@ -115,18 +130,22 @@ function HorizontalReading({
                     $(`#page-${Number(currentIdxElem) + 1}`)?.addEventListener(
                         'click',
                         () => {
-                            if (settings?.readDirection === 'rtl')
+                            if (settings?.readDirection === 'rtl') {
                                 readerDom?.scrollBy(-imgSize.width, 0);
-                            else readerDom?.scrollBy(imgSize.width, 0);
+                            } else {
+                                readerDom?.scrollBy(imgSize.width, 0);
+                            }
                         },
                     );
 
                     $(`#page-${Number(currentIdxElem) - 1}`)?.addEventListener(
                         'click',
                         () => {
-                            if (settings?.readDirection === 'rtl')
+                            if (settings?.readDirection === 'rtl') {
                                 readerDom?.scrollBy(imgSize.width, 0);
-                            else readerDom?.scrollBy(-imgSize.width, 0);
+                            } else {
+                                readerDom?.scrollBy(-imgSize.width, 0);
+                            }
                         },
                     );
                 }
@@ -147,6 +166,7 @@ function HorizontalReading({
         settings?.readDirection,
     ]);
 
+    //scroll to current page when change read direction
     useEffect(() => {
         const refCurrentpage = document.querySelector(
             `#page-${currentPage + 1}`,
@@ -167,9 +187,9 @@ function HorizontalReading({
         const readerPage = $('#reader-page');
 
         if (readerPage) {
-            if (settings?.readDirection === 'rtl') readerPage.scrollTo(1000, 0);
-            else readerPage.scrollTo(0, 1000);
+            readerPage.scrollTo(0, 0);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router.query]);
 
     return (

@@ -52,6 +52,7 @@ export interface ReadModeSettings {
     readMode: ReadMode;
     readDirection: ReadDirection;
     nextDirection: NextDirection;
+    autoNext?: boolean;
 }
 
 export type SourcesId = 'nt' | 'lh' | 'qq' | 'mgdx' | 'mgrd';

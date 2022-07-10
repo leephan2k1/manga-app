@@ -29,7 +29,7 @@ function Img({ useProxy, url, src, index, saveCurrentPage }: ImgProps) {
                     ref={ref}
                     alt="chapter-img"
                     className={`comic-img mx-auto h-screen w-auto
-                         md:opacity-20
+                         transition-all duration-300 md:opacity-20
                     `}
                     src={useProxy ? `/api/proxy?url=${url}&src=${src}` : src}
                 />

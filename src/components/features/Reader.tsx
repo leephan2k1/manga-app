@@ -9,7 +9,12 @@ import {
 } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTransition } from 'transition-hook';
-import { useElementSize, useEventListener, useMediaQuery } from 'usehooks-ts';
+import {
+    useElementSize,
+    useEventListener,
+    useMediaQuery,
+    useIntersectionObserver,
+} from 'usehooks-ts';
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
 import useReading from '~/context/ReadingContext';
@@ -70,10 +75,12 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
     const settings = useSettingsMode();
     const [currentPage, setCurrentPage] = useState(0);
     const chapterModalState = useRecoilValue(chapterModal);
+    const lastElemRef = useRef<HTMLDivElement | null>(null);
+    const entry = useIntersectionObserver(lastElemRef, {});
     const settingsModalState = useRecoilValue(settingsModal);
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
     const { shouldMount } = useTransition(Boolean(settings?.show), 150);
-    const [showHorizontalSettings, setShowHorizontalSettings] = useState(false);
+    const [isScrollUp, setIsScrollUp] = useState(false);
 
     const handleSaveCurrentPage = useCallback(
         (currPage: number) => {
@@ -84,25 +91,41 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
 
     const [readerPageRef, { width }] = useElementSize();
 
+    //auto next chapter for vertical reading:
+    useEffect(() => {
+        if (!!entry?.isIntersecting && settings?.autoNext) {
+            //prevent double next chapter
+            if (isScrollUp) return;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            reader?.navigateChapter('next');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [entry?.isIntersecting, settings, isScrollUp]);
+
     const onScroll = () => {
         const st = window.pageYOffset;
 
-        if (!matchesTouchScreen) return;
-
         if (st > lastScrollTop.current) {
-            setShowHorizontalSettings(false);
+            setIsScrollUp(false);
         } else {
-            setShowHorizontalSettings(true);
+            setIsScrollUp(true);
         }
         lastScrollTop.current = st;
     };
 
     const onDoubleClick = () => {
-        setShowHorizontalSettings((prevState) => !prevState);
+        setIsScrollUp((prevState) => !prevState);
     };
 
     const handleConfig = (value: string) => {
         switch (value) {
+            case 'bật':
+                settings?.setAutoNext(true);
+                break;
+            case 'tắt':
+                settings?.setAutoNext(false);
+                break;
             case 'full':
                 settings?.setImageMode('full');
                 break;
@@ -115,13 +138,13 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
             case 'ngang':
                 //close all settings ui
                 closeDesktopPanel();
-                setShowHorizontalSettings(false);
+                setIsScrollUp(false);
                 settings?.setReadMode('horizontal');
                 break;
             case 'dọc':
                 //close all settings ui
                 closeDesktopPanel();
-                setShowHorizontalSettings(false);
+                setIsScrollUp(false);
                 settings?.setReadMode('vertical');
                 break;
             case 'phải sang trái':
@@ -138,13 +161,12 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
                 break;
             case 'onReading':
                 closeDesktopPanel();
-                setShowHorizontalSettings(false);
+                setIsScrollUp(false);
                 break;
         }
     };
 
     const handleNavigateChapter = (e: MouseEvent<HTMLButtonElement>) => {
-        // console.log(e.currentTarget.dataset.id);
         reader?.navigateChapter(
             e.currentTarget.dataset.id as NavigateDirection,
         );
@@ -179,9 +201,7 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
                 />
             </div>
 
-            {showHorizontalSettings && matchesTouchScreen && (
-                <HorizontalSettings />
-            )}
+            {isScrollUp && matchesTouchScreen && <HorizontalSettings />}
 
             {matchesTouchScreen && chapterModalState && <ChapterModal />}
 
@@ -236,6 +256,7 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
                             hình để chuyển chap ở bất cứ vị trí nào ở chế độ
                             dọc!
                         </h1>
+                        <div ref={lastElemRef}></div>
                     </div>
                 </div>
             )}

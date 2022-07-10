@@ -1,10 +1,11 @@
 import { memo, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
+import { chapterList } from '~/atoms/chapterListAtom';
 import { SOURCE_COLLECTIONS } from '~/constants';
 import useSettingsMode from '~/context/SettingsContext';
 import { ImagesChapter } from '~/types';
+
 import Img from '../shared/Img';
-import { chapterList } from '~/atoms/chapterListAtom';
 
 interface VerticalReadingProps {
     images: ImagesChapter[];
