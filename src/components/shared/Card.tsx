@@ -37,12 +37,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                 <div className="flex h-full w-full  ">
                     <figure className="relative h-full w-[35%] hover:cursor-pointer">
                         {isLoading ? (
-                            <Skeleton
-                                className="h-full w-full"
-                                baseColor="#202020"
-                                highlightColor="#2d2d2d"
-                                inline
-                            />
+                            <div className="loading-pulse h-full w-full rounded-xl bg-white/20"></div>
                         ) : (
                             <Link
                                 href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
@@ -58,28 +53,12 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                     </figure>
                     <div className="flex h-full flex-1 flex-col space-y-4  p-4 text-white">
                         {isLoading ? (
-                            <>
-                                <Skeleton
-                                    className="fond-bold h-fit min-h-[20px] w-full font-bold line-clamp-2 ssm:text-3xl md:text-xl  lg:text-3xl"
-                                    baseColor="#202020"
-                                    highlightColor="#2d2d2d"
-                                />
-                                <Skeleton
-                                    className="h-fit w-full font-light line-clamp-3 ssm:text-xl md:text-sm md:line-clamp-2 lg:line-clamp-3 xl:text-xl"
-                                    baseColor="#202020"
-                                    highlightColor="#2d2d2d"
-                                />
-                                <Skeleton
-                                    className="text-xs text-gray-300 lg:text-lg"
-                                    baseColor="#202020"
-                                    highlightColor="#2d2d2d"
-                                />
-                                <Skeleton
-                                    className="h-full w-full flex-1  "
-                                    baseColor="#202020"
-                                    highlightColor="#2d2d2d"
-                                />
-                            </>
+                            <div className="loading-pulse h-full space-y-4">
+                                <div className="min-h-[12%] w-full rounded-md bg-white/20"></div>
+                                <div className="min-h-[12%] w-full rounded-md bg-white/20"></div>
+                                <div className="min-h-[12%] w-full rounded-md bg-white/20"></div>
+                                <div className="min-h-[12%] w-full rounded-md bg-white/20"></div>
+                            </div>
                         ) : (
                             <>
                                 <Link
@@ -162,11 +141,11 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                     'mx-auto h-[100px] w-[95%] bg-deep-black',
                 )}
             >
-                <div className="flex h-full w-full  ">
+                <div className="flex h-full w-full">
                     <figure className="relative h-full w-[10%] hover:cursor-pointer lg:w-[7%]">
                         {isLoading ? (
                             <Skeleton
-                                className="h-full w-full flex-1"
+                                className="h-full w-full"
                                 baseColor="#202020"
                                 highlightColor="#2d2d2d"
                             />
@@ -183,7 +162,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                             </Link>
                         )}
                     </figure>
-                    <div className="flex flex-1   p-4 text-white">
+                    <div className="flex flex-1 p-4 text-white">
                         <div className="h-full w-[75%]">
                             {isLoading ? (
                                 <Skeleton
@@ -277,11 +256,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
             <div className="flex h-full w-full flex-col p-2 text-white lg:p-4">
                 <figure className="relative h-[92%] transition-all hover:scale-90 hover:cursor-pointer">
                     {isLoading ? (
-                        <Skeleton
-                            className="h-full w-full"
-                            baseColor="#202020"
-                            highlightColor="#2d2d2d"
-                        />
+                        <div className="loading-pulse h-full w-full rounded-xl bg-white/20"></div>
                     ) : (
                         <Link
                             href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
@@ -297,11 +272,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                 </figure>
 
                 {isLoading ? (
-                    <Skeleton
-                        className="mt-4 h-[75%] w-full rounded-2xl"
-                        baseColor="#202020"
-                        highlightColor="#2d2d2d"
-                    />
+                    <div className="loading-pulse mt-4 h-[10%] w-full rounded-lg bg-white/20"></div>
                 ) : (
                     <h1 className="my-2 flex items-center px-4 text-lg transition-all line-clamp-1 hover:text-primary md:text-xl lg:text-2xl">
                         <Link

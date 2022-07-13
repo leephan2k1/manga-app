@@ -115,6 +115,22 @@ input[type='number'] {
     animation: zoom-effect 100ms;
 }
 
+// bc animate.style override pulse effect tailwind,
+// can't use directly animate-pulse tw utility :|
+.loading-pulse {
+    animation: pulse-tw 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-tw {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
 @keyframes zoom-effect {
     0% {
         transform: scale(0.8, 0.8);
