@@ -1,13 +1,15 @@
 import classNames from 'classnames';
+import { motion, useAnimationControls } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {
+    COMIC_GENRES,
+    GENRES_NT,
+    MANGA_BROWSE_PAGE,
     MANGA_PATH_DETAILS_NAME,
     MANGA_PATH_NAME,
-    MANGA_BROWSE_PAGE,
-    GENRES_NT,
-    COMIC_GENRES,
     TailwindColors,
 } from '~/constants';
 import { Manga } from '~/types';
@@ -23,8 +25,22 @@ interface CardProps {
     isLoading: boolean;
 }
 
+const animationVariants = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+};
+
 export default function Card({ details, comic, isLoading }: CardProps) {
+    const [loaded, setLoaded] = useState(false);
+    const controls = useAnimationControls();
+
     const commonStyles = `animate__faster animate__animated animate__zoomIn  rounded-2xl  overflow-hidden`;
+
+    useEffect(() => {
+        if (loaded) {
+            controls.start('visible');
+        }
+    }, [loaded]);
 
     if (details === 'details') {
         return (
@@ -39,16 +55,25 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                         {isLoading ? (
                             <div className="loading-pulse h-full w-full rounded-xl bg-white/20"></div>
                         ) : (
-                            <Link
-                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
+                            <motion.div
+                                className="relative h-full w-full"
+                                initial={'hidden'}
+                                animate={controls}
+                                variants={animationVariants}
+                                transition={{ ease: 'easeOut', duration: 1 }}
                             >
-                                <Image
-                                    alt="manga-thumbnail"
-                                    layout="fill"
-                                    className="absolute inset-0 rounded-xl object-cover object-center"
-                                    src={comic?.thumbnail}
-                                />
-                            </Link>
+                                <Link
+                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
+                                >
+                                    <Image
+                                        alt="manga-thumbnail"
+                                        layout="fill"
+                                        className="absolute inset-0 rounded-xl object-cover object-center"
+                                        src={comic?.thumbnail}
+                                        onLoad={() => setLoaded(true)}
+                                    />
+                                </Link>
+                            </motion.div>
                         )}
                     </figure>
                     <div className="flex h-full flex-1 flex-col space-y-4  p-4 text-white">
@@ -150,16 +175,25 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                 highlightColor="#2d2d2d"
                             />
                         ) : (
-                            <Link
-                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
+                            <motion.div
+                                className="relative h-full w-full"
+                                initial={'hidden'}
+                                animate={controls}
+                                variants={animationVariants}
+                                transition={{ ease: 'easeOut', duration: 1 }}
                             >
-                                <Image
-                                    alt="manga-thumbnail"
-                                    layout="fill"
-                                    className="absolute inset-0 rounded-xl object-cover object-center"
-                                    src={comic?.thumbnail}
-                                />
-                            </Link>
+                                <Link
+                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
+                                >
+                                    <Image
+                                        alt="manga-thumbnail"
+                                        layout="fill"
+                                        className="absolute inset-0 rounded-xl object-cover object-center"
+                                        src={comic?.thumbnail}
+                                        onLoad={() => setLoaded(true)}
+                                    />
+                                </Link>
+                            </motion.div>
                         )}
                     </figure>
                     <div className="flex flex-1 p-4 text-white">
@@ -254,20 +288,29 @@ export default function Card({ details, comic, isLoading }: CardProps) {
     return (
         <div className={classNames(commonStyles, 'aspect-w-3 aspect-h-5')}>
             <div className="flex h-full w-full flex-col p-2 text-white lg:p-4">
-                <figure className="relative h-[92%] transition-all hover:scale-90 hover:cursor-pointer">
+                <figure className="h-[92%] transition-all hover:scale-90 hover:cursor-pointer">
                     {isLoading ? (
                         <div className="loading-pulse h-full w-full rounded-xl bg-white/20"></div>
                     ) : (
-                        <Link
-                            href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
+                        <motion.div
+                            className="relative h-full w-full"
+                            initial={'hidden'}
+                            animate={controls}
+                            variants={animationVariants}
+                            transition={{ ease: 'easeOut', duration: 1 }}
                         >
-                            <Image
-                                alt="manga-thumbnail"
-                                layout="fill"
-                                className="absolute inset-0 rounded-xl object-cover object-center"
-                                src={comic?.thumbnail}
-                            />
-                        </Link>
+                            <Link
+                                href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
+                            >
+                                <Image
+                                    alt="manga-thumbnail"
+                                    layout="fill"
+                                    className="absolute inset-0 rounded-xl object-cover object-center"
+                                    src={comic?.thumbnail}
+                                    onLoad={() => setLoaded(true)}
+                                />
+                            </Link>
+                        </motion.div>
                     )}
                 </figure>
 
