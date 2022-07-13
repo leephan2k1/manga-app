@@ -45,7 +45,6 @@ export default function DropDown({
                             onMouseEnter={(e) => {
                                 setOffsetTop(e.currentTarget.offsetTop);
                             }}
-                            className="hover:text-primary"
                         >
                             <Link href={item.href}>
                                 <a className="absolute-center mx-2 my-2 h-14 whitespace-nowrap px-6 font-primary duration-300">

@@ -77,7 +77,7 @@ export default function HeaderUser() {
                         <div className="absolute-center w-ful">
                             <Link href={`/${MANGA_PATH_FOLLOW}`}>
                                 <a onClick={() => setShowProfilePanel(false)}>
-                                    <button className="my-4 space-x-2 rounded-xl p-4 transition-all hover:bg-highlight hover:text-primary">
+                                    <button className="my-4 space-x-2 rounded-xl p-4 transition-all hover:bg-highlight">
                                         <BookmarkIcon className="inline-block h-8 w-8" />
                                         <span>Theo dõi</span>
                                     </button>
@@ -91,7 +91,7 @@ export default function HeaderUser() {
                                     handleClickOutside();
                                     signOut({ redirect: false });
                                 }}
-                                className="space-x-2 rounded-xl p-4 transition-all hover:bg-highlight hover:text-primary"
+                                className="space-x-2 rounded-xl p-4 transition-all hover:bg-highlight "
                             >
                                 <LogoutIcon className="inline-block h-8 w-8" />
                                 <span>Đăng xuất</span>
