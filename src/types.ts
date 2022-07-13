@@ -13,7 +13,7 @@ export interface SelectType {
 export interface ImagesChapter {
     id: string;
     imgSrc: string;
-    imgSrcFallback?: string;
+    imgSrcCDN?: string;
 }
 
 export interface ImgRatio {

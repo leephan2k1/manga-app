@@ -1,4 +1,4 @@
-import { memo, useRef } from 'react';
+import { memo, useRef, SyntheticEvent } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import useSettingsMode from '~/context/SettingsContext';
 
@@ -7,10 +7,18 @@ interface ImgProps {
     index: number;
     url: string;
     src: string;
+    fallbackSrc?: string;
     saveCurrentPage: (currPage: number) => void;
 }
 
-function Img({ useProxy, url, src, index, saveCurrentPage }: ImgProps) {
+function Img({
+    useProxy,
+    url,
+    src,
+    fallbackSrc,
+    index,
+    saveCurrentPage,
+}: ImgProps) {
     const ref = useRef<HTMLImageElement | null>(null);
     const entry = useIntersectionObserver(ref, {});
     const settings = useSettingsMode();
@@ -19,6 +27,14 @@ function Img({ useProxy, url, src, index, saveCurrentPage }: ImgProps) {
     if (isVisible) {
         saveCurrentPage(index);
     }
+
+    const handleErrorImg = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+        if (fallbackSrc) {
+            e.currentTarget.onerror = null; // prevents looping
+            e.currentTarget.src = fallbackSrc;
+            e.currentTarget.removeAttribute('alt');
+        }
+    };
 
     if (settings?.readMode === 'horizontal') {
         return (
@@ -31,7 +47,16 @@ function Img({ useProxy, url, src, index, saveCurrentPage }: ImgProps) {
                     className={`comic-img mx-auto h-screen w-auto
                          transition-all duration-300 md:opacity-20
                     `}
-                    src={useProxy ? `/api/proxy?url=${url}&src=${src}` : src}
+                    src={
+                        useProxy
+                            ? `/api/proxy?url=${url}&src=${
+                                  src ? src : fallbackSrc
+                              }`
+                            : src
+                            ? src
+                            : fallbackSrc
+                    }
+                    onError={handleErrorImg}
                 />
             </>
         );
@@ -48,7 +73,14 @@ function Img({ useProxy, url, src, index, saveCurrentPage }: ImgProps) {
                 } comic-img mx-auto ${
                     settings?.imageMode === 'fitW' ? 'w-full' : 'w-auto'
                 }`}
-                src={useProxy ? `/api/proxy?url=${url}&src=${src}` : src}
+                src={
+                    useProxy
+                        ? `/api/proxy?url=${url}&src=${src ? src : fallbackSrc}`
+                        : src
+                        ? src
+                        : fallbackSrc
+                }
+                onError={handleErrorImg}
             />
         </>
     );

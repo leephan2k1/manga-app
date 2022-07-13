@@ -288,6 +288,7 @@ function HorizontalReading({
                                 index={index}
                                 url={url}
                                 src={img.imgSrc}
+                                fallbackSrc={img?.imgSrcCDN}
                             />
                         </div>
                     );
