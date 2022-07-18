@@ -1,32 +1,57 @@
+import torriGate from '/public/images/torri-gate.jpg';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { memo } from 'react';
+import { useRouter } from 'next/router';
+import { memo, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useRecoilState } from 'recoil';
+import useSWR from 'swr';
 import { followModal } from '~/atoms/followModaAtom';
 import {
     MANGA_BROWSE_PAGE,
     MANGA_PATH_NAME,
     MANGA_PATH_READ_NAME,
 } from '~/constants';
+import useNotification from '~/hooks/useNotification';
+import axiosClient from '~/services/axiosClient';
 import { MangaDetails } from '~/types';
-import torriGate from '/public/images/torri-gate.jpg';
 
-import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
-import { LightningBoltIcon } from '@heroicons/react/solid';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import { BellIcon, BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
+import {
+    BellIcon as BellIconSolid,
+    LightningBoltIcon,
+} from '@heroicons/react/solid';
 
 interface DetailsInfoProps {
     manga: MangaDetails;
     isLoading: boolean;
     comicSlug: string;
+    callbackMessage: (message: string, status: string) => void;
 }
 
-function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
+function DetailsInfo({
+    manga,
+    isLoading,
+    comicSlug,
+    callbackMessage,
+}: DetailsInfoProps) {
     const router = useRouter();
-    const { status } = useSession();
+    const notification = useNotification();
+    const { data: session, status } = useSession();
     const [_, setShowModal] = useRecoilState(followModal);
+    const [isSubscribed, setIsSubscribed] = useState(false);
+
+    const { data: resSubscribe } = useSWR(comicSlug, async () => {
+        return await (
+            await axiosClient.post('notify/info', {
+                comicId: comicSlug,
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                userId: session?.user?.id as string,
+            })
+        ).data;
+    });
 
     const handleShowFollowModal = () => {
         if (status === 'unauthenticated') {
@@ -36,6 +61,49 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
 
         setShowModal(true);
     };
+
+    const handleTurnOnNotification = async () => {
+        const response = await notification.subscribe(comicSlug);
+
+        switch (response) {
+            case 'permission_denied':
+                callbackMessage('User-kun cần cấp quyền thông báo!', 'error');
+                break;
+            case 'unsupported_browser':
+                callbackMessage(
+                    'Trình duyệt của user-kun không hỗ trợ thông báo!',
+                    'error',
+                );
+                break;
+            case 'success':
+                callbackMessage('Bật thông báo thành công!', 'success');
+                setIsSubscribed(true);
+                break;
+        }
+    };
+
+    const handleTurnOffNotification = async () => {
+        const response = await notification.unsubscribe(comicSlug);
+
+        switch (response) {
+            case 'success':
+                callbackMessage('Tắt thông báo thành công!', 'success');
+                setIsSubscribed(false);
+                break;
+            case 'error':
+                callbackMessage(
+                    'Có gì đó không đúng?, Vui lòng thử lại!',
+                    'error',
+                );
+                break;
+        }
+    };
+
+    useEffect(() => {
+        if (resSubscribe?.message === 'subscribed') {
+            setIsSubscribed(true);
+        }
+    }, [resSubscribe]);
 
     const convertQuery = (value: string) => {
         switch (value.toLowerCase()) {
@@ -176,7 +244,7 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
                     )}
 
                     {/* manga interrace  */}
-                    <div className="flex h-[150px] w-full flex-col items-center gap-6   md:flex-row md:items-start">
+                    <div className="my-6 flex h-[150px] w-full flex-col items-center gap-6 md:my-0 md:flex-row md:items-start">
                         <Link
                             href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${
                                 manga?.chapterList.length &&
@@ -215,12 +283,29 @@ function DetailsInfo({ manga, isLoading, comicSlug }: DetailsInfoProps) {
                             </a>
                         </Link>
 
-                        <button
-                            onClick={handleShowFollowModal}
-                            className="shine-effect absolute-center bg-hight-light h-[50px] w-[50px] rounded-xl transition-all hover:text-primary"
-                        >
-                            <BookmarkIcon className=" h-8 w-8" />
-                        </button>
+                        <div className="flex w-fit space-x-2">
+                            <button
+                                onClick={handleShowFollowModal}
+                                className="shine-effect absolute-center bg-hight-light h-[50px] w-[50px] rounded-xl transition-all hover:text-primary"
+                            >
+                                <BookmarkIcon className="h-8 w-8" />
+                            </button>
+
+                            <button
+                                onClick={
+                                    isSubscribed
+                                        ? handleTurnOffNotification
+                                        : handleTurnOnNotification
+                                }
+                                className="shine-effect absolute-center bg-hight-light h-[50px] w-[50px] rounded-xl transition-all hover:text-primary"
+                            >
+                                {isSubscribed ? (
+                                    <BellIconSolid className="animate__animated animate__faster animate__heartBeat h-10 w-10 text-primary" />
+                                ) : (
+                                    <BellIcon className="animate__animated animate__faster animate__heartBeat h-10 w-10" />
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

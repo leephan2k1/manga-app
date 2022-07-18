@@ -204,6 +204,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                     <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
                         <Section style="h-fit w-full">
                             <DetailsInfo
+                                callbackMessage={notify}
                                 isLoading={router.isFallback}
                                 manga={manga}
                                 comicSlug={comicSlug}

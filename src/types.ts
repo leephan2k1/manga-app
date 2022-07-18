@@ -5,6 +5,14 @@ export type sources =
     | 'mangadex'
     | 'mangareader';
 
+export interface Subscription {
+    endpoint: string;
+    keys: {
+        p256dh: string;
+        auth: string;
+    };
+}
+
 export interface SelectType {
     value: string;
     label: string;
