@@ -1,4 +1,3 @@
-import torriGate from '/public/images/torri-gate.jpg';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,7 +5,6 @@ import { useRouter } from 'next/router';
 import { memo, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useRecoilState } from 'recoil';
-import useSWR from 'swr';
 import { followModal } from '~/atoms/followModaAtom';
 import {
     MANGA_BROWSE_PAGE,
@@ -14,8 +12,8 @@ import {
     MANGA_PATH_READ_NAME,
 } from '~/constants';
 import useNotification from '~/hooks/useNotification';
-import axiosClient from '~/services/axiosClient';
 import { MangaDetails } from '~/types';
+import torriGate from '/public/images/torri-gate.jpg';
 
 import { BellIcon, BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
 import {
@@ -41,17 +39,6 @@ function DetailsInfo({
     const { data: session, status } = useSession();
     const [_, setShowModal] = useRecoilState(followModal);
     const [isSubscribed, setIsSubscribed] = useState(false);
-
-    const { data: resSubscribe } = useSWR(comicSlug, async () => {
-        return await (
-            await axiosClient.post('notify/info', {
-                comicId: comicSlug,
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //@ts-ignore
-                userId: session?.user?.id as string,
-            })
-        ).data;
-    });
 
     const handleShowFollowModal = () => {
         if (status === 'unauthenticated') {
@@ -100,10 +87,15 @@ function DetailsInfo({
     };
 
     useEffect(() => {
-        if (resSubscribe?.message === 'subscribed') {
-            setIsSubscribed(true);
-        }
-    }, [resSubscribe]);
+        (async function () {
+            const res = await notification.info(comicSlug);
+
+            if (res === 'subscribed') {
+                setIsSubscribed(true);
+            }
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [session]);
 
     const convertQuery = (value: string) => {
         switch (value.toLowerCase()) {

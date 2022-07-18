@@ -11,6 +11,24 @@ export default function useNotification() {
     const isSupportedSW = useReadLocalStorage('supportSW');
 
     return {
+        info: async (comicId: string) => {
+            try {
+                const res = await (
+                    await axiosClient.post('notify/info', {
+                        comicId,
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        //@ts-ignore
+                        userId: session?.user?.id as string,
+                    })
+                ).data;
+
+                if (res?.message === 'subscribed') return 'subscribed';
+                else return 'nonsub';
+            } catch (err) {
+                return 'nonsub';
+            }
+        },
+
         subscribe: async (comicId: string) => {
             if (!isSupportedSW) return 'unsupported_browser';
 
