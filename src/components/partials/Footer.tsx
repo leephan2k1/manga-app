@@ -2,6 +2,8 @@ import TextLogo from '../icons/TextLogo';
 import LogoSVG from '/public/images/torii-gate-japan.svg';
 import Link from 'next/link';
 
+import { FaFacebookSquare, FaDiscord } from 'react-icons/fa';
+
 import { useMediaQuery } from 'usehooks-ts';
 
 export default function Footer() {
@@ -18,8 +20,30 @@ export default function Footer() {
                 />
             </figure>
 
+            <div className="absolute-center mb-4 w-full space-x-6">
+                <button className="transition-all duration-200 hover:text-primary">
+                    <a
+                        href="https://www.facebook.com/kyotomanga"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <FaFacebookSquare className="h-8 w-8" />
+                    </a>
+                </button>
+
+                <button className="transition-all duration-200 hover:text-primary">
+                    <a
+                        href="https://discord.gg/vxVnXUUt"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <FaDiscord className="h-8 w-8" />
+                    </a>
+                </button>
+            </div>
+
             <div className="mx-auto flex w-[70%] flex-col justify-center space-y-4 text-lg md:text-2xl">
-                <h1 className="text-center text-2xl font-bold md:text-4xl">
+                <h1 className="text-center font-secondary text-2xl font-bold md:text-4xl">
                     Kyoto Manga là website đọc truyện tranh miễn phí
                 </h1>
                 <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:space-x-8 md:text-2xl">
@@ -49,6 +73,10 @@ export default function Footer() {
                 <p className="text-center text-lg text-white/40 md:text-2xl">
                     Kyoto Manga does not store any files on our server, we only
                     linked to the media which is hosted on 3rd party services.
+                </p>
+
+                <p className="text-center text-lg text-white/40 md:text-2xl">
+                    &copy; Kyotomanga.live
                 </p>
             </div>
         </footer>
