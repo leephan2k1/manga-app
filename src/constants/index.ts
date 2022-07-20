@@ -2,7 +2,7 @@ import { DropDownLink } from '~/components/shared/DropDown';
 import { MangaResource, SourcesId, FollowState } from '~/types';
 
 export const REVALIDATE_TIME = 3 * 60 * 60; //3h
-export const REVALIDATE_TIME_DETAILS_PAGE = 30 * 60; //30m
+export const REVALIDATE_TIME_DETAILS_PAGE = 5 * 60; //5m
 
 //ref: src/pages
 export const MANGA_PATH_NAME = 'manga';
