@@ -24,7 +24,7 @@ import Section from '~/components/shared/Section';
 import {
     COMPARISON_CHAPTERS_FACTOR,
     MANGA_RESOURCE,
-    REVALIDATE_TIME,
+    REVALIDATE_TIME_DETAILS_PAGE,
 } from '~/constants';
 import axiosClient from '~/services/axiosClient';
 import { HeadlessManga, LHSearchRes, MangaDetails } from '~/types';
@@ -260,12 +260,10 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
         const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
         // const res = await NtApi?.getManga(slug);
 
-        console.log('>>>>>>>>>>', res.data);
-
         if (res.success) {
             return {
                 props: { manga: res.data },
-                revalidate: REVALIDATE_TIME,
+                revalidate: REVALIDATE_TIME_DETAILS_PAGE,
             };
         } else {
             return { notFound: true };
