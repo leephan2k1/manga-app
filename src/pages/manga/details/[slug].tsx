@@ -24,7 +24,7 @@ import Section from '~/components/shared/Section';
 import {
     COMPARISON_CHAPTERS_FACTOR,
     MANGA_RESOURCE,
-    REVALIDATE_TIME_DETAILS_PAGE,
+    REVALIDATE_TIME,
 } from '~/constants';
 import axiosClient from '~/services/axiosClient';
 import { HeadlessManga, LHSearchRes, MangaDetails } from '~/types';
@@ -263,7 +263,7 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
         if (res.success) {
             return {
                 props: { manga: res.data },
-                revalidate: REVALIDATE_TIME_DETAILS_PAGE,
+                revalidate: REVALIDATE_TIME,
             };
         } else {
             return { notFound: true };
