@@ -29,7 +29,7 @@ import {
 import axiosClient from '~/services/axiosClient';
 import { HeadlessManga, LHSearchRes, MangaDetails } from '~/types';
 import webtoonChecker from '~/utils/webtoonChecker';
-import NtApi from '~/services/nettruyenRepository';
+// import NtApi from '~/services/nettruyenRepository';
 
 const FollowModal = dynamic(
     () =>
@@ -256,14 +256,14 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
 ) => {
     try {
         const { slug } = ctx.params as Params;
-        // const host = process.env['HOST_NAME'];
+        const host = process.env['HOST_NAME'];
 
-        // const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
-        const res = await NtApi?.getManga(slug);
+        const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
+        // const res = await NtApi?.getManga(slug);
 
-        if (res.data.success) {
+        if (res.success) {
             return {
-                props: { manga: res.data.data },
+                props: { manga: res.data },
                 revalidate: REVALIDATE_TIME,
             };
         } else {
