@@ -2,8 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
 import { BsDot } from 'react-icons/bs';
-import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
+import {
+    MANGA_PATH_DETAILS_NAME,
+    MANGA_PATH_NAME,
+    SOURCE_COLLECTIONS,
+} from '~/constants';
 import useSource from '~/hooks/useSource';
+import { baseURL } from '~/services/axiosClient';
 import { Manga } from '~/types';
 
 import { ChevronRightIcon } from '@heroicons/react/outline';
@@ -13,6 +18,8 @@ interface ColumnSectionProps {
     link: string;
     mangaList: Manga[];
 }
+
+const url = SOURCE_COLLECTIONS['nt'];
 
 function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
     const [srcId] = useSource();
@@ -49,7 +56,7 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                                 className="aspect-w-3 aspect-h-4 absolute object-cover object-center"
                                                 layout="fill"
                                                 alt="img-preview"
-                                                src={manga.thumbnail}
+                                                src={`${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`}
                                             />
                                         </figure>
                                     </a>

@@ -2,12 +2,16 @@ import classNames from 'classnames';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useSwiper } from 'swiper/react';
+import { SOURCE_COLLECTIONS } from '~/constants';
+import { baseURL } from '~/services/axiosClient';
 
 interface SwiperCardProps {
     imgSrc: string;
     style?: string;
     childStyle?: string;
 }
+
+const url = SOURCE_COLLECTIONS['nt'];
 
 export default function SwiperCard({
     imgSrc,
@@ -34,7 +38,7 @@ export default function SwiperCard({
                 <Image
                     className="absolute inset-0 object-cover object-center"
                     alt="image-preview"
-                    src={imgSrc}
+                    src={`${baseURL}/proxy?url=${url}&src=${imgSrc}`}
                     layout="fill"
                 />
             </div>

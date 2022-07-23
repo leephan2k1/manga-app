@@ -1,3 +1,4 @@
+import torriGate from '/public/images/torri-gate.jpg';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,10 +11,11 @@ import {
     MANGA_BROWSE_PAGE,
     MANGA_PATH_NAME,
     MANGA_PATH_READ_NAME,
+    SOURCE_COLLECTIONS,
 } from '~/constants';
 import useNotification from '~/hooks/useNotification';
+import { baseURL } from '~/services/axiosClient';
 import { MangaDetails } from '~/types';
-import torriGate from '/public/images/torri-gate.jpg';
 
 import { BellIcon, BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
 import {
@@ -27,6 +29,8 @@ interface DetailsInfoProps {
     comicSlug: string;
     callbackMessage: (message: string, status: string) => void;
 }
+
+const url = SOURCE_COLLECTIONS['nt'];
 
 function DetailsInfo({
     manga,
@@ -129,7 +133,11 @@ function DetailsInfo({
                             className="absolute inset-0 rounded-2xl object-cover object-center"
                             layout="fill"
                             alt="manga-thumbnail"
-                            src={manga?.thumbnail || torriGate}
+                            src={
+                                manga?.thumbnail
+                                    ? `${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`
+                                    : torriGate
+                            }
                         />
                     </figure>
                 )}

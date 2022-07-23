@@ -1,11 +1,15 @@
-import Skeleton from 'react-loading-skeleton';
 import torriGate from '/public/images/torri-gate.jpg';
 import Image from 'next/image';
+import Skeleton from 'react-loading-skeleton';
+import { SOURCE_COLLECTIONS } from '~/constants';
+import { baseURL } from '~/services/axiosClient';
 
 interface DetailsBannerProps {
     imgUrl: string;
     isLoading: boolean;
 }
+
+const url = SOURCE_COLLECTIONS['nt'];
 
 export default function DetailsBanner({
     imgUrl,
@@ -28,7 +32,11 @@ export default function DetailsBanner({
                         alt="comic-banner"
                         className=" count={10} object-fit absolute h-full w-full bg-cover bg-top bg-no-repeat object-cover blur"
                         layout="fill"
-                        src={imgUrl !== 'notFound' ? imgUrl : torriGate}
+                        src={
+                            imgUrl !== 'notFound'
+                                ? `${baseURL}/proxy?url=${url}&src=${imgUrl}`
+                                : torriGate
+                        }
                     />
                 </figure>
             )}

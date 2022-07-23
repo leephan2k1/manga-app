@@ -19,6 +19,7 @@ module.exports = {
             'st.nettruyenco.com',
             'st.ntcdntempv3.com',
             'i331.ntcdntempv26.com',
+            'animanlab.online',
         ],
         minimumCacheTTL: 24 * 60 * 60 * 7,
     },

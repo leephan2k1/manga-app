@@ -27,7 +27,7 @@ export const COMPARISON_CHAPTERS_FACTOR = 5;
 export const WEBSITE_URL = 'https://kyotomanga.live';
 
 export const SOURCE_COLLECTIONS: { [key: string]: string } = {
-    nt: 'http://www.nettruyenco.com',
+    nt: 'http://www.nettruyenme.com',
     lh: 'https://truyentranhlh.net',
 };
 

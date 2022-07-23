@@ -10,8 +10,10 @@ import {
     MANGA_BROWSE_PAGE,
     MANGA_PATH_DETAILS_NAME,
     MANGA_PATH_NAME,
+    SOURCE_COLLECTIONS,
     TailwindColors,
 } from '~/constants';
+import { baseURL } from '~/services/axiosClient';
 import { Manga } from '~/types';
 import { randomColors } from '~/utils/randomColors';
 
@@ -29,6 +31,8 @@ const animationVariants = {
     visible: { opacity: 1 },
     hidden: { opacity: 0 },
 };
+
+const url = SOURCE_COLLECTIONS['nt'];
 
 export default function Card({ details, comic, isLoading }: CardProps) {
     const [loaded, setLoaded] = useState(false);
@@ -69,7 +73,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                         alt="manga-thumbnail"
                                         layout="fill"
                                         className="absolute inset-0 rounded-xl object-cover object-center"
-                                        src={comic?.thumbnail}
+                                        src={`${baseURL}/proxy?url=${url}&src=${comic?.thumbnail}`}
                                         onLoad={() => setLoaded(true)}
                                     />
                                 </Link>
@@ -189,7 +193,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                         alt="manga-thumbnail"
                                         layout="fill"
                                         className="absolute inset-0 rounded-xl object-cover object-center"
-                                        src={comic?.thumbnail}
+                                        src={`${baseURL}/proxy?url=${url}&src=${comic?.thumbnail}`}
                                         onLoad={() => setLoaded(true)}
                                     />
                                 </Link>
@@ -306,7 +310,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                     alt="manga-thumbnail"
                                     layout="fill"
                                     className="absolute inset-0 rounded-xl object-cover object-center"
-                                    src={comic?.thumbnail}
+                                    src={`${baseURL}/proxy?url=${url}&src=${comic?.thumbnail}`}
                                     onLoad={() => setLoaded(true)}
                                 />
                             </Link>

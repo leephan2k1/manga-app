@@ -3,9 +3,14 @@ import Link from 'next/link';
 import { memo, MouseEvent, useState } from 'react';
 import { BiGlasses } from 'react-icons/bi';
 import { useMediaQuery } from 'usehooks-ts';
-import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
+import {
+    MANGA_PATH_DETAILS_NAME,
+    MANGA_PATH_NAME,
+    SOURCE_COLLECTIONS,
+} from '~/constants';
 import useChapters from '~/hooks/useChapters';
 import useSource from '~/hooks/useSource';
+import { baseURL } from '~/services/axiosClient';
 import { Manga } from '~/types';
 
 import {
@@ -18,6 +23,8 @@ import {
 interface SectionSwiperCardProps {
     manga: Manga;
 }
+
+const url = SOURCE_COLLECTIONS['nt'];
 
 function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
     const [srcId] = useSource();
@@ -57,7 +64,7 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                     <Image
                         className="absolute inset-0 rounded-xl object-cover object-center"
                         alt="manga-thumbnail z-50"
-                        src={manga.thumbnail}
+                        src={`${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`}
                         layout="fill"
                     />
                 </a>
