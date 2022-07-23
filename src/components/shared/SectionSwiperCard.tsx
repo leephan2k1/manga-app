@@ -4,6 +4,7 @@ import { memo, MouseEvent, useState } from 'react';
 import { BiGlasses } from 'react-icons/bi';
 import { useMediaQuery } from 'usehooks-ts';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
+import useChapters from '~/hooks/useChapters';
 import useSource from '~/hooks/useSource';
 import { Manga } from '~/types';
 
@@ -13,7 +14,6 @@ import {
     InformationCircleIcon,
     StatusOnlineIcon,
 } from '@heroicons/react/outline';
-import useChapters from '~/hooks/useChapters';
 
 interface SectionSwiperCardProps {
     manga: Manga;

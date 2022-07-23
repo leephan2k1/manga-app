@@ -15,7 +15,11 @@ module.exports = {
         return config;
     },
     images: {
-        domains: ['st.nettruyenco.com', 'st.ntcdntempv3.com'],
+        domains: [
+            'st.nettruyenco.com',
+            'st.ntcdntempv3.com',
+            'i331.ntcdntempv26.com',
+        ],
         minimumCacheTTL: 24 * 60 * 60 * 7,
     },
     eslint: {

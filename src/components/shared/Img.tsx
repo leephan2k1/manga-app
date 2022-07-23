@@ -1,6 +1,7 @@
 import { memo, useRef, SyntheticEvent } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import useSettingsMode from '~/context/SettingsContext';
+import { baseURL } from '~/services/axiosClient';
 
 interface ImgProps {
     useProxy?: boolean;
@@ -49,7 +50,7 @@ function Img({
                     `}
                     src={
                         useProxy
-                            ? `/api/proxy?url=${url}&src=${
+                            ? `${baseURL}/proxy?url=${url}&src=${
                                   src ? src : fallbackSrc
                               }`
                             : src
@@ -75,7 +76,9 @@ function Img({
                 }`}
                 src={
                     useProxy
-                        ? `/api/proxy?url=${url}&src=${src ? src : fallbackSrc}`
+                        ? `${baseURL}/proxy?url=${url}&src=${
+                              src ? src : fallbackSrc
+                          }`
                         : src
                         ? src
                         : fallbackSrc
