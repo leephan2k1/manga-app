@@ -25,11 +25,12 @@ import {
     COMPARISON_CHAPTERS_FACTOR,
     MANGA_RESOURCE,
     REVALIDATE_TIME,
+    SOURCE_COLLECTIONS,
 } from '~/constants';
+import NtModel from '~/serverless/models/Nt.model';
 import axiosClient from '~/services/axiosClient';
 import { HeadlessManga, LHSearchRes, MangaDetails } from '~/types';
 import webtoonChecker from '~/utils/webtoonChecker';
-import NtApi from '~/services/nettruyenRepository';
 
 const FollowModal = dynamic(
     () =>
@@ -45,6 +46,8 @@ interface Params extends ParsedUrlQuery {
 interface DetailsPageProps {
     manga: MangaDetails;
 }
+
+const Nt = NtModel.getInstance(SOURCE_COLLECTIONS['nt']);
 
 const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     const router = useRouter();
@@ -259,11 +262,12 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
         // const host = process.env['HOST_NAME'];
 
         // const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
-        const res = await NtApi?.getManga(slug);
+        // const res = await NtApi?.getManga(slug);
+        const res = await Nt.getComic(slug);
 
-        if (res.data.success) {
+        if (res.title && res.title.length) {
             return {
-                props: { manga: res.data.data },
+                props: { manga: res },
                 revalidate: REVALIDATE_TIME,
             };
         } else {
