@@ -1,21 +1,25 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
+import LazyLoad from 'react-lazyload';
+import { useRecoilState } from 'recoil';
+import { searchModalState } from '~/atoms/searchModelAtom';
 import {
     MANGA_PATH_DETAILS_NAME,
     MANGA_PATH_NAME,
+    SOURCE_COLLECTIONS,
     TailwindColors,
 } from '~/constants';
 import useSource from '~/hooks/useSource';
+import { baseURL } from '~/services/axiosClient';
 import { NtSearchResponseData } from '~/types';
 import { randomColors } from '~/utils/randomColors';
-import { useRecoilState } from 'recoil';
-import { searchModalState } from '~/atoms/searchModelAtom';
-import LazyLoad from 'react-lazyload';
 
 interface SearchResultProps {
     data: NtSearchResponseData[];
 }
+
+const url = SOURCE_COLLECTIONS['nt'];
 
 function SearchResult({ data }: SearchResultProps) {
     const [_, setShowModal] = useRecoilState(searchModalState);
@@ -49,7 +53,7 @@ function SearchResult({ data }: SearchResultProps) {
                                                 className="absolute inset-0 object-cover object-center"
                                                 layout="fill"
                                                 alt={'img-preview'}
-                                                src={manga.thumbnail}
+                                                src={`${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`}
                                             />
                                         </figure>
 
