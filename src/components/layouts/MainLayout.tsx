@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useMediaQuery } from 'usehooks-ts';
 import { searchModalState } from '~/atoms/searchModelAtom';
+import SearchModal from '../shared/SearchModal';
+import Sidebar from '../partials/Sidebar';
 
 interface MainLayoutProps {
     children: ReactNode;
@@ -13,8 +15,6 @@ interface MainLayoutProps {
 
 const Header = dynamic(() => import('../partials/Header'));
 const Footer = dynamic(() => import('../partials/Footer'));
-const Sidebar = dynamic(() => import('../partials/Sidebar'));
-const SearchModal = dynamic(() => import('../shared/SearchModal'));
 
 export default function MainLayout({
     customStyleHeader,
