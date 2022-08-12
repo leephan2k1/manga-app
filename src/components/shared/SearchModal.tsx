@@ -1,10 +1,17 @@
 import dynamic from 'next/dynamic';
-import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react';
+import {
+    ChangeEvent,
+    Fragment,
+    useEffect,
+    useRef,
+    useState,
+    useCallback,
+} from 'react';
 import { useRecoilState } from 'recoil';
 import { useDebounce } from 'usehooks-ts';
 import { searchModalState } from '~/atoms/searchModelAtom';
-import RepositoryFactory from '~/services/repositoryFactory';
-import { NtSearchResponseData } from '~/types';
+import { axiosClientV2 } from '~/services/axiosClient';
+import { Comic } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { EmojiSadIcon, XIcon } from '@heroicons/react/outline';
@@ -14,21 +21,17 @@ import SearchInput from './SearchInput';
 
 const SearchResult = dynamic(() => import('./SearchResult'));
 
-const NtAPI = RepositoryFactory('nettruyen');
-
 export default function SearchModal() {
     const [showModal, setShowModal] = useRecoilState(searchModalState);
     const [showBtnClearInput, setShowBtnClearInput] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [isSearching, setIsSearching] = useState(false);
-    const [mangaResult, setMangaResult] = useState<
-        NtSearchResponseData[] | string
-    >([]);
-    const debouncedValue = useDebounce<string>(searchValue, 500);
+    const [mangaResult, setMangaResult] = useState<Comic[] | string>([]);
+    const debouncedValue = useDebounce<string>(searchValue, 1000);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setIsSearching(true);
         setMangaResult([]);
 
@@ -37,7 +40,7 @@ export default function SearchModal() {
         } else {
             setIsSearching(false);
         }
-    };
+    }, []);
 
     const handleClearSearchValue = () => {
         if (inputRef.current) {
@@ -61,11 +64,20 @@ export default function SearchModal() {
             if (debouncedValue) {
                 try {
                     setIsSearching(true);
-                    //await fetch api
-                    const result = await NtAPI?.search(debouncedValue);
 
-                    if (result?.status === 200) {
-                        setMangaResult(result.data.data);
+                    const data = await (
+                        await axiosClientV2.get(`/comics/search`, {
+                            params: {
+                                q: debouncedValue,
+                            },
+                        })
+                    ).data;
+
+                    if (data.result.length) {
+                        setMangaResult(data.result);
+                        setIsSearching(false);
+                    } else {
+                        setMangaResult('notFound');
                     }
                 } catch (err) {
                     setMangaResult('notFound');
@@ -84,12 +96,12 @@ export default function SearchModal() {
         };
     }, []);
 
-    const handleOpenButtonClearSearch = () => {
+    const handleOpenButtonClearSearch = useCallback(() => {
         //Displayed only when input has value
         if (inputRef.current?.value) {
             setShowBtnClearInput(true);
         }
-    };
+    }, []);
 
     return (
         <Transition appear show={showModal} as={Fragment}>
@@ -170,7 +182,8 @@ export default function SearchModal() {
                                 )}
 
                                 {Array.isArray(mangaResult) &&
-                                    mangaResult.length > 0 && (
+                                    mangaResult.length > 0 &&
+                                    !isSearching && (
                                         <SearchResult data={mangaResult} />
                                     )}
 
