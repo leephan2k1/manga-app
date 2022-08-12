@@ -201,3 +201,33 @@ export interface LHMangaSearch {
     pilot: string;
     url: string;
 }
+
+export interface Comic {
+    _id: string;
+    name: string;
+    __v: number;
+    author: string;
+    custom_id: number;
+    genres: Genre[];
+    newChapter: string;
+    otherName: string;
+    review: string;
+    slug: string;
+    sourcesAvailable: SourcesAvailable[];
+    status: string;
+    thumbnail: string;
+    updatedAt: string;
+}
+
+export interface Genre {
+    id: string;
+    value: string;
+    label: string;
+    _id: string;
+}
+
+export interface SourcesAvailable {
+    sourceName: string;
+    sourceSlug: string;
+    _id: string;
+}
