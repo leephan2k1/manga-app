@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSwiper } from 'swiper/react';
 import { SOURCE_COLLECTIONS } from '~/constants';
 import { baseURL } from '~/services/axiosClient';
+import { isExactMatch } from '~/utils/stringHandler';
 
 interface SwiperCardProps {
     imgSrc: string;
@@ -40,9 +41,14 @@ export default function SwiperCard({
                 className={classNames(childStyle, 'magictime', 'vanishIn')}
             >
                 <Image
+                    priority
                     className="absolute inset-0 object-cover object-center"
                     alt="image-preview"
-                    src={`${baseURL}/proxy?url=${url}&src=${imgSrc}`}
+                    src={
+                        isExactMatch(imgSrc, 'res.cloudinary.com')
+                            ? imgSrc
+                            : `${baseURL}/proxy?url=${url}&src=${imgSrc}`
+                    }
                     layout="fill"
                 />
             </div>

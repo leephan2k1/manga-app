@@ -10,6 +10,7 @@ import {
 import useSource from '~/hooks/useSource';
 import { baseURL } from '~/services/axiosClient';
 import { Comic } from '~/types';
+import { isExactMatch } from '~/utils/stringHandler';
 
 import { ChevronRightIcon } from '@heroicons/react/outline';
 
@@ -57,7 +58,14 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                                 className="aspect-w-3 aspect-h-4 absolute object-cover object-center"
                                                 layout="fill"
                                                 alt="img-preview"
-                                                src={`${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`}
+                                                src={
+                                                    isExactMatch(
+                                                        manga?.thumbnail,
+                                                        'res.cloudinary.com',
+                                                    )
+                                                        ? manga?.thumbnail
+                                                        : `${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`
+                                                }
                                             />
                                         </figure>
                                     </a>
@@ -86,6 +94,8 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                     </h4>
                                     <ul className="flex items-center text-base line-clamp-1 lg:text-xl">
                                         {manga.genres.map((genre, idx) => {
+                                            if (!genre) return;
+
                                             return (
                                                 <li
                                                     className="inline-block"
