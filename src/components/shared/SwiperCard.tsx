@@ -26,6 +26,10 @@ export default function SwiperCard({
         swiper.on('slideChange', () => {
             setTriggerEffect((prevState) => !prevState);
         });
+
+        return () => {
+            setTriggerEffect((prevState) => !prevState);
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
