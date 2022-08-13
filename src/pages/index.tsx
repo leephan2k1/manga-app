@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import { GetStaticProps } from 'next';
+import useSWR from 'swr';
 import withDbScroll from '~/components/hoc/withDbScroll';
 import MangaBanner from '~/components/shared/Banner';
 import ClientOnly from '~/components/shared/ClientOnly';
@@ -9,29 +10,69 @@ import Section from '~/components/shared/Section';
 import SectionSwiper from '~/components/shared/SectionSwiper';
 import { MANGA_BROWSE_PAGE, REVALIDATE_TIME } from '~/constants';
 import { connectToDatabase } from '~/serverless/utils/connectdbData';
-import RepositoryFactory from '~/services/repositoryFactory';
-import { Comic, Manga } from '~/types';
+import { axiosClientV2 } from '~/services/axiosClient';
+import { Comic } from '~/types';
 import shuffle from '~/utils/randomArray';
-
-const NtApi = RepositoryFactory('nettruyen');
 
 interface HomeProps {
     topAllManga: Comic[];
     topMonthManga: Comic[];
     topWeekManga: Comic[];
     topDayManga: Comic[];
-    newMangaUpdated: Manga[];
-    newManga: Manga[];
 }
 
 const Home: NextPage<HomeProps> = ({
-    newMangaUpdated,
     topAllManga,
     topMonthManga,
     topWeekManga,
     topDayManga,
-    newManga,
 }) => {
+    const { data: comicsNewUpdated } = useSWR<{
+        comics: Comic[];
+        totalPages: number;
+    }>(
+        `?top=0`,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        async (query) => {
+            const res = await (
+                await axiosClientV2.get(`/comics/filters${query}`)
+            ).data;
+
+            const { result } = res;
+
+            if (result) {
+                return {
+                    comics: result.mangaData,
+                    totalPages: result.totalPages,
+                };
+            }
+        },
+    );
+
+    const { data: comicsNewRelease } = useSWR<{
+        comics: Comic[];
+        totalPages: number;
+    }>(
+        `?top=15`,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        async (query) => {
+            const res = await (
+                await axiosClientV2.get(`/comics/filters${query}`)
+            ).data;
+
+            const { result } = res;
+
+            if (result) {
+                return {
+                    comics: result.mangaData,
+                    totalPages: result.totalPages,
+                };
+            }
+        },
+    );
+
     return (
         <>
             <Head />
@@ -50,7 +91,7 @@ const Home: NextPage<HomeProps> = ({
                         style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
                         linkHints={true}
                     >
-                        <SectionSwiper mangaList={newMangaUpdated} />
+                        <SectionSwiper mangaList={comicsNewUpdated?.comics} />
                     </Section>
 
                     <Section style="w-[90%] mx-auto min-w-[333px] w-max-[1300px] mt-6 overflow-x-hidden">
@@ -84,7 +125,7 @@ const Home: NextPage<HomeProps> = ({
                         style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
                         linkHints={true}
                     >
-                        <SectionSwiper mangaList={newManga} />
+                        <SectionSwiper mangaList={comicsNewRelease?.comics} />
                     </Section>
                 </div>
             </ClientOnly>
@@ -93,12 +134,6 @@ const Home: NextPage<HomeProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const [newMangaUpdated, newManga] = await Promise.all([
-        NtApi?.getNewMangaUpdated(1).then((res) => res.data.data),
-
-        NtApi?.getNewManga(1).then((res) => res.data.data),
-    ]);
-
     const { db } = await connectToDatabase();
 
     const [resultAll, resultMonth, resultWeek, resultDay] = await Promise.all([
@@ -119,8 +154,6 @@ export const getStaticProps: GetStaticProps = async () => {
             topMonthManga: JSON.parse(JSON.stringify(topMonthManga)),
             topWeekManga: JSON.parse(JSON.stringify(topWeekManga)),
             topDayManga: JSON.parse(JSON.stringify(topDayManga)),
-            newMangaUpdated,
-            newManga,
         },
         revalidate: REVALIDATE_TIME,
     };

@@ -1,19 +1,20 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/free-mode';
 
 import Link from 'next/link';
 import { memo } from 'react';
-import { Pagination } from 'swiper';
+import { Pagination, FreeMode } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useSource from '~/hooks/useSource';
-import { Manga } from '~/types';
+import { Comic } from '~/types';
 
 import SectionSwiperCard from './SectionSwiperCard';
 
 interface SectionSwiperProps {
-    mangaList: Manga[];
+    mangaList?: Comic[];
 }
 
 function SectionSwiper({ mangaList }: SectionSwiperProps) {
@@ -45,18 +46,19 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
             <Swiper
                 className="section-swiper"
                 spaceBetween={8}
+                freeMode={true}
                 pagination={{
                     clickable: true,
                 }}
                 breakpoints={swiperBreakPoints}
-                modules={[Pagination]}
+                modules={[Pagination, FreeMode]}
             >
                 {mangaList &&
                     mangaList.length &&
                     mangaList.map((manga, idx) => {
                         if (matchesMobile && idx > 20) return;
                         return (
-                            <SwiperSlide key={manga.slug}>
+                            <SwiperSlide key={`${manga._id}${Math.random()}`}>
                                 <SectionSwiperCard manga={manga} />
                                 <Link
                                     href={{
@@ -74,6 +76,15 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
                                         </h2>
                                     </a>
                                 </Link>
+                            </SwiperSlide>
+                        );
+                    })}
+
+                {!mangaList &&
+                    Array.from(Array(7).keys()).map(() => {
+                        return (
+                            <SwiperSlide key={String(Math.random())}>
+                                <SectionSwiperCard />
                             </SwiperSlide>
                         );
                     })}

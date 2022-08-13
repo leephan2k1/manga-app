@@ -11,7 +11,7 @@ import {
 import useChapters from '~/hooks/useChapters';
 import useSource from '~/hooks/useSource';
 import { baseURL } from '~/services/axiosClient';
-import { Manga } from '~/types';
+import { Comic } from '~/types';
 
 import {
     ClipboardListIcon,
@@ -21,7 +21,7 @@ import {
 } from '@heroicons/react/outline';
 
 interface SectionSwiperCardProps {
-    manga: Manga;
+    manga?: Comic;
 }
 
 const url = SOURCE_COLLECTIONS['nt'];
@@ -50,72 +50,34 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                 setShowPreview(false);
             }}
         >
-            <Link
-                href={{
-                    pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
-                        manga.slug,
-                    )}`,
-                    query: {
-                        src: srcId,
-                    },
-                }}
-            >
-                <a>
-                    <Image
-                        className="absolute inset-0 rounded-xl object-cover object-center"
-                        alt="manga-thumbnail z-50"
-                        src={`${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`}
-                        layout="fill"
-                    />
-                </a>
-            </Link>
-
-            <span className="absolute top-2 left-2 h-fit w-fit rounded-xl bg-white bg-opacity-40 px-4 py-2 text-base backdrop-blur-md md:text-xl lg:text-3xl">
-                {manga.newChapter}
-            </span>
-            {matches && showPreview && (
-                <div className="animate__faster animate__animated animate__fadeIn flex h-full w-full flex-col space-y-2 overflow-hidden rounded-xl bg-highlight text-white">
+            {manga ? (
+                <>
                     <Link
                         href={{
                             pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                 manga.slug,
                             )}`,
-                            query: { src: srcId },
+                            query: {
+                                src: srcId,
+                            },
                         }}
                     >
                         <a>
-                            <h3 className="ml-4 mt-4 min-h-[40px] text-[100%] font-semibold line-clamp-2 hover:text-primary">
-                                {manga.name}
-                            </h3>
+                            <Image
+                                priority
+                                className="fancy-fade-in absolute inset-0 rounded-xl object-cover object-center"
+                                alt="manga-thumbnail"
+                                src={`${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`}
+                                layout="fill"
+                            />
                         </a>
                     </Link>
-                    <p className="ml-4 flex flex-nowrap items-center">
-                        <ClipboardListIcon className="h-6 w-6" />
-                        <span className="ml-2 text-[90%] line-clamp-1">
-                            {manga.newChapter}
-                        </span>
-                    </p>
-                    <p className="ml-4 flex items-center">
-                        <ClockIcon className="h-6 w-6" />{' '}
-                        <span className="ml-2 text-[90%]">
-                            {manga.updatedAt}
-                        </span>
-                    </p>
-                    <p className="ml-4 flex items-center">
-                        <StatusOnlineIcon className="h-6 w-6" />{' '}
-                        <span className="ml-2 text-[90%]">{manga.status}</span>
-                    </p>
 
-                    <div className="flex h-fit w-full flex-col items-center space-y-4 py-6">
-                        <button
-                            data-id={manga.slug}
-                            onClick={handleGoToFirstChapter}
-                            className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-primary py-2 px-4 transition-all hover:scale-[110%]"
-                        >
-                            <BiGlasses /> <span>Đọc ngay</span>
-                        </button>
-                        <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-white py-2 px-4 text-gray-700 transition-all hover:scale-[110%]">
-                            <InformationCircleIcon className="h-6 w-6" />{' '}
+                    <span className="absolute top-2 left-2 h-fit w-fit rounded-xl bg-white bg-opacity-40 px-4 py-2 text-base backdrop-blur-md md:text-xl lg:text-3xl">
+                        {manga.newChapter}
+                    </span>
+                    {matches && showPreview && (
+                        <div className="animate__faster animate__animated animate__fadeIn flex h-full w-full flex-col space-y-2 overflow-hidden rounded-xl bg-highlight text-white">
                             <Link
                                 href={{
                                     pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
@@ -124,11 +86,58 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                     query: { src: srcId },
                                 }}
                             >
-                                <a>Thông tin</a>
+                                <a>
+                                    <h3 className="ml-4 mt-4 min-h-[40px] text-[100%] font-semibold line-clamp-2 hover:text-primary">
+                                        {manga.name}
+                                    </h3>
+                                </a>
                             </Link>
-                        </button>
-                    </div>
-                </div>
+                            <p className="ml-4 flex flex-nowrap items-center">
+                                <ClipboardListIcon className="h-6 w-6" />
+                                <span className="ml-2 text-[90%] line-clamp-1">
+                                    {manga.newChapter}
+                                </span>
+                            </p>
+                            <p className="ml-4 flex items-center">
+                                <ClockIcon className="h-6 w-6" />{' '}
+                                <span className="ml-2 text-[90%]">
+                                    {manga.updatedAt}
+                                </span>
+                            </p>
+                            <p className="ml-4 flex items-center">
+                                <StatusOnlineIcon className="h-6 w-6" />{' '}
+                                <span className="ml-2 text-[90%]">
+                                    {manga.status}
+                                </span>
+                            </p>
+
+                            <div className="flex h-fit w-full flex-col items-center space-y-4 py-6">
+                                <button
+                                    data-id={manga.slug}
+                                    onClick={handleGoToFirstChapter}
+                                    className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-primary py-2 px-4 transition-all hover:scale-[110%]"
+                                >
+                                    <BiGlasses /> <span>Đọc ngay</span>
+                                </button>
+                                <button className="flex w-fit items-center justify-center space-x-4 rounded-xl bg-white py-2 px-4 text-gray-700 transition-all hover:scale-[110%]">
+                                    <InformationCircleIcon className="h-6 w-6" />{' '}
+                                    <Link
+                                        href={{
+                                            pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                                manga.slug,
+                                            )}`,
+                                            query: { src: srcId },
+                                        }}
+                                    >
+                                        <a>Thông tin</a>
+                                    </Link>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </>
+            ) : (
+                <div className="loading-pulse h-full w-full rounded-xl bg-white/20"></div>
             )}
         </div>
     );
