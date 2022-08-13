@@ -121,6 +121,25 @@ input[type='number'] {
     animation: pulse-tw 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+.fancy-fade-in {
+    animation: fade-in-animation 1.3s ease-in-out;
+}
+
+@keyframes fade-in-animation {
+    0% {
+        opacity: 0;
+        filter: brightness(1) blur(20px);
+    }
+    10% {
+        opacity: 1;
+        filter: brightness(2) blur(10px);
+    }
+    100% {
+        opacity: 1;
+        filter: brightness(1) blur(0);
+    }
+}
+
 @keyframes pulse-tw {
     0%,
     100% {
