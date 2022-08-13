@@ -10,14 +10,14 @@ import { useMediaQuery } from 'usehooks-ts';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useChapters from '~/hooks/useChapters';
 import useSource from '~/hooks/useSource';
-import { Manga } from '~/types';
+import { Comic } from '~/types';
 
 import SwiperCard from './SwiperCard';
 
 const SwiperButton = dynamic(() => import('../buttons/SwiperButton'));
 
 interface MangaBannerProps {
-    mangaList: Manga[];
+    mangaList: Comic[];
 }
 
 function Banner({ mangaList }: MangaBannerProps) {
@@ -106,10 +106,10 @@ function Banner({ mangaList }: MangaBannerProps) {
                                             {manga.genres.map((genre) => {
                                                 return (
                                                     <li
-                                                        key={genre}
+                                                        key={genre._id}
                                                         className="flex w-fit max-w-[100px] items-center whitespace-nowrap rounded-xl border-[1px] border-white py-2 px-4 line-clamp-1"
                                                     >
-                                                        {genre}
+                                                        {genre.label}
                                                     </li>
                                                 );
                                             })}

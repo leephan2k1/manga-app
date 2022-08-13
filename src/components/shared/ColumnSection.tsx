@@ -9,14 +9,14 @@ import {
 } from '~/constants';
 import useSource from '~/hooks/useSource';
 import { baseURL } from '~/services/axiosClient';
-import { Manga } from '~/types';
+import { Comic } from '~/types';
 
 import { ChevronRightIcon } from '@heroicons/react/outline';
 
 interface ColumnSectionProps {
     title?: string;
     link: string;
-    mangaList: Manga[];
+    mangaList: Comic[];
 }
 
 const url = SOURCE_COLLECTIONS['nt'];
@@ -37,7 +37,7 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                     mangaList.map((manga) => {
                         return (
                             <li
-                                key={manga.slug}
+                                key={manga._id}
                                 className="flex w-full px-4 py-2 odd:bg-highlight/40"
                             >
                                 <Link
@@ -53,6 +53,7 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                     <a>
                                         <figure className="relative h-[80px] min-h-[80px] w-[60px] min-w-[60px] overflow-hidden rounded-xl">
                                             <Image
+                                                priority
                                                 className="aspect-w-3 aspect-h-4 absolute object-cover object-center"
                                                 layout="fill"
                                                 alt="img-preview"
@@ -88,9 +89,9 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                             return (
                                                 <li
                                                     className="inline-block"
-                                                    key={idx}
+                                                    key={genre._id}
                                                 >
-                                                    <span>{genre}</span>
+                                                    <span>{genre.label}</span>
                                                     {idx !==
                                                         manga.genres.length -
                                                             1 && (
