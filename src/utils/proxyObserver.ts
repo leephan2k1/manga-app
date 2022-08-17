@@ -1,8 +1,6 @@
 export default function proxyObserver(srcId?: string) {
     switch (srcId) {
-        case 'nt':
-            return true;
-        case 'lh':
+        case 'LHM':
             return false;
         default:
             return true;

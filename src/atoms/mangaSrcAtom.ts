@@ -3,5 +3,5 @@ import { SourcesId } from '~/types';
 
 export const mangaSrc = atom({
     key: 'mangaSource',
-    default: 'nt' as SourcesId,
+    default: 'NTC' as SourcesId,
 });
