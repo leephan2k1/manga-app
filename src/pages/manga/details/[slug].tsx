@@ -78,9 +78,15 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
                 return list.sourceName === src;
             });
 
-            if (chaptersBySource) {
+            if (
+                chaptersBySource?.chapters &&
+                chaptersBySource?.chapters.length
+            ) {
                 setChapters(chaptersBySource.chapters);
-            } else {
+            } else if (
+                chaptersInfo?.chapters_list[0] &&
+                chaptersInfo.chapters_list[0].chapters.length
+            ) {
                 setChapters(chaptersInfo.chapters_list[0].chapters);
             }
         }
