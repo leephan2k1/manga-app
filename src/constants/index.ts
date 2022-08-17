@@ -15,7 +15,7 @@ export const MANGA_PATH_READ_NAME = 'read';
 //ref: src/pages
 export const MANGA_PATH_FOLLOW = 'follows';
 
-export const DEFAULT_SRC: SourcesId = 'nt';
+export const DEFAULT_SRC: SourcesId = 'NTC';
 
 /*
 used in context/SourcesContext.tsx, manga/details/[slug].tsx
@@ -27,8 +27,9 @@ export const COMPARISON_CHAPTERS_FACTOR = 5;
 export const WEBSITE_URL = 'https://kyotomanga.live';
 
 export const SOURCE_COLLECTIONS: { [key: string]: string } = {
-    nt: 'http://www.nettruyenme.com',
-    lh: 'https://truyentranhlh.net',
+    NTC: 'http://www.nettruyenme.com',
+    LHM: 'https://truyentranhlh.net',
+    OTK: 'https://otakusan.net',
 };
 
 export const FOLLOW_STATE: Array<{ id: FollowState; title: string }> = [
@@ -150,12 +151,7 @@ export const GENDER = [
     { value: '2', label: 'Con trai' },
 ];
 
-export const MANGA_RESOURCE: MangaResource[] = [
-    {
-        sourceName: 'NTC',
-        sourceId: 'nt',
-    },
-];
+export const MANGA_RESOURCE: MangaResource[] = [];
 
 export const TailwindColors = [
     '#facc15',
