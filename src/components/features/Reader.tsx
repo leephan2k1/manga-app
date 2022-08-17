@@ -12,11 +12,13 @@ import { useTransition } from 'transition-hook';
 import {
     useElementSize,
     useEventListener,
-    useMediaQuery,
     useIntersectionObserver,
+    useMediaQuery,
 } from 'usehooks-ts';
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
+import ChapterModal from '~/components/features/ChapterModal';
+import SettingsModeModal from '~/components/features/SettingsModeModal';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import { NavigateDirection } from '~/types';
@@ -37,13 +39,6 @@ const HorizontalReading = dynamic(
         } as ImportCallOptions),
 );
 
-const SettingsModeModal = dynamic(
-    () =>
-        import('~/components/features/SettingsModeModal', {
-            ssr: false,
-        } as ImportCallOptions),
-);
-
 const SettingsMode = dynamic(
     () =>
         import('./SettingsMode', {
@@ -53,13 +48,6 @@ const SettingsMode = dynamic(
 const HorizontalSettings = dynamic(
     () =>
         import('~/components/features/HorizontalPanel', {
-            ssr: false,
-        } as ImportCallOptions),
-);
-
-const ChapterModal = dynamic(
-    () =>
-        import('~/components/features/ChapterModal', {
             ssr: false,
         } as ImportCallOptions),
 );

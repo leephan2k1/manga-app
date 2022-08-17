@@ -8,13 +8,13 @@ import CircleIcon from '~/components/icons/CircleIcon';
 import ListBox from '~/components/shared/ListBox';
 import { FOLLOW_STATE } from '~/constants';
 import useFollow from '~/hooks/useFollow';
-import { FollowState, MangaDetails } from '~/types';
+import { FollowState, Comic } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 
 interface FollowModalProps {
-    manga: MangaDetails;
+    manga: Comic;
     callbackMessage: (message: string, status: string) => void;
 }
 
@@ -59,6 +59,11 @@ export default function FollowModal({
     };
 
     const handleAddStatus = async () => {
+        if (!manga?.name) {
+            callbackMessage('Opps! Có gì đó không đúng, thử lại sau', 'error');
+            return;
+        }
+
         if (status === 'authenticated' && followId.current) {
             setLoading(true);
 
@@ -86,6 +91,11 @@ export default function FollowModal({
     };
 
     const handleDeleteStatus = async () => {
+        if (!manga?.name) {
+            callbackMessage('Opps! Có gì đó không đúng, thử lại sau', 'error');
+            return;
+        }
+
         if (status === 'authenticated') {
             setLoading(true);
 
@@ -93,7 +103,7 @@ export default function FollowModal({
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
                 session?.user?.id as string,
-                manga.title,
+                manga.name,
             );
 
             //show toast
@@ -117,7 +127,7 @@ export default function FollowModal({
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
                 session?.user?.id as string,
-                manga.title,
+                manga.name,
             );
 
             if (res) {
@@ -198,7 +208,7 @@ export default function FollowModal({
                                     <div className="flex flex-col justify-between md:col-span-2 md:mt-4 md:px-10 lg:px-4">
                                         <div className="flex flex-col gap-4">
                                             <h1 className="ld:px-0 text-center font-secondary text-3xl font-bold line-clamp-1 md:px-4 md:text-left md:text-4xl">
-                                                {manga?.title}
+                                                {manga?.name}
                                             </h1>
 
                                             <h2 className="ld:px-0 text-center font-secondary line-clamp-1 md:my-8 md:px-4 md:text-left md:text-2xl lg:text-3xl">

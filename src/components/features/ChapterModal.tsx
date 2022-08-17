@@ -1,44 +1,19 @@
-import { useRouter } from 'next/router';
-import { Fragment, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { chapterList } from '~/atoms/chapterListAtom';
+import { Fragment } from 'react';
+import { useRecoilState } from 'recoil';
 import { chapterModal } from '~/atoms/chapterModalAtom';
-import { mangaSrc } from '~/atoms/mangaSrcAtom';
+import DetailsChapterList from '~/components/shared/DetailsChapterList';
 import useMultipleSources from '~/context/SourcesContext';
-import { Chapter } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 
-import DetailsChapterList from '../shared/DetailsChapterList';
-
 export default function ChapterModal() {
-    const router = useRouter();
-    const { params } = router.query;
-    const src = useRecoilValue(mangaSrc);
-    const manga = useRecoilValue(chapterList);
-
-    const [sourceSlug, setSourceSlug] = useState(params && String(params[0]));
-    const [currentChapter, setCurrentChapter] = useState(manga?.chapterList);
-
     const multipleSources = useMultipleSources();
     const [showModal, setShowModal] = useRecoilState(chapterModal);
 
     const handleCloseModal = () => {
         setShowModal(false);
     };
-
-    useEffect(() => {
-        if (multipleSources) {
-            const srcInstance = multipleSources.sources.find(
-                (source) => source.srcId === src,
-            );
-
-            setCurrentChapter(srcInstance?.details.chapterList as Chapter[]);
-            setSourceSlug(srcInstance?.slug as string);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [src]);
 
     return (
         <Transition appear show={showModal} as={Fragment}>
@@ -85,6 +60,7 @@ export default function ChapterModal() {
                                         <XIcon className="h-8 w-8" />
                                     </button>
                                 </div>
+
                                 <div className="my-4 flex flex-col">
                                     <DetailsChapterList
                                         highlightCurrentChapter
@@ -93,11 +69,12 @@ export default function ChapterModal() {
                                         mobileHeight={300}
                                         selectSource
                                         mobileUI
-                                        comicSlug={sourceSlug as string}
+                                        chapterInfo={
+                                            multipleSources?.chaptersDetail
+                                        }
                                         chapterList={
-                                            currentChapter?.length > 0
-                                                ? currentChapter
-                                                : manga.chapterList
+                                            multipleSources?.currentChapters
+                                                ?.chapters || []
                                         }
                                     />
                                 </div>

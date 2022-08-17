@@ -1,14 +1,12 @@
 import { memo, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import { chapterList } from '~/atoms/chapterListAtom';
 import { SOURCE_COLLECTIONS } from '~/constants';
 import useSettingsMode from '~/context/SettingsContext';
-import { ImagesChapter } from '~/types';
+import { Page } from '~/types';
 
-import Img from '../shared/Img';
+import VerticalImages from '../shared/VerticalImages';
 
 interface VerticalReadingProps {
-    images: ImagesChapter[];
+    images: Page[];
     srcId: string;
     useProxy?: boolean;
     matchesTouchScreen: boolean;
@@ -25,7 +23,6 @@ function VerticalReading({
     handleSaveCurrentPage,
 }: VerticalReadingProps) {
     const url = SOURCE_COLLECTIONS[srcId];
-    const chapterState = useRecoilValue(chapterList);
 
     const settings = useSettingsMode();
 
@@ -44,28 +41,12 @@ function VerticalReading({
                 settings?.imageMode === 'fitW' ? 'lg:w-full' : 'lg:w-[60%]'
             }`}
         >
-            {images?.length &&
-                images.map((img, index) => {
-                    return (
-                        <div
-                            id={`page-${index}`}
-                            key={img.id}
-                            className={`relative ${
-                                chapterState.isWebtoon ? 'my-0' : 'my-4'
-                            } h-fit w-full`}
-                        >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <Img
-                                saveCurrentPage={handleSaveCurrentPage}
-                                useProxy={useProxy}
-                                index={index}
-                                url={url}
-                                src={img.imgSrc}
-                                fallbackSrc={img?.imgSrcCDN}
-                            />
-                        </div>
-                    );
-                })}
+            <VerticalImages
+                handleSaveCurrentPage={handleSaveCurrentPage}
+                images={images}
+                url={url}
+                useProxy={useProxy}
+            />
         </div>
     );
 }

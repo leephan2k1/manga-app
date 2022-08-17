@@ -29,7 +29,6 @@ export default function SettingsModeModal({
     };
 
     const handleToggleAutoNextChap = (state: boolean) => {
-        console.log(state);
         settings?.setAutoNext(state);
     };
 

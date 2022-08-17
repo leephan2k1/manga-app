@@ -4,7 +4,7 @@ import { useElementSize, useMediaQuery, useWindowSize } from 'usehooks-ts';
 import { SOURCE_COLLECTIONS } from '~/constants';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
-import { ImagesChapter, NavigateDirection } from '~/types';
+import { NavigateDirection, Page } from '~/types';
 
 import {
     ArrowLeftIcon,
@@ -14,10 +14,10 @@ import {
     DeviceTabletIcon,
 } from '@heroicons/react/outline';
 
-import Img from '../shared/Img';
+import HorizontalImages from '../shared/HorizontalImages';
 
 interface HorizontalReadingProps {
-    images: ImagesChapter[];
+    images: Page[];
     srcId: string;
     useProxy?: boolean;
     currentPage: number;
@@ -268,31 +268,15 @@ function HorizontalReading({
                 </ul>
             </div>
 
-            {images?.length &&
-                images.map((img, index) => {
-                    return (
-                        <div
-                            ref={imgRef}
-                            id={`page-${index}`}
-                            key={img.id}
-                            style={{
-                                minWidth: `${
-                                    matchesMobile ? `${width}px` : ''
-                                }`,
-                            }}
-                            className={`img-wrapper absolute-center h-screen min-w-[535px] max-w-[600px] touch-auto  transition-all`}
-                        >
-                            <Img
-                                saveCurrentPage={handleSaveCurrentPage}
-                                useProxy={useProxy}
-                                index={index}
-                                url={url}
-                                src={img.imgSrc}
-                                fallbackSrc={img?.imgSrcCDN}
-                            />
-                        </div>
-                    );
-                })}
+            <HorizontalImages
+                images={images}
+                handleSaveCurrentPage={handleSaveCurrentPage}
+                url={url}
+                width={width}
+                matchesMobile={matchesMobile}
+                ref={imgRef}
+                useProxy={useProxy}
+            />
 
             <div
                 style={{
