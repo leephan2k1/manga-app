@@ -37,6 +37,8 @@ export default function ChapterButton({
                 duration: 3000,
                 style: { zIndex: 899 },
             });
+
+            NProgress.done();
         }
     };
 

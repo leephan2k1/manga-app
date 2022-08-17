@@ -52,12 +52,15 @@ body {
 #nprogress .bar {
     background: #f43f5e !important;
     z-index: 1500 !important;
-    height: 3px !important;
 }
 
 #nprogress .spinner-icon {
     border-top-color: red !important;
     border-left-color: red !important;
+}
+
+#nprogress .peg {
+    box-shadow: 0 0 10px red, 0 0 5px red !important;
 }
 
 *:focus {

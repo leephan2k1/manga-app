@@ -1,12 +1,15 @@
 import { useRouter } from 'next/router';
 import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
 import { axiosClientV2 } from '~/services/axiosClient';
+import NProgress from 'nprogress';
 
 export default function useChapters() {
     const router = useRouter();
 
     const goToFirstChapter = async (mangaSlug: string) => {
         try {
+            NProgress.start();
+
             const res = await (
                 await axiosClientV2.get(`/comics/${mangaSlug}/chapters`, {
                     params: {
@@ -34,6 +37,8 @@ export default function useChapters() {
                 );
             }
         } catch (err) {
+            NProgress.done();
+
             console.log(err);
         }
     };
