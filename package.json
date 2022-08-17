@@ -21,6 +21,7 @@
         "framer-motion": "^6.5.0",
         "modern-normalize": "^1.1.0",
         "mongodb": "^4.7.0",
+        "mongoose": "^6.5.2",
         "next": "latest",
         "next-auth": "^4.6.1",
         "nextjs-progressbar": "^0.0.14",
