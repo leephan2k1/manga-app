@@ -8,7 +8,6 @@ import { Pagination, FreeMode } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
-import useSource from '~/hooks/useSource';
 import { Comic } from '~/types';
 
 import SectionSwiperCard from './SectionSwiperCard';
@@ -19,7 +18,6 @@ interface SectionSwiperProps {
 
 function SectionSwiper({ mangaList }: SectionSwiperProps) {
     const matchesMobile = useMediaQuery('(max-width: 640px)');
-    const [srcId] = useSource();
 
     const swiperBreakPoints = {
         1: {
@@ -65,9 +63,6 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
                                         pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                             manga.slug,
                                         )}`,
-                                        query: {
-                                            src: srcId,
-                                        },
                                     }}
                                 >
                                     <a>

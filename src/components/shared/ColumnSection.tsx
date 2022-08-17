@@ -7,7 +7,6 @@ import {
     MANGA_PATH_NAME,
     SOURCE_COLLECTIONS,
 } from '~/constants';
-import useSource from '~/hooks/useSource';
 import { baseURL } from '~/services/axiosClient';
 import { Comic } from '~/types';
 import { isExactMatch } from '~/utils/stringHandler';
@@ -23,8 +22,6 @@ interface ColumnSectionProps {
 const url = SOURCE_COLLECTIONS['nt'];
 
 function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
-    const [srcId] = useSource();
-
     return (
         <div className="w-full rounded-xl bg-deep-black pb-4 lg:my-4">
             {title && (
@@ -46,9 +43,6 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                         pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                             manga.slug,
                                         )}`,
-                                        query: {
-                                            src: srcId,
-                                        },
                                     }}
                                 >
                                     <a>
@@ -77,9 +71,6 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                             pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                                 manga.slug,
                                             )}`,
-                                            query: {
-                                                src: srcId,
-                                            },
                                         }}
                                     >
                                         <a>

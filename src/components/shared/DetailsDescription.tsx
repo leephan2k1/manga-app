@@ -28,7 +28,6 @@ function DetailsDescription({
 
     if (!mobileUI)
         return <p className="my-8 text-white">&quot;{mangaReview}&quot;</p>;
-    // return <p className="my-8 text-white">&quot;{mangaReview}&quot;</p>;
 
     return (
         <Disclosure>

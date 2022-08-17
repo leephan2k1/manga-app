@@ -9,7 +9,6 @@ import {
     SOURCE_COLLECTIONS,
 } from '~/constants';
 import useChapters from '~/hooks/useChapters';
-import useSource from '~/hooks/useSource';
 import { baseURL } from '~/services/axiosClient';
 import { Comic } from '~/types';
 
@@ -27,7 +26,6 @@ interface SectionSwiperCardProps {
 const url = SOURCE_COLLECTIONS['nt'];
 
 function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
-    const [srcId] = useSource();
     const chapters = useChapters();
     const matches = useMediaQuery('(min-width: 1259px)');
     const [showPreview, setShowPreview] = useState(false);
@@ -57,9 +55,6 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                             pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                 manga.slug,
                             )}`,
-                            query: {
-                                src: srcId,
-                            },
                         }}
                     >
                         <a>
@@ -83,7 +78,6 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                     pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                         manga.slug,
                                     )}`,
-                                    query: { src: srcId },
                                 }}
                             >
                                 <a>
@@ -126,7 +120,6 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                             pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                                 manga.slug,
                                             )}`,
-                                            query: { src: srcId },
                                         }}
                                     >
                                         <a>Thông tin</a>

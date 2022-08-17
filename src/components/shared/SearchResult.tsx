@@ -8,7 +8,6 @@ import {
     MANGA_PATH_NAME,
     TailwindColors,
 } from '~/constants';
-import useSource from '~/hooks/useSource';
 import { Comic } from '~/types';
 import { randomColors } from '~/utils/randomColors';
 
@@ -19,15 +18,10 @@ interface SearchResultProps {
 function SearchResult({ data }: SearchResultProps) {
     const [_, setShowModal] = useRecoilState(searchModalState);
 
-    const [srcId] = useSource();
-
     return (
         <div className="min-h-fit w-full">
             <ul className="h-fit w-full space-y-5">
                 {data.map((manga) => {
-                    {
-                        console.log(manga._id);
-                    }
                     return (
                         <li
                             key={manga._id}
@@ -39,9 +33,6 @@ function SearchResult({ data }: SearchResultProps) {
                                     pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                         manga.slug,
                                     )}`,
-                                    query: {
-                                        src: srcId,
-                                    },
                                 }}
                             >
                                 <a className="flex h-full space-x-2">

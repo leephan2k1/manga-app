@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import { SOURCE_COLLECTIONS } from '~/constants';
 import { baseURL } from '~/services/axiosClient';
+import { isExactMatch } from '~/utils/stringHandler';
 
 interface DetailsBannerProps {
     imgUrl: string;
@@ -15,11 +16,10 @@ export default function DetailsBanner({
     imgUrl,
     isLoading,
 }: DetailsBannerProps) {
-    const styles =
-        'deslide-cover count={10} h-full w-full bg-cover bg-top bg-no-repeat';
+    const styles = 'deslide-cover h-full w-full bg-cover bg-top bg-no-repeat';
 
     return (
-        <div className="absolute inset-0 z-0 h-[35%] w-full lg:h-[45%] ">
+        <div className="absolute inset-0 z-0 h-[35%] w-full lg:h-[45%]">
             {isLoading ? (
                 <Skeleton
                     className={styles}
@@ -30,11 +30,13 @@ export default function DetailsBanner({
                 <figure className="deslide-cover">
                     <Image
                         alt="comic-banner"
-                        className=" count={10} object-fit absolute h-full w-full bg-cover bg-top bg-no-repeat object-cover blur"
+                        className="object-fit absolute h-full w-full bg-cover bg-top bg-no-repeat object-cover blur"
                         layout="fill"
                         src={
                             imgUrl !== 'notFound'
-                                ? `${baseURL}/proxy?url=${url}&src=${imgUrl}`
+                                ? isExactMatch(imgUrl, 'res.cloudinary.com')
+                                    ? imgUrl
+                                    : `${baseURL}/proxy?url=${url}&src=${imgUrl}`
                                 : torriGate
                         }
                     />
