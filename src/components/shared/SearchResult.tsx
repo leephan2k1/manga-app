@@ -10,6 +10,7 @@ import {
 } from '~/constants';
 import { Comic } from '~/types';
 import { randomColors } from '~/utils/randomColors';
+import NProgress from 'nprogress';
 
 interface SearchResultProps {
     data: Comic[];
@@ -26,7 +27,10 @@ function SearchResult({ data }: SearchResultProps) {
                         <li
                             key={manga._id}
                             className="h-fit overflow-x-hidden bg-secondary py-4"
-                            onClick={() => setShowModal(false)}
+                            onClick={() => {
+                                setShowModal(false);
+                                NProgress.start();
+                            }}
                         >
                             <Link
                                 href={{
