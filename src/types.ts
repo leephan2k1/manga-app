@@ -18,12 +18,6 @@ export interface SelectType {
     label: string;
 }
 
-export interface ImagesChapter {
-    id: string;
-    imgSrc: string;
-    imgSrcCDN?: string;
-}
-
 export interface ImgRatio {
     index: number;
     ratio: number;
@@ -63,7 +57,7 @@ export interface ReadModeSettings {
     autoNext?: boolean;
 }
 
-export type SourcesId = 'nt' | 'lh' | 'qq' | 'mgdx' | 'mgrd';
+export type SourcesId = 'NTC' | 'LHM' | 'OTK';
 
 export interface MangaResource {
     sourceName: string;
@@ -151,7 +145,7 @@ export interface Manga extends NtSearchResponseData {
     updatedAt: string;
     chapters?: Chapter[];
 }
-
+// -> obsolescent
 export interface MangaDetails {
     title: string;
     updatedAt: string;
@@ -174,8 +168,10 @@ export interface Chapter {
     chapterId: string;
     chapterNumber: string;
     chapterTitle: string;
+    chapterSlug?: string;
     updatedAt: string;
     view: string;
+    _id?: string;
 }
 
 export interface Genre {
@@ -202,6 +198,39 @@ export interface LHMangaSearch {
     url: string;
 }
 
+export interface ImagesChapter {
+    id: string;
+    imgSrc: string;
+    imgSrcCDN?: string;
+}
+
+export interface Page_Image {
+    id: string;
+    src: string;
+    fallbackSrc?: string;
+}
+
+export interface Page extends Page_Image {
+    _id: string;
+}
+
+export interface ChapterDetails {
+    _id: string;
+    comicName: string;
+    comicSlug: string;
+    source: string;
+    chapters_list: { _id: string; sourceName: string; chapters: Chapter[] }[];
+}
+
+export interface PageInfo {
+    _id: string;
+    chapterSlug: string;
+    comicName: string;
+    comicSlug: string;
+    pages: Page[];
+    source: string;
+}
+
 export interface Comic {
     _id: string;
     name: string;
@@ -209,6 +238,8 @@ export interface Comic {
     author: string;
     custom_id: number;
     genres: Genre[];
+    chapters?: ChapterDetails; // -> fallback comic hasn't chapters
+    description?: Description; // -> fallback comic hasn't description
     newChapter: string;
     otherName: string;
     review: string;
@@ -224,6 +255,40 @@ export interface Genre {
     value: string;
     label: string;
     _id: string;
+}
+
+export interface Character {
+    _id: string;
+    cover: string;
+    mal_url: string;
+    name: string;
+    role: string;
+}
+
+export interface DescPicture {
+    large: string;
+    small: string;
+    _id: string;
+}
+
+export interface Description {
+    _id: string;
+    name: string;
+    characters: Character[];
+    titles: {
+        title_synonyms: string;
+        title_japanese: string;
+        title_english: string;
+    };
+    cover: string;
+    description: string;
+    mal_id: string;
+    popularity: string;
+    published: string;
+    ranked: string;
+    score: string;
+    slug: string;
+    pictures: DescPicture[];
 }
 
 export interface SourcesAvailable {
