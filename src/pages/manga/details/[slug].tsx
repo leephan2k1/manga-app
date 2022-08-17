@@ -70,6 +70,23 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
 
     useEffectOnce(() => {
         setSrc('NTC');
+
+        //fetch chapters if it's not time to revalidate yet
+        (async function () {
+            try {
+                const res = await (
+                    await axiosClientV2.get(`/comics/${comic.slug}/chapters`, {
+                        params: {
+                            options: 'get',
+                        },
+                    })
+                ).data;
+
+                if (res?.chapters) {
+                    setChaptersInfo(res?.chapters);
+                }
+            } catch (error) {}
+        })();
     });
 
     useEffect(() => {
@@ -170,7 +187,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
                                 maxWTitleMobile={200}
                                 selectSource
                                 mobileHeight={600}
-                                chapterList={chapters || []}
+                                chapterList={chapters}
                                 chapterInfo={chaptersInfo}
                                 mobileUI={matchesMobile}
                             />
