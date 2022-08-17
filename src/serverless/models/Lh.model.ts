@@ -24,21 +24,4 @@ export default class LhModel extends Scraper {
 
         return this.instance;
     }
-
-    public async search(title: string) {
-        try {
-            const { data } = await this.client.get(
-                `${this.baseUrl}/action/search`,
-                {
-                    params: {
-                        q: title,
-                    },
-                },
-            );
-
-            return data;
-        } catch (err) {
-            return null;
-        }
-    }
 }

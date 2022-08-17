@@ -1,14 +1,12 @@
-import axios from 'axios';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import useSWR from 'swr';
 import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
-import { chapterList } from '~/atoms/chapterListAtom';
 import { followModal } from '~/atoms/followModaAtom';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
@@ -21,16 +19,10 @@ import DetailsDescription from '~/components/shared/DetailsDescription';
 import DetailsInfo from '~/components/shared/DetailsInfo';
 import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
-import {
-    COMPARISON_CHAPTERS_FACTOR,
-    MANGA_RESOURCE,
-    REVALIDATE_TIME,
-    SOURCE_COLLECTIONS,
-} from '~/constants';
-import NtModel from '~/serverless/models/Nt.model';
-import axiosClient from '~/services/axiosClient';
-import { HeadlessManga, LHSearchRes, MangaDetails } from '~/types';
-import webtoonChecker from '~/utils/webtoonChecker';
+import { REVALIDATE_TIME } from '~/constants';
+import ComicModel from '~/serverless/models/Comic.model';
+import { axiosClientV2 } from '~/services/axiosClient';
+import { Chapter, ChapterDetails, Comic, SourcesId } from '~/types';
 
 const FollowModal = dynamic(
     () =>
@@ -44,142 +36,86 @@ interface Params extends ParsedUrlQuery {
 }
 
 interface DetailsPageProps {
-    manga: MangaDetails;
+    // manga: MangaDetails;
+    comic: Comic;
 }
 
-const Nt = NtModel.getInstance(SOURCE_COLLECTIONS['nt']);
-
-const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
+const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
     const router = useRouter();
-    const [src, setSrc] = useRecoilState(mangaSrc);
+
+    //UI States
     const followModalState = useRecoilValue(followModal);
-    const [_, setChapterList] = useRecoilState(chapterList);
     const matchesMobile = useMediaQuery('(max-width: 768px)');
-    const [__, setAvailableSource] = useRecoilState(mangaSources);
-    const [currentChapters, setCurrentChapters] = useState(manga?.chapterList);
 
-    const { data: LHSearch } = useSWR<LHSearchRes>(
-        `/api/search/lh?title=${manga?.title}`,
-        async (slug) => {
-            return await (
-                await axios.get(slug)
-            ).data;
-        },
-        {
-            onErrorRetry: async (_, __, ___, revalidate, { retryCount }) => {
-                // Only retry up to 2 times.
-                if (retryCount >= 2) return;
-
-                // Retry after 3.5 seconds.
-                setTimeout(() => revalidate({ retryCount }), 3500);
-
-                return await (
-                    await axios.get(`/api/search/lh?title=${manga?.otherName}`)
-                ).data;
-            },
-        },
+    //Data States
+    const [src, setSrc] = useRecoilState(mangaSrc);
+    const setSourceAvailable = useSetRecoilState(mangaSources);
+    const [chapters, setChapters] = useState<Chapter[]>(
+        comic?.chapters?.chapters_list[0].chapters || [],
     );
+    const [chaptersInfo, setChaptersInfo] = useState<
+        ChapterDetails | undefined
+    >(comic?.chapters);
 
-    const { data: LHManga } = useSWR<MangaDetails>(
-        LHSearch
-            ? `/lh/manga/${LHSearch?.data?.data[0].url?.slice(
-                  LHSearch?.data?.data[0].url.lastIndexOf('/'),
-              )}`
-            : null,
-        async (slug) => {
-            const res = await (await axiosClient.get(slug)).data;
+    const { data: ChaptersReValidate } = useSWR<{
+        message: string;
+        chapters?: ChapterDetails;
+    }>(comic?.slug, async (slug) => {
+        const res = await (
+            await axiosClientV2.get(`/comics/${slug}/chapters`)
+        ).data;
 
-            return res.data;
-        },
-    );
-
-    useEffect(() => {
-        /* Checking if the chapterList of LHManga is not empty and the difference between the length of
-    manga.chapterList and LHManga.chapterList is less than COMPARISON_CHAPTERS_FACTOR, if it is, it will
-    add LHM to the availableSource, if not, it will set the availableSource to MANGA_RESOURCE. */
-        if (
-            LHManga?.chapterList?.length &&
-            Math.abs(manga.chapterList.length - LHManga?.chapterList?.length) <
-                COMPARISON_CHAPTERS_FACTOR
-        ) {
-            setAvailableSource((prevState) => {
-                if (prevState.find((src) => src.sourceName === 'LHM'))
-                    return prevState;
-
-                return [
-                    ...prevState,
-                    {
-                        sourceName: 'LHM',
-                        sourceId: 'lh',
-                    },
-                ];
-            });
-        } else {
-            setAvailableSource(MANGA_RESOURCE);
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [LHManga]);
-
-    /* Checking if the source is nt or lh, if it is nt, it will set the currentChapters to
-    manga?.chapterList, if it is lh, it will set the currentChapters to LHManga?.chapterList. */
-    useEffect(() => {
-        switch (src) {
-            case 'nt':
-                if (manga) {
-                    setCurrentChapters(manga?.chapterList);
-                    setChapterList({
-                        title: manga.title,
-                        mangaSlug: comicSlug,
-                        chapterList: manga.chapterList,
-                        isWebtoon: webtoonChecker(manga),
-                    } as HeadlessManga);
-                }
-
-                break;
-            case 'lh':
-                if (LHManga) {
-                    setCurrentChapters(LHManga?.chapterList);
-                    setChapterList({
-                        title: LHManga.title,
-                        mangaSlug: comicSlug,
-                        chapterList: LHManga.chapterList,
-                        isWebtoon: webtoonChecker(LHManga),
-                    } as HeadlessManga);
-                }
-
-                break;
-        }
-    }, [src]);
-
-    //cached for read page
-    useEffectOnce(() => {
-        if (manga) {
-            setSrc('nt');
-            setChapterList({
-                title: manga.title,
-                mangaSlug: comicSlug,
-                chapterList: manga.chapterList,
-                isWebtoon: webtoonChecker(manga),
-            } as HeadlessManga);
-        }
+        return res;
     });
 
-    const comicSlug = useMemo(() => {
-        if (src === 'lh' && LHSearch) {
-            return LHSearch?.data?.data[0].url?.slice(
-                LHSearch?.data?.data[0].url.lastIndexOf('/') + 1,
-            );
+    useEffectOnce(() => {
+        setSrc('NTC');
+    });
+
+    useEffect(() => {
+        if (chaptersInfo && chaptersInfo?.chapters_list.length) {
+            const chaptersBySource = chaptersInfo.chapters_list.find((list) => {
+                return list.sourceName === src;
+            });
+
+            if (chaptersBySource) {
+                setChapters(chaptersBySource.chapters);
+            } else {
+                setChapters(chaptersInfo.chapters_list[0].chapters);
+            }
+        }
+    }, [src, chaptersInfo]);
+
+    useEffect(() => {
+        if (ChaptersReValidate?.chapters) {
+            setChaptersInfo(ChaptersReValidate?.chapters);
         }
 
-        return router.asPath.slice(
-            router.asPath.lastIndexOf('/') + 1,
-            router.asPath.indexOf('?') > 0
-                ? router.asPath.indexOf('?')
-                : router.asPath.length,
-        );
+        if (comic?.chapters) {
+            setChaptersInfo(comic?.chapters);
+
+            comic.chapters.chapters_list.map((chapObj) => {
+                setSourceAvailable((prevState) => {
+                    const sources = [...prevState];
+
+                    if (
+                        !prevState.find(
+                            (e) => e.sourceId === chapObj.sourceName,
+                        )
+                    ) {
+                        sources.push({
+                            sourceId: chapObj.sourceName as SourcesId,
+                            sourceName: chapObj.sourceName,
+                        });
+                    }
+
+                    return sources;
+                });
+            });
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [router.asPath, src]);
+    }, [ChaptersReValidate, comic?.chapters, router]);
 
     const notify = (message: string, status: string) => {
         if (status === 'success')
@@ -194,31 +130,30 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
     return (
         <>
             <Head
-                title={`${manga ? manga?.title + '-' : ''}  Kyoto Manga`}
-                description={`${manga?.review}`}
-                image={`${manga?.thumbnail}`}
+                title={`${comic ? comic?.name + '-' : ''}  Kyoto Manga`}
+                description={`${comic?.review}`}
+                image={`${comic?.thumbnail}`}
             />
             <ClientOnly>
                 <div className="flex h-fit min-h-screen flex-col">
                     <DetailsBanner
                         isLoading={router.isFallback}
-                        imgUrl={manga?.thumbnail || 'notFound'}
+                        imgUrl={comic?.thumbnail || 'notFound'}
                     />
 
                     <div className="z-10 mx-auto min-h-screen w-[85%] pt-32">
                         <Section style="h-fit w-full">
                             <DetailsInfo
-                                callbackMessage={notify}
                                 isLoading={router.isFallback}
-                                manga={manga}
-                                comicSlug={comicSlug}
+                                manga={comic}
+                                chapters={chaptersInfo}
                             />
                         </Section>
 
                         <Section style="h-fit w-full">
                             <DetailsDescription
                                 isLoading={router.isFallback}
-                                mangaReview={manga?.review || ''}
+                                mangaReview={comic?.review || ''}
                                 mobileUI={matchesMobile}
                             />
                         </Section>
@@ -229,10 +164,8 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                                 maxWTitleMobile={200}
                                 selectSource
                                 mobileHeight={600}
-                                chapterList={
-                                    currentChapters || manga?.chapterList || []
-                                }
-                                comicSlug={comicSlug}
+                                chapterList={chapters || []}
+                                chapterInfo={chaptersInfo}
                                 mobileUI={matchesMobile}
                             />
                         </Section>
@@ -240,7 +173,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ manga }) => {
                         {followModalState && (
                             <FollowModal
                                 callbackMessage={notify}
-                                manga={manga}
+                                manga={comic}
                             />
                         )}
 
@@ -259,28 +192,45 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
 ) => {
     try {
         const { slug } = ctx.params as Params;
-        // const host = process.env['HOST_NAME'];
 
-        // const res = await (await fetch(`${host}/api/comic/nt/${slug}`)).json();
-        // const res = await NtApi?.getManga(slug);
-        const res = await Nt.getComic(slug);
+        const result = await ComicModel.findOne({ slug })
+            .populate('chapters')
+            .populate('description');
 
-        if (res.title && res.title.length) {
+        if (result) {
             return {
-                props: { manga: res },
+                props: {
+                    comic: JSON.parse(JSON.stringify(result)),
+                },
                 revalidate: REVALIDATE_TIME,
             };
         } else {
-            return { notFound: true };
+            try {
+                const resultFallback = await (
+                    await axiosClientV2.get(`/comics/${slug}/info`)
+                ).data;
+
+                if (!resultFallback) return { notFound: true };
+
+                const { comic } = resultFallback;
+
+                return {
+                    props: {
+                        comic: JSON.parse(JSON.stringify(comic)),
+                    },
+                    revalidate: REVALIDATE_TIME,
+                };
+            } catch (err) {
+                return { notFound: true };
+            }
         }
     } catch (err) {
-        console.log(err);
         return { notFound: true };
     }
 };
 
-// // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //@ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
     return { paths: [], fallback: true };
 };

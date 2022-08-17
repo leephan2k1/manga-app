@@ -2,9 +2,8 @@ import { GetServerSideProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import toast, { Toaster } from 'react-hot-toast';
 import { useEffectOnce, useLocalStorage, useMediaQuery } from 'usehooks-ts';
-import { chapterList } from '~/atoms/chapterListAtom';
 import Reader from '~/components/features/Reader';
 import MainLayout from '~/components/layouts/MainLayout';
 import ClientOnly from '~/components/shared/ClientOnly';
@@ -19,10 +18,16 @@ import {
 import { ReadingContextProvider } from '~/context/ReadingContext';
 import { SettingsContextProvider } from '~/context/SettingsContext';
 import { SourcesContextProvider } from '~/context/SourcesContext';
-import axiosClient from '~/services/axiosClient';
-import { ImagesChapter, NavigateDirection, ReadModeSettings } from '~/types';
+import { connectToDatabase } from '~/serverless/utils/connectdbData';
+import { axiosClientV2 } from '~/services/axiosClient';
+import {
+    ChapterDetails,
+    ImagesChapter,
+    NavigateDirection,
+    PageInfo,
+    ReadModeSettings,
+} from '~/types';
 import proxyObserver from '~/utils/proxyObserver';
-import webtoonChecker from '~/utils/webtoonChecker';
 
 import { ChevronRightIcon } from '@heroicons/react/outline';
 
@@ -41,9 +46,15 @@ const VerticalPanel = dynamic(
 
 interface ReadPageProps {
     imagesChapter: ImagesChapter[];
+    pagesDetail: PageInfo;
+    chaptersDetail: ChapterDetails;
 }
 
-const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
+const ReadPage: NextPage<ReadPageProps> = ({
+    // imagesChapter,
+    pagesDetail,
+    chaptersDetail,
+}) => {
     const router = useRouter();
     const { params } = router.query;
 
@@ -52,7 +63,6 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
         null,
     );
 
-    const [manga, setManga] = useRecoilState(chapterList);
     const [showSideSettings, setShowSideSettings] = useState(true);
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
 
@@ -75,52 +85,111 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
     };
 
     const handleChangeChapter = useCallback(
-        (type: NavigateDirection) => {
+        async (type: NavigateDirection) => {
             if (!params?.length) return;
 
-            let index = manga.chapterList.findIndex(
-                (chapter) => chapter.chapterNumber === params[1],
+            let index = currentChapters?.chapters.findIndex(
+                (e) => e.chapterNumber === currentChapter?.chapterNumber,
             );
 
-            switch (type) {
-                case 'next':
-                    if (!manga.chapterList[--index]) return;
+            if (index === undefined) return;
 
-                    const nextChapNumber =
-                        manga.chapterList[index].chapterNumber;
-                    const nextChapId = manga.chapterList[index].chapterId;
+            try {
+                switch (type) {
+                    case 'next':
+                        if (!currentChapters?.chapters[--index]) {
+                            toast(
+                                'Chapter mới nhất rồi bạn ơi! Quay lại sau nhé!',
+                                {
+                                    icon: '😅',
+                                    duration: 3000,
+                                    style: { zIndex: 899 },
+                                },
+                            );
 
-                    router.replace(
-                        `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${nextChapNumber}/${nextChapId}/${params[3]}`,
-                    );
+                            return;
+                        }
 
-                    break;
-                case 'prev':
-                    if (!manga.chapterList[++index]) return;
+                        await axiosClientV2.post('/chapters', {
+                            chapterSlug:
+                                currentChapters?.chapters[index].chapterSlug,
+                            source: params[0],
+                            comicName: chaptersDetail.comicName,
+                            comicSlug: chaptersDetail.comicSlug,
+                        });
 
-                    const prevChapNumber =
-                        manga.chapterList[index].chapterNumber;
-                    const prevChapId = manga.chapterList[index].chapterId;
+                        router.replace(
+                            `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${currentChapters?.chapters[index].chapterNumber}/${currentChapters?.chapters[index].chapterSlug}`,
+                        );
 
-                    router.replace(
-                        `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${prevChapNumber}/${prevChapId}/${params[3]}`,
-                    );
+                        break;
 
-                    break;
+                    case 'prev':
+                        if (!currentChapters?.chapters[++index]) {
+                            toast(
+                                'Chap đầu tiên rồi bạn ơi! Tiến tới để đọc thêm nhé!',
+                                {
+                                    icon: '😅',
+                                    duration: 3000,
+                                    style: { zIndex: 899 },
+                                },
+                            );
+                            return;
+                        }
+
+                        await axiosClientV2.post('/chapters', {
+                            chapterSlug:
+                                currentChapters?.chapters[index].chapterSlug,
+                            source: params[0],
+                            comicName: chaptersDetail.comicName,
+                            comicSlug: chaptersDetail.comicSlug,
+                        });
+
+                        router.replace(
+                            `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${currentChapters?.chapters[index].chapterNumber}/${currentChapters?.chapters[index].chapterSlug}`,
+                        );
+
+                        break;
+                }
+            } catch (err) {
+                toast.error('Lỗi rồi, Hãy chuyển nguồn khác nhé User-kun!', {
+                    duration: 3000,
+                    style: { zIndex: 899 },
+                });
             }
         },
-        [params, manga.chapterList, router],
+        [params, router],
     );
 
     const currentChapter = useMemo(() => {
-        if (!params?.length) return;
+        if (!params?.length || !chaptersDetail) return;
 
-        if (manga.chapterList.length) {
-            return manga.chapterList.find(
-                (chapter) => chapter.chapterNumber === params[1],
+        const source = params[0];
+
+        const chaptersBySource = chaptersDetail.chapters_list.find(
+            (e) => e.sourceName === source,
+        );
+
+        if (chaptersBySource) {
+            const chapNumberParam = params[1];
+
+            return chaptersBySource.chapters.find(
+                (e) => e.chapterNumber === chapNumberParam,
             );
         }
-    }, [params, manga.chapterList]);
+    }, [params]);
+
+    const currentChapters = useMemo(() => {
+        if (!params?.length || !chaptersDetail) return;
+
+        const source = params[0];
+
+        if (source) {
+            return chaptersDetail.chapters_list.find(
+                (e) => e.sourceName === source,
+            );
+        }
+    }, [params]);
 
     useEffectOnce(() => {
         if (!matchesTouchScreen && rmSettings !== null)
@@ -135,37 +204,6 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
             handleCloseSideSettings();
         };
     }, [matchesTouchScreen]);
-
-    useEffect(() => {
-        const mangaSlugParams = params && params[0];
-
-        if (manga.mangaSlug !== mangaSlugParams) {
-            (async function () {
-                try {
-                    if (!params?.length) return;
-
-                    const source = params[3];
-                    const slug = params[0];
-
-                    const res = (
-                        await axiosClient.get(`${source}/manga/${slug}`)
-                    )?.data;
-
-                    if (res?.success) {
-                        setManga({
-                            mangaSlug: params[0],
-                            title: res.data.title,
-                            chapterList: res.data.chapterList,
-                            isWebtoon: webtoonChecker(res.data),
-                        });
-                    }
-                } catch (err) {
-                    console.log(err);
-                }
-            })();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [router.query?.params]);
 
     if (!rmSettings) {
         return (
@@ -184,18 +222,22 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
     return (
         <>
             <Head
-                title={`${currentChapter?.chapterTitle} - ${manga?.title} | Kyoto Manga`}
-                image={imagesChapter[0]?.imgSrc}
+                title={`${currentChapter?.chapterTitle} - ${pagesDetail.comicName} | Kyoto Manga`}
+                image={
+                    pagesDetail.pages[0].src || pagesDetail.pages[0].fallbackSrc
+                }
             />
 
-            <SourcesContextProvider comicTitle={manga.title}>
+            <SourcesContextProvider value={{ chaptersDetail, currentChapters }}>
                 <ClientOnly>
+                    <Toaster position="bottom-center" />
+
                     <div className="flex h-fit min-h-screen flex-col bg-black">
                         <ReadingContextProvider
                             value={{
-                                images: imagesChapter,
-                                useProxy: proxyObserver(params && params[3]),
-                                sourceId: 'nt',
+                                images: pagesDetail.pages,
+                                useProxy: proxyObserver(params && params[0]),
+                                sourceId: (params && params[0]) || 'NTC',
                                 navigateChapter: handleChangeChapter,
                                 currentChapter: currentChapter,
                             }}
@@ -212,12 +254,6 @@ const ReadPage: NextPage<ReadPageProps> = ({ imagesChapter }) => {
                                                 } `}
                                             >
                                                 <VerticalPanel
-                                                    comicSlug={
-                                                        (router.query.params &&
-                                                            router.query
-                                                                .params[0]) ||
-                                                        ''
-                                                    }
                                                     handleClose={
                                                         handleCloseSideSettings
                                                     }
@@ -293,38 +329,32 @@ export const getServerSideProps: GetServerSideProps = async ({
         }`,
     );
 
+    const { db } = await connectToDatabase();
+
     const { params } = query;
-    const mangaSlug = params && params[0];
-    const mangaChapter = params && params[1];
-    const mangaChapterId = params && params[2];
-    const mangaSource = params && params[3];
 
-    if (!params?.length) return { notFound: true };
+    if (Array.isArray(params)) {
+        const chapterSlug = `/${params.slice(2).join('/')}`;
+        const resPage = await db.collection('pages').findOne({ chapterSlug });
 
-    //because nt source slug embed with id
-    //need to separate id from slug to fetch images chapter
-    const realSlug =
-        mangaSource === 'nt' && !isNaN(+String(mangaSlug?.slice(-1)))
-            ? mangaSlug?.slice(0, mangaSlug?.lastIndexOf('-'))
-            : mangaSlug;
+        if (!resPage) {
+            return { notFound: true };
+        }
 
-    try {
-        // const imgsRes = await NtApi?.getChapters(realSlug, params[1], params[2]);
+        const resChapters = await db
+            .collection('chapters')
+            .findOne({ comicSlug: resPage.comicSlug });
 
-        const imgsRes = await axiosClient.get(
-            `${mangaSource}/chapter/${realSlug}/${mangaChapter}/${mangaChapterId}`,
-        );
-
-        if (imgsRes?.status !== 200) return { notFound: true };
+        if (!resChapters) {
+            return { notFound: true };
+        }
 
         return {
             props: {
-                imagesChapter: imgsRes.data.data,
+                pagesDetail: JSON.parse(JSON.stringify(resPage)),
+                chaptersDetail: JSON.parse(JSON.stringify(resChapters)),
             },
         };
-    } catch (err) {
-        console.log('err slug');
-        return { notFound: true };
     }
 };
 
