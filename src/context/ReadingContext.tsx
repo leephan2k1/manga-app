@@ -1,11 +1,11 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { Chapter, ImagesChapter, SourcesId, NavigateDirection } from '~/types';
+import { Chapter, NavigateDirection, Page } from '~/types';
 
 interface ReadingContextType {
-    images: ImagesChapter[];
-    currentChapter: Chapter | undefined;
+    images: Page[];
+    currentChapter?: Chapter;
     useProxy?: boolean;
-    sourceId: SourcesId;
+    sourceId: string;
     navigateChapter: (type: NavigateDirection) => void;
 }
 
