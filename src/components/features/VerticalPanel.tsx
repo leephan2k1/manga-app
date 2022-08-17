@@ -1,17 +1,16 @@
-import LogoSVG from '/public/images/torii-gate-japan.svg';
 import { useRouter } from 'next/router';
 import { memo, MouseEvent, useRef, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { chapterList } from '~/atoms/chapterListAtom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import useMultipleSources from '~/context/SourcesContext';
-import { Chapter, NavigateDirection } from '~/types';
-import convertIdToLabel from '~/utils/convertSrouceId';
+import { NavigateDirection, SourcesId } from '~/types';
+import LogoSVG from '/public/images/torii-gate-japan.svg';
 
+// import convertIdToLabel from '~/utils/convertSrouceId';
 import {
     ArrowLeftIcon,
     ArrowNarrowLeftIcon,
@@ -26,81 +25,31 @@ import ListBox from '../shared/ListBox';
 
 interface SettingsSideProps {
     handleClose: () => void;
-    comicSlug: string;
 }
 
-function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
+function SettingsSide({ handleClose }: SettingsSideProps) {
     const read = useReading();
     const router = useRouter();
     const { params } = router.query;
     const settings = useSettingsMode();
-    const manga = useRecoilValue(chapterList);
-    const [_, setSrc] = useRecoilState(mangaSrc);
+    const setSrc = useSetRecoilState(mangaSrc);
     const multipleSources = useMultipleSources();
     const [isHovering, setIsHovering] = useState(false);
-    const [sourceSlug, setSourceSlug] = useState(comicSlug);
     const availableSource = useRecoilValue(mangaSources);
     const sideSettingsRef = useRef<HTMLDivElement>(null);
-    const [currentChapters, setCurrentChapters] = useState(manga?.chapterList);
 
     const handleCloseSideSettings = () => {
         handleClose();
     };
 
     const handleSourceSettings = (value: string) => {
-        if (multipleSources)
-            switch (value) {
-                case 'LHM':
-                    setSrc('lh');
-                    const LH_Instance = multipleSources.sources.find(
-                        (src) => src.srcId === 'lh',
-                    );
-
-                    setCurrentChapters(
-                        LH_Instance?.details?.chapterList as Chapter[],
-                    );
-
-                    setSourceSlug(LH_Instance?.slug as string);
-                    break;
-                case 'NTC':
-                    setSrc('nt');
-                    const NT_Instance = multipleSources.sources.find(
-                        (src) => src.srcId === 'nt',
-                    );
-
-                    setCurrentChapters(
-                        NT_Instance?.details?.chapterList as Chapter[],
-                    );
-
-                    setSourceSlug(NT_Instance?.slug as string);
-                    break;
-            }
+        setSrc(value as SourcesId);
     };
 
     const handleBackToDetails = () => {
-        if (multipleSources) {
-            const NT_Instance = multipleSources.sources.find(
-                (src) => src.srcId === 'nt',
-            );
-
-            if (NT_Instance && NT_Instance?.slug) {
-                router.push(
-                    `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${NT_Instance?.slug}`,
-                );
-            } else {
-                router.push(
-                    `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
-                        params && params[0]
-                    }`,
-                );
-            }
-        } else {
-            router.push(
-                `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
-                    params && params[0]
-                }`,
-            );
-        }
+        router.push(
+            `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${multipleSources?.chaptersDetail.comicSlug}`,
+        );
     };
 
     const handleShowSettingsMode = () => {
@@ -144,7 +93,7 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
             </div>
             {/* manga title  */}
             <h1 className="w-ful font-secondary font-bold capitalize line-clamp-2">
-                {manga?.title || ''}
+                {multipleSources?.chaptersDetail.comicName || ''}
             </h1>
 
             <h2>{`Chapter: ${read?.currentChapter?.chapterNumber || ''}`}</h2>
@@ -153,13 +102,7 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
                 handleSelect={handleSourceSettings}
                 style="rounded-xl p-4 gap-2 transition-all"
                 title="Nguồn: "
-                defaultOption={
-                    (params &&
-                        availableSource.find(
-                            (src) => src.sourceId === params[3],
-                        )?.sourceName) ||
-                    convertIdToLabel((params?.length && params[3]) || '')
-                }
+                defaultOption={params && params[0]}
                 options={availableSource.map((src) => src.sourceName)}
                 backgroundColor="bg-highlight"
                 activeBackgroundColor="bg-primary"
@@ -189,12 +132,10 @@ function SettingsSide({ handleClose, comicSlug }: SettingsSideProps) {
                     containerStyle="flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
                     mobileHeight={300}
                     selectSource={false}
-                    comicSlug={sourceSlug}
+                    chapterInfo={multipleSources?.chaptersDetail}
                     mobileUI={true}
                     chapterList={
-                        currentChapters?.length > 0
-                            ? currentChapters
-                            : manga?.chapterList
+                        multipleSources?.currentChapters?.chapters || []
                     }
                 />
             </div>

@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { chapterList } from '~/atoms/chapterListAtom';
+import { useRecoilState } from 'recoil';
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
@@ -18,7 +17,6 @@ import {
 
 export default function HorizontalSettings() {
     const read = useReading();
-    const manga = useRecoilValue(chapterList);
     const multipleSources = useMultipleSources();
     const [_, setShowModal] = useRecoilState(chapterModal);
     const [__, setSettingsModal] = useRecoilState(settingsModal);
@@ -26,28 +24,9 @@ export default function HorizontalSettings() {
     const router = useRouter();
 
     const handleBackToDetails = () => {
-        if (multipleSources) {
-            const NT_Instance = multipleSources.sources.find(
-                (src) => src.srcId === 'nt',
-            );
-            if (NT_Instance && NT_Instance?.slug) {
-                router.push(
-                    `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${NT_Instance?.slug}`,
-                );
-            } else {
-                router.push(
-                    `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
-                        router.query.params && router.query.params[0]
-                    }`,
-                );
-            }
-        } else {
-            router.push(
-                `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${
-                    router.query.params && router.query.params[0]
-                }`,
-            );
-        }
+        router.push(
+            `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${multipleSources?.chaptersDetail.comicSlug}`,
+        );
     };
 
     const handleOpenModal = () => {
@@ -71,7 +50,7 @@ export default function HorizontalSettings() {
                     </button>
 
                     <h1 className="fond-bold h-fit w-[25%] capitalize line-clamp-1 md:w-[30%] ">
-                        {manga?.title || ''}
+                        {multipleSources?.chaptersDetail.comicName || ''}
                     </h1>
 
                     <button
