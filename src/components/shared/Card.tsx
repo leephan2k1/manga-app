@@ -70,6 +70,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                                 >
                                     <Image
+                                        priority
                                         alt="manga-thumbnail"
                                         layout="fill"
                                         className="absolute inset-0 rounded-xl object-cover object-center"
@@ -190,6 +191,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                                 >
                                     <Image
+                                        priority
                                         alt="manga-thumbnail"
                                         layout="fill"
                                         className="absolute inset-0 rounded-xl object-cover object-center"
@@ -307,6 +309,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                 href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                             >
                                 <Image
+                                    priority
                                     alt="manga-thumbnail"
                                     layout="fill"
                                     className="absolute inset-0 rounded-xl object-cover object-center"
