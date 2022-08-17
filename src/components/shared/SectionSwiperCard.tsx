@@ -11,6 +11,7 @@ import {
 import useChapters from '~/hooks/useChapters';
 import { baseURL } from '~/services/axiosClient';
 import { Comic } from '~/types';
+import NProgress from 'nprogress';
 
 import {
     ClipboardListIcon,
@@ -57,7 +58,11 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                             )}`,
                         }}
                     >
-                        <a>
+                        <a
+                            onClick={() => {
+                                NProgress.start();
+                            }}
+                        >
                             <Image
                                 priority
                                 className="fancy-fade-in absolute inset-0 rounded-xl object-cover object-center"
@@ -80,7 +85,11 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                     )}`,
                                 }}
                             >
-                                <a>
+                                <a
+                                    onClick={() => {
+                                        NProgress.start();
+                                    }}
+                                >
                                     <h3 className="ml-4 mt-4 min-h-[40px] text-[100%] font-semibold line-clamp-2 hover:text-primary">
                                         {manga.name}
                                     </h3>
@@ -122,7 +131,13 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                             )}`,
                                         }}
                                     >
-                                        <a>Thông tin</a>
+                                        <a
+                                            onClick={() => {
+                                                NProgress.start();
+                                            }}
+                                        >
+                                            Thông tin
+                                        </a>
                                     </Link>
                                 </button>
                             </div>

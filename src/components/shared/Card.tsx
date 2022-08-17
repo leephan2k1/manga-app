@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { motion, useAnimationControls } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import NProgress from 'nprogress';
 import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {
@@ -65,6 +66,9 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                 animate={controls}
                                 variants={animationVariants}
                                 transition={{ ease: 'easeOut', duration: 1 }}
+                                onClick={() => {
+                                    NProgress.start();
+                                }}
                             >
                                 <Link
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
@@ -94,7 +98,12 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                 <Link
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                                 >
-                                    <a className="md:space-y-2 xl:space-y-4">
+                                    <a
+                                        onClick={() => {
+                                            NProgress.start();
+                                        }}
+                                        className="md:space-y-2 xl:space-y-4"
+                                    >
                                         <h1 className="fond-bold h-fit min-h-[20px] w-full font-bold transition-all line-clamp-2 hover:text-primary ssm:text-3xl md:text-xl lg:text-3xl">
                                             {comic?.name}
                                         </h1>
@@ -123,6 +132,9 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                                                 TailwindColors,
                                                                 index,
                                                             ),
+                                                        }}
+                                                        onClick={() => {
+                                                            NProgress.start();
                                                         }}
                                                     >
                                                         <Link
@@ -186,6 +198,9 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                 animate={controls}
                                 variants={animationVariants}
                                 transition={{ ease: 'easeOut', duration: 1 }}
+                                onClick={() => {
+                                    NProgress.start();
+                                }}
                             >
                                 <Link
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
@@ -214,7 +229,12 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                 <Link
                                     href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                                 >
-                                    <h1 className="font-secondary text-3xl transition-all line-clamp-1 hover:cursor-pointer hover:text-primary">
+                                    <h1
+                                        onClick={() => {
+                                            NProgress.start();
+                                        }}
+                                        className="font-secondary text-3xl transition-all line-clamp-1 hover:cursor-pointer hover:text-primary"
+                                    >
                                         {comic?.name}
                                     </h1>
                                 </Link>
@@ -241,6 +261,9 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                                                 TailwindColors,
                                                                 index,
                                                             ),
+                                                        }}
+                                                        onClick={() => {
+                                                            NProgress.start();
                                                         }}
                                                     >
                                                         <Link
@@ -304,6 +327,9 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                             animate={controls}
                             variants={animationVariants}
                             transition={{ ease: 'easeOut', duration: 1 }}
+                            onClick={() => {
+                                NProgress.start();
+                            }}
                         >
                             <Link
                                 href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
