@@ -49,6 +49,17 @@ body {
     transition-duration: 350ms;
 }
 
+#nprogress .bar {
+    background: #f43f5e !important;
+    z-index: 1500 !important;
+    height: 3px !important;
+}
+
+#nprogress .spinner-icon {
+    border-top-color: red !important;
+    border-left-color: red !important;
+}
+
 *:focus {
     outline: none;
 }

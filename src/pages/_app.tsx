@@ -4,7 +4,6 @@ import '~/styles/globals.scss';
 import '~/styles/magic.min.css';
 
 import { SessionProvider } from 'next-auth/react';
-import NextNProgress from 'nextjs-progressbar';
 import { ReactElement, ReactNode, useState } from 'react';
 import { RecoilRoot } from 'recoil';
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts';
@@ -13,6 +12,10 @@ import NotificationObserver from '~/components/shared/NotificationObserver';
 import { SubscriptionContextProvider } from '~/context/SubscriptionContext';
 import { register } from '~/services/registerServiceWorkers';
 import { Subscription } from '~/types';
+
+import Router from 'next/router';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
@@ -23,6 +26,10 @@ type NextPageWithLayout = NextPage & {
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
 };
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({
     Component,
@@ -69,7 +76,6 @@ function MyApp({
             <RecoilRoot>
                 <SubscriptionContextProvider value={subscription}>
                     <NotificationObserver>
-                        <NextNProgress color="#f43f5e" height={2} />
                         {getLayout(<Component {...pageProps} />)}
                     </NotificationObserver>
                 </SubscriptionContextProvider>

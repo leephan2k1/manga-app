@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import NProgress from 'nprogress';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffectOnce, useLocalStorage, useMediaQuery } from 'usehooks-ts';
@@ -110,6 +111,8 @@ const ReadPage: NextPage<ReadPageProps> = ({
                             return;
                         }
 
+                        NProgress.start();
+
                         await axiosClientV2.post('/chapters', {
                             chapterSlug:
                                 currentChapters?.chapters[index].chapterSlug,
@@ -136,6 +139,8 @@ const ReadPage: NextPage<ReadPageProps> = ({
                             );
                             return;
                         }
+
+                        NProgress.start();
 
                         await axiosClientV2.post('/chapters', {
                             chapterSlug:

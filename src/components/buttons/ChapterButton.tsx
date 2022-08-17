@@ -1,7 +1,8 @@
-import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
-import { axiosClientV2 } from '~/services/axiosClient';
+import NProgress from 'nprogress';
+import { ReactNode } from 'react';
 import toast from 'react-hot-toast';
+import { axiosClientV2 } from '~/services/axiosClient';
 
 interface ChapterButtonProps {
     children: ReactNode;
@@ -25,6 +26,8 @@ export default function ChapterButton({
 
     const handleGoToRead = async () => {
         try {
+            NProgress.start();
+
             await axiosClientV2.post('/chapters', payload);
 
             router.push(path);
