@@ -3,10 +3,12 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import Skeleton from 'react-loading-skeleton';
 import { useRecoilState } from 'recoil';
 import { followModal } from '~/atoms/followModaAtom';
+import ChapterButton from '~/components/buttons/ChapterButton';
 import {
     MANGA_BROWSE_PAGE,
     MANGA_PATH_NAME,
@@ -15,7 +17,8 @@ import {
 } from '~/constants';
 import useNotification from '~/hooks/useNotification';
 import { baseURL } from '~/services/axiosClient';
-import { MangaDetails } from '~/types';
+import { ChapterDetails, Comic } from '~/types';
+import { isExactMatch } from '~/utils/stringHandler';
 
 import { BellIcon, BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
 import {
@@ -24,25 +27,55 @@ import {
 } from '@heroicons/react/solid';
 
 interface DetailsInfoProps {
-    manga: MangaDetails;
+    manga: Comic;
+    chapters?: ChapterDetails;
     isLoading: boolean;
-    comicSlug: string;
-    callbackMessage: (message: string, status: string) => void;
 }
 
 const url = SOURCE_COLLECTIONS['nt'];
 
-function DetailsInfo({
-    manga,
-    isLoading,
-    comicSlug,
-    callbackMessage,
-}: DetailsInfoProps) {
+function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
     const router = useRouter();
     const notification = useNotification();
     const { data: session, status } = useSession();
     const [_, setShowModal] = useRecoilState(followModal);
     const [isSubscribed, setIsSubscribed] = useState(false);
+
+    const firstChapterSlug = useMemo(() => {
+        return (
+            chapters?.chapters_list &&
+            chapters?.chapters_list.length &&
+            chapters.chapters_list[0].chapters[
+                chapters.chapters_list[0].chapters.length - 1
+            ].chapterSlug
+        );
+    }, [chapters]);
+
+    const firstChapterNumber = useMemo(() => {
+        return (
+            chapters?.chapters_list &&
+            chapters?.chapters_list.length &&
+            chapters.chapters_list[0].chapters[
+                chapters.chapters_list[0].chapters.length - 1
+            ].chapterNumber
+        );
+    }, [chapters]);
+
+    const latestChapterSlug = useMemo(() => {
+        return (
+            chapters?.chapters_list &&
+            chapters?.chapters_list.length &&
+            chapters.chapters_list[0].chapters[0].chapterSlug
+        );
+    }, [chapters]);
+
+    const latestChapterNumber = useMemo(() => {
+        return (
+            chapters?.chapters_list &&
+            chapters?.chapters_list.length &&
+            chapters.chapters_list[0].chapters[0].chapterNumber
+        );
+    }, [chapters]);
 
     const handleShowFollowModal = () => {
         if (status === 'unauthenticated') {
@@ -54,45 +87,57 @@ function DetailsInfo({
     };
 
     const handleTurnOnNotification = async () => {
-        const response = await notification.subscribe(comicSlug);
+        const response = await notification.subscribe(manga?.slug);
 
         switch (response) {
             case 'permission_denied':
-                callbackMessage('User-kun cần cấp quyền thông báo!', 'error');
+                toast.error('User-kun cần cấp quyền thông báo!', {
+                    duration: 3000,
+                    style: { zIndex: 899 },
+                });
                 break;
             case 'unsupported_browser':
-                callbackMessage(
+                toast.error(
                     'Trình duyệt của user-kun không hỗ trợ thông báo!',
-                    'error',
+                    {
+                        duration: 3000,
+                        style: { zIndex: 899 },
+                    },
                 );
                 break;
             case 'success':
-                callbackMessage('Bật thông báo thành công!', 'success');
+                toast.success('Bật thông báo thành công!', {
+                    duration: 3000,
+                    style: { zIndex: 899 },
+                });
                 setIsSubscribed(true);
                 break;
         }
     };
 
     const handleTurnOffNotification = async () => {
-        const response = await notification.unsubscribe(comicSlug);
+        const response = await notification.unsubscribe(manga?.slug);
 
         switch (response) {
             case 'success':
-                callbackMessage('Tắt thông báo thành công!', 'success');
+                toast.success('Tắt thông báo thành công!', {
+                    duration: 3000,
+                    style: { zIndex: 899 },
+                });
                 setIsSubscribed(false);
                 break;
             case 'error':
-                callbackMessage(
-                    'Có gì đó không đúng?, Vui lòng thử lại!',
-                    'error',
-                );
+                toast.error('Có gì đó không đúng?, Vui lòng thử lại!', {
+                    duration: 3000,
+                    style: { zIndex: 899 },
+                });
                 break;
         }
     };
 
     useEffect(() => {
         (async function () {
-            const res = await notification.info(comicSlug);
+            const res = await notification.info(manga?.slug);
 
             if (res === 'subscribed') {
                 setIsSubscribed(true);
@@ -135,7 +180,12 @@ function DetailsInfo({
                             alt="manga-thumbnail"
                             src={
                                 manga?.thumbnail
-                                    ? `${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`
+                                    ? isExactMatch(
+                                          manga.thumbnail,
+                                          'res.cloudinary.com',
+                                      )
+                                        ? manga.thumbnail
+                                        : `${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`
                                     : torriGate
                             }
                         />
@@ -177,12 +227,12 @@ function DetailsInfo({
                         <>
                             <h1
                                 className={`font-secondary  font-bold leading-none ${
-                                    manga?.title.length < 40
+                                    manga.name.length < 40
                                         ? 'text-[6.5vw] md:text-[5.5vw] lg:text-[3.5vw]'
                                         : 'text-[5.5vw] md:text-[3.5vw] lg:text-[2.5vw]'
                                 }`}
                             >
-                                {manga?.title}
+                                {manga?.name}
                             </h1>
                             <h2 className="text-[3vw] md:min-h-[28px] md:text-[2vw] lg:text-[1.2vw]">
                                 {manga?.otherName !== 'undefined'
@@ -219,10 +269,10 @@ function DetailsInfo({
                         <ul className="my-4 flex flex-wrap items-center gap-4">
                             <h3 className="px-2 py-2">Thể loại:</h3>
                             {manga?.genres.length &&
-                                manga?.genres.map((genre, idx) => {
+                                manga?.genres.map((genre) => {
                                     return (
                                         <li
-                                            key={genre.slug || idx}
+                                            key={genre._id}
                                             className="rounded-xl bg-highlight px-4 py-2"
                                         >
                                             <Link
@@ -230,12 +280,12 @@ function DetailsInfo({
                                                     pathname: `/${MANGA_BROWSE_PAGE}`,
                                                     query: {
                                                         [convertQuery(
-                                                            genre?.genreTitle,
-                                                        )]: genre?.slug,
+                                                            genre?.label,
+                                                        )]: genre?.value,
                                                     },
                                                 }}
                                             >
-                                                <a>{genre?.genreTitle}</a>
+                                                <a>{genre?.label}</a>
                                             </Link>
                                         </li>
                                     );
@@ -245,43 +295,49 @@ function DetailsInfo({
 
                     {/* manga interrace  */}
                     <div className="my-6 flex h-[150px] w-full flex-col items-center gap-6 md:my-0 md:flex-row md:items-start">
-                        <Link
-                            href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${
-                                manga?.chapterList.length &&
-                                manga?.chapterList[
-                                    manga?.chapterList.length - 1
-                                ].chapterNumber
-                            }/${
-                                manga?.chapterList.length &&
-                                manga?.chapterList[
-                                    manga?.chapterList.length - 1
-                                ].chapterId
-                            }/nt`}
-                        >
-                            <a>
-                                <button className="pulse-effect-primary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-primary transition-all hover:scale-[110%]">
-                                    <BookOpenIcon className="h-8 w-8" /> Đọc
-                                    ngay
-                                </button>
-                            </a>
-                        </Link>
+                        {chapters ? (
+                            <>
+                                <ChapterButton
+                                    path={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/NTC/${firstChapterNumber}/${firstChapterSlug}`}
+                                    payload={{
+                                        chapterSlug: String(firstChapterSlug),
+                                        comicName: manga.name,
+                                        comicSlug: manga.slug,
+                                        source: 'NTC',
+                                    }}
+                                >
+                                    <a>
+                                        <button className="pulse-effect-primary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-primary transition-all hover:scale-[110%]">
+                                            <BookOpenIcon className="h-8 w-8" />{' '}
+                                            Đọc ngay
+                                        </button>
+                                    </a>
+                                </ChapterButton>
 
-                        <Link
-                            href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${comicSlug}/${
-                                manga?.chapterList.length &&
-                                manga?.chapterList[0].chapterNumber
-                            }/${
-                                manga?.chapterList.length &&
-                                manga?.chapterList[0].chapterId
-                            }/nt`}
-                        >
-                            <a>
-                                <button className="pulse-effect-secondary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-white text-gray-800 transition-all hover:scale-[110%]">
-                                    <LightningBoltIcon className="h-8 w-8 text-primary" />{' '}
-                                    Chap mới nhất
-                                </button>
-                            </a>
-                        </Link>
+                                <ChapterButton
+                                    path={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/NTC/${latestChapterNumber}/${latestChapterSlug}`}
+                                    payload={{
+                                        chapterSlug: String(latestChapterSlug),
+                                        comicName: manga.name,
+                                        comicSlug: manga.slug,
+                                        source: 'NTC',
+                                    }}
+                                >
+                                    <a>
+                                        <button className="pulse-effect-secondary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-white text-gray-800 transition-all hover:scale-[110%]">
+                                            <LightningBoltIcon className="h-8 w-8 text-primary" />{' '}
+                                            Chap mới nhất
+                                        </button>
+                                    </a>
+                                </ChapterButton>
+                            </>
+                        ) : (
+                            <>
+                                <div className="absolute-center loading-pulse h-[50px] w-[150px] rounded-2xl bg-white/20"></div>
+
+                                <div className="absolute-center loading-pulse h-[50px] w-[150px] rounded-2xl bg-white/20"></div>
+                            </>
+                        )}
 
                         <div className="flex w-fit space-x-2">
                             <button
@@ -297,12 +353,12 @@ function DetailsInfo({
                                         ? handleTurnOffNotification
                                         : handleTurnOnNotification
                                 }
-                                className="shine-effect absolute-center bg-hight-light h-[50px] w-[50px] rounded-xl transition-all hover:text-primary"
+                                className="absolute-center bg-hight-light h-[50px] w-[50px] rounded-xl transition-all hover:text-primary"
                             >
                                 {isSubscribed ? (
-                                    <BellIconSolid className="animate__animated animate__faster animate__heartBeat h-10 w-10 text-primary" />
+                                    <BellIconSolid className="animate__animated animate__faster animate__heartBeat h-8 w-8 text-primary" />
                                 ) : (
-                                    <BellIcon className="animate__animated animate__faster animate__heartBeat h-10 w-10" />
+                                    <BellIcon className="animate__animated animate__faster animate__heartBeat h-8 w-8" />
                                 )}
                             </button>
                         </div>

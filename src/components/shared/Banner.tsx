@@ -9,7 +9,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import useChapters from '~/hooks/useChapters';
-import useSource from '~/hooks/useSource';
 import { Comic } from '~/types';
 
 import SwiperCard from './SwiperCard';
@@ -21,7 +20,6 @@ interface MangaBannerProps {
 }
 
 function Banner({ mangaList }: MangaBannerProps) {
-    const [srcId] = useSource();
     const chapters = useChapters();
     const matchesTablet = useMediaQuery('(min-width: 768px)');
 
@@ -75,9 +73,6 @@ function Banner({ mangaList }: MangaBannerProps) {
                                     pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                         manga.slug,
                                     )}`,
-                                    query: {
-                                        src: srcId,
-                                    },
                                 }}
                             >
                                 <div className="cursor-pointer">
@@ -129,9 +124,6 @@ function Banner({ mangaList }: MangaBannerProps) {
                                                     pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
                                                         manga.slug,
                                                     )}`,
-                                                    query: {
-                                                        src: srcId,
-                                                    },
                                                 }}
                                             >
                                                 <a>
