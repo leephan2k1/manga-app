@@ -41,8 +41,6 @@ export default function useChapters() {
             }
         } catch (err) {
             NProgress.done();
-
-            console.log(err);
         }
     };
 
@@ -54,7 +52,7 @@ export default function useChapters() {
     ) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
-        if (status === 'unauthenticated' || !session?.user?.id) return;
+        if (status === 'unauthenticated' || !session?.user?.id) return false;
 
         try {
             const res = await (
@@ -90,7 +88,6 @@ export default function useChapters() {
 
             if (res.data) return res.data?.user;
         } catch (error) {
-            console.log(error);
             return false;
         }
     };

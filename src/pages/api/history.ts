@@ -103,12 +103,15 @@ const history = async (req: NextApiRequest, res: NextApiResponse) => {
                             user,
                         });
                 }
+
+                return res.status(400).json({
+                    success: false,
+                });
             } catch (error) {
                 return res.status(400).json({
                     success: false,
                 });
             }
-            break;
     }
 };
 

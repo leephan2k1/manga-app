@@ -18,28 +18,31 @@ function ReadingHistoryModal() {
     const [modalState, setModalState] = useState(false);
     const [previousChapter, setPreviousChapter] = useState('');
 
+    const source = (params && params[0]) || 'NTC';
+    const chapterSlug = `/${
+        params &&
+        Array.isArray(params.slice(2)) &&
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        params.slice(2).join('/')
+    }`;
+
     const handleCloseModal = () => {
         setModalState(false);
         setShouldSave(true);
     };
 
     useEffect(() => {
-        const source = (params && params[0]) || 'NTC';
-        const chapterSlug = `/${
-            params &&
-            Array.isArray(params.slice(2)) &&
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            params.slice(2).join('/')
-        }`;
-
-        if (shouldSave)
-            chapter.saveCurrentChapter(
-                source,
-                String(multipleSources?.chaptersDetail.comicSlug),
-                chapterSlug,
-                String(params && params[1]),
-            );
+        (async function () {
+            if (shouldSave) {
+                await chapter.saveCurrentChapter(
+                    source,
+                    String(multipleSources?.chaptersDetail.comicSlug),
+                    chapterSlug,
+                    String(params && params[1]),
+                );
+            }
+        })();
     }, [params, router, shouldSave]);
 
     useEffectOnce(() => {
@@ -49,6 +52,12 @@ function ReadingHistoryModal() {
 
                 if (!userPayload) {
                     setShouldSave(true);
+                    await chapter.saveCurrentChapter(
+                        source,
+                        String(multipleSources?.chaptersDetail.comicSlug),
+                        chapterSlug,
+                        String(params && params[1]),
+                    );
                     return;
                 }
 
