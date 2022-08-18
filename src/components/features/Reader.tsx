@@ -18,6 +18,7 @@ import {
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
 import ChapterModal from '~/components/features/ChapterModal';
+import ReadingHistoryModal from '~/components/features/HistoryChapter';
 import SettingsModeModal from '~/components/features/SettingsModeModal';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
@@ -192,6 +193,8 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
             {isScrollUp && matchesTouchScreen && <HorizontalSettings />}
 
             {matchesTouchScreen && chapterModalState && <ChapterModal />}
+
+            <ReadingHistoryModal />
 
             {matchesTouchScreen && settingsModalState && (
                 <SettingsModeModal handleConfig={handleConfig} />
