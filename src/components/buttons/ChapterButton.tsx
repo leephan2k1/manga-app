@@ -32,7 +32,6 @@ export default function ChapterButton({
 
             router.push(path);
         } catch (err) {
-            console.log('error fetch pages by chapter!!');
             toast.error('Oops! Lỗi rồi, hãy thử lại chapter của nguồn khác!', {
                 duration: 3000,
                 style: { zIndex: 899 },

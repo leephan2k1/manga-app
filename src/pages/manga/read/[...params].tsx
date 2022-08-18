@@ -23,7 +23,6 @@ import { connectToDatabase } from '~/serverless/utils/connectdbData';
 import { axiosClientV2 } from '~/services/axiosClient';
 import {
     ChapterDetails,
-    ImagesChapter,
     NavigateDirection,
     PageInfo,
     ReadModeSettings,
@@ -46,16 +45,11 @@ const VerticalPanel = dynamic(
 );
 
 interface ReadPageProps {
-    imagesChapter: ImagesChapter[];
     pagesDetail: PageInfo;
     chaptersDetail: ChapterDetails;
 }
 
-const ReadPage: NextPage<ReadPageProps> = ({
-    // imagesChapter,
-    pagesDetail,
-    chaptersDetail,
-}) => {
+const ReadPage: NextPage<ReadPageProps> = ({ pagesDetail, chaptersDetail }) => {
     const router = useRouter();
     const { params } = router.query;
 
@@ -163,7 +157,7 @@ const ReadPage: NextPage<ReadPageProps> = ({
                 });
             }
         },
-        [params, router],
+        [params, chaptersDetail, router],
     );
 
     const currentChapter = useMemo(() => {
@@ -182,7 +176,7 @@ const ReadPage: NextPage<ReadPageProps> = ({
                 (e) => e.chapterNumber === chapNumberParam,
             );
         }
-    }, [params]);
+    }, [params, router]);
 
     const currentChapters = useMemo(() => {
         if (!params?.length || !chaptersDetail) return;

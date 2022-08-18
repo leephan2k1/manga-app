@@ -1,3 +1,5 @@
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
 import { axiosClientV2 } from '~/services/axiosClient';
@@ -5,6 +7,7 @@ import NProgress from 'nprogress';
 
 export default function useChapters() {
     const router = useRouter();
+    const { data: session, status } = useSession();
 
     const goToFirstChapter = async (mangaSlug: string) => {
         try {
@@ -43,5 +46,54 @@ export default function useChapters() {
         }
     };
 
-    return { goToFirstChapter };
+    const saveCurrentChapter = async (
+        source: string,
+        comicSlug: string,
+        chapterSlug: string,
+        chapterNumber: string,
+    ) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        if (status === 'unauthenticated' || !session?.user?.id) return;
+
+        try {
+            const res = await (
+                await axios.post(`/api/history`, {
+                    source,
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
+                    userId: session?.user?.id as string,
+                    comicSlug,
+                    chapterSlug,
+                    chapterNumber,
+                })
+            ).data;
+
+            return res.success;
+        } catch (error) {
+            return false;
+        }
+    };
+
+    const getUserHistory = async () => {
+        try {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            if (status === 'unauthenticated' || !session?.user?.id)
+                return false;
+
+            const res = await axios.get(
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                `/api/history?userId=${session?.user?.id}`,
+            );
+
+            if (res.data) return res.data?.user;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    };
+
+    return { goToFirstChapter, saveCurrentChapter, getUserHistory };
 }
