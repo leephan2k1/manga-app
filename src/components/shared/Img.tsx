@@ -31,10 +31,11 @@ function Img({
 
     const handleErrorImg = (e: SyntheticEvent<HTMLImageElement, Event>) => {
         if (fallbackSrc) {
-            e.currentTarget.onerror = null; // prevents looping
             e.currentTarget.src = fallbackSrc;
             e.currentTarget.removeAttribute('alt');
         }
+
+        e.currentTarget.onerror = null; // prevents looping
     };
 
     if (settings?.readMode === 'horizontal') {
