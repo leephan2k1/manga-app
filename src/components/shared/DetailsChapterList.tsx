@@ -1,4 +1,5 @@
 import 'tippy.js/dist/tippy.css';
+import 'tippy.js/animations/scale.css';
 
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
@@ -15,9 +16,9 @@ import { Chapter, ChapterDetails } from '~/types';
 import styled from '@emotion/styled';
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
 
+import ChapterButton from '../buttons/ChapterButton';
 import ChapterInput from './ChapterInput';
 import LazyTippy from './LazyTippy';
-import ChapterButton from '../buttons/ChapterButton';
 
 const ListBox = dynamic(() => import('../buttons/ListBoxButton'));
 
@@ -126,92 +127,87 @@ function DetailsChapterList({
             </div>
 
             {/* chapter list  */}
-            {list.length && chapterInfo ? (
-                <>
-                    {list && list.length > 0 && mobileUI ? (
-                        <Virtuoso
-                            ref={virtuoso}
-                            style={{ height: `${mobileHeight}px` }}
-                            totalCount={list.length}
-                            itemContent={(index) => (
-                                <div className="animate__fadeIn animate__animated m-2 overflow-hidden text-white">
-                                    <ChapterButton
-                                        style="h-full w-full"
-                                        path={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${src}/${list[index].chapterNumber}/${list[index].chapterSlug}`}
-                                        payload={{
-                                            chapterSlug: String(
-                                                list[index]?.chapterSlug,
-                                            ),
-                                            comicName: chapterInfo.comicName,
-                                            comicSlug: chapterInfo.comicSlug,
-                                            source: src,
-                                        }}
-                                    >
-                                        <div
-                                            className={`${
-                                                highlightCurrentChapter &&
-                                                params &&
-                                                params[1] ===
-                                                    list[index].chapterNumber
-                                                    ? 'bg-primary'
-                                                    : 'bg-deep-black'
-                                            } flex h-[30px] items-center justify-between rounded-lg`}
+            {
+                list.length && chapterInfo && (
+                    <>
+                        {list && list.length > 0 && mobileUI ? (
+                            <Virtuoso
+                                ref={virtuoso}
+                                style={{ height: `${mobileHeight}px` }}
+                                totalCount={list.length}
+                                itemContent={(index) => (
+                                    <div className="animate__fadeIn animate__animated m-2 overflow-hidden text-white">
+                                        <ChapterButton
+                                            style="h-full w-full"
+                                            path={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${src}/${list[index].chapterNumber}/${list[index].chapterSlug}`}
+                                            payload={{
+                                                chapterSlug: String(
+                                                    list[index]?.chapterSlug,
+                                                ),
+                                                comicName:
+                                                    chapterInfo.comicName,
+                                                comicSlug:
+                                                    chapterInfo.comicSlug,
+                                                source: src,
+                                            }}
                                         >
-                                            <div className="flex w-[30%] min-w-max items-center">
-                                                <DocumentTextIcon className="mx-4 h-4 w-4" />
+                                            <div
+                                                className={`${
+                                                    highlightCurrentChapter &&
+                                                    params &&
+                                                    params[1] ===
+                                                        list[index]
+                                                            .chapterNumber
+                                                        ? 'bg-primary'
+                                                        : 'bg-deep-black'
+                                                } flex h-[30px] items-center justify-between rounded-lg`}
+                                            >
+                                                <div className="flex w-[30%] min-w-max items-center">
+                                                    <DocumentTextIcon className="mx-4 h-4 w-4" />
 
-                                                <span
-                                                    className={classNames(
-                                                        `inline-block  overflow-hidden text-left text-lg font-bold line-clamp-1 hover:text-white`,
-                                                        `max-w-[${maxWTitleMobile}px]`,
-                                                    )}
-                                                >
-                                                    {list[index]?.chapterTitle}
-                                                </span>
+                                                    <span
+                                                        className={classNames(
+                                                            `inline-block  overflow-hidden text-left text-lg font-bold line-clamp-1 hover:text-white`,
+                                                            `max-w-[${maxWTitleMobile}px]`,
+                                                        )}
+                                                    >
+                                                        {
+                                                            list[index]
+                                                                ?.chapterTitle
+                                                        }
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center px-4">
+                                                    <span className="whitespace-nowrap text-lg font-extralight text-gray-300">
+                                                        {list[index]?.updatedAt}
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div className="flex items-center px-4">
-                                                <span className="whitespace-nowrap text-lg font-extralight text-gray-300">
-                                                    {list[index]?.updatedAt}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </ChapterButton>
-                                </div>
-                            )}
-                        />
-                    ) : (
-                        <>
-                            {list && list.length > 0 && (
-                                <VirtuosoGrid
-                                    style={{
-                                        height: `${
-                                            chapterList.length > 50
-                                                ? '750px'
-                                                : '450px'
-                                        }`,
-                                    }}
-                                    totalCount={list.length}
-                                    components={{
-                                        List: ListContainer as ComponentType,
-                                        Item: ItemContainer,
-                                    }}
-                                    overscan={50}
-                                    itemContent={(index) => (
-                                        <div
-                                            key={list[index].chapterId || index}
-                                            className="h-ful  animate__fadeIn animate__animated w-full text-white"
-                                        >
-                                            <LazyTippy
-                                                content={
-                                                    list[index].chapterTitle
-                                                }
-                                                interactiveBorder={20}
-                                                followCursor={true}
-                                                animateFill={true}
-                                                plugins={[
-                                                    followCursor,
-                                                    animateFill,
-                                                ]}
+                                        </ChapterButton>
+                                    </div>
+                                )}
+                            />
+                        ) : (
+                            <>
+                                {list && list.length > 0 && (
+                                    <VirtuosoGrid
+                                        style={{
+                                            height: `${
+                                                chapterList.length > 50
+                                                    ? '750px'
+                                                    : '450px'
+                                            }`,
+                                        }}
+                                        totalCount={list.length}
+                                        components={{
+                                            List: ListContainer as ComponentType,
+                                            Item: ItemContainer,
+                                        }}
+                                        overscan={50}
+                                        itemContent={(index) => (
+                                            <div
+                                                key={list[index]._id || index}
+                                                className="h-ful  animate__fadeIn animate__animated w-full text-white"
                                             >
                                                 <ChapterButton
                                                     style="h-full w-full"
@@ -228,42 +224,63 @@ function DetailsChapterList({
                                                         source: src,
                                                     }}
                                                 >
-                                                    <div
-                                                        className={`bubble-top-left-to-bottom-right
-                                                           flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
+                                                    <LazyTippy
+                                                        content={
+                                                            list[index]
+                                                                .chapterTitle
+                                                        }
+                                                        animation={'scale'}
+                                                        interactiveBorder={20}
+                                                        followCursor={true}
+                                                        animateFill={true}
+                                                        plugins={[
+                                                            followCursor,
+                                                            animateFill,
+                                                        ]}
                                                     >
-                                                        <div className="flex w-[30%] min-w-max items-center   md:justify-between md:px-4">
-                                                            <span className="max-w-[200px] text-left text-lg font-bold line-clamp-1 hover:text-white md:max-w-[140px] md:text-xl  lg:max-w-[160px] lg:text-2xl">
-                                                                {
-                                                                    list[index]
-                                                                        .chapterTitle
-                                                                }
-                                                            </span>
+                                                        <div
+                                                            className={`bubble-top-left-to-bottom-right
+                                                           flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
+                                                        >
+                                                            <div className="flex w-[30%] min-w-max items-center   md:justify-between md:px-4">
+                                                                <span className="max-w-[200px] text-left text-lg font-bold line-clamp-1 hover:text-white md:max-w-[140px] md:text-xl  lg:max-w-[160px] lg:text-2xl">
+                                                                    {
+                                                                        list[
+                                                                            index
+                                                                        ]
+                                                                            .chapterTitle
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex items-center px-4 md:w-full md:justify-between">
+                                                                <span className="text-lg font-extralight text-gray-300 md:text-2xl">
+                                                                    {
+                                                                        list[
+                                                                            index
+                                                                        ]
+                                                                            .updatedAt
+                                                                    }
+                                                                </span>
+                                                                <BookOpenIcon className="lg:min-w-14 md:h-10 md:w-10 lg:h-10 lg:w-14" />
+                                                            </div>
                                                         </div>
-                                                        <div className="flex items-center px-4 md:w-full md:justify-between">
-                                                            <span className="text-lg font-extralight text-gray-300 md:text-2xl">
-                                                                {
-                                                                    list[index]
-                                                                        .updatedAt
-                                                                }
-                                                            </span>
-                                                            <BookOpenIcon className="lg:min-w-14 md:h-10 md:w-10 lg:h-10 lg:w-14" />
-                                                        </div>
-                                                    </div>
+                                                    </LazyTippy>
                                                 </ChapterButton>
-                                            </LazyTippy>
-                                        </div>
-                                    )}
-                                />
-                            )}
-                        </>
-                    )}
-                </>
-            ) : (
-                <div className="absolute-center w-full py-6">
-                    <div className="dot-pulse"></div>
-                </div>
-            )}
+                                            </div>
+                                        )}
+                                    />
+                                )}
+                            </>
+                        )}
+                    </>
+                )
+
+                // : (
+                //     <div className="absolute-center w-full py-6">
+                //         <div className="dot-pulse"></div>
+                //     </div>
+                // )
+            }
         </div>
     );
 }
