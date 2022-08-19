@@ -1,27 +1,18 @@
-import { useRouter } from 'next/router';
-import { useEffect, useRef, useState, MouseEvent } from 'react';
-import { FOLLOW_STATE, MANGA_PATH_FOLLOW } from '~/constants';
+import { memo, MouseEvent, useEffect, useRef, useState } from 'react';
 
-export default function TabSelect() {
-    const router = useRouter();
+interface TabSelectProps {
+    selections: string[];
+    selectAction: (value: string) => void;
+}
+
+function TabSelect({ selections, selectAction }: TabSelectProps) {
     const [currentTab, setTabIndex] = useState(0);
     const [offsetLeft, setOffsetLeft] = useState(20);
     const effectActive = useRef<HTMLLIElement>(null);
 
     const handleSelectValue = (e: MouseEvent<HTMLButtonElement>) => {
         const titleValue = e.currentTarget.textContent;
-
-        const statusId = FOLLOW_STATE.find(
-            (stt) => stt.title === titleValue,
-        )?.id;
-
-        if (statusId) {
-            router.replace(
-                `${MANGA_PATH_FOLLOW}?status=${statusId}`,
-                undefined,
-                { shallow: true },
-            );
-        }
+        selectAction(String(titleValue));
     };
 
     useEffect(() => {
@@ -37,7 +28,7 @@ export default function TabSelect() {
     return (
         <div className="my-8 w-full overflow-x-auto">
             <ul className="relative flex w-fit flex-nowrap gap-8 overflow-y-hidden rounded-md bg-highlight py-2 px-4 font-secondary text-3xl capitalize">
-                {FOLLOW_STATE.map((state, index) => {
+                {selections.map((selection, index) => {
                     return (
                         <li
                             id={`tab-select-${index}`}
@@ -55,7 +46,7 @@ export default function TabSelect() {
                                     setTabIndex(index);
                                 }}
                             >
-                                {state.title}
+                                {selection}
                             </button>
                         </li>
                     );
@@ -69,3 +60,5 @@ export default function TabSelect() {
         </div>
     );
 }
+
+export default memo(TabSelect);
