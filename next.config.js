@@ -21,6 +21,7 @@ module.exports = {
             'i331.ntcdntempv26.com',
             'animanlab.online',
             'res.cloudinary.com',
+            'cdn.myanimelist.net',
         ],
         minimumCacheTTL: 24 * 60 * 60 * 7,
     },

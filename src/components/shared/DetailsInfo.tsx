@@ -147,7 +147,7 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
     }, [session]);
 
     const convertQuery = (value: string) => {
-        switch (value.toLowerCase()) {
+        switch (value?.toLowerCase()) {
             case 'manga':
             case 'manhua':
             case 'manhwa':
@@ -270,6 +270,8 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
                             <h3 className="px-2 py-2">Thể loại:</h3>
                             {manga?.genres.length &&
                                 manga?.genres.map((genre) => {
+                                    if (!genre) return;
+
                                     return (
                                         <li
                                             key={genre._id}
@@ -333,9 +335,9 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
                             </>
                         ) : (
                             <>
-                                <div className="absolute-center loading-pulse h-[50px] w-[150px] rounded-2xl bg-white/20"></div>
+                                <div className="absolute-center loading-pulse h-[50px] min-h-[50px] w-[150px] rounded-2xl bg-white/20"></div>
 
-                                <div className="absolute-center loading-pulse h-[50px] w-[150px] rounded-2xl bg-white/20"></div>
+                                <div className="absolute-center loading-pulse h-[50px] min-h-[50px] w-[150px] rounded-2xl bg-white/20"></div>
                             </>
                         )}
 

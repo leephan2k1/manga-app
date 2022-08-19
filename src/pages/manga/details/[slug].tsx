@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import useSWR from 'swr';
@@ -22,11 +22,31 @@ import Section from '~/components/shared/Section';
 import { REVALIDATE_TIME } from '~/constants';
 import ComicModel from '~/serverless/models/Comic.model';
 import { axiosClientV2 } from '~/services/axiosClient';
-import { Chapter, ChapterDetails, Comic, SourcesId } from '~/types';
+import {
+    Chapter,
+    ChapterDetails,
+    Comic,
+    SourcesId,
+    ViewSelection,
+} from '~/types';
 
 const FollowModal = dynamic(
     () =>
         import('~/components/features/FollowModal', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+
+const TabSelect = dynamic(
+    () =>
+        import('~/components/features/TabSelect', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+
+const DetailedCategory = dynamic(
+    () =>
+        import('~/components/shared/DetailedCategory', {
             ssr: false,
         } as ImportCallOptions),
 );
@@ -45,6 +65,8 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
 
     //UI States
     const followModalState = useRecoilValue(followModal);
+    const [viewSelection, setViewSelection] =
+        useState<ViewSelection>('Chapters');
     const matchesMobile = useMediaQuery('(max-width: 768px)');
 
     //Data States
@@ -150,10 +172,14 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
             });
     };
 
+    const handleSelectView = useCallback((value: string) => {
+        setViewSelection(value as ViewSelection);
+    }, []);
+
     return (
         <>
             <Head
-                title={`${comic ? comic?.name + '-' : ''}  Kyoto Manga`}
+                title={`${comic ? comic?.name + ' -' : ''}  Kyoto Manga`}
                 description={`${comic?.review}`}
                 image={`${comic?.thumbnail}`}
             />
@@ -181,7 +207,35 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
                             />
                         </Section>
 
-                        <Section title="Danh sách chương" style="h-fit w-full">
+                        {comic?.description && (
+                            <>
+                                <Section>
+                                    <TabSelect
+                                        selectAction={handleSelectView}
+                                        selections={[
+                                            'Chapters',
+                                            'Characters',
+                                            'Details',
+                                            'Pictures',
+                                        ]}
+                                    />
+                                </Section>
+
+                                <DetailedCategory
+                                    description={comic.description}
+                                    viewSelection={
+                                        viewSelection as ViewSelection
+                                    }
+                                />
+                            </>
+                        )}
+
+                        <Section
+                            title="Danh sách chương"
+                            style={`h-fit w-full ${
+                                viewSelection !== 'Chapters' && 'hidden'
+                            }`}
+                        >
                             <DetailsChapterList
                                 containerStyle="my-6 flex h-fit w-full flex-col overflow-x-hidden rounded-xl bg-highlight"
                                 maxWTitleMobile={200}

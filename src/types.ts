@@ -296,3 +296,10 @@ export interface SourcesAvailable {
     sourceSlug: string;
     _id: string;
 }
+
+export type ViewSelection =
+    | 'Chapters'
+    | 'Characters'
+    | 'Details'
+    | 'Pictures'
+    | 'Recommendations';
