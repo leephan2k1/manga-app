@@ -1,7 +1,8 @@
 import type { NextPage } from 'next';
 import { GetStaticProps } from 'next';
+import { Toaster } from 'react-hot-toast';
 import useSWR from 'swr';
-import withDbScroll from '~/components/hoc/withDbScroll';
+import RandomComics from '~/components/features/RandomComics';
 import MangaBanner from '~/components/shared/Banner';
 import ClientOnly from '~/components/shared/ClientOnly';
 import ColumnSection from '~/components/shared/ColumnSection';
@@ -78,6 +79,8 @@ const Home: NextPage<HomeProps> = ({
             <Head />
 
             <ClientOnly>
+                <Toaster position="top-center" />
+
                 <div className="flex h-fit min-h-screen flex-col">
                     <MangaBanner
                         mangaList={shuffle<Comic>(
@@ -88,10 +91,14 @@ const Home: NextPage<HomeProps> = ({
                     <Section
                         link={`/${MANGA_BROWSE_PAGE}?view=newComic`}
                         title="Mới cập nhật"
-                        style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
+                        style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden"
                         linkHints={true}
                     >
                         <SectionSwiper mangaList={comicsNewUpdated?.comics} />
+                    </Section>
+
+                    <Section style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden">
+                        <RandomComics />
                     </Section>
 
                     <Section style="w-[90%] mx-auto min-w-[333px] w-max-[1300px] mt-6 overflow-x-hidden">
@@ -159,4 +166,4 @@ export const getStaticProps: GetStaticProps = async () => {
     };
 };
 
-export default withDbScroll<HomeProps>(Home);
+export default Home;
