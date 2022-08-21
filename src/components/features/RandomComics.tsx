@@ -79,11 +79,9 @@ function RandomComics() {
         //prevent click many times:
         resetCountdown();
         try {
-            console.log('api called');
             const res = await (await axiosClientV2.get('/comics/random')).data;
 
             if (res?.comics) {
-                console.log(res?.comics);
                 setComics(res.comics);
                 setIsLoading(false);
 
