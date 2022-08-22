@@ -121,7 +121,7 @@ function ReadingHistoryModal() {
                 }
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
             NProgress.done();
         }
     };

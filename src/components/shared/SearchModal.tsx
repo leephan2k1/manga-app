@@ -81,7 +81,7 @@ export default function SearchModal() {
                     }
                 } catch (err) {
                     setMangaResult('notFound');
-                    console.log(err);
+                    console.error(err);
                 } finally {
                     setIsSearching(false);
                 }

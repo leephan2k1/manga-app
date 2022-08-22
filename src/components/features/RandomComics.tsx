@@ -180,7 +180,7 @@ function RandomComics() {
                                         </div>
                                     </div>
                                     <div className="flex h-full w-3/4 items-center justify-end overflow-hidden md:w-[60%] md:justify-center lg:w-[40%]">
-                                        <figure className="h-[200%] w-[80%] rotate-[15deg] border-4 border-white md:w-[70%] md:rotate-[18deg] lg:w-[60%] lg:rotate-[25deg]">
+                                        <figure className="relative h-[200%] w-[80%] rotate-[15deg] border-4 border-white md:w-[70%] md:rotate-[18deg] lg:w-[60%] lg:rotate-[25deg]">
                                             <Image
                                                 priority
                                                 className="absolute inset-0 h-max w-auto object-cover object-center"

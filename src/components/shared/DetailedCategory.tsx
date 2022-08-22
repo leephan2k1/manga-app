@@ -30,7 +30,6 @@ interface DetailedCategory {
 }
 
 function DetailedCategory({ viewSelection, description }: DetailedCategory) {
-    console.log(viewSelection);
     return (
         <Section>
             {viewSelection === 'Characters' && (

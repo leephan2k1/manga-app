@@ -18,8 +18,6 @@ export default function NotificationObserver({
     //register new device:
     useEffect(() => {
         if (isSupportSW && !isSub && status === 'authenticated') {
-            console.log('called sub');
-
             (async function () {
                 const res = await notification.subscribe(
                     'just_push_new_subscribe',

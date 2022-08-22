@@ -41,12 +41,12 @@ function MyApp({
     //load service workers script:
     useEffectOnce(() => {
         if (!('serviceWorker' in navigator)) {
-            console.log('No Service Worker support!');
+            console.error('No Service Worker support!');
             return;
         }
 
         if (!('PushManager' in window)) {
-            console.log('No Push API Support!');
+            console.error('No Push API Support!');
             return;
         }
 
