@@ -121,7 +121,8 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                         {comic?.genres &&
                                             comic.genres.length &&
                                             comic.genres.map((genre, index) => {
-                                                if (index > 3) return null;
+                                                if (index > 3 || genre)
+                                                    return null;
 
                                                 return (
                                                     <li
@@ -252,6 +253,8 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                         {comic?.genres &&
                                             comic.genres.length &&
                                             comic.genres.map((genre, index) => {
+                                                if (!genre) return;
+
                                                 return (
                                                     <li
                                                         key={genre || index}
