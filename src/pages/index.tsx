@@ -6,6 +6,7 @@ import RandomComics from '~/components/features/RandomComics';
 import MangaBanner from '~/components/shared/Banner';
 import ColumnSection from '~/components/shared/ColumnSection';
 import Head from '~/components/shared/Head';
+import SeasonalComics from '~/components/shared/SeasonalComics';
 import Section from '~/components/shared/Section';
 import SectionSwiper from '~/components/shared/SectionSwiper';
 import { MANGA_BROWSE_PAGE, REVALIDATE_TIME } from '~/constants';
@@ -13,12 +14,14 @@ import { connectToDatabase } from '~/serverless/utils/connectdbData';
 import { axiosClientV2 } from '~/services/axiosClient';
 import { Comic } from '~/types';
 import shuffle from '~/utils/randomArray';
+import { calculateSeason } from '~/utils/calculateSeason';
 
 interface HomeProps {
     topAllManga: Comic[];
     topMonthManga: Comic[];
     topWeekManga: Comic[];
     topDayManga: Comic[];
+    seasonalComics: Comic[];
 }
 
 const Home: NextPage<HomeProps> = ({
@@ -26,6 +29,7 @@ const Home: NextPage<HomeProps> = ({
     topMonthManga,
     topWeekManga,
     topDayManga,
+    seasonalComics,
 }) => {
     const { data: comicsNewUpdated } = useSWR<{
         comics: Comic[];
@@ -93,6 +97,13 @@ const Home: NextPage<HomeProps> = ({
                     <SectionSwiper mangaList={comicsNewUpdated?.comics} />
                 </Section>
 
+                <Section
+                    title={`Comics Mùa ${calculateSeason()}`}
+                    style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden"
+                >
+                    <SeasonalComics comics={seasonalComics} />
+                </Section>
+
                 <Section style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden">
                     <RandomComics />
                 </Section>
@@ -138,17 +149,20 @@ const Home: NextPage<HomeProps> = ({
 export const getStaticProps: GetStaticProps = async () => {
     const { db } = await connectToDatabase();
 
-    const [resultAll, resultMonth, resultWeek, resultDay] = await Promise.all([
-        db.collection('real_time_comics').findOne({ type: 'all' }),
-        db.collection('real_time_comics').findOne({ type: 'month' }),
-        db.collection('real_time_comics').findOne({ type: 'week' }),
-        db.collection('real_time_comics').findOne({ type: 'day' }),
-    ]);
+    const [resultAll, resultMonth, resultWeek, resultDay, resultSeason] =
+        await Promise.all([
+            db.collection('real_time_comics').findOne({ type: 'all' }),
+            db.collection('real_time_comics').findOne({ type: 'month' }),
+            db.collection('real_time_comics').findOne({ type: 'week' }),
+            db.collection('real_time_comics').findOne({ type: 'day' }),
+            db.collection('real_time_comics').findOne({ type: 'season' }),
+        ]);
 
     const { comics: topAllManga } = resultAll;
     const { comics: topMonthManga } = resultMonth;
     const { comics: topWeekManga } = resultWeek;
     const { comics: topDayManga } = resultDay;
+    const { comics: seasonalComics } = resultSeason;
 
     return {
         props: {
@@ -156,6 +170,7 @@ export const getStaticProps: GetStaticProps = async () => {
             topMonthManga: JSON.parse(JSON.stringify(topMonthManga)),
             topWeekManga: JSON.parse(JSON.stringify(topWeekManga)),
             topDayManga: JSON.parse(JSON.stringify(topDayManga)),
+            seasonalComics: JSON.parse(JSON.stringify(seasonalComics)),
         },
         revalidate: REVALIDATE_TIME,
     };
