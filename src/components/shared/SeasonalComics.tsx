@@ -16,7 +16,7 @@ interface SeasonalComicsProps {
 
 function SeasonalComics({ comics }: SeasonalComicsProps) {
     return (
-        <div className="my-4 h-[250px] w-full bg-red-500/0 text-white md:h-[300px] lg:h-[350px]">
+        <div className="my-4 h-[250px] w-full bg-red-500/0 text-white md:h-[300px]">
             <Swiper
                 breakpoints={{
                     1: {
