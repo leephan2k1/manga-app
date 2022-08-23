@@ -26,6 +26,9 @@
     .absolute-center {
         @apply flex items-center justify-center;
     }
+    .full-size {
+        @apply h-full w-full;
+    }
 }
 
 * {
