@@ -1,3 +1,5 @@
+import LogoSVG from '/public/images/torii-gate-japan.svg';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { memo, MouseEvent, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -8,9 +10,7 @@ import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import useMultipleSources from '~/context/SourcesContext';
 import { NavigateDirection, SourcesId } from '~/types';
-import LogoSVG from '/public/images/torii-gate-japan.svg';
 
-// import convertIdToLabel from '~/utils/convertSrouceId';
 import {
     ArrowLeftIcon,
     ArrowNarrowLeftIcon,
@@ -46,12 +46,6 @@ function SettingsSide({ handleClose }: SettingsSideProps) {
         setSrc(value as SourcesId);
     };
 
-    const handleBackToDetails = () => {
-        router.push(
-            `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${multipleSources?.chaptersDetail.comicSlug}`,
-        );
-    };
-
     const handleShowSettingsMode = () => {
         settings?.toggleSettings();
     };
@@ -68,22 +62,28 @@ function SettingsSide({ handleClose }: SettingsSideProps) {
         >
             {/* logo & control */}
             <div className="absolute-center my-2 h-[70px] w-full border-b-2 border-white/5">
-                <button
-                    onClick={handleBackToDetails}
-                    className="rounded-full p-4 transition-all hover:bg-white/25"
+                <Link
+                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${multipleSources?.chaptersDetail.comicSlug}`}
                 >
-                    <ArrowNarrowLeftIcon className="h-8 w-8" />
-                </button>
-                <div className="absolute-center relative flex-1">
-                    <LogoSVG
-                        className="md:width-[100px] absolute"
-                        width={50}
-                        height={50}
-                    />
-                    <figure className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                        <TextLogo className="left-1/2 h-[40px] w-[130px]" />
-                    </figure>
-                </div>
+                    <a>
+                        <button className="rounded-full p-4 transition-all hover:bg-white/25">
+                            <ArrowNarrowLeftIcon className="h-8 w-8" />
+                        </button>
+                    </a>
+                </Link>
+
+                <Link href="/">
+                    <a className="absolute-center relative flex-1">
+                        <LogoSVG
+                            className="md:width-[100px] absolute"
+                            width={50}
+                            height={50}
+                        />
+                        <figure className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                            <TextLogo className="left-1/2 h-[40px] w-[130px]" />
+                        </figure>
+                    </a>
+                </Link>
                 <button
                     onClick={handleCloseSideSettings}
                     className="rounded-full p-4 transition-all hover:bg-white/25"

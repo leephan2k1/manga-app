@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
 import { useRecoilState } from 'recoil';
@@ -45,9 +46,15 @@ export default function HorizontalSettings() {
         <div className="slideUpReturn magictime fixed top-0 left-0 z-[999] h-[60px] w-full bg-[#141313]">
             <div className="flex h-full w-full items-center justify-between text-lg md:text-2xl">
                 <div className="flex h-full w-fit items-center justify-evenly gap-4 px-4 md:space-x-4">
-                    <button onClick={handleBackToDetails}>
-                        <ArrowNarrowLeftIcon className="h-8 w-8" />
-                    </button>
+                    <Link
+                        href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${multipleSources?.chaptersDetail.comicSlug}`}
+                    >
+                        <a>
+                            <button onClick={handleBackToDetails}>
+                                <ArrowNarrowLeftIcon className="h-8 w-8" />
+                            </button>
+                        </a>
+                    </Link>
 
                     <h1 className="fond-bold h-fit w-[25%] capitalize line-clamp-1 md:w-[30%] ">
                         {multipleSources?.chaptersDetail.comicName || ''}
