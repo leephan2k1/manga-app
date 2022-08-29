@@ -42,23 +42,21 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
     const [isSubscribed, setIsSubscribed] = useState(false);
 
     const firstChapterSlug = useMemo(() => {
-        return (
+        const firstChap =
             chapters?.chapters_list &&
             chapters?.chapters_list.length &&
-            chapters.chapters_list[0].chapters[
-                chapters.chapters_list[0].chapters.length - 1
-            ].chapterSlug
-        );
+            [...chapters.chapters_list[0].chapters].pop();
+
+        return firstChap && firstChap?.chapterSlug;
     }, [chapters]);
 
     const firstChapterNumber = useMemo(() => {
-        return (
+        const firstChapNumber =
             chapters?.chapters_list &&
             chapters?.chapters_list.length &&
-            chapters.chapters_list[0].chapters[
-                chapters.chapters_list[0].chapters.length - 1
-            ].chapterNumber
-        );
+            [...chapters.chapters_list[0].chapters].pop();
+
+        return firstChapNumber && firstChapNumber?.chapterNumber;
     }, [chapters]);
 
     const latestChapterSlug = useMemo(() => {

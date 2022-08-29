@@ -23,20 +23,19 @@ export default function useChapters() {
 
             if (res?.chapters.chapters_list?.length) {
                 const { chapters } = res?.chapters.chapters_list[0];
+                const chapter = [...chapters].pop();
 
-                if (!chapters[chapters.length - 1]) return;
+                if (!chapter) return;
 
                 await axiosClientV2.post('/chapters', {
-                    chapterSlug: chapters[chapters.length - 1].chapterSlug,
+                    chapterSlug: chapter.chapterSlug,
                     source: 'NTC',
                     comicName: res?.chapters.comicName,
                     comicSlug: res?.chapters.comicSlug,
                 });
 
                 router.push(
-                    `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/NTC/${
-                        chapters[chapters.length - 1].chapterNumber
-                    }/${chapters[chapters.length - 1].chapterSlug}`,
+                    `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/NTC/${chapter.chapterNumber}/${chapter.chapterSlug}`,
                 );
             }
         } catch (err) {
