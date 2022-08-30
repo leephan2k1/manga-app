@@ -19,6 +19,7 @@ import {
     InformationCircleIcon,
     StatusOnlineIcon,
 } from '@heroicons/react/outline';
+import ImageWraper from '~/components/shared/ImageWrapper';
 
 interface SectionSwiperCardProps {
     manga?: Comic;
@@ -63,13 +64,15 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                 NProgress.start();
                             }}
                         >
-                            <Image
-                                priority
-                                className="fancy-fade-in absolute inset-0 rounded-xl object-cover object-center"
-                                alt="manga-thumbnail"
-                                src={`${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`}
-                                layout="fill"
-                            />
+                            <ImageWraper>
+                                <Image
+                                    priority
+                                    className="fancy-fade-in absolute inset-0 rounded-xl object-cover object-center"
+                                    alt="manga-thumbnail"
+                                    src={`${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`}
+                                    layout="fill"
+                                />
+                            </ImageWraper>
                         </a>
                     </Link>
 
