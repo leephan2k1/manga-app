@@ -19,6 +19,7 @@ module.exports = {
             'st.nettruyenco.com',
             'st.ntcdntempv3.com',
             'i331.ntcdntempv26.com',
+            's4.anilist.co',
             'animanlab.online',
             'res.cloudinary.com',
             'cdn.myanimelist.net',
