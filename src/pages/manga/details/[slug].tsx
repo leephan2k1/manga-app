@@ -282,6 +282,20 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, Params> = async (
                 revalidate: REVALIDATE_TIME,
             };
         } else {
+            //error 2 slug 1 comic (nt source)
+            const result = await ComicModel.findOne({ slug: slug + '0' })
+                .populate('chapters')
+                .populate('description');
+
+            if (result) {
+                return {
+                    props: {
+                        comic: JSON.parse(JSON.stringify(result)),
+                    },
+                    revalidate: REVALIDATE_TIME,
+                };
+            }
+
             try {
                 const resultFallback = await (
                     await axiosClientV2.get(`/comics/${slug}/info`)
