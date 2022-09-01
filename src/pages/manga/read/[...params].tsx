@@ -29,7 +29,7 @@ import {
 } from '~/types';
 import proxyObserver from '~/utils/proxyObserver';
 
-import { ChevronRightIcon } from '@heroicons/react/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const SettingsModal = dynamic(
     () =>
@@ -340,12 +340,21 @@ export const getServerSideProps: GetServerSideProps = async ({
             return { notFound: true };
         }
 
-        const resChapters = await db
+        let resChapters: any;
+
+        resChapters = await db
             .collection('chapters')
             .findOne({ comicSlug: resPage.comicSlug });
 
         if (!resChapters) {
-            return { notFound: true };
+            // fix 2 slugs 1 comic
+            resChapters = await db
+                .collection('chapters')
+                .findOne({ comicSlug: resPage.comicSlug + '0' });
+
+            if (!resChapters) {
+                return { notFound: true };
+            }
         }
 
         return {
