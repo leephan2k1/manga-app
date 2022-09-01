@@ -3,7 +3,7 @@ import ListBox from '~/components/shared/ListBox';
 import useSettingsMode from '~/context/SettingsContext';
 import convertMode from '~/utils/modeConverter';
 
-import { XIcon } from '@heroicons/react/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 interface SettingsModeProps {
     styles?: string;
@@ -110,7 +110,7 @@ export default function SettingsMode({
                             onClick={() => settings?.turnOffSettings()}
                             className="absolute-center h-full rounded-full p-4 transition-all hover:text-primary"
                         >
-                            <XIcon className="h-8 w-8" />
+                            <XMarkIcon className="h-8 w-8" />
                         </button>
                     </div>
                 </div>

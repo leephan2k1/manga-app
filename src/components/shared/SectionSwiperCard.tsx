@@ -14,11 +14,11 @@ import { Comic } from '~/types';
 import NProgress from 'nprogress';
 
 import {
-    ClipboardListIcon,
+    ClipboardIcon,
     ClockIcon,
     InformationCircleIcon,
-    StatusOnlineIcon,
-} from '@heroicons/react/outline';
+    SignalIcon,
+} from '@heroicons/react/24/outline';
 import ImageWraper from '~/components/shared/ImageWrapper';
 
 interface SectionSwiperCardProps {
@@ -99,7 +99,7 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                 </a>
                             </Link>
                             <p className="ml-4 flex flex-nowrap items-center">
-                                <ClipboardListIcon className="h-6 w-6" />
+                                <ClipboardIcon className="h-6 w-6" />
                                 <span className="ml-2 text-[90%] line-clamp-1">
                                     {manga.newChapter}
                                 </span>
@@ -111,7 +111,7 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                 </span>
                             </p>
                             <p className="ml-4 flex items-center">
-                                <StatusOnlineIcon className="h-6 w-6" />{' '}
+                                <SignalIcon className="h-6 w-6" />{' '}
                                 <span className="ml-2 text-[90%]">
                                     {manga.status}
                                 </span>

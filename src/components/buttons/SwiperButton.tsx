@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useSwiper } from 'swiper/react';
 
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 interface SwiperButtonProps {
     type: 'next' | 'prev';

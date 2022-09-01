@@ -14,8 +14,8 @@ import { axiosClientV2 } from '~/services/axiosClient';
 import { Comic } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { EmojiSadIcon, XIcon } from '@heroicons/react/outline';
-import { SearchIcon } from '@heroicons/react/solid';
+import { FaceFrownIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
 import SearchInput from './SearchInput';
 
@@ -146,12 +146,12 @@ export default function SearchModal() {
                                         className="button rounded-full p-4 text-white md:mr-6"
                                         onClick={handleCloseModal}
                                     >
-                                        <XIcon className="h-10 w-10" />
+                                        <XMarkIcon className="h-10 w-10" />
                                     </button>
                                 </div>
                                 <div className="my-10 flex h-[60px] items-center rounded-xl bg-secondary py-4 text-white">
                                     {/* search icon  */}
-                                    <SearchIcon className="mx-2 h-10 w-10 md:mx-6 md:h-14 md:w-14" />
+                                    <MagnifyingGlassIcon className="mx-2 h-10 w-10 md:mx-6 md:h-14 md:w-14" />
                                     {/* search input  */}
                                     <SearchInput
                                         ref={inputRef}
@@ -169,7 +169,7 @@ export default function SearchModal() {
                                             className="absolute-center m-4 h-10 w-10 rounded-lg bg-primary text-white hover:opacity-60 md:h-14 md:w-14 md:rounded-xl"
                                             onClick={handleClearSearchValue}
                                         >
-                                            <XIcon className="h-8 w-8" />
+                                            <XMarkIcon className="h-8 w-8" />
                                         </button>
                                     )}
                                 </div>
@@ -193,7 +193,7 @@ export default function SearchModal() {
                                         <p className="mr-4 whitespace-nowrap text-base md:text-2xl">
                                             Truyện bạn cần tìm chưa có!
                                         </p>
-                                        <EmojiSadIcon className="h-10 w-10" />
+                                        <FaceFrownIcon className="h-10 w-10" />
                                     </div>
                                 )}
                             </Dialog.Panel>

@@ -14,7 +14,7 @@ import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
 import { Chapter, ChapterDetails } from '~/types';
 
 import styled from '@emotion/styled';
-import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/solid';
+import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/24/solid';
 
 import ChapterButton from '../buttons/ChapterButton';
 import ChapterInput from './ChapterInput';

@@ -11,10 +11,10 @@ import { NavigateDirection } from '~/types';
 
 import {
     ArrowLeftIcon,
-    ArrowNarrowLeftIcon,
+    ArrowLongLeftIcon,
     ArrowRightIcon,
     CogIcon,
-} from '@heroicons/react/outline';
+} from '@heroicons/react/24/outline';
 
 export default function HorizontalSettings() {
     const read = useReading();
@@ -51,7 +51,7 @@ export default function HorizontalSettings() {
                     >
                         <a>
                             <button onClick={handleBackToDetails}>
-                                <ArrowNarrowLeftIcon className="h-8 w-8" />
+                                <ArrowLongLeftIcon className="h-8 w-8" />
                             </button>
                         </a>
                     </Link>

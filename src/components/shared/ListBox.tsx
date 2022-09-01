@@ -1,6 +1,6 @@
 import { MouseEvent, memo, useRef, useState } from 'react';
 
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import { useOnClickOutside } from 'usehooks-ts';
 
 interface ListBoxProps {

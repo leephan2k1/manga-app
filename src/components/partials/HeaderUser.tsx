@@ -6,7 +6,10 @@ import { BiUser } from 'react-icons/bi';
 import { useOnClickOutside } from 'usehooks-ts';
 import { MANGA_PATH_FOLLOW } from '~/constants';
 
-import { BookmarkIcon, LogoutIcon } from '@heroicons/react/outline';
+import {
+    BookmarkIcon,
+    ArrowRightOnRectangleIcon,
+} from '@heroicons/react/24/outline';
 
 import Teleport from '../shared/Teleport';
 
@@ -93,7 +96,7 @@ export default function HeaderUser() {
                                 }}
                                 className="space-x-2 rounded-xl p-4 transition-all hover:bg-highlight "
                             >
-                                <LogoutIcon className="inline-block h-8 w-8" />
+                                <ArrowRightOnRectangleIcon className="inline-block h-8 w-8" />
                                 <span>Đăng xuất</span>
                             </button>
                         </div>

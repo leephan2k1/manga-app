@@ -8,7 +8,7 @@ import TextLogo from '~/components/icons/TextLogo';
 import Head from '~/components/shared/Head';
 import LogoSVG from '/public/images/torii-gate-japan.svg';
 
-import { ArrowLeftIcon } from '@heroicons/react/outline';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const LoginPage: NextPage = () => {
     return (

@@ -11,7 +11,7 @@ import axiosClient from '~/services/axiosClient';
 import { QueryObject } from '~/services/nettruyenRepository';
 import { Manga } from '~/types';
 
-import { EmojiSadIcon } from '@heroicons/react/outline';
+import { FaceFrownIcon } from '@heroicons/react/24/outline';
 
 interface BrowsePageProps {
     queryObj: QueryObject;
@@ -53,7 +53,7 @@ const BrowsePage: NextPage<BrowsePageProps> = ({ queryObj }) => {
                 <Section style="my-14 z-0 mx-auto min-h-[900px] w-[98%]   md:w-[90%]">
                     <div className="absolute-center w-full gap-4 text-white">
                         <h1>Dữ liệu bạn cần chưa có!</h1>
-                        <EmojiSadIcon className="h-12 w-12" />
+                        <FaceFrownIcon className="h-12 w-12" />
                     </div>
                 </Section>
             ) : (

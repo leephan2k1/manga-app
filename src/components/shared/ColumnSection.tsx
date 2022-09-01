@@ -11,7 +11,7 @@ import { baseURL } from '~/services/axiosClient';
 import { Comic } from '~/types';
 import { isExactMatch } from '~/utils/stringHandler';
 
-import { ChevronRightIcon } from '@heroicons/react/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
 interface ColumnSectionProps {
     title?: string;

@@ -2,7 +2,7 @@ import { Fragment, MouseEvent, useState } from 'react';
 import { ReadMode } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { CogIcon } from '@heroicons/react/outline';
+import { CogIcon } from '@heroicons/react/24/outline';
 import useSettingsMode from '~/context/SettingsContext';
 
 interface SettingsModalProps {

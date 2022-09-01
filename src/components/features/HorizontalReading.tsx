@@ -9,10 +9,10 @@ import { NavigateDirection, Page } from '~/types';
 import {
     ArrowLeftIcon,
     ArrowRightIcon,
-    DesktopComputerIcon,
-    DeviceMobileIcon,
+    ComputerDesktopIcon,
+    DevicePhoneMobileIcon,
     DeviceTabletIcon,
-} from '@heroicons/react/outline';
+} from '@heroicons/react/24/outline';
 
 import HorizontalImages from '../shared/HorizontalImages';
 
@@ -223,7 +223,7 @@ function HorizontalReading({
                 </h1>
                 <h2 className="my-4 text-center text-primary">
                     Đối với{' '}
-                    <DeviceMobileIcon className="inline-block h-8 w-8" /> /{' '}
+                    <DevicePhoneMobileIcon className="inline-block h-8 w-8" /> /{' '}
                     <DeviceTabletIcon className="inline-block h-8 w-8" />
                 </h2>
                 <ul className="mx-auto w-[80%] list-disc space-y-4 px-6">
@@ -235,7 +235,7 @@ function HorizontalReading({
                 </ul>
                 <h2 className="my-4 text-center text-primary">
                     Đối với{' '}
-                    <DesktopComputerIcon className="inline-block h-8 w-8" />
+                    <ComputerDesktopIcon className="inline-block h-8 w-8" />
                 </h2>
                 <ul className="mx-auto w-[80%] list-disc space-y-4 px-6">
                     <li>

@@ -20,11 +20,12 @@ import { baseURL } from '~/services/axiosClient';
 import { ChapterDetails, Comic } from '~/types';
 import { isExactMatch } from '~/utils/stringHandler';
 
-import { BellIcon, BookmarkIcon, BookOpenIcon } from '@heroicons/react/outline';
 import {
-    BellIcon as BellIconSolid,
-    LightningBoltIcon,
-} from '@heroicons/react/solid';
+    BellIcon,
+    BookmarkIcon,
+    BookOpenIcon,
+} from '@heroicons/react/24/outline';
+import { BellIcon as BellIconSolid, BoltIcon } from '@heroicons/react/24/solid';
 
 interface DetailsInfoProps {
     manga: Comic;
@@ -325,7 +326,7 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
                                 >
                                     <a>
                                         <button className="pulse-effect-secondary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-white text-gray-800 transition-all hover:scale-[110%]">
-                                            <LightningBoltIcon className="h-8 w-8 text-primary" />{' '}
+                                            <BoltIcon className="h-8 w-8 text-primary" />{' '}
                                             Chap mới nhất
                                         </button>
                                     </a>

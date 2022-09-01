@@ -25,7 +25,7 @@ function Toggle({ styles, handleToggle, defaultState }: ToggleProps) {
         >
             <span
                 className={`${
-                    enabled ? 'translate-x-9' : 'translate-x-1'
+                    enabled ? 'translate-x-8' : 'translate-x-1'
                 } inline-block h-4 w-4 transform rounded-full bg-white transition duration-200 ease-in-out`}
             />
         </Switch>

@@ -1,6 +1,6 @@
 import CharacterCard from '~/components/shared/CharacterCard';
 import { Character } from '~/types';
-import { EmojiSadIcon } from '@heroicons/react/outline';
+import { FaceFrownIcon } from '@heroicons/react/24/outline';
 
 interface CharactersProps {
     characters: Character[];
@@ -23,7 +23,7 @@ export default function Characters({ characters }: CharactersProps) {
             ) : (
                 <h1 className="flex text-white ">
                     Hiện tại chưa có thông tin về nhân vật{' '}
-                    <EmojiSadIcon className="mx-2 h-8 w-8" />
+                    <FaceFrownIcon className="mx-2 h-8 w-8" />
                 </h1>
             )}
         </div>

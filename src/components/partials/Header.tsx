@@ -11,7 +11,7 @@ import {
     MangaTypesPreview,
 } from '~/constants';
 
-import { ChevronDownIcon } from '@heroicons/react/outline';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 import TextLogo from '../icons/TextLogo';
 import DropDown from '../shared/DropDown';

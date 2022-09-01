@@ -4,7 +4,7 @@ import { mangaSrc } from '~/atoms/mangaSrcAtom';
 import { SourcesId } from '~/types';
 
 import { Listbox, Transition } from '@headlessui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
 type Items = {
     title: string;

@@ -24,7 +24,7 @@ import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import { NavigateDirection } from '~/types';
 
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/outline';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const VerticalReading = dynamic(
     () =>

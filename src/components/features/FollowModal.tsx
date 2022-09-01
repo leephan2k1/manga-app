@@ -11,7 +11,7 @@ import useFollow from '~/hooks/useFollow';
 import { FollowState, Comic } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 interface FollowModalProps {
     manga: Comic;
@@ -188,7 +188,7 @@ export default function FollowModal({
                                         className="button rounded-full p-4 text-white md:mr-6"
                                         onClick={handleCloseModal}
                                     >
-                                        <XIcon className="h-10 w-10" />
+                                        <XMarkIcon className="h-10 w-10" />
                                     </button>
                                 </div>
 

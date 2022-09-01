@@ -5,7 +5,7 @@ import DetailsChapterList from '~/components/shared/DetailsChapterList';
 import useMultipleSources from '~/context/SourcesContext';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 export default function ChapterModal() {
     const multipleSources = useMultipleSources();
@@ -57,7 +57,7 @@ export default function ChapterModal() {
                                         onClick={handleCloseModal}
                                         className="button rounded-full p-4 text-white md:mr-6"
                                     >
-                                        <XIcon className="h-8 w-8" />
+                                        <XMarkIcon className="h-8 w-8" />
                                     </button>
                                 </div>
 

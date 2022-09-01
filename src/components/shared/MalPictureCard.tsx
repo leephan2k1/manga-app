@@ -1,4 +1,4 @@
-import { ArrowsExpandIcon } from '@heroicons/react/outline';
+import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import { memo, useState } from 'react';
 import PictureModal from '~/components/shared/PictureModal';
 
@@ -28,7 +28,7 @@ function MalPictureCard({ smallImg, largeImg }: MalPictureCardProps) {
                 />
 
                 <div className="absolute-center absolute inset-0 h-full w-full bg-black text-white opacity-0 transition-all duration-300 hover:scale-125 hover:opacity-30">
-                    <ArrowsExpandIcon className="h-16 w-16" />
+                    <ArrowsPointingOutIcon className="h-16 w-16" />
                 </div>
             </figure>
 

@@ -18,7 +18,7 @@ import { baseURL } from '~/services/axiosClient';
 import { Manga } from '~/types';
 import { randomColors } from '~/utils/randomColors';
 
-import { BookOpenIcon } from '@heroicons/react/outline';
+import { BookOpenIcon } from '@heroicons/react/24/outline';
 
 import { LayoutDetails } from './ListView';
 

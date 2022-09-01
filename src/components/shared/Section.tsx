@@ -1,7 +1,11 @@
 import classNames from 'classnames';
 import { forwardRef, ReactNode } from 'react';
 
-import { ChevronRightIcon, ArrowLeftIcon } from '@heroicons/react/outline';
+import {
+    ChevronRightIcon,
+    ArrowLeftIcon,
+    ArrowTrendingUpIcon,
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 interface SectionProps {
@@ -9,12 +13,16 @@ interface SectionProps {
     style?: string;
     children?: ReactNode;
     linkHints?: boolean;
+    arrowTrendingUp?: boolean;
     link?: string;
     backLink?: string;
 }
 
 const Section = forwardRef<HTMLDivElement, SectionProps>(
-    ({ children, title, style, linkHints, link, backLink }, ref) => {
+    (
+        { children, title, style, linkHints, link, backLink, arrowTrendingUp },
+        ref,
+    ) => {
         return (
             <section ref={ref} className={classNames(style)}>
                 {title && (
@@ -38,6 +46,9 @@ const Section = forwardRef<HTMLDivElement, SectionProps>(
                             )}
                             {linkHints && (
                                 <ChevronRightIcon className="h-8 w-8 lg:h-10 lg:w-10" />
+                            )}
+                            {arrowTrendingUp && (
+                                <ArrowTrendingUpIcon className="mx-4 h-8 w-8 lg:h-10 lg:w-10" />
                             )}
                         </div>
                     </h2>

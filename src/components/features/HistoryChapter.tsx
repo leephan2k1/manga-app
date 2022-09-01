@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import { Fragment, memo, useState, useEffect } from 'react';
@@ -177,7 +177,7 @@ function ReadingHistoryModal() {
                                             onClick={handleCloseModal}
                                             className="button rounded-full p-4"
                                         >
-                                            <XIcon className="h-8 w-8" />
+                                            <XMarkIcon className="h-8 w-8" />
                                         </button>
                                     </div>
                                     <div className="mx-2 my-4 flex h-fit w-full flex-col gap-4 text-white/60">

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { ChevronRightIcon } from '@heroicons/react/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
 export interface DropDownLink {
     title: string;

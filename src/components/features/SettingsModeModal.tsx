@@ -6,7 +6,7 @@ import useSettingsMode from '~/context/SettingsContext';
 import convertMode from '~/utils/modeConverter';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 import Toggle from '~/components/buttons/ToggleButton';
 
@@ -74,7 +74,7 @@ export default function SettingsModeModal({
                                         onClick={handleCloseModal}
                                         className="button rounded-full p-4 md:mr-6"
                                     >
-                                        <XIcon className="h-8 w-8" />
+                                        <XMarkIcon className="h-8 w-8" />
                                     </button>
                                 </div>
                                 <div className="mx-2 my-4 flex h-fit w-full flex-col gap-4   text-white">

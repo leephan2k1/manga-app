@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDebounce } from 'usehooks-ts';
 
-import { FilterIcon } from '@heroicons/react/outline';
+import { FunnelIcon } from '@heroicons/react/24/outline';
 
 interface ChapterInputProps {
     style?: string;
@@ -45,7 +45,7 @@ export default function ChapterInput({
                 value={selectValue}
             />
             <button className="px-4 transition-all">
-                <FilterIcon className="h-6 w-6" />
+                <FunnelIcon className="h-6 w-6" />
             </button>
         </div>
     );

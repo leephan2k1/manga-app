@@ -13,11 +13,11 @@ import { NavigateDirection, SourcesId } from '~/types';
 
 import {
     ArrowLeftIcon,
-    ArrowNarrowLeftIcon,
+    ArrowLongLeftIcon,
     ArrowRightIcon,
     ChevronLeftIcon,
     CogIcon,
-} from '@heroicons/react/outline';
+} from '@heroicons/react/24/outline';
 
 import TextLogo from '../icons/TextLogo';
 import DetailsChapterList from '../shared/DetailsChapterList';
@@ -67,7 +67,7 @@ function SettingsSide({ handleClose }: SettingsSideProps) {
                 >
                     <a>
                         <button className="rounded-full p-4 transition-all hover:bg-white/25">
-                            <ArrowNarrowLeftIcon className="h-8 w-8" />
+                            <ArrowLongLeftIcon className="h-8 w-8" />
                         </button>
                     </a>
                 </Link>
