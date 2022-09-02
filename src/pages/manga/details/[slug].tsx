@@ -10,6 +10,7 @@ import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
 import { followModal } from '~/atoms/followModaAtom';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
+import Vote from '~/components/features/Vote';
 import withDbScroll from '~/components/hoc/withDbScroll';
 import MainLayout from '~/components/layouts/MainLayout';
 import ClientOnly from '~/components/shared/ClientOnly';
@@ -179,7 +180,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
     return (
         <>
             <Head
-                title={`${comic ? comic?.name + ' -' : ''}  Kyoto Manga`}
+                title={`${comic ? comic?.name + ' - ' : ''}  Kyoto Manga`}
                 description={`${comic?.review}`}
                 image={`${comic?.thumbnail}`}
             />
@@ -204,6 +205,13 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
                                 isLoading={router.isFallback}
                                 mangaReview={comic?.review || ''}
                                 mobileUI={matchesMobile}
+                            />
+                        </Section>
+
+                        <Section title="Bình chọn" style="h-fit w-full">
+                            <Vote
+                                comicName={comic?.name || ''}
+                                comicSlug={comic?.slug || ''}
                             />
                         </Section>
 
