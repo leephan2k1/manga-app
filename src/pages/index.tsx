@@ -1,8 +1,12 @@
+import { motion } from 'framer-motion';
 import type { NextPage } from 'next';
 import { GetStaticProps } from 'next';
+import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import useSWR from 'swr';
+import ToggleButton from '~/components/buttons/ToggleButton';
 import RandomComics from '~/components/features/RandomComics';
+import RecommendedComics from '~/components/features/RecommendedComics';
 import MangaBanner from '~/components/shared/Banner';
 import ColumnSection from '~/components/shared/ColumnSection';
 import Head from '~/components/shared/Head';
@@ -13,8 +17,8 @@ import { MANGA_BROWSE_PAGE, REVALIDATE_TIME } from '~/constants';
 import { connectToDatabase } from '~/serverless/utils/connectdbData';
 import { axiosClientV2 } from '~/services/axiosClient';
 import { Comic } from '~/types';
-import shuffle from '~/utils/randomArray';
 import { calculateSeason } from '~/utils/calculateSeason';
+import shuffle from '~/utils/randomArray';
 
 interface HomeProps {
     topAllManga: Comic[];
@@ -31,6 +35,12 @@ const Home: NextPage<HomeProps> = ({
     topDayManga,
     seasonalComics,
 }) => {
+    const [showRecommendedComics, setShowRecommendedComics] = useState(false);
+
+    const handleToggleShowRecommendedComics = (state: boolean) => {
+        setShowRecommendedComics(state);
+    };
+
     const { data: comicsNewUpdated } = useSWR<{
         comics: Comic[];
         totalPages: number;
@@ -77,6 +87,14 @@ const Home: NextPage<HomeProps> = ({
         },
     );
 
+    const { data: recommendedComics } = useSWR<
+        { _id: Comic; votes: string[]; size: number }[]
+    >(`/comics/recommended?limit=30`, async (slug) => {
+        const { data } = await axiosClientV2.get(slug);
+
+        return data?.comics || [];
+    });
+
     return (
         <>
             <Head />
@@ -95,6 +113,45 @@ const Home: NextPage<HomeProps> = ({
                     linkHints={true}
                 >
                     <SectionSwiper mangaList={comicsNewUpdated?.comics} />
+                </Section>
+
+                <Section
+                    title={showRecommendedComics ? 'Cộng Đồng Bình Chọn' : ''}
+                    arrowTrendingUp
+                    style="h-fit w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden text-white"
+                >
+                    {!showRecommendedComics && (
+                        <div className="absolute-center h-28 w-full ">
+                            <motion.div
+                                initial={{ scale: 0.8 }}
+                                animate={{ scale: 1 }}
+                                exit={{ scale: 0.8 }}
+                                transition={{
+                                    type: 'spring',
+                                    stiffness: 55,
+                                }}
+                                className="absolute-center h-4/5 w-[65%] rounded-lg border-2 border-white/40 px-4 md:w-96"
+                            >
+                                <h4 className="whitespace-nowrap">
+                                    Hiển thị bình chọn
+                                </h4>
+                                <ToggleButton
+                                    handleToggle={
+                                        handleToggleShowRecommendedComics
+                                    }
+                                />
+                            </motion.div>
+                        </div>
+                    )}
+
+                    {showRecommendedComics && (
+                        <RecommendedComics
+                            comics={recommendedComics}
+                            handleShowSection={
+                                handleToggleShowRecommendedComics
+                            }
+                        />
+                    )}
                 </Section>
 
                 <Section
