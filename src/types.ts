@@ -248,6 +248,7 @@ export interface Comic {
     status: string;
     thumbnail: string;
     updatedAt: string;
+    votes?: string[];
 }
 
 export interface Genre {
