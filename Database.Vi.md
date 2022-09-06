@@ -66,7 +66,7 @@ Hoặc (tuỳ vào dịch vụ cung cấp)
 mongodb://admin:<password>@SG-<your-cluster>-53224.servers.mongodirector.com:27017
 ```
 
--   Cài đặt [MongoDB Compass](https://www.mongodb.com/products/compass) nếu bạn ít thao tác với Mongo Shell (mee to :U ) => Bỏ qua bước này nếu bạn dùng [Mongo3T](https://robomongo.org) hoặc [Mongo Shell](https://www.mongodb.com/docs/v4.4/mongo)
+-   Cài đặt [MongoDB Compass](https://www.mongodb.com/products/compass) nếu bạn ít thao tác với Mongo Shell (me too :U ) => Bỏ qua bước này nếu bạn dùng [Mongo3T](https://robomongo.org) hoặc [Mongo Shell](https://www.mongodb.com/docs/v4.4/mongo)
 -   Dán URI ở trên vào chọn Connect => Giờ bạn có thể hoàn toàn thao tác với cở sở dữ liệu bằng giao diện
     ![mongo-compass](https://i.ibb.co/h9vssYw/Screenshot-2022-09-06-212430.png)
 
@@ -144,12 +144,12 @@ descriptions:
 {
   _id: ObjectId;
   name: string;
-  characters: [
+  characters: [{
     cover: string;
     mal_url: string;
     name: string;
     role: string;
-  ]
+  }]
   cover: string;
   description: string;
   mal_id: Number (Int32);
@@ -207,7 +207,7 @@ pages:
 
 ## Import dữ liệu
 
-### Tuỳ chọn 1: Danh cho cơ sở dữ liệu không phải là MongoDB hoặc bạn muốn thiết kế lại document Schema
+### Tuỳ chọn 1: Dành cho cơ sở dữ liệu không phải là MongoDB hoặc bạn muốn thiết kế lại document Schema
 
 -   [Download](https://github.com/leephan2k1/manga-app/releases/download/database/db-backup-json.zip) file json của tất cả collection trên (Giải nén ra chắc cũng hơn 1Gb)
 -   Giải nén ra gồm 4 file json tương ứng với 4 collections được mô tả bên trên
@@ -225,7 +225,7 @@ pages:
 
 ### Tuỳ chọn 3: Sử dụng mongorestore
 
--   mogoresote là tool của MongoDB nên đảm bảo rằng bạn đã cài đặt nó: [Mongodb tools](https://www.mongodb.com/try/download/database-tools)
+-   mogorestore là tool của MongoDB nên đảm bảo rằng bạn đã cài đặt nó: [Mongodb tools](https://www.mongodb.com/try/download/database-tools)
 -   Kiểm tra trên Windows, đường dẫn mặc định
 
 ```
@@ -248,7 +248,7 @@ Bao gồm 2 file quan trọng mongodump và mongorestore và các files liên qu
 cd C:\Program Files\MongoDB\Server\6.0\bin
 ```
 
-3. Thực hiện lệnh:
+5. Thực hiện lệnh:
 
 ```
 mongorestore --uri="<your-uri>/<your-db-name>" --authenticationDatabase=admin <backup-file-path>
@@ -278,7 +278,7 @@ Ghi chú:
 
 -   Dữ liệu trong collections chapters -> chapters_list -> element trong chapters -> updatedAt sẽ bị cũ vì nguồn Nettruyen count up thời gian (1 ngày trước, 1 tuần trước,...) => Chỉ đúng với những bộ trước năm hiện tại có thời gian xác định: 1/1/2021. Nên hiển thị dữ liệu này cần căng nhắc hoặc "Xác nhận" lại bên nguồn nettruyen.
 -   descriptions của comic không phải bộ nào cũng có vì mình lấy bên Myanimelist. (Vì đa số comic là tiếng Việt và còn có Manhua, Manhwa) => Kiểm tra trước khi dùng.
--   Nếu bạn dùng MongoDB thì nhớ đánh index cho các filed thường xuyên find. => Tăng tốc độ truy vấn.
+-   Nếu bạn dùng MongoDB thì nhớ đánh index cho các field thường xuyên find. => Tăng tốc độ truy vấn.
 -   Các link ảnh trong cơ sở dữ liệu có thể không hiển thị trực tiếp được vì có thể bị 403 cloudflare => Dùng 1 proxy trung gian để stream hoặc buffer nguồn ảnh: [Proxy](https://github.com/leephan2k1/simple-proxy/blob/main/index.js), nếu cần các interceptor xịn hơn có thể tham khảo [HoangVu Request Proxy](https://github.com/hoangvu12/requests-proxy)
 -   Cuối cùng, xin được phép **ăn xin**, nếu bạn có lòng hảo tâm có thể đồ nây mình thông qua:
 
