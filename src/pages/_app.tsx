@@ -2,9 +2,14 @@ import 'animate.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import '~/styles/globals.scss';
 import '~/styles/magic.min.css';
+import 'nprogress/nprogress.css';
 
 import { SessionProvider } from 'next-auth/react';
-import { ReactElement, ReactNode, useState } from 'react';
+import Router, { useRouter } from 'next/router';
+import { pageview, GA_TRACKING_ID } from '~/utils/gtag';
+import Script from 'next/script';
+import NProgress from 'nprogress';
+import { ReactElement, ReactNode, useState, useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts';
 import MainLayout from '~/components/layouts/MainLayout';
@@ -12,10 +17,6 @@ import NotificationObserver from '~/components/shared/NotificationObserver';
 import { SubscriptionContextProvider } from '~/context/SubscriptionContext';
 import { register } from '~/services/registerServiceWorkers';
 import { Subscription } from '~/types';
-
-import Router from 'next/router';
-import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
 
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
@@ -35,8 +36,21 @@ function MyApp({
     Component,
     pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) {
+    const router = useRouter();
     const [_, setIsSupportedSW] = useLocalStorage('supportSW', false);
     const [subscription, setSubscription] = useState<Subscription | null>(null);
+
+    useEffect(() => {
+        const handleRouteChange = (url: string) => {
+            pageview(url);
+        };
+        router.events.on('routeChangeComplete', handleRouteChange);
+        router.events.on('hashChangeComplete', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange);
+            router.events.off('hashChangeComplete', handleRouteChange);
+        };
+    }, [router.events]);
 
     //load service workers script:
     useEffectOnce(() => {
@@ -72,15 +86,33 @@ function MyApp({
         ));
 
     return (
-        <SessionProvider session={session} refetchInterval={5 * 60}>
-            <RecoilRoot>
-                <SubscriptionContextProvider value={subscription}>
-                    <NotificationObserver>
-                        {getLayout(<Component {...pageProps} />)}
-                    </NotificationObserver>
-                </SubscriptionContextProvider>
-            </RecoilRoot>
-        </SessionProvider>
+        <>
+            <Script
+                strategy="afterInteractive"
+                src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+            />
+
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+        `}
+            </Script>
+
+            <SessionProvider session={session} refetchInterval={5 * 60}>
+                <RecoilRoot>
+                    <SubscriptionContextProvider value={subscription}>
+                        <NotificationObserver>
+                            {getLayout(<Component {...pageProps} />)}
+                        </NotificationObserver>
+                    </SubscriptionContextProvider>
+                </RecoilRoot>
+            </SessionProvider>
+        </>
     );
 }
 
