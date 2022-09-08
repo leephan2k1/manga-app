@@ -9,4 +9,5 @@ export const mongoDbRemoteClient = mongoose.createConnection(uri, {
 
 import('../models/Chapter.model');
 import('../models/Comic.model');
+import('../models/Page.model');
 import('../models/Description.model');
