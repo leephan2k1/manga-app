@@ -339,15 +339,15 @@ export const getServerSideProps: GetServerSideProps = async ({
             return { notFound: true };
         }
 
-        let chapter;
+        let chapter = pages?.chapter;
 
         //fallback
-        if (!pages?.chapter) {
-            const fallbackChapter = await Chapter.findOne({
+        if (!chapter) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            chapter = await Chapter.findOne({
                 comicName: pages?.comicName,
             });
-
-            chapter = pages?.chapter || fallbackChapter;
         }
 
         return {
