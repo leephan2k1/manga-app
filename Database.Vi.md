@@ -251,24 +251,22 @@ cd C:\Program Files\MongoDB\Server\6.0\bin
 5. Thực hiện lệnh:
 
 ```
-mongorestore --uri="<your-uri>/<your-db-name>" --authenticationDatabase=admin <backup-file-path>
+mongorestore --uri=<your-uri> --authenticationDatabase=admin --db <your-db-name> --gzip <backup-file-path>
 ```
 
 Ghi chú:
 
 -   `<backup-file-path>` là đường dẫn đến các file bạn đã giải nén ở bước 2
 
--   Nếu lệnh `--uri="<your-uri>/<your-db-name>"` đây không thành công thì thay thế bằng
-
-```
---uri="<your-uri>" --db <your-db-name>
-```
-
 -   Nếu database access của bạn không phải là admin (Lệnh trên khi mình dùng với ScaleGrid, Atlas sẽ là username hoặc gì đó), thì thay thế bằng:
 
 ```
 --authenticationDatabase=<user-name>
 ```
+
+-   Sau khi restore thành công sẽ có kết quả như sau:
+
+![result](https://i.ibb.co/THfJ5CN/Screenshot-2022-09-08-205244.png)
 
 -   Nếu vẫn còn lỗi thì bạn chịu khó xem video [này](https://www.youtube.com/watch?v=n2KfMatFy1Y) và video [này](https://youtu.be/GTwXLZlWdaw) và đọc trên doc của [mongodb](https://www.mongodb.com/docs/database-tools/mongorestore) nhé. Nếu vẫn không thành công thì chịu khó copy lỗi dán vào Google hoặc quay lại import theo tuỳ chọn 2 🐧
 
