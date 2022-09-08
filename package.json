@@ -24,7 +24,6 @@
         "mongoose": "^6.5.2",
         "next": "latest",
         "next-auth": "^4.6.1",
-        "node-html-parser": "^5.3.3",
         "nprogress": "^0.2.0",
         "query-string": "^7.1.1",
         "react": "^17.0.2",

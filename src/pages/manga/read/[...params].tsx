@@ -19,7 +19,7 @@ import {
 import { ReadingContextProvider } from '~/context/ReadingContext';
 import { SettingsContextProvider } from '~/context/SettingsContext';
 import { SourcesContextProvider } from '~/context/SourcesContext';
-import { connectToDatabase } from '~/serverless/utils/connectdbData';
+import Page from '~/serverless/models/Page.model';
 import { axiosClientV2 } from '~/services/axiosClient';
 import {
     ChapterDetails,
@@ -324,43 +324,24 @@ export const getServerSideProps: GetServerSideProps = async ({
     res.setHeader(
         'Cache-Control',
         `public, s-maxage=${REVALIDATE_TIME}, stale-while-revalidate=${
-            REVALIDATE_TIME * 6
+            REVALIDATE_TIME * 100
         }`,
     );
-
-    const { db } = await connectToDatabase();
 
     const { params } = query;
 
     if (Array.isArray(params)) {
         const chapterSlug = `/${params.slice(2).join('/')}`;
-        const resPage = await db.collection('pages').findOne({ chapterSlug });
+        const pages = await Page.findOne({ chapterSlug }).populate('chapter');
 
-        if (!resPage) {
+        if (!pages || !pages?.chapter) {
             return { notFound: true };
-        }
-
-        let resChapters: any;
-
-        resChapters = await db
-            .collection('chapters')
-            .findOne({ comicSlug: resPage.comicSlug });
-
-        if (!resChapters) {
-            // fix 2 slugs 1 comic
-            resChapters = await db
-                .collection('chapters')
-                .findOne({ comicSlug: resPage.comicSlug + '0' });
-
-            if (!resChapters) {
-                return { notFound: true };
-            }
         }
 
         return {
             props: {
-                pagesDetail: JSON.parse(JSON.stringify(resPage)),
-                chaptersDetail: JSON.parse(JSON.stringify(resChapters)),
+                pagesDetail: JSON.parse(JSON.stringify(pages)),
+                chaptersDetail: JSON.parse(JSON.stringify(pages?.chapter)),
             },
         };
     }
