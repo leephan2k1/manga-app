@@ -19,6 +19,7 @@ import { axiosClientV2 } from '~/services/axiosClient';
 import { Comic } from '~/types';
 import { calculateSeason } from '~/utils/calculateSeason';
 import shuffle from '~/utils/randomArray';
+import ClientOnly from '~/components/shared/ClientOnly';
 
 interface HomeProps {
     topAllManga: Comic[];
@@ -102,9 +103,13 @@ const Home: NextPage<HomeProps> = ({
             <Toaster position="top-center" />
 
             <div className="flex h-fit min-h-screen flex-col">
-                <MangaBanner
-                    mangaList={shuffle<Comic>([...topAllManga].slice(0, 15))}
-                />
+                <ClientOnly>
+                    <MangaBanner
+                        mangaList={shuffle<Comic>(
+                            [...topAllManga].slice(0, 15),
+                        )}
+                    />
+                </ClientOnly>
 
                 <Section
                     link={`/${MANGA_BROWSE_PAGE}?view=newComic`}
