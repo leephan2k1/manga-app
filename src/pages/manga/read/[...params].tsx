@@ -20,6 +20,7 @@ import { ReadingContextProvider } from '~/context/ReadingContext';
 import { SettingsContextProvider } from '~/context/SettingsContext';
 import { SourcesContextProvider } from '~/context/SourcesContext';
 import Page from '~/serverless/models/Page.model';
+import Chapter from '~/serverless/models/Chapter.model';
 import { axiosClientV2 } from '~/services/axiosClient';
 import {
     ChapterDetails,
@@ -334,14 +335,25 @@ export const getServerSideProps: GetServerSideProps = async ({
         const chapterSlug = `/${params.slice(2).join('/')}`;
         const pages = await Page.findOne({ chapterSlug }).populate('chapter');
 
-        if (!pages || !pages?.chapter) {
+        if (!pages) {
             return { notFound: true };
+        }
+
+        let chapter;
+
+        //fallback
+        if (!pages?.chapter) {
+            const fallbackChapter = await Chapter.findOne({
+                comicName: pages?.comicName,
+            });
+
+            chapter = pages?.chapter || fallbackChapter;
         }
 
         return {
             props: {
                 pagesDetail: JSON.parse(JSON.stringify(pages)),
-                chaptersDetail: JSON.parse(JSON.stringify(pages?.chapter)),
+                chaptersDetail: JSON.parse(JSON.stringify(chapter)),
             },
         };
     }
