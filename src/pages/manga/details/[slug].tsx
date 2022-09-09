@@ -1,10 +1,11 @@
+import { useAtomValue } from 'jotai';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import useSWR from 'swr';
 import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
 import { followModal } from '~/atoms/followModaAtom';
@@ -65,7 +66,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
     const router = useRouter();
 
     //UI States
-    const followModalState = useRecoilValue(followModal);
+    const followModalState = useAtomValue(followModal);
     const [viewSelection, setViewSelection] =
         useState<ViewSelection>('Chapters');
     const matchesMobile = useMediaQuery('(max-width: 768px)');

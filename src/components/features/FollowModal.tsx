@@ -1,14 +1,14 @@
+import { useAtom } from 'jotai';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { Fragment, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
 import { useEffectOnce } from 'usehooks-ts';
 import { followModal } from '~/atoms/followModaAtom';
 import CircleIcon from '~/components/icons/CircleIcon';
 import ListBox from '~/components/shared/ListBox';
 import { FOLLOW_STATE } from '~/constants';
 import useFollow from '~/hooks/useFollow';
-import { FollowState, Comic } from '~/types';
+import { Comic, FollowState } from '~/types';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -37,7 +37,7 @@ export default function FollowModal({
     const [isSaved, setIsSaved] = useState(false);
     const { data: session, status } = useSession();
     const [followStatus, setFollowStatus] = useState('Đang đọc');
-    const [showModal, setShowModal] = useRecoilState(followModal);
+    const [showModal, setShowModal] = useAtom(followModal);
 
     const handleCloseModal = () => {
         setShowModal(false);

@@ -1,6 +1,3 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 
-export const followModal = atom({
-    key: 'followModalState',
-    default: false,
-});
+export const followModal = atom(false);

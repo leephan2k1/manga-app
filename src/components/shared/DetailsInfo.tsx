@@ -1,4 +1,5 @@
 import torriGate from '/public/images/torri-gate.jpg';
+import { useSetAtom } from 'jotai';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,7 +7,6 @@ import { useRouter } from 'next/router';
 import { memo, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import Skeleton from 'react-loading-skeleton';
-import { useRecoilState } from 'recoil';
 import { followModal } from '~/atoms/followModaAtom';
 import ChapterButton from '~/components/buttons/ChapterButton';
 import {
@@ -39,7 +39,7 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
     const router = useRouter();
     const notification = useNotification();
     const { data: session, status } = useSession();
-    const [_, setShowModal] = useRecoilState(followModal);
+    const setShowModal = useSetAtom(followModal);
     const [isSubscribed, setIsSubscribed] = useState(false);
 
     const firstChapterSlug = useMemo(() => {
