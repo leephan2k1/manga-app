@@ -1,8 +1,7 @@
-import { useRecoilState } from 'recoil';
 import { searchModalState } from '~/atoms/searchModelAtom';
 import Link from 'next/link';
 import { MANGA_BROWSE_PAGE } from '~/constants';
-
+import { useSetAtom } from 'jotai';
 import {
     AdjustmentsVerticalIcon,
     MagnifyingGlassIcon,
@@ -13,10 +12,10 @@ interface HeaderSearchProps {
 }
 
 export default function HeaderSearch({ styles }: HeaderSearchProps) {
-    const [_, setShowModal] = useRecoilState(searchModalState);
+    const setShowModal = useSetAtom(searchModalState);
 
     return (
-        <form
+        <div
             className={`${styles} ml-16 flex h-[40%] w-fit items-center justify-between rounded-2xl  bg-white shadow-xl shadow-white/20 lg:w-[68%]`}
         >
             {/* advanced search  */}
@@ -39,14 +38,14 @@ export default function HeaderSearch({ styles }: HeaderSearchProps) {
             />
 
             {/* search button */}
-            <div
+            <button
                 className="h-full w-fit rounded-2xl p-4 hover:cursor-pointer hover:opacity-60 lg:text-background"
                 onClick={() => {
                     setShowModal(true);
                 }}
             >
                 <MagnifyingGlassIcon className="h-8 w-8" />
-            </div>
-        </form>
+            </button>
+        </div>
     );
 }

@@ -17,7 +17,7 @@ import NotificationObserver from '~/components/shared/NotificationObserver';
 import { SubscriptionContextProvider } from '~/context/SubscriptionContext';
 import { register } from '~/services/registerServiceWorkers';
 import { Subscription } from '~/types';
-
+import { Provider as JotaiProvider } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 type NextPageWithLayout = NextPage & {
@@ -104,13 +104,15 @@ function MyApp({
             </Script>
 
             <SessionProvider session={session} refetchInterval={5 * 60}>
-                <RecoilRoot>
-                    <SubscriptionContextProvider value={subscription}>
-                        <NotificationObserver>
-                            {getLayout(<Component {...pageProps} />)}
-                        </NotificationObserver>
-                    </SubscriptionContextProvider>
-                </RecoilRoot>
+                <JotaiProvider>
+                    <RecoilRoot>
+                        <SubscriptionContextProvider value={subscription}>
+                            <NotificationObserver>
+                                {getLayout(<Component {...pageProps} />)}
+                            </NotificationObserver>
+                        </SubscriptionContextProvider>
+                    </RecoilRoot>
+                </JotaiProvider>
             </SessionProvider>
         </>
     );

@@ -1,7 +1,8 @@
+import { useSetAtom } from 'jotai';
 import Image from 'next/image';
 import Link from 'next/link';
+import NProgress from 'nprogress';
 import { memo } from 'react';
-import { useRecoilState } from 'recoil';
 import { searchModalState } from '~/atoms/searchModelAtom';
 import {
     MANGA_PATH_DETAILS_NAME,
@@ -10,14 +11,13 @@ import {
 } from '~/constants';
 import { Comic } from '~/types';
 import { randomColors } from '~/utils/randomColors';
-import NProgress from 'nprogress';
 
 interface SearchResultProps {
     data: Comic[];
 }
 
 function SearchResult({ data }: SearchResultProps) {
-    const [_, setShowModal] = useRecoilState(searchModalState);
+    const setShowModal = useSetAtom(searchModalState);
 
     return (
         <div className="min-h-fit w-full">

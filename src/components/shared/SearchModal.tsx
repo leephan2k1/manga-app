@@ -1,28 +1,27 @@
+import { Dialog, Transition } from '@headlessui/react';
+import { FaceFrownIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import {
     ChangeEvent,
     Fragment,
+    useCallback,
     useEffect,
     useRef,
     useState,
-    useCallback,
 } from 'react';
-import { useRecoilState } from 'recoil';
 import { useDebounce } from 'usehooks-ts';
 import { searchModalState } from '~/atoms/searchModelAtom';
 import { axiosClientV2 } from '~/services/axiosClient';
 import { Comic } from '~/types';
-
-import { Dialog, Transition } from '@headlessui/react';
-import { FaceFrownIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
 import SearchInput from './SearchInput';
 
 const SearchResult = dynamic(() => import('./SearchResult'));
 
 export default function SearchModal() {
-    const [showModal, setShowModal] = useRecoilState(searchModalState);
+    const [showModal, setShowModal] = useAtom(searchModalState);
     const [showBtnClearInput, setShowBtnClearInput] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [isSearching, setIsSearching] = useState(false);

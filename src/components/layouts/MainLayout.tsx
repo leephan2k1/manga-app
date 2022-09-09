@@ -1,10 +1,11 @@
+import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 import { ReactNode } from 'react';
-import { useRecoilValue } from 'recoil';
 import { useMediaQuery } from 'usehooks-ts';
 import { searchModalState } from '~/atoms/searchModelAtom';
-import SearchModal from '../shared/SearchModal';
+
 import Sidebar from '../partials/Sidebar';
+import SearchModal from '../shared/SearchModal';
 
 interface MainLayoutProps {
     children: ReactNode;
@@ -23,7 +24,7 @@ export default function MainLayout({
     showFooter,
 }: MainLayoutProps) {
     const matches = useMediaQuery('(max-width: 1024px)');
-    const showModal = useRecoilValue(searchModalState);
+    const showModal = useAtomValue(searchModalState);
 
     return (
         <>
