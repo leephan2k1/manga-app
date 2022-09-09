@@ -1,11 +1,11 @@
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
 import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
 import { followModal } from '~/atoms/followModaAtom';
@@ -73,7 +73,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
 
     //Data States
     const [src, setSrc] = useRecoilState(mangaSrc);
-    const setSourceAvailable = useSetRecoilState(mangaSources);
+    const setSourceAvailable = useSetAtom(mangaSources);
     const [chapters, setChapters] = useState<Chapter[]>(
         comic?.chapters?.chapters_list[0].chapters || [],
     );

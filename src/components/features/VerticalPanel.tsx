@@ -1,8 +1,9 @@
 import LogoSVG from '/public/images/torii-gate-japan.svg';
+import { useAtomValue } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { memo, MouseEvent, useRef, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
@@ -35,7 +36,7 @@ function SettingsSide({ handleClose }: SettingsSideProps) {
     const setSrc = useSetRecoilState(mangaSrc);
     const multipleSources = useMultipleSources();
     const [isHovering, setIsHovering] = useState(false);
-    const availableSource = useRecoilValue(mangaSources);
+    const availableSource = useAtomValue(mangaSources);
     const sideSettingsRef = useRef<HTMLDivElement>(null);
 
     const handleCloseSideSettings = () => {

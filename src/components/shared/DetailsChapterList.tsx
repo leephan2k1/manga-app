@@ -2,6 +2,7 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
 import classNames from 'classnames';
+import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ComponentType, memo, useEffect, useRef, useState } from 'react';
@@ -68,7 +69,7 @@ function DetailsChapterList({
     const virtuoso = useRef(null);
     const { params } = router.query;
     const src = useRecoilValue(mangaSrc);
-    const availableSource = useRecoilValue(mangaSources);
+    const availableSource = useAtomValue(mangaSources);
     const [list, setList] = useState<Chapter[]>(chapterList);
 
     useEffect(() => {
