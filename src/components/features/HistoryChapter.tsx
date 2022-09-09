@@ -1,13 +1,13 @@
-import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
-import { Fragment, memo, useState, useEffect } from 'react';
+import { Fragment, memo, useEffect, useState } from 'react';
 import { useEffectOnce } from 'usehooks-ts';
 import useMultipleSources from '~/context/SourcesContext';
 import useChapter from '~/hooks/useChapters';
-import { axiosClientV2 } from '~/services/axiosClient';
-import { motion } from 'framer-motion';
+
+import { Dialog, Transition } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 function ReadingHistoryModal() {
     const router = useRouter();
@@ -103,13 +103,6 @@ function ReadingHistoryModal() {
 
                 if (currentChapter) {
                     setModalState(true);
-
-                    await axiosClientV2.post('/chapters', {
-                        chapterSlug: currentChapter.chapterSlug,
-                        source: currentChapter.source,
-                        comicName: multipleSources?.chaptersDetail.comicName,
-                        comicSlug: currentChapter.comicSlug,
-                    });
 
                     router.push(
                         `${currentChapter.source}/${currentChapter.chapterNumber}${currentChapter.chapterSlug}`,
