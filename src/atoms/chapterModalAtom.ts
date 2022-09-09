@@ -1,6 +1,3 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 
-export const chapterModal = atom({
-    key: 'chapterModalState',
-    default: false,
-});
+export const chapterModal = atom(false);

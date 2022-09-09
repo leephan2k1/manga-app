@@ -23,7 +23,7 @@ import SettingsModeModal from '~/components/features/SettingsModeModal';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import { NavigateDirection } from '~/types';
-
+import { useAtomValue } from 'jotai';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const VerticalReading = dynamic(
@@ -63,7 +63,7 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
     const lastScrollTop = useRef(0);
     const settings = useSettingsMode();
     const [currentPage, setCurrentPage] = useState(0);
-    const chapterModalState = useRecoilValue(chapterModal);
+    const chapterModalState = useAtomValue(chapterModal);
     const lastElemRef = useRef<HTMLDivElement | null>(null);
     const entry = useIntersectionObserver(lastElemRef, {});
     const settingsModalState = useRecoilValue(settingsModal);

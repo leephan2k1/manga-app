@@ -1,3 +1,4 @@
+import { useSetAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
@@ -19,7 +20,7 @@ import {
 export default function HorizontalSettings() {
     const read = useReading();
     const multipleSources = useMultipleSources();
-    const [_, setShowModal] = useRecoilState(chapterModal);
+    const setShowModal = useSetAtom(chapterModal);
     const [__, setSettingsModal] = useRecoilState(settingsModal);
 
     const router = useRouter();

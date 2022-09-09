@@ -1,5 +1,5 @@
+import { useAtom } from 'jotai';
 import { Fragment } from 'react';
-import { useRecoilState } from 'recoil';
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import DetailsChapterList from '~/components/shared/DetailsChapterList';
 import useMultipleSources from '~/context/SourcesContext';
@@ -9,7 +9,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 
 export default function ChapterModal() {
     const multipleSources = useMultipleSources();
-    const [showModal, setShowModal] = useRecoilState(chapterModal);
+    const [showModal, setShowModal] = useAtom(chapterModal);
 
     const handleCloseModal = () => {
         setShowModal(false);
