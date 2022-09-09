@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { mangaSrc } from '~/atoms/mangaSrcAtom';
-import { SourcesId } from '~/types';
-
 import { Listbox, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import { useSetAtom } from 'jotai';
+import { useEffect, useState } from 'react';
+import { mangaSrc } from '~/atoms/mangaSrcAtom';
+import { SourcesId } from '~/types';
 
 type Items = {
     title: string;
@@ -22,7 +21,7 @@ export default function ListBoxButton({
     listDropDown,
     defaultSelected,
 }: ListBoxButtonProps) {
-    const setSrc = useSetRecoilState(mangaSrc);
+    const setSrc = useSetAtom(mangaSrc);
     const [selectedSource, setSelectedSource] = useState(() => {
         return defaultSelected || listDropDown[0].title;
     });

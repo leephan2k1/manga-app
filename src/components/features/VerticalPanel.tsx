@@ -3,7 +3,6 @@ import { useAtomValue } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { memo, MouseEvent, useRef, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
@@ -11,7 +10,7 @@ import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import useMultipleSources from '~/context/SourcesContext';
 import { NavigateDirection, SourcesId } from '~/types';
-
+import { useSetAtom } from 'jotai';
 import {
     ArrowLeftIcon,
     ArrowLongLeftIcon,
@@ -33,7 +32,7 @@ function SettingsSide({ handleClose }: SettingsSideProps) {
     const router = useRouter();
     const { params } = router.query;
     const settings = useSettingsMode();
-    const setSrc = useSetRecoilState(mangaSrc);
+    const setSrc = useSetAtom(mangaSrc);
     const multipleSources = useMultipleSources();
     const [isHovering, setIsHovering] = useState(false);
     const availableSource = useAtomValue(mangaSources);

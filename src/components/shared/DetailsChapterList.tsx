@@ -1,5 +1,5 @@
-import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
+import 'tippy.js/dist/tippy.css';
 
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
@@ -7,7 +7,6 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ComponentType, memo, useEffect, useRef, useState } from 'react';
 import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
-import { useRecoilValue } from 'recoil';
 import { animateFill, followCursor } from 'tippy.js';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
@@ -68,7 +67,7 @@ function DetailsChapterList({
     const router = useRouter();
     const virtuoso = useRef(null);
     const { params } = router.query;
-    const src = useRecoilValue(mangaSrc);
+    const src = useAtomValue(mangaSrc);
     const availableSource = useAtomValue(mangaSources);
     const [list, setList] = useState<Chapter[]>(chapterList);
 

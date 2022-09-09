@@ -5,10 +5,9 @@ import {
     useEffect,
     useState,
 } from 'react';
-import { useRecoilValue } from 'recoil';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
 import { Chapter, ChapterDetails } from '~/types';
-
+import { useAtomValue } from 'jotai';
 interface SourcesContextProps {
     children: ReactNode;
     value: SourcesContextType;
@@ -32,7 +31,7 @@ export const SourcesContextProvider = ({
     const [currentChapters, setCurrentChapters] = useState(
         value.currentChapters,
     );
-    const src = useRecoilValue(mangaSrc);
+    const src = useAtomValue(mangaSrc);
 
     useEffect(() => {
         const matching = value.chaptersDetail.chapters_list.find(
