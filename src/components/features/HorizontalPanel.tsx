@@ -1,8 +1,6 @@
 import { useSetAtom } from 'jotai';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
-import { useRecoilState } from 'recoil';
 import { chapterModal } from '~/atoms/chapterModalAtom';
 import { settingsModal } from '~/atoms/settingsModalAtom';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
@@ -21,15 +19,7 @@ export default function HorizontalSettings() {
     const read = useReading();
     const multipleSources = useMultipleSources();
     const setShowModal = useSetAtom(chapterModal);
-    const [__, setSettingsModal] = useRecoilState(settingsModal);
-
-    const router = useRouter();
-
-    const handleBackToDetails = () => {
-        router.push(
-            `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${multipleSources?.chaptersDetail.comicSlug}`,
-        );
-    };
+    const setSettingsModal = useSetAtom(settingsModal);
 
     const handleOpenModal = () => {
         setShowModal(true);
@@ -51,9 +41,7 @@ export default function HorizontalSettings() {
                         href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${multipleSources?.chaptersDetail.comicSlug}`}
                     >
                         <a>
-                            <button onClick={handleBackToDetails}>
-                                <ArrowLongLeftIcon className="h-8 w-8" />
-                            </button>
+                            <ArrowLongLeftIcon className="h-8 w-8" />
                         </a>
                     </Link>
 

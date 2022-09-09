@@ -1,3 +1,4 @@
+import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 import {
     memo,
@@ -7,7 +8,6 @@ import {
     useRef,
     useState,
 } from 'react';
-import { useRecoilValue } from 'recoil';
 import { useTransition } from 'transition-hook';
 import {
     useElementSize,
@@ -23,7 +23,7 @@ import SettingsModeModal from '~/components/features/SettingsModeModal';
 import useReading from '~/context/ReadingContext';
 import useSettingsMode from '~/context/SettingsContext';
 import { NavigateDirection } from '~/types';
-import { useAtomValue } from 'jotai';
+
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const VerticalReading = dynamic(
@@ -66,7 +66,7 @@ function Reader({ sideSettingState, closeDesktopPanel }: ReaderProps) {
     const chapterModalState = useAtomValue(chapterModal);
     const lastElemRef = useRef<HTMLDivElement | null>(null);
     const entry = useIntersectionObserver(lastElemRef, {});
-    const settingsModalState = useRecoilValue(settingsModal);
+    const settingsModalState = useAtomValue(settingsModal);
     const matchesTouchScreen = useMediaQuery('(max-width: 1024px)');
     const { shouldMount } = useTransition(Boolean(settings?.show), 150);
     const [isScrollUp, setIsScrollUp] = useState(false);

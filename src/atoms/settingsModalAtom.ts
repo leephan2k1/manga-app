@@ -1,6 +1,3 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 
-export const settingsModal = atom({
-    key: 'settingsModalState',
-    default: false,
-});
+export const settingsModal = atom(false);

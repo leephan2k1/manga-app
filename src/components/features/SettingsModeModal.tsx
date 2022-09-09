@@ -1,14 +1,13 @@
+import { useAtom } from 'jotai';
 import { Fragment } from 'react';
-import { useRecoilState } from 'recoil';
 import { settingsModal } from '~/atoms/settingsModalAtom';
+import Toggle from '~/components/buttons/ToggleButton';
 import ListBox from '~/components/shared/ListBox';
 import useSettingsMode from '~/context/SettingsContext';
 import convertMode from '~/utils/modeConverter';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-
-import Toggle from '~/components/buttons/ToggleButton';
 
 interface SettingsModeModalProps {
     handleConfig: (value: string) => void;
@@ -17,7 +16,7 @@ interface SettingsModeModalProps {
 export default function SettingsModeModal({
     handleConfig,
 }: SettingsModeModalProps) {
-    const [modalState, setModalState] = useRecoilState(settingsModal);
+    const [modalState, setModalState] = useAtom(settingsModal);
     const settings = useSettingsMode();
 
     const handleCloseModal = () => {
