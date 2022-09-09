@@ -10,7 +10,6 @@ import { pageview, GA_TRACKING_ID } from '~/utils/gtag';
 import Script from 'next/script';
 import NProgress from 'nprogress';
 import { ReactElement, ReactNode, useState, useEffect } from 'react';
-import { RecoilRoot } from 'recoil';
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts';
 import MainLayout from '~/components/layouts/MainLayout';
 import NotificationObserver from '~/components/shared/NotificationObserver';
@@ -105,13 +104,11 @@ function MyApp({
 
             <SessionProvider session={session} refetchInterval={5 * 60}>
                 <JotaiProvider>
-                    <RecoilRoot>
-                        <SubscriptionContextProvider value={subscription}>
-                            <NotificationObserver>
-                                {getLayout(<Component {...pageProps} />)}
-                            </NotificationObserver>
-                        </SubscriptionContextProvider>
-                    </RecoilRoot>
+                    <SubscriptionContextProvider value={subscription}>
+                        <NotificationObserver>
+                            {getLayout(<Component {...pageProps} />)}
+                        </NotificationObserver>
+                    </SubscriptionContextProvider>
                 </JotaiProvider>
             </SessionProvider>
         </>
