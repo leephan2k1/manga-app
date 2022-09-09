@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, memo } from 'react';
 import { useSwiper } from 'swiper/react';
 import { SOURCE_COLLECTIONS } from '~/constants';
 // import { baseURL } from '~/services/axiosClient';
@@ -13,13 +13,9 @@ interface SwiperCardProps {
     childStyle?: string;
 }
 
-const url = SOURCE_COLLECTIONS['nt'];
+const url = SOURCE_COLLECTIONS['NTC'];
 
-export default function SwiperCard({
-    imgSrc,
-    style,
-    childStyle,
-}: SwiperCardProps) {
+function SwiperCard({ imgSrc, style, childStyle }: SwiperCardProps) {
     const cardRef = useRef<HTMLDivElement | null>(null);
     const swiper = useSwiper();
     const [triggerEffect, setTriggerEffect] = useState(false);
@@ -56,3 +52,5 @@ export default function SwiperCard({
         </div>
     );
 }
+
+export default memo(SwiperCard);

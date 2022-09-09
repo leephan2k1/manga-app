@@ -3,7 +3,7 @@ import { motion, useAnimationControls } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import NProgress from 'nprogress';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {
     COMIC_GENRES,
@@ -34,9 +34,9 @@ const animationVariants = {
     hidden: { opacity: 0 },
 };
 
-const url = SOURCE_COLLECTIONS['nt'];
+const url = SOURCE_COLLECTIONS['NTC'];
 
-export default function Card({ details, comic, isLoading }: CardProps) {
+function Card({ details, comic, isLoading }: CardProps) {
     const [loaded, setLoaded] = useState(false);
     const controls = useAnimationControls();
 
@@ -366,3 +366,4 @@ export default function Card({ details, comic, isLoading }: CardProps) {
         </div>
     );
 }
+export default memo(Card);

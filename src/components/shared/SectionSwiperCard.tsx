@@ -26,7 +26,7 @@ interface SectionSwiperCardProps {
     manga?: Comic;
 }
 
-const url = SOURCE_COLLECTIONS['nt'];
+const url = SOURCE_COLLECTIONS['NTC'];
 
 function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
     const chapters = useChapters();
