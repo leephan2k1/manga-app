@@ -12,11 +12,10 @@ import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
 import { MANGA_PATH_NAME, MANGA_PATH_READ_NAME } from '~/constants';
 import { Chapter, ChapterDetails } from '~/types';
-
+import Link from 'next/link';
 import styled from '@emotion/styled';
 import { BookOpenIcon, DocumentTextIcon } from '@heroicons/react/24/solid';
 
-import ChapterButton from '../buttons/ChapterButton';
 import ChapterInput from './ChapterInput';
 import LazyTippy from './LazyTippy';
 
@@ -137,53 +136,47 @@ function DetailsChapterList({
                                 totalCount={list.length}
                                 itemContent={(index) => (
                                     <div className="animate__fadeIn animate__animated m-2 overflow-hidden text-white">
-                                        <ChapterButton
-                                            style="h-full w-full"
-                                            path={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${src}/${list[index].chapterNumber}/${list[index].chapterSlug}`}
-                                            payload={{
-                                                chapterSlug: String(
-                                                    list[index]?.chapterSlug,
-                                                ),
-                                                comicName:
-                                                    chapterInfo.comicName,
-                                                comicSlug:
-                                                    chapterInfo.comicSlug,
-                                                source: src,
-                                            }}
+                                        <Link
+                                            href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${src}/${list[index].chapterNumber}/${list[index].chapterSlug}`}
                                         >
-                                            <div
-                                                className={`${
-                                                    highlightCurrentChapter &&
-                                                    params &&
-                                                    params[1] ===
-                                                        list[index]
-                                                            .chapterNumber
-                                                        ? 'bg-primary'
-                                                        : 'bg-deep-black'
-                                                } flex h-[30px] items-center justify-between rounded-lg`}
-                                            >
-                                                <div className="flex w-[30%] min-w-max items-center">
-                                                    <DocumentTextIcon className="mx-4 h-4 w-4" />
-
-                                                    <span
-                                                        className={classNames(
-                                                            `inline-block  overflow-hidden text-left text-lg font-bold line-clamp-1 hover:text-white`,
-                                                            `max-w-[${maxWTitleMobile}px]`,
-                                                        )}
-                                                    >
-                                                        {
+                                            <a className="full-size">
+                                                <div
+                                                    className={`${
+                                                        highlightCurrentChapter &&
+                                                        params &&
+                                                        params[1] ===
                                                             list[index]
-                                                                ?.chapterTitle
-                                                        }
-                                                    </span>
+                                                                .chapterNumber
+                                                            ? 'bg-primary'
+                                                            : 'bg-deep-black'
+                                                    } flex h-[30px] items-center justify-between rounded-lg`}
+                                                >
+                                                    <div className="flex w-[30%] min-w-max items-center">
+                                                        <DocumentTextIcon className="mx-4 h-4 w-4" />
+
+                                                        <span
+                                                            className={classNames(
+                                                                `inline-block  overflow-hidden text-left text-lg font-bold line-clamp-1 hover:text-white`,
+                                                                `max-w-[${maxWTitleMobile}px]`,
+                                                            )}
+                                                        >
+                                                            {
+                                                                list[index]
+                                                                    ?.chapterTitle
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex items-center px-4">
+                                                        <span className="whitespace-nowrap text-lg font-extralight text-gray-300">
+                                                            {
+                                                                list[index]
+                                                                    ?.updatedAt
+                                                            }
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <div className="flex items-center px-4">
-                                                    <span className="whitespace-nowrap text-lg font-extralight text-gray-300">
-                                                        {list[index]?.updatedAt}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </ChapterButton>
+                                            </a>
+                                        </Link>
                                     </div>
                                 )}
                             />
@@ -209,7 +202,56 @@ function DetailsChapterList({
                                                 key={list[index]._id || index}
                                                 className="h-ful  animate__fadeIn animate__animated w-full text-white"
                                             >
-                                                <ChapterButton
+                                                <Link
+                                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${src}/${list[index].chapterNumber}/${list[index].chapterSlug}`}
+                                                >
+                                                    <a>
+                                                        <LazyTippy
+                                                            content={
+                                                                list[index]
+                                                                    .chapterTitle
+                                                            }
+                                                            animation={'scale'}
+                                                            interactiveBorder={
+                                                                20
+                                                            }
+                                                            followCursor={true}
+                                                            animateFill={true}
+                                                            plugins={[
+                                                                followCursor,
+                                                                animateFill,
+                                                            ]}
+                                                        >
+                                                            <div
+                                                                className={`bubble-top-left-to-bottom-right
+                                                           flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
+                                                            >
+                                                                <div className="flex w-[30%] min-w-max items-center   md:justify-between md:px-4">
+                                                                    <span className="max-w-[200px] text-left text-lg font-bold line-clamp-1 hover:text-white md:max-w-[140px] md:text-xl  lg:max-w-[160px] lg:text-2xl">
+                                                                        {
+                                                                            list[
+                                                                                index
+                                                                            ]
+                                                                                .chapterTitle
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                                <div className="flex items-center px-4 md:w-full md:justify-between">
+                                                                    <span className="text-lg font-extralight text-gray-300 md:text-2xl">
+                                                                        {
+                                                                            list[
+                                                                                index
+                                                                            ]
+                                                                                .updatedAt
+                                                                        }
+                                                                    </span>
+                                                                    <BookOpenIcon className="lg:min-w-14 md:h-10 md:w-10 lg:h-10 lg:w-14" />
+                                                                </div>
+                                                            </div>
+                                                        </LazyTippy>
+                                                    </a>
+                                                </Link>
+                                                {/* <ChapterButton
                                                     style="h-full w-full"
                                                     path={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${src}/${list[index].chapterNumber}/${list[index].chapterSlug}`}
                                                     payload={{
@@ -224,48 +266,8 @@ function DetailsChapterList({
                                                         source: src,
                                                     }}
                                                 >
-                                                    <LazyTippy
-                                                        content={
-                                                            list[index]
-                                                                .chapterTitle
-                                                        }
-                                                        animation={'scale'}
-                                                        interactiveBorder={20}
-                                                        followCursor={true}
-                                                        animateFill={true}
-                                                        plugins={[
-                                                            followCursor,
-                                                            animateFill,
-                                                        ]}
-                                                    >
-                                                        <div
-                                                            className={`bubble-top-left-to-bottom-right
-                                                           flex h-[30px] items-center justify-between rounded-lg bg-deep-black  md:h-[100px] md:flex-col md:items-start md:justify-center md:space-y-4`}
-                                                        >
-                                                            <div className="flex w-[30%] min-w-max items-center   md:justify-between md:px-4">
-                                                                <span className="max-w-[200px] text-left text-lg font-bold line-clamp-1 hover:text-white md:max-w-[140px] md:text-xl  lg:max-w-[160px] lg:text-2xl">
-                                                                    {
-                                                                        list[
-                                                                            index
-                                                                        ]
-                                                                            .chapterTitle
-                                                                    }
-                                                                </span>
-                                                            </div>
-                                                            <div className="flex items-center px-4 md:w-full md:justify-between">
-                                                                <span className="text-lg font-extralight text-gray-300 md:text-2xl">
-                                                                    {
-                                                                        list[
-                                                                            index
-                                                                        ]
-                                                                            .updatedAt
-                                                                    }
-                                                                </span>
-                                                                <BookOpenIcon className="lg:min-w-14 md:h-10 md:w-10 lg:h-10 lg:w-14" />
-                                                            </div>
-                                                        </div>
-                                                    </LazyTippy>
-                                                </ChapterButton>
+
+                                                </ChapterButton> */}
                                             </div>
                                         )}
                                     />

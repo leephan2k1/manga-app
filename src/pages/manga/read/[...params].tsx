@@ -21,7 +21,6 @@ import { SettingsContextProvider } from '~/context/SettingsContext';
 import { SourcesContextProvider } from '~/context/SourcesContext';
 import Page from '~/serverless/models/Page.model';
 import Chapter from '~/serverless/models/Chapter.model';
-import { axiosClientV2 } from '~/services/axiosClient';
 import {
     ChapterDetails,
     NavigateDirection,
@@ -29,7 +28,7 @@ import {
     ReadModeSettings,
 } from '~/types';
 import proxyObserver from '~/utils/proxyObserver';
-
+import { axiosClientV2 } from '~/services/axiosClient';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const SettingsModal = dynamic(
@@ -108,13 +107,13 @@ const ReadPage: NextPage<ReadPageProps> = ({ pagesDetail, chaptersDetail }) => {
 
                         NProgress.start();
 
-                        await axiosClientV2.post('/chapters', {
-                            chapterSlug:
-                                currentChapters?.chapters[index].chapterSlug,
-                            source: params[0],
-                            comicName: chaptersDetail.comicName,
-                            comicSlug: chaptersDetail.comicSlug,
-                        });
+                        // await axiosClientV2.post('/chapters', {
+                        //     chapterSlug:
+                        //         currentChapters?.chapters[index].chapterSlug,
+                        //     source: params[0],
+                        //     comicName: chaptersDetail.comicName,
+                        //     comicSlug: chaptersDetail.comicSlug,
+                        // });
 
                         router.replace(
                             `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${currentChapters?.chapters[index].chapterNumber}/${currentChapters?.chapters[index].chapterSlug}`,
@@ -137,13 +136,13 @@ const ReadPage: NextPage<ReadPageProps> = ({ pagesDetail, chaptersDetail }) => {
 
                         NProgress.start();
 
-                        await axiosClientV2.post('/chapters', {
-                            chapterSlug:
-                                currentChapters?.chapters[index].chapterSlug,
-                            source: params[0],
-                            comicName: chaptersDetail.comicName,
-                            comicSlug: chaptersDetail.comicSlug,
-                        });
+                        // await axiosClientV2.post('/chapters', {
+                        //     chapterSlug:
+                        //         currentChapters?.chapters[index].chapterSlug,
+                        //     source: params[0],
+                        //     comicName: chaptersDetail.comicName,
+                        //     comicSlug: chaptersDetail.comicSlug,
+                        // });
 
                         router.replace(
                             `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params[0]}/${currentChapters?.chapters[index].chapterNumber}/${currentChapters?.chapters[index].chapterSlug}`,
@@ -331,31 +330,65 @@ export const getServerSideProps: GetServerSideProps = async ({
 
     const { params } = query;
 
-    if (Array.isArray(params)) {
-        const chapterSlug = `/${params.slice(2).join('/')}`;
-        const pages = await Page.findOne({ chapterSlug }).populate('chapter');
+    try {
+        if (Array.isArray(params)) {
+            const chapterSlug = `/${params.slice(2).join('/')}`;
+            const pages = await Page.findOne({ chapterSlug }).populate(
+                'chapter',
+            );
 
-        if (!pages) {
-            return { notFound: true };
+            let chapter = pages?.chapter;
+
+            //create new pages
+            if (!pages) {
+                const source = params[0];
+
+                const fallbackPages = await (
+                    await axiosClientV2.post('/chapters', {
+                        source,
+                        chapterSlug,
+                    })
+                ).data;
+
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                if (!fallbackPages?.pages && !fallbackPages?.chapter)
+                    return { notFound: true };
+
+                return {
+                    props: {
+                        pagesDetail: JSON.parse(
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            //@ts-ignore
+                            JSON.stringify(fallbackPages?.pages),
+                        ),
+                        chaptersDetail: JSON.parse(
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            //@ts-ignore
+                            JSON.stringify(fallbackPages?.chapter),
+                        ),
+                    },
+                };
+            }
+
+            //fallback
+            if (!chapter) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                chapter = await Chapter.findOne({
+                    comicName: pages?.comicName,
+                });
+            }
+
+            return {
+                props: {
+                    pagesDetail: JSON.parse(JSON.stringify(pages)),
+                    chaptersDetail: JSON.parse(JSON.stringify(chapter)),
+                },
+            };
         }
-
-        let chapter = pages?.chapter;
-
-        //fallback
-        if (!chapter) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            chapter = await Chapter.findOne({
-                comicName: pages?.comicName,
-            });
-        }
-
-        return {
-            props: {
-                pagesDetail: JSON.parse(JSON.stringify(pages)),
-                chaptersDetail: JSON.parse(JSON.stringify(chapter)),
-            },
-        };
+    } catch (error) {
+        return { notFound: true };
     }
 };
 

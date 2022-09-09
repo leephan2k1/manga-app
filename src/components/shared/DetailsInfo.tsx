@@ -8,7 +8,6 @@ import { memo, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import Skeleton from 'react-loading-skeleton';
 import { followModal } from '~/atoms/followModaAtom';
-import ChapterButton from '~/components/buttons/ChapterButton';
 import {
     MANGA_BROWSE_PAGE,
     MANGA_PATH_NAME,
@@ -298,14 +297,8 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
                     <div className="my-6 flex h-[150px] w-full flex-col items-center gap-6 md:my-0 md:flex-row md:items-start">
                         {chapters ? (
                             <>
-                                <ChapterButton
-                                    path={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/NTC/${firstChapterNumber}/${firstChapterSlug}`}
-                                    payload={{
-                                        chapterSlug: String(firstChapterSlug),
-                                        comicName: manga.name,
-                                        comicSlug: manga.slug,
-                                        source: 'NTC',
-                                    }}
+                                <Link
+                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/NTC/${firstChapterNumber}/${firstChapterSlug}`}
                                 >
                                     <a>
                                         <button className="pulse-effect-primary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-primary transition-all hover:scale-[110%]">
@@ -313,16 +306,10 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
                                             Đọc ngay
                                         </button>
                                     </a>
-                                </ChapterButton>
+                                </Link>
 
-                                <ChapterButton
-                                    path={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/NTC/${latestChapterNumber}/${latestChapterSlug}`}
-                                    payload={{
-                                        chapterSlug: String(latestChapterSlug),
-                                        comicName: manga.name,
-                                        comicSlug: manga.slug,
-                                        source: 'NTC',
-                                    }}
+                                <Link
+                                    href={`/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/NTC/${latestChapterNumber}/${latestChapterSlug}`}
                                 >
                                     <a>
                                         <button className="pulse-effect-secondary absolute-center h-[50px] w-[150px] gap-3 rounded-2xl bg-white text-gray-800 transition-all hover:scale-[110%]">
@@ -330,7 +317,7 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
                                             Chap mới nhất
                                         </button>
                                     </a>
-                                </ChapterButton>
+                                </Link>
                             </>
                         ) : (
                             <>
