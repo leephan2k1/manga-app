@@ -1,18 +1,18 @@
-import LogoSVG from '/public/images/torii-gate-japan.svg';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useState } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
-import { useRecoilState } from 'recoil';
 import { sidebarState } from '~/atoms/sidebarAtom';
 import {
-    MANGA_BROWSE_PAGE,
     MangaGenresPreview,
     MangaTypesPreview,
+    MANGA_BROWSE_PAGE,
 } from '~/constants';
+import LogoSVG from '/public/images/torii-gate-japan.svg';
 
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
+import { useSetAtom } from 'jotai';
 import TextLogo from '../icons/TextLogo';
 import DropDown from '../shared/DropDown';
 import HeaderSearch from './HeaderSearch';
@@ -25,7 +25,7 @@ interface HeaderProps {
 export default function Header({ style }: HeaderProps) {
     const [isOpenMangaTypes, setIsOpenMangaTypes] = useState(false);
     const [isOpenMangaGenres, setIsOpenMangaGenres] = useState(false);
-    const [_, setSidebarState] = useRecoilState(sidebarState);
+    const setSidebarState = useSetAtom(sidebarState);
 
     const handleOpenSidebar = () => {
         setSidebarState(true);

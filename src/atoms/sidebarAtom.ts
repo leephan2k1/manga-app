@@ -1,6 +1,3 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 
-export const sidebarState = atom({
-    key: 'sidebar',
-    default: false,
-});
+export const sidebarState = atom(false);

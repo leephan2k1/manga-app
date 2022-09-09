@@ -1,7 +1,7 @@
 import LogoSVG from '/public/images/torii-gate-japan.svg';
+import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRef } from 'react';
-import { useRecoilState } from 'recoil';
 import { sidebarState } from '~/atoms/sidebarAtom';
 import {
     MANGA_BROWSE_PAGE,
@@ -20,7 +20,7 @@ import {
 import TextLogo from '../icons/TextLogo';
 
 export default function Sidebar() {
-    const [showSidebar, setShowSidebar] = useRecoilState(sidebarState);
+    const [showSidebar, setShowSidebar] = useAtom(sidebarState);
 
     //prevent sidebar close before adding effects
     const sidebarRef = useRef<HTMLDivElement>(null);
