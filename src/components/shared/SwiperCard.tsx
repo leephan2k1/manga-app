@@ -3,8 +3,9 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useSwiper } from 'swiper/react';
 import { SOURCE_COLLECTIONS } from '~/constants';
-import { baseURL } from '~/services/axiosClient';
+// import { baseURL } from '~/services/axiosClient';
 import { isExactMatch } from '~/utils/stringHandler';
+import { PROXY_SERVER } from '~/constants';
 
 interface SwiperCardProps {
     imgSrc: string;
@@ -47,7 +48,7 @@ export default function SwiperCard({
                     src={
                         isExactMatch(imgSrc, 'res.cloudinary.com')
                             ? imgSrc
-                            : `${baseURL}/proxy?url=${url}&src=${imgSrc}`
+                            : `${PROXY_SERVER}/proxy?url=${url}&src=${imgSrc}`
                     }
                     layout="fill"
                 />

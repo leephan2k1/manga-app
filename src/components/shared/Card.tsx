@@ -11,10 +11,11 @@ import {
     MANGA_BROWSE_PAGE,
     MANGA_PATH_DETAILS_NAME,
     MANGA_PATH_NAME,
+    PROXY_SERVER,
     SOURCE_COLLECTIONS,
     TailwindColors,
 } from '~/constants';
-import { baseURL } from '~/services/axiosClient';
+// import { baseURL } from '~/services/axiosClient';
 import { Manga } from '~/types';
 import { randomColors } from '~/utils/randomColors';
 
@@ -78,7 +79,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                         alt="manga-thumbnail"
                                         layout="fill"
                                         className="absolute inset-0 rounded-xl object-cover object-center"
-                                        src={`${baseURL}/proxy?url=${url}&src=${comic?.thumbnail}`}
+                                        src={`${PROXY_SERVER}/proxy?url=${url}&src=${comic?.thumbnail}`}
                                         onLoad={() => setLoaded(true)}
                                     />
                                 </Link>
@@ -211,7 +212,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                         alt="manga-thumbnail"
                                         layout="fill"
                                         className="absolute inset-0 rounded-xl object-cover object-center"
-                                        src={`${baseURL}/proxy?url=${url}&src=${comic?.thumbnail}`}
+                                        src={`${PROXY_SERVER}/proxy?url=${url}&src=${comic?.thumbnail}`}
                                         onLoad={() => setLoaded(true)}
                                     />
                                 </Link>
@@ -342,7 +343,7 @@ export default function Card({ details, comic, isLoading }: CardProps) {
                                     alt="manga-thumbnail"
                                     layout="fill"
                                     className="absolute inset-0 rounded-xl object-cover object-center"
-                                    src={`${baseURL}/proxy?url=${url}&src=${comic?.thumbnail}`}
+                                    src={`${PROXY_SERVER}/proxy?url=${url}&src=${comic?.thumbnail}`}
                                     onLoad={() => setLoaded(true)}
                                 />
                             </Link>

@@ -17,12 +17,7 @@ export const MANGA_PATH_FOLLOW = 'follows';
 
 export const DEFAULT_SRC: SourcesId = 'NTC';
 
-/*
-used in context/SourcesContext.tsx, manga/details/[slug].tsx
-This factor is used to compare chapters between different sources
-If 2 sources have deviant  5 chapters. The new source will be not add
-*/
-export const COMPARISON_CHAPTERS_FACTOR = 5;
+export const PROXY_SERVER = process.env.NEXT_PUBLIC_PROXY_SERVER;
 
 export const WEBSITE_URL = 'https://kyotomanga.live';
 

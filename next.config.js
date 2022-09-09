@@ -23,6 +23,7 @@ module.exports = {
             'animanlab.online',
             'res.cloudinary.com',
             'cdn.myanimelist.net',
+            'fastify-stream-proxy-production.up.railway.app',
         ],
         minimumCacheTTL: 24 * 60 * 60 * 7,
     },

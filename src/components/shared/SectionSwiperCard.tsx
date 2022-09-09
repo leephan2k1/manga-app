@@ -1,17 +1,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import NProgress from 'nprogress';
 import { memo, MouseEvent, useState } from 'react';
 import { BiGlasses } from 'react-icons/bi';
 import { useMediaQuery } from 'usehooks-ts';
+import ImageWraper from '~/components/shared/ImageWrapper';
 import {
     MANGA_PATH_DETAILS_NAME,
     MANGA_PATH_NAME,
+    PROXY_SERVER,
     SOURCE_COLLECTIONS,
 } from '~/constants';
 import useChapters from '~/hooks/useChapters';
-import { baseURL } from '~/services/axiosClient';
+// import { baseURL } from '~/services/axiosClient';
 import { Comic } from '~/types';
-import NProgress from 'nprogress';
 
 import {
     ClipboardIcon,
@@ -19,7 +21,6 @@ import {
     InformationCircleIcon,
     SignalIcon,
 } from '@heroicons/react/24/outline';
-import ImageWraper from '~/components/shared/ImageWrapper';
 
 interface SectionSwiperCardProps {
     manga?: Comic;
@@ -69,7 +70,7 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                     priority
                                     className="fancy-fade-in absolute inset-0 rounded-xl object-cover object-center"
                                     alt="manga-thumbnail"
-                                    src={`${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`}
+                                    src={`${PROXY_SERVER}/proxy?url=${url}&src=${manga.thumbnail}`}
                                     layout="fill"
                                 />
                             </ImageWraper>
