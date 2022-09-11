@@ -20,6 +20,7 @@ import { Comic } from '~/types';
 import { calculateSeason } from '~/utils/calculateSeason';
 import shuffle from '~/utils/randomArray';
 import ClientOnly from '~/components/shared/ClientOnly';
+import LazyLoad from 'react-lazyload';
 
 interface HomeProps {
     topAllManga: Comic[];
@@ -120,89 +121,101 @@ const Home: NextPage<HomeProps> = ({
                     <SectionSwiper mangaList={comicsNewUpdated?.comics} />
                 </Section>
 
-                <Section
-                    title={showRecommendedComics ? 'Cộng Đồng Bình Chọn' : ''}
-                    arrowTrendingUp
-                    style="h-fit w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden text-white"
-                >
-                    {!showRecommendedComics && (
-                        <div className="absolute-center h-28 w-full ">
-                            <motion.div
-                                initial={{ scale: 0.8 }}
-                                animate={{ scale: 1 }}
-                                exit={{ scale: 0.8 }}
-                                transition={{
-                                    type: 'spring',
-                                    stiffness: 55,
-                                }}
-                                className="absolute-center h-4/5 w-[65%] rounded-lg border-2 border-white/40 px-4 md:w-96"
-                            >
-                                <h4 className="whitespace-nowrap">
-                                    Hiển thị bình chọn
-                                </h4>
-                                <ToggleButton
-                                    handleToggle={
-                                        handleToggleShowRecommendedComics
-                                    }
-                                />
-                            </motion.div>
+                <LazyLoad>
+                    <Section
+                        title={
+                            showRecommendedComics ? 'Cộng Đồng Bình Chọn' : ''
+                        }
+                        arrowTrendingUp
+                        style="h-fit w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden text-white"
+                    >
+                        {!showRecommendedComics && (
+                            <div className="absolute-center h-28 w-full ">
+                                <motion.div
+                                    initial={{ scale: 0.8 }}
+                                    animate={{ scale: 1 }}
+                                    exit={{ scale: 0.8 }}
+                                    transition={{
+                                        type: 'spring',
+                                        stiffness: 55,
+                                    }}
+                                    className="absolute-center h-4/5 w-[65%] rounded-lg border-2 border-white/40 px-4 md:w-96"
+                                >
+                                    <h4 className="whitespace-nowrap">
+                                        Hiển thị bình chọn
+                                    </h4>
+                                    <ToggleButton
+                                        handleToggle={
+                                            handleToggleShowRecommendedComics
+                                        }
+                                    />
+                                </motion.div>
+                            </div>
+                        )}
+
+                        {showRecommendedComics && (
+                            <RecommendedComics
+                                comics={recommendedComics}
+                                handleShowSection={
+                                    handleToggleShowRecommendedComics
+                                }
+                            />
+                        )}
+                    </Section>
+                </LazyLoad>
+
+                <LazyLoad>
+                    <Section
+                        title={`Comics Mùa ${calculateSeason()}`}
+                        style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden"
+                    >
+                        <SeasonalComics comics={seasonalComics} />
+                    </Section>
+                </LazyLoad>
+
+                <LazyLoad>
+                    <Section style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden">
+                        <RandomComics />
+                    </Section>
+                </LazyLoad>
+
+                <LazyLoad>
+                    <Section style="w-[90%] mx-auto min-w-[333px] w-max-[1300px] mt-6 overflow-x-hidden">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                            <ColumnSection
+                                mangaList={[...topAllManga].slice(0, 5)}
+                                title="Manga nổi bật nhất"
+                                link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=all`}
+                            />
+                            <ColumnSection
+                                mangaList={[...topMonthManga].slice(0, 5)}
+                                title="Manga nổi bật tháng"
+                                link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=month`}
+                            />
+                            <ColumnSection
+                                mangaList={[...topWeekManga].slice(0, 5)}
+                                title="Manga nổi bật tuần"
+                                link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=week`}
+                            />
+                            <ColumnSection
+                                mangaList={[...topDayManga].slice(0, 5)}
+                                title="Manga nổi bật ngày"
+                                link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=day`}
+                            />
                         </div>
-                    )}
+                    </Section>
+                </LazyLoad>
 
-                    {showRecommendedComics && (
-                        <RecommendedComics
-                            comics={recommendedComics}
-                            handleShowSection={
-                                handleToggleShowRecommendedComics
-                            }
-                        />
-                    )}
-                </Section>
-
-                <Section
-                    title={`Comics Mùa ${calculateSeason()}`}
-                    style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden"
-                >
-                    <SeasonalComics comics={seasonalComics} />
-                </Section>
-
-                <Section style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden">
-                    <RandomComics />
-                </Section>
-
-                <Section style="w-[90%] mx-auto min-w-[333px] w-max-[1300px] mt-6 overflow-x-hidden">
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                        <ColumnSection
-                            mangaList={[...topAllManga].slice(0, 5)}
-                            title="Manga nổi bật nhất"
-                            link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=all`}
-                        />
-                        <ColumnSection
-                            mangaList={[...topMonthManga].slice(0, 5)}
-                            title="Manga nổi bật tháng"
-                            link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=month`}
-                        />
-                        <ColumnSection
-                            mangaList={[...topWeekManga].slice(0, 5)}
-                            title="Manga nổi bật tuần"
-                            link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=week`}
-                        />
-                        <ColumnSection
-                            mangaList={[...topDayManga].slice(0, 5)}
-                            title="Manga nổi bật ngày"
-                            link={`/${MANGA_BROWSE_PAGE}?comics=manga-112&view=day`}
-                        />
-                    </div>
-                </Section>
-
-                <Section
-                    link={`/${MANGA_BROWSE_PAGE}?view=new`}
-                    title="Truyện mới"
-                    style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
-                    linkHints={true}
-                >
-                    <SectionSwiper mangaList={comicsNewRelease?.comics} />
-                </Section>
+                <LazyLoad>
+                    <Section
+                        link={`/${MANGA_BROWSE_PAGE}?view=new`}
+                        title="Truyện mới"
+                        style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
+                        linkHints={true}
+                    >
+                        <SectionSwiper mangaList={comicsNewRelease?.comics} />
+                    </Section>
+                </LazyLoad>
             </div>
         </>
     );
