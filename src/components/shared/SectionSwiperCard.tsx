@@ -68,7 +68,7 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                             <ImageWraper>
                                 <Image
                                     priority
-                                    className="fancy-fade-in absolute inset-0 rounded-xl object-cover object-center"
+                                    className="fancy-fade-in absolute top-0 left-0 rounded-xl object-cover object-center"
                                     alt="manga-thumbnail"
                                     src={`${PROXY_SERVER}/proxy?url=${url}&src=${manga.thumbnail}`}
                                     layout="fill"

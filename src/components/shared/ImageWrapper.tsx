@@ -24,7 +24,7 @@ export default function ImageWrapper({ children }: ImageWrapperProps) {
     return (
         <AnimatePresence exitBeforeEnter>
             <motion.div
-                className="full-size"
+                className="full-size relative"
                 variants={variants}
                 animate="animate"
                 exit="exit"

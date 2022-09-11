@@ -1,26 +1,46 @@
 import { motion } from 'framer-motion';
-import type { NextPage } from 'next';
 import { GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import LazyLoad from 'react-lazy-load';
 import useSWR from 'swr';
 import ToggleButton from '~/components/buttons/ToggleButton';
 import RandomComics from '~/components/features/RandomComics';
-import RecommendedComics from '~/components/features/RecommendedComics';
 import MangaBanner from '~/components/shared/Banner';
+import ClientOnly from '~/components/shared/ClientOnly';
 import ColumnSection from '~/components/shared/ColumnSection';
 import Head from '~/components/shared/Head';
-import SeasonalComics from '~/components/shared/SeasonalComics';
 import Section from '~/components/shared/Section';
-import SectionSwiper from '~/components/shared/SectionSwiper';
 import { MANGA_BROWSE_PAGE, REVALIDATE_TIME } from '~/constants';
 import { connectToDatabase } from '~/serverless/utils/connectdbData';
 import { axiosClientV2 } from '~/services/axiosClient';
 import { Comic } from '~/types';
 import { calculateSeason } from '~/utils/calculateSeason';
 import shuffle from '~/utils/randomArray';
-import ClientOnly from '~/components/shared/ClientOnly';
-import LazyLoad from 'react-lazy-load';
+
+import type { NextPage } from 'next';
+
+const RecommendedComics = dynamic(
+    () =>
+        import('~/components/features/RecommendedComics', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+
+const SectionSwiper = dynamic(
+    () =>
+        import('~/components/shared/SectionSwiper', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+
+const SeasonalComics = dynamic(
+    () =>
+        import('~/components/shared/SeasonalComics', {
+            ssr: false,
+        } as ImportCallOptions),
+);
 
 interface HomeProps {
     topAllManga: Comic[];
