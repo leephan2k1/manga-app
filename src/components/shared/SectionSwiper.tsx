@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'usehooks-ts';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import { Comic } from '~/types';
+import LazyLoad from 'react-lazy-load';
 
 import SectionSwiperCard from './SectionSwiperCard';
 
@@ -56,22 +57,24 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
                     mangaList.map((manga, idx) => {
                         if (matchesMobile && idx > 20) return;
                         return (
-                            <SwiperSlide key={`${manga._id}${Math.random()}`}>
-                                <SectionSwiperCard manga={manga} />
-                                <Link
-                                    href={{
-                                        pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
-                                            manga.slug,
-                                        )}`,
-                                    }}
-                                >
-                                    <a>
-                                        <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
-                                            {manga.name}
-                                        </h2>
-                                    </a>
-                                </Link>
-                            </SwiperSlide>
+                            <LazyLoad key={`${manga._id}`}>
+                                <SwiperSlide>
+                                    <SectionSwiperCard manga={manga} />
+                                    <Link
+                                        href={{
+                                            pathname: `/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                                manga.slug,
+                                            )}`,
+                                        }}
+                                    >
+                                        <a>
+                                            <h2 className="my-2 select-none text-xl text-white transition-all line-clamp-1 hover:text-primary  md:text-2xl">
+                                                {manga.name}
+                                            </h2>
+                                        </a>
+                                    </Link>
+                                </SwiperSlide>
+                            </LazyLoad>
                         );
                     })}
 

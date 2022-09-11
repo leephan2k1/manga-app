@@ -10,6 +10,7 @@ import { Comic } from '~/types';
 import Link from 'next/link';
 import { MANGA_PATH_DETAILS_NAME, MANGA_PATH_NAME } from '~/constants';
 import ClientOnly from '~/components/shared/ClientOnly';
+import LazyLoad from 'react-lazy-load';
 
 interface SeasonalComicsProps {
     comics: Comic[];
@@ -44,39 +45,40 @@ function SeasonalComics({ comics }: SeasonalComicsProps) {
                     {comics && comics.length
                         ? comics.map((comic) => {
                               return (
-                                  <SwiperSlide
-                                      key={comic._id}
-                                      className="absolute-center pb-4 md:pb-0"
-                                  >
-                                      <Link
-                                          href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
-                                              comic?.slug,
-                                          )}`}
-                                      >
-                                          <a className="full-size">
-                                              <div className="full-size grid grid-cols-5 overflow-hidden rounded-xl bg-deep-black">
-                                                  <figure className="relative col-span-1 md:col-span-2 lg:col-span-1">
-                                                      <Image
-                                                          priority
-                                                          layout="fill"
-                                                          className="absolute inset-0 object-cover object-center"
-                                                          src={comic?.thumbnail}
-                                                          alt="comic-img"
-                                                      />
-                                                  </figure>
-                                                  <div className="col-span-4 flex flex-col px-6 py-2 md:col-span-3 md:space-y-4 lg:col-span-4">
-                                                      <h1 className="font-secondary text-3xl transition-all duration-200 line-clamp-2 hover:text-primary lg:text-4xl">
-                                                          {comic?.name}
-                                                      </h1>
+                                  <LazyLoad key={comic._id}>
+                                      <SwiperSlide className="absolute-center pb-4 md:pb-0">
+                                          <Link
+                                              href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${encodeURIComponent(
+                                                  comic?.slug,
+                                              )}`}
+                                          >
+                                              <a className="full-size">
+                                                  <div className="full-size grid grid-cols-5 overflow-hidden rounded-xl bg-deep-black">
+                                                      <figure className="relative col-span-1 md:col-span-2 lg:col-span-1">
+                                                          <Image
+                                                              priority
+                                                              layout="fill"
+                                                              className="absolute inset-0 object-cover object-center"
+                                                              src={
+                                                                  comic?.thumbnail
+                                                              }
+                                                              alt="comic-img"
+                                                          />
+                                                      </figure>
+                                                      <div className="col-span-4 flex flex-col px-6 py-2 md:col-span-3 md:space-y-4 lg:col-span-4">
+                                                          <h1 className="font-secondary text-3xl transition-all duration-200 line-clamp-2 hover:text-primary lg:text-4xl">
+                                                              {comic?.name}
+                                                          </h1>
 
-                                                      <p className="text-xl font-light line-clamp-6 md:text-2xl lg:line-clamp-[9]">
-                                                          {comic?.review}
-                                                      </p>
+                                                          <p className="text-xl font-light line-clamp-6 md:text-2xl lg:line-clamp-[9]">
+                                                              {comic?.review}
+                                                          </p>
+                                                      </div>
                                                   </div>
-                                              </div>
-                                          </a>
-                                      </Link>
-                                  </SwiperSlide>
+                                              </a>
+                                          </Link>
+                                      </SwiperSlide>
+                                  </LazyLoad>
                               );
                           })
                         : Array.from(Array(4).keys()).map((e) => {
