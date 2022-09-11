@@ -1,4 +1,3 @@
-import torriGate from '/public/images/torri-gate.jpg';
 import { useSetAtom } from 'jotai';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -12,12 +11,13 @@ import {
     MANGA_BROWSE_PAGE,
     MANGA_PATH_NAME,
     MANGA_PATH_READ_NAME,
+    PROXY_SERVER,
     SOURCE_COLLECTIONS,
 } from '~/constants';
 import useNotification from '~/hooks/useNotification';
-import { baseURL } from '~/services/axiosClient';
 import { ChapterDetails, Comic } from '~/types';
 import { isExactMatch } from '~/utils/stringHandler';
+import torriGate from '/public/images/torri-gate.jpg';
 
 import {
     BellIcon,
@@ -32,7 +32,7 @@ interface DetailsInfoProps {
     isLoading: boolean;
 }
 
-const url = SOURCE_COLLECTIONS['nt'];
+const url = SOURCE_COLLECTIONS['NTC'];
 
 function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
     const router = useRouter();
@@ -183,7 +183,7 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
                                           'res.cloudinary.com',
                                       )
                                         ? manga.thumbnail
-                                        : `${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`
+                                        : `${PROXY_SERVER}/proxy?url=${url}&src=${manga.thumbnail}`
                                     : torriGate
                             }
                         />

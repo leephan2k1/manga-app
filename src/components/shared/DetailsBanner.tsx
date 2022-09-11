@@ -1,16 +1,15 @@
-import torriGate from '/public/images/torri-gate.jpg';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
-import { SOURCE_COLLECTIONS } from '~/constants';
-import { baseURL } from '~/services/axiosClient';
+import { PROXY_SERVER, SOURCE_COLLECTIONS } from '~/constants';
 import { isExactMatch } from '~/utils/stringHandler';
+import torriGate from '/public/images/torri-gate.jpg';
 
 interface DetailsBannerProps {
     imgUrl: string;
     isLoading: boolean;
 }
 
-const url = SOURCE_COLLECTIONS['nt'];
+const url = SOURCE_COLLECTIONS['NTC'];
 
 export default function DetailsBanner({
     imgUrl,
@@ -36,7 +35,7 @@ export default function DetailsBanner({
                             imgUrl !== 'notFound'
                                 ? isExactMatch(imgUrl, 'res.cloudinary.com')
                                     ? imgUrl
-                                    : `${baseURL}/proxy?url=${url}&src=${imgUrl}`
+                                    : `${PROXY_SERVER}/proxy?url=${url}&src=${imgUrl}`
                                 : torriGate
                         }
                     />
