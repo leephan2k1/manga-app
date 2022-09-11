@@ -67,6 +67,8 @@ function MyApp({
 
         (async function () {
             const subscription = await register();
+            if (!subscription) return;
+
             const parsed = JSON.parse(JSON.stringify(subscription));
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
