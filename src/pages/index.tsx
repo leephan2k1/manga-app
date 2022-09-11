@@ -20,7 +20,7 @@ import { Comic } from '~/types';
 import { calculateSeason } from '~/utils/calculateSeason';
 import shuffle from '~/utils/randomArray';
 import ClientOnly from '~/components/shared/ClientOnly';
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 
 interface HomeProps {
     topAllManga: Comic[];
@@ -121,7 +121,7 @@ const Home: NextPage<HomeProps> = ({
                     <SectionSwiper mangaList={comicsNewUpdated?.comics} />
                 </Section>
 
-                <LazyLoad>
+                <LazyLoad offset={1000}>
                     <Section
                         title={
                             showRecommendedComics ? 'Cộng Đồng Bình Chọn' : ''
