@@ -4438,6 +4438,11 @@ react-icons@^4.3.1:
   resolved "https://registry.npmjs.org/react-icons/-/react-icons-4.3.1.tgz"
   integrity sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ==
 
+react-if@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/react-if/-/react-if-4.1.4.tgz#aa33d954993f9d9992f0c7ab8ca9e40c5f2509f2"
+  integrity sha512-bjufPfCdPBiBy9EO/BeoxaqGc/xCwTu0coKtHfjpJw+v85DLMbpG43IUPISh+m3DzENx1rOYLpqbp2KaDmEYlg==
+
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -4447,11 +4452,6 @@ react-lazy-load@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/react-lazy-load/-/react-lazy-load-4.0.1.tgz#08bc820693ba2c4e69ab4da9c9ef017f0ae7819c"
   integrity sha512-TnXRr79X9rlC9UcmO6iyS28rOPHrgkHIP4+b8yZPfs1tw6k/Rp2DmFY8R20BqWR45ZWkpT+4dqV1f+yci+1ozg==
-
-react-lazyload@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/react-lazyload/-/react-lazyload-3.2.0.tgz"
-  integrity sha512-zJlrG8QyVZz4+xkYZH5v1w3YaP5wEFaYSUWC4CT9UXfK75IfRAIEdnyIUF+dXr3kX2MOtL1lUaZmaQZqrETwgw==
 
 react-loading-skeleton@^3.1.0:
   version "3.1.0"
