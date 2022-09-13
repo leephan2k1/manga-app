@@ -48,7 +48,6 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                     <a>
                                         <figure className="relative h-[80px] min-h-[80px] w-[60px] min-w-[60px] overflow-hidden rounded-xl">
                                             <Image
-                                                priority
                                                 className="aspect-w-3 aspect-h-4 absolute object-cover object-center"
                                                 layout="fill"
                                                 alt="img-preview"

@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { Else, If, Then } from 'react-if';
 import LazyLoad from 'react-lazy-load';
 import useSWR from 'swr';
 import ToggleButton from '~/components/buttons/ToggleButton';
@@ -126,9 +127,7 @@ const Home: NextPage<HomeProps> = ({
             <div className="flex h-fit min-h-screen flex-col">
                 <ClientOnly>
                     <MangaBanner
-                        mangaList={shuffle<Comic>(
-                            [...topAllManga].slice(0, 15),
-                        )}
+                        mangaList={shuffle<Comic>([...topAllManga].slice(0, 5))}
                     />
                 </ClientOnly>
 
@@ -136,7 +135,7 @@ const Home: NextPage<HomeProps> = ({
                     link={`/${MANGA_BROWSE_PAGE}?view=newComic`}
                     title="Mới cập nhật"
                     style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden"
-                    linkHints={true}
+                    linkHints
                 >
                     <SectionSwiper mangaList={comicsNewUpdated?.comics} />
                 </Section>
@@ -149,38 +148,41 @@ const Home: NextPage<HomeProps> = ({
                         arrowTrendingUp
                         style="h-fit w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden text-white"
                     >
-                        {!showRecommendedComics && (
-                            <div className="absolute-center h-28 w-full ">
-                                <motion.div
-                                    initial={{ scale: 0.8 }}
-                                    animate={{ scale: 1 }}
-                                    exit={{ scale: 0.8 }}
-                                    transition={{
-                                        type: 'spring',
-                                        stiffness: 55,
-                                    }}
-                                    className="absolute-center h-4/5 w-[65%] rounded-lg border-2 border-white/40 px-4 md:w-96"
-                                >
-                                    <h4 className="whitespace-nowrap">
-                                        Hiển thị bình chọn
-                                    </h4>
-                                    <ToggleButton
-                                        handleToggle={
-                                            handleToggleShowRecommendedComics
-                                        }
-                                    />
-                                </motion.div>
-                            </div>
-                        )}
-
-                        {showRecommendedComics && (
-                            <RecommendedComics
-                                comics={recommendedComics}
-                                handleShowSection={
-                                    handleToggleShowRecommendedComics
-                                }
-                            />
-                        )}
+                        <If condition={!showRecommendedComics}>
+                            <Then>
+                                {() => (
+                                    <div className="absolute-center h-28 w-full ">
+                                        <motion.div
+                                            initial={{ scale: 0.8 }}
+                                            animate={{ scale: 1 }}
+                                            exit={{ scale: 0.8 }}
+                                            transition={{
+                                                type: 'spring',
+                                                stiffness: 55,
+                                            }}
+                                            className="absolute-center h-4/5 w-[65%] rounded-lg border-2 border-white/40 px-4 md:w-96"
+                                        >
+                                            <h4 className="whitespace-nowrap">
+                                                Hiển thị bình chọn
+                                            </h4>
+                                            <ToggleButton
+                                                handleToggle={
+                                                    handleToggleShowRecommendedComics
+                                                }
+                                            />
+                                        </motion.div>
+                                    </div>
+                                )}
+                            </Then>
+                            <Else>
+                                <RecommendedComics
+                                    comics={recommendedComics}
+                                    handleShowSection={
+                                        handleToggleShowRecommendedComics
+                                    }
+                                />
+                            </Else>
+                        </If>
                     </Section>
                 </LazyLoad>
 
@@ -231,7 +233,7 @@ const Home: NextPage<HomeProps> = ({
                         link={`/${MANGA_BROWSE_PAGE}?view=new`}
                         title="Truyện mới"
                         style="w-[90%] mx-auto w-max-[1300px] mt-6  overflow-x-hidden"
-                        linkHints={true}
+                        linkHints
                     >
                         <SectionSwiper mangaList={comicsNewRelease?.comics} />
                     </Section>
