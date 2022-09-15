@@ -15,6 +15,7 @@ module.exports = {
         return config;
     },
     images: {
+        unoptimized: true,
         domains: [
             'st.nettruyenco.com',
             'st.ntcdntempv3.com',
