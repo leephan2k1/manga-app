@@ -1,9 +1,11 @@
+import axios from 'axios';
 import { GetServerSideProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import useSWR from 'swr';
 import { useEffectOnce, useLocalStorage, useMediaQuery } from 'usehooks-ts';
 import Reader from '~/components/features/Reader';
 import MainLayout from '~/components/layouts/MainLayout';
@@ -19,8 +21,9 @@ import {
 import { ReadingContextProvider } from '~/context/ReadingContext';
 import { SettingsContextProvider } from '~/context/SettingsContext';
 import { SourcesContextProvider } from '~/context/SourcesContext';
-import Page from '~/serverless/models/Page.model';
 import Chapter from '~/serverless/models/Chapter.model';
+import Page from '~/serverless/models/Page.model';
+import { axiosClientV2 } from '~/services/axiosClient';
 import {
     ChapterDetails,
     NavigateDirection,
@@ -28,7 +31,7 @@ import {
     ReadModeSettings,
 } from '~/types';
 import proxyObserver from '~/utils/proxyObserver';
-import { axiosClientV2 } from '~/services/axiosClient';
+
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const SettingsModal = dynamic(
@@ -78,6 +81,25 @@ const ReadPage: NextPage<ReadPageProps> = ({ pagesDetail, chaptersDetail }) => {
         }
         setShowSideSettings(true);
     };
+
+    //cache for next chapter
+    useSWR(router.query.params, async (params: string[]) => {
+        if (!params?.length) return;
+
+        let index = currentChapters?.chapters.findIndex(
+            (e) => e.chapterNumber === currentChapter?.chapterNumber,
+        );
+
+        if (index === undefined) return;
+
+        if (!currentChapters?.chapters[--index]) {
+            return;
+        }
+
+        await axios.get(
+            `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/${params}/${currentChapters?.chapters[index].chapterNumber}/${currentChapters?.chapters[index].chapterSlug}`,
+        );
+    });
 
     const handleChangeChapter = useCallback(
         async (type: NavigateDirection) => {
