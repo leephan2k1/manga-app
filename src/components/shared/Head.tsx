@@ -11,7 +11,7 @@ interface HeadProps {
 export default function Head({
     title = 'Kyoto Manga',
     description = 'Website đọc truyện tranh miễn phí!',
-    image = 'https://res.cloudinary.com/lee1002/image/upload/v1656087170/personal/dqpi0v4gfsoj6kkwg7oc.png',
+    image = 'https://i.ibb.co/vBCzhGX/kyt-manga.png',
 }: HeadProps) {
     const { asPath } = useRouter();
 
