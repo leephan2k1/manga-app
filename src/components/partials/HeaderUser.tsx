@@ -7,8 +7,8 @@ import { useOnClickOutside } from 'usehooks-ts';
 import { MANGA_PATH_FOLLOW } from '~/constants';
 
 import {
-    BookmarkIcon,
     ArrowRightOnRectangleIcon,
+    BookmarkIcon,
 } from '@heroicons/react/24/outline';
 
 import Teleport from '../shared/Teleport';

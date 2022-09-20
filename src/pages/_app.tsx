@@ -4,21 +4,23 @@ import '~/styles/globals.scss';
 import '~/styles/magic.min.css';
 import 'nprogress/nprogress.css';
 
+import { Provider as JotaiProvider } from 'jotai';
 import { SessionProvider } from 'next-auth/react';
 import Router, { useRouter } from 'next/router';
-import { pageview, GA_TRACKING_ID } from '~/utils/gtag';
 import Script from 'next/script';
 import NProgress from 'nprogress';
-import { ReactElement, ReactNode, useState, useEffect } from 'react';
-import { useEffectOnce, useLocalStorage } from 'usehooks-ts';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { useEffectOnce, useEventListener, useLocalStorage } from 'usehooks-ts';
 import MainLayout from '~/components/layouts/MainLayout';
 import NotificationObserver from '~/components/shared/NotificationObserver';
 import { SubscriptionContextProvider } from '~/context/SubscriptionContext';
 import { register } from '~/services/registerServiceWorkers';
 import { Subscription } from '~/types';
-import { Provider as JotaiProvider } from 'jotai';
+import { GA_TRACKING_ID, pageview } from '~/utils/gtag';
+
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+
 type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -38,6 +40,14 @@ function MyApp({
     const router = useRouter();
     const [_, setIsSupportedSW] = useLocalStorage('supportSW', false);
     const [subscription, setSubscription] = useState<Subscription | null>(null);
+
+    //fix session state next auth loss
+    //ref: https://stackoverflow.com/questions/70405436/next-auth-how-to-update-the-session-client-side
+    //https://github.com/nextauthjs/next-auth/issues/596#issuecomment-943453568
+    useEventListener('focus', () => {
+        const event = new Event('visibilitychange');
+        document.dispatchEvent(event);
+    });
 
     useEffect(() => {
         const handleRouteChange = (url: string) => {
