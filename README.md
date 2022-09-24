@@ -62,7 +62,7 @@ Kyoto comes from the name of an old Japanese place. I was impressed by the beaut
 
 -   Detail layout:
 
-![details-layout](https://res.cloudinary.com/dcykhs0bm/image/upload/v1661508384/personal/details-layout_uqea8r.png)
+![details-layout](https://i.ibb.co/vsG4MJh/details-layout.png)
 
 [Go to table of contents](https://github.com/leephan2k1/manga-app#the-official-website-is-kyotomangalive) 🔼
 
@@ -124,7 +124,7 @@ Kyoto comes from the name of an old Japanese place. I was impressed by the beaut
 
 ### Follow page
 
-![follow-page](https://res.cloudinary.com/dcykhs0bm/image/upload/v1661510722/personal/follow-page_2_uuxatz.png)
+![follow-page](https://i.ibb.co/0nggHNS/follow-page-2.png)
 
 [Go to table of contents](https://github.com/leephan2k1/manga-app#the-official-website-is-kyotomangalive) 🔼
 
@@ -141,8 +141,7 @@ Kyoto comes from the name of an old Japanese place. I was impressed by the beaut
 ```
 # New environment for code base v2:
 # Two Options hosting https://scalegrid.io (No credit card is required for the first month) or https://railway.app (Free 5Gb forever for starter plan)
-# Make database connection and run scripts in this repo: https://github.com/leephan2k1/comics-scraper-script (Getting all of the data from the comics source takes about 4-5 hours. Depending on the configuration and network speed, it may take longer.
-!Note: Some sections have yet to be optimized and are somewhat complicated. I've been busy, so I haven't had time to write the documentation.)
+# setup the database follow this instruction: https://github.com/leephan2k1/manga-app/blob/main/Database.Vi.md (English will come later)
 
 MONGODB_DATA_URI=mongodb://<your-uri>
 MONGODB_DATA_DB=<your-db-name>
@@ -178,8 +177,9 @@ JWT_SECRET=your-jwt-secret
 -   [x] automatically switch chapters
 -   [x] notify (new chapter of comic)
 -   [ ] comments
+-   [ ] english version
 -   [x] add more source (+1 LHM, +1 OTK)
 -   [ ] import follow list from user anilist (public)
--   [ ] recommended from users
+-   [x] recommended from users
 
 [Go to table of contents](https://github.com/leephan2k1/manga-app#the-official-website-is-kyotomangalive) 🔼
