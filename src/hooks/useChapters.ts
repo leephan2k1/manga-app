@@ -27,13 +27,6 @@ export default function useChapters() {
 
                 if (!chapter) return;
 
-                await axiosClientV2.post('/chapters', {
-                    chapterSlug: chapter.chapterSlug,
-                    source: 'NTC',
-                    comicName: res?.chapters.comicName,
-                    comicSlug: res?.chapters.comicSlug,
-                });
-
                 router.push(
                     `/${MANGA_PATH_NAME}/${MANGA_PATH_READ_NAME}/NTC/${chapter.chapterNumber}/${chapter.chapterSlug}`,
                 );
