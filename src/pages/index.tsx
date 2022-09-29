@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 import { GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Else, If, Then } from 'react-if';
 import LazyLoad from 'react-lazy-load';
 import useSWR from 'swr';
+import { useLocalStorage } from 'usehooks-ts';
 import ToggleButton from '~/components/buttons/ToggleButton';
 import RandomComics from '~/components/features/RandomComics';
 import MangaBanner from '~/components/shared/Banner';
@@ -58,7 +58,10 @@ const Home: NextPage<HomeProps> = ({
     topDayManga,
     seasonalComics,
 }) => {
-    const [showRecommendedComics, setShowRecommendedComics] = useState(false);
+    const [showRecommendedComics, setShowRecommendedComics] = useLocalStorage(
+        'showVoting',
+        false,
+    );
 
     const handleToggleShowRecommendedComics = (state: boolean) => {
         setShowRecommendedComics(state);
