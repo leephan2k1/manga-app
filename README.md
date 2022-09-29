@@ -11,11 +11,12 @@
 | [Screenshots](https://github.com/leephan2k1/manga-app#screenshots)     |
 | [Project setup](https://github.com/leephan2k1/manga-app#project-setup) |
 | [Plans](https://github.com/leephan2k1/manga-app#plans)                 |
+| [Sponsor](https://github.com/leephan2k1/manga-app#Sponsor)             |
 
 ## Tech stack
 
 -   NextJS + ReactJS
--   Recoil
+-   ~~Recoil~~ -> Jotai
 -   Mongodb
 -   Next-auth
 -   TailwindCSS + HeadlessUI
@@ -24,7 +25,7 @@
 
 ### Name
 
-Kyoto comes from the name of an old Japanese place. I was impressed by the beauty of Kyoto so I used this name
+[Kyoto](https://en.wikipedia.org/wiki/Kyoto) comes from the name of the old capital of Japan. I was impressed by the beauty of Kyoto so I used this name
 
 [Go to table of contents](https://github.com/leephan2k1/manga-app#the-official-website-is-kyotomangalive) 🔼
 
@@ -48,7 +49,7 @@ Kyoto comes from the name of an old Japanese place. I was impressed by the beaut
 
 ### Home page:
 
-![home-page-kyoto-manga](https://res.cloudinary.com/dcykhs0bm/image/upload/v1661507692/personal/screenshot-kyotomanga.live-2022.08.26-16_48_53_t8qgsb.png)
+![home-page-kyoto-manga](https://i.ibb.co/7vrwCNy/kyt-home-page.png)
 
 [Go to table of contents](https://github.com/leephan2k1/manga-app#the-official-website-is-kyotomangalive) 🔼
 
@@ -176,10 +177,34 @@ JWT_SECRET=your-jwt-secret
 -   [x] save chapter
 -   [x] automatically switch chapters
 -   [x] notify (new chapter of comic)
--   [ ] comments
+-   [ ] comment
 -   [ ] english version
 -   [x] add more source (+1 LHM, +1 OTK)
 -   [ ] import follow list from user anilist (public)
 -   [x] recommended from users
 
-[Go to table of contents](https://github.com/leephan2k1/manga-app#the-official-website-is-kyotomangalive) 🔼
+[Go to table of contents](https://github.com/leephan2k1/manga-app#the-official-website-is-kyotomangalive)
+
+## Sponsor
+
+Kyoto manga is an open source project. It means is free and always free.
+I am pleased if you intend to sponsor this project.
+
+-   You can donate via my ERC20 Wallet (ETH, BNB, USDT coin,...)
+
+```
+0xA9E95FBcaB1D52706623d8e0b12d6b044c474bCC
+```
+
+-   Or you can donate via bank (Vietnam)
+
+1. Sacombank: 070109823242 (PHAN THANH TRIẾT LÝ)
+2. MOMO:
+
+    ![momo](https://i.ibb.co/g9KWyK3/1fc0f64ec9190d475408.jpg)
+
+# Happy coding!
+
+![fun-doge](https://i.ibb.co/9rTSpLM/21f58444ba137e4d2702.jpg)
+
+[Go to table of contents 🔼](https://github.com/leephan2k1/manga-app/blob/main/Database.Vi.md#hướng-dẫn-setup-comic-database)
