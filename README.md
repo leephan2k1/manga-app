@@ -49,7 +49,7 @@
 
 ### Home page:
 
-![home-page-kyoto-manga](https://i.ibb.co/7vrwCNy/kyt-home-page.png)
+![home-page-kyoto-manga](https://res.cloudinary.com/dcykhs0bm/image/upload/v1661507692/personal/screenshot-kyotomanga.live-2022.08.26-16_48_53_t8qgsb.png)
 
 [Go to table of contents](https://github.com/leephan2k1/manga-app#the-official-website-is-kyotomangalive) 🔼
 
