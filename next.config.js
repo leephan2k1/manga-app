@@ -26,7 +26,7 @@ module.exports = {
             'cdn.myanimelist.net',
             'kyt-proxy.onrender.com',
         ],
-        minimumCacheTTL: 24 * 60 * 60 * 7,
+        minimumCacheTTL: 24 * 60 * 60,
     },
     eslint: {
         ignoreDuringBuilds: true,
