@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-server-import-in-page */
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 import { MANGA_PATH_FOLLOW } from '~/constants';
