@@ -14,6 +14,9 @@ module.exports = {
 
         return config;
     },
+    typescript: {
+        ignoreBuildErrors: true,
+    },
     images: {
         unoptimized: true,
         domains: [
