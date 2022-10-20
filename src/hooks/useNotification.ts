@@ -55,7 +55,7 @@ export default function useNotification() {
 
                 return 'success';
             } catch (err) {
-                console.log('error subscribe:: ', err);
+                console.error('error subscribe:: ', err);
             }
         },
 
@@ -77,7 +77,7 @@ export default function useNotification() {
 
                 return 'success';
             } catch (err) {
-                console.log('error unsubscribe:: ', err);
+                console.error('error unsubscribe:: ', err);
                 return 'error';
             }
         },
