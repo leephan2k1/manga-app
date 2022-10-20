@@ -2368,9 +2368,9 @@
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
 "@types/node@*":
-  version "18.11.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.2.tgz#c59b7641832531264fda3f1ba610362dc9a7dfc8"
-  integrity sha512-BWN3M23gLO2jVG8g/XHIRFWiiV4/GckeFIqbU/C4V3xpoBBWSMk4OZomouN0wCkfQFPqgZikyLr7DOYDysIkkw==
+  version "18.11.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.3.tgz#78a6d7ec962b596fc2d2ec102c4dd3ef073fea6a"
+  integrity sha512-fNjDQzzOsZeKZu5NATgXUPsaFaTxeRgFXoosrHivTl8RGeV733OLawXsGfEk9a8/tySyZUyiZ6E8LcjPFZ2y1A==
 
 "@types/node@17.0.4":
   version "17.0.4"
@@ -4342,9 +4342,9 @@ isexe@^2.0.0:
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
 jose@^4.10.0, jose@^4.9.3:
-  version "4.10.1"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-4.10.1.tgz#2d7bd0f4d694f4f9386bdbd53ebc0444a285fa40"
-  integrity sha512-rM5LIwnKutA8XacxxHo0URejTVSZjw69T5SuOz/kgsz/49/nDS+05irg4rEoLMjtHc/b93dexTgqEKJkoSUP/A==
+  version "4.10.3"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.10.3.tgz#36ffeae395f14624a99961db6ada957476eccb19"
+  integrity sha512-3S4wQnaoJKSAx9uHSoyf8B/lxjs1qCntHWL6wNFszJazo+FtWe+qD0zVfY0BlqJ5HHK4jcnM98k3BQzVLbzE4g==
 
 jotai@^1.8.3:
   version "1.8.6"
@@ -4707,10 +4707,10 @@ mongodb@^4.7.0:
     "@aws-sdk/credential-providers" "^3.186.0"
     saslprep "^1.0.3"
 
-mongoose@^6.5.2:
-  version "6.6.5"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.6.5.tgz#fcc7ba9594db711b3d4d7a1b3522c5dbc8f0bf52"
-  integrity sha512-iA/oDpWOc+K2QYzA4Eq7Z1oUBQOz9FGDmUwPLgw872Bfs/qizA5Db+gJorAn+TnnGu3VoCK8iP4Y+TECUelwjA==
+mongoose@^6.6.6:
+  version "6.6.6"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.6.6.tgz#2c78149ce97e966df20bf494f8b60859b6cd06e3"
+  integrity sha512-BziwYX15NVdA3DdlBaeiY1jCQtCxzpeDAJEL0BXADEvNQLWg4DiWH0FlQBdcJ58r36gWLglMP0ifvHgeyMpfhQ==
   dependencies:
     bson "^4.6.5"
     kareem "2.4.1"
@@ -4986,9 +4986,9 @@ onetime@^5.1.0, onetime@^5.1.2:
     mimic-fn "^2.1.0"
 
 openid-client@^5.1.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-5.2.0.tgz#96d384ee10793a56c396fcddedb8b787fcbd9d6b"
-  integrity sha512-fswY95ZqQr8xBgnlcC9TBJs/QeZAANRaiDliIwHktvpxpWhv5+cfd41OFNflI/ycf09HnqEPWbGrmvSOPgD3HQ==
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-5.2.1.tgz#dd26298aca237625298ef34ff11ad9276917df28"
+  integrity sha512-KPxqWnxobG/70Cxqyvd43RWfCfHedFnCdHSBpw5f7WnTnuBAeBnvot/BIo+brrcTr0wyAYUlL/qejQSGwWtdIg==
   dependencies:
     jose "^4.10.0"
     lru-cache "^6.0.0"
