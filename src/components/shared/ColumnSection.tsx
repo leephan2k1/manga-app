@@ -5,9 +5,9 @@ import { BsDot } from 'react-icons/bs';
 import {
     MANGA_PATH_DETAILS_NAME,
     MANGA_PATH_NAME,
+    PROXY_SERVER,
     SOURCE_COLLECTIONS,
 } from '~/constants';
-import { baseURL } from '~/services/axiosClient';
 import { Comic } from '~/types';
 import { isExactMatch } from '~/utils/stringHandler';
 
@@ -57,7 +57,7 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                                         'res.cloudinary.com',
                                                     )
                                                         ? manga?.thumbnail
-                                                        : `${baseURL}/proxy?url=${url}&src=${manga.thumbnail}`
+                                                        : `${PROXY_SERVER}/proxy?url=${url}&src=${manga.thumbnail}`
                                                 }
                                             />
                                         </figure>
