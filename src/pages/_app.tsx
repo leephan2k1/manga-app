@@ -18,6 +18,8 @@ import { register } from '~/services/registerServiceWorkers';
 import { Subscription } from '~/types';
 import { GA_TRACKING_ID, pageview } from '~/utils/gtag';
 
+import { Analytics } from '@vercel/analytics/react';
+
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 
@@ -113,6 +115,8 @@ function MyApp({
             });
         `}
             </Script>
+
+            <Analytics />
 
             <SessionProvider session={session} refetchInterval={5 * 60}>
                 <JotaiProvider>
