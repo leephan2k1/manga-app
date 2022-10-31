@@ -27,6 +27,41 @@ export const SOURCE_COLLECTIONS: { [key: string]: string } = {
     OTK: 'https://otakusan.net',
 };
 
+export const emojisToBeUsed = [
+    { emoji: '🤡', label: 'clown face' },
+    { emoji: '😀', label: 'grinning face' },
+    { emoji: '😄', label: 'grinning face with smiling eyes' },
+    { emoji: '😁', label: 'beaming face with smiling eyes' },
+    { emoji: '😅', label: 'grinning face with sweat' },
+    { emoji: '🤣', label: 'rolling on the floor laughing' },
+    { emoji: '😂', label: 'face with tears of joy' },
+    { emoji: '😘', label: 'face blowing a kiss' },
+    { emoji: '😙', label: 'kissing face with smiling eyes' },
+    { emoji: '😋', label: 'face savoring food' },
+    { emoji: '🤐', label: 'zipper-mouth face' },
+    { emoji: '😶', label: 'face without mouth' },
+    { emoji: '🙄', label: 'grimacing face' },
+    { emoji: '🥴', label: 'woozy face' },
+    { emoji: '😵', label: 'face with crossed-out eyes' },
+    { emoji: '😎', label: 'smiling face with sunglasses' },
+    { emoji: '😰', label: 'anxious face with sweat' },
+    { emoji: '😭', label: 'loudly crying face' },
+    { emoji: '😞', label: 'disappointed face' },
+    { emoji: '😡', label: 'enraged face' },
+    { emoji: '💀', label: 'skull' },
+    { emoji: '👺', label: 'goblin' },
+    { emoji: '❤', label: 'heart' },
+    { emoji: '👋', label: 'waving hand' },
+    { emoji: '👌', label: 'OK hand' },
+    { emoji: '🤟', label: 'love-you gesture' },
+    { emoji: '👉', label: 'backhand index pointing right' },
+    { emoji: '👍', label: 'thumbs up' },
+    { emoji: '👎', label: 'thumbs down' },
+    { emoji: '👈', label: 'backhand index pointing left' },
+    { emoji: '🙏', label: 'folded hands' },
+    { emoji: '👀', label: 'eyes' },
+];
+
 export const FOLLOW_STATE: Array<{ id: FollowState; title: string }> = [
     {
         id: 'reading',
