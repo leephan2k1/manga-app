@@ -23,6 +23,9 @@
 }
 
 @layer utilities {
+    .smooth-effect {
+        @apply transition-all duration-300;
+    }
     .absolute-center {
         @apply flex items-center justify-center;
     }
@@ -87,6 +90,53 @@ body {
     flex-wrap: nowrap !important;
 }
 
+.emoji {
+    font-size: 20px;
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    vertical-align: middle;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    transition-duration: 0.1s;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    &:hover {
+        background-color: #3f3f3f;
+    }
+}
+
+.emoji-menu-open {
+    position: absolute;
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    width: 300px;
+    height: 250px;
+    top: -560%;
+    right: -100%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #000000;
+    z-index: 10;
+    padding: 1rem;
+    transition-duration: 300ms;
+    animation-name: zoomIn;
+    animation-duration: 200ms;
+    gap: 1rem;
+}
+
+.emoji-menu-closed {
+    display: none;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -140,6 +190,17 @@ input[type='number'] {
 
 .fancy-fade-in {
     animation: fade-in-animation 0.8s ease-in-out;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 @keyframes fade-in-animation {

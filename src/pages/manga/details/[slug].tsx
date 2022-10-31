@@ -10,8 +10,8 @@ import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
 import { followModal } from '~/atoms/followModaAtom';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
+import CommentContainer from '~/components/features/comment/CommentContainer';
 import Vote from '~/components/features/Vote';
-import withDbScroll from '~/components/hoc/withDbScroll';
 import MainLayout from '~/components/layouts/MainLayout';
 import ClientOnly from '~/components/shared/ClientOnly';
 import DetailsBanner from '~/components/shared/DetailsBanner';
@@ -262,6 +262,13 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
                             />
                         )}
 
+                        <Section
+                            title="Bình luận"
+                            style={`py-4 my-4 h-fit w-full text-white`}
+                        >
+                            <CommentContainer />
+                        </Section>
+
                         <Toaster position="bottom-center" />
                     </div>
                 </div>
@@ -334,13 +341,13 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
     return { paths: [], fallback: true };
 };
 
-const DetailsPageWidthDbScrollTT = withDbScroll<DetailsPageProps>(DetailsPage);
+// const DetailsPageWidthDbScrollTT = withDbScroll<DetailsPageProps>(DetailsPage);
 
-export default DetailsPageWidthDbScrollTT;
+export default DetailsPage;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-DetailsPageWidthDbScrollTT.getLayout = (page: ReactNode) => {
+DetailsPage.getLayout = (page: ReactNode) => {
     return (
         <MainLayout
             showHeader
