@@ -90,6 +90,18 @@ body {
     flex-wrap: nowrap !important;
 }
 
+.emoji-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > * + * {
+        margin-left: 5px;
+    }
+}
+.emoji-counter {
+    font-size: 1.2rem;
+}
 .emoji {
     font-size: 20px;
     height: fit-content;
