@@ -20,6 +20,7 @@ module.exports = {
     images: {
         unoptimized: true,
         domains: [
+            'lh3.googleusercontent.com',
             'st.nettruyenco.com',
             'st.ntcdntempv3.com',
             'i331.ntcdntempv26.com',

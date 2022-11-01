@@ -11,6 +11,7 @@
     "dependencies": {
         "@emotion/react": "^11.9.3",
         "@emotion/styled": "^11.9.3",
+        "@formkit/auto-animate": "^1.0.0-beta.3",
         "@headlessui/react": "^1.6.4",
         "@heroicons/react": "^2.0.10",
         "@next-auth/mongodb-adapter": "^1.0.3",
