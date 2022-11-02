@@ -1,10 +1,11 @@
 import { Checkbox } from 'ariakit/checkbox';
+import { useSetAtom } from 'jotai';
 import { EmojiPicker } from 'lepre';
 import { FormEvent, memo, MouseEvent, useRef, useState } from 'react';
 import { Else, If, Then } from 'react-if';
 import TextareaAutosize from 'react-textarea-autosize';
 import { emojisToBeUsed } from '~/constants';
-
+import { commentSettingsModal } from '~/atoms/commentSettingsModal';
 import {
     Cog6ToothIcon,
     FaceSmileIcon,
@@ -25,6 +26,7 @@ function CommentInput({
     handleCancel,
 }: CommentInputProps) {
     const buttonEmoji = useRef<HTMLButtonElement | null>(null);
+    const setOpenCommentSettingsModal = useSetAtom(commentSettingsModal);
     const [text, setText] = useState(initialTextValue);
 
     const handleGetSuggestion = (e: MouseEvent) => {
@@ -82,7 +84,12 @@ function CommentInput({
                 </label>
 
                 <div className="absolute-center">
-                    <button className="smooth-effect h-fit w-fit rounded-2xl bg-deep-black p-4 hover:scale-110 hover:bg-highlight">
+                    <button
+                        onClick={() => {
+                            setOpenCommentSettingsModal(true);
+                        }}
+                        className="smooth-effect h-fit w-fit rounded-2xl bg-deep-black p-4 hover:scale-110 hover:bg-highlight"
+                    >
                         <Cog6ToothIcon className="h-10 w-10" />
                     </button>
 

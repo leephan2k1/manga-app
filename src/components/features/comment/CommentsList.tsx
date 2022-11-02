@@ -2,17 +2,28 @@ import { memo } from 'react';
 import Comment from './Comment';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import CommentDisclosure from './CommentDisclosure';
+import { useReadLocalStorage } from 'usehooks-ts';
 
 interface CommentsListProps {
     styles?: string;
 }
 
 function CommentsList({ styles }: CommentsListProps) {
+    const commentTextColor = useReadLocalStorage('commentTextColor');
+
     const [animationParent] = useAutoAnimate<HTMLUListElement>();
 
     return (
         <div className={styles}>
-            <ul ref={animationParent} className="full-size h-fit space-y-8">
+            <ul
+                style={{
+                    color: commentTextColor
+                        ? String(commentTextColor)
+                        : '#f9fafb',
+                }}
+                ref={animationParent}
+                className="full-size h-fit space-y-8"
+            >
                 <li className="h-fit w-full rounded-2xl bg-deep-black px-4 py-8 md:px-6">
                     <Comment
                         commentId="1"

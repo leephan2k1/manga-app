@@ -16,6 +16,13 @@ const ConfirmModal = dynamic(
         } as ImportCallOptions),
 );
 
+const CommentSettingsModal = dynamic(
+    () =>
+        import('./CommentSettingsModal', {
+            ssr: false,
+        } as ImportCallOptions),
+);
+
 const commentStylesContainer = 'mx-auto w-full md:w-4/5 lg:w-3/4 my-4';
 
 function CommentContainer() {
@@ -28,6 +35,8 @@ function CommentContainer() {
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}
             {shouldMountConfirmModal && <ConfirmModal />}
+
+            <CommentSettingsModal />
             <If condition={status !== 'authenticated'}>
                 <Then>
                     <div
