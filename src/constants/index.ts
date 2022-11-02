@@ -27,6 +27,16 @@ export const SOURCE_COLLECTIONS: { [key: string]: string } = {
     OTK: 'https://otakusan.net',
 };
 
+export const COLORS_OPTIONS = [
+    '#f9fafb',
+    '#ef4444',
+    '#f97316',
+    '#eab308',
+    '#22c55e',
+    '#0ea5e9',
+    '#a855f7',
+];
+
 export const emojisToBeUsed = [
     { emoji: '🤡', label: 'clown face' },
     { emoji: '😀', label: 'grinning face' },
