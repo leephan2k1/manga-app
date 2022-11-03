@@ -17,7 +17,7 @@ import { MANGA_BROWSE_PAGE, REVALIDATE_TIME } from '~/constants';
 import { connectToDatabase } from '~/serverless/utils/connectdbData';
 import { axiosClientV2 } from '~/services/axiosClient';
 import { Comic } from '~/types';
-import { calculateSeason } from '~/utils/calculateSeason';
+import { calculateSeason } from '~/utils/dateHandler';
 import shuffle from '~/utils/randomArray';
 
 import type { NextPage } from 'next';
