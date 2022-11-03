@@ -8,10 +8,10 @@ import toast from 'react-hot-toast';
 import { Case, If, Switch, Then } from 'react-if';
 import { useToggle } from 'usehooks-ts';
 import { confirmModal } from '~/atoms/confirmModalAtom';
-
+import { Comment as IComment } from '~/types';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
-
+import { calculateDiffDate } from '~/utils/dateHandler';
 import CommentOptions from './CommentOptions';
 
 const CommentInput = dynamic(
@@ -28,32 +28,23 @@ const MY_EMOJIS = [
     { emoji: '😡', label: 'enraged face', counter: 0 },
 ];
 
-const text = `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet
-harum, rerum debitis doloremque in, veniam odio optio
-consequatur ab sit accusantium cumque. Alias voluptate, impedit
-illo quibusdam neque veritatis animi! Lorem ipsum dolor, sit
-amet consectetur adipisicing elit. Amet harum, rerum debitis
-doloremque in, veniam odio optio consequatur ab sit accusantium
-cumque. Alias voluptate, impedit illo quibusdam neque veritatis
-animi!`;
-
 export type DisplayMode = 'edit' | 'remove' | 'show';
 
 interface CommentProps {
-    commentId: string;
-    commentOwner: string;
-    isSpoil?: boolean;
+    comment: IComment;
 }
 
-function Comment({ commentId, commentOwner, isSpoil }: CommentProps) {
+function Comment({ comment }: CommentProps) {
     const [value, toggle] = useToggle();
 
-    const [shouldHiddenContents, setShouldHiddenContents] = useState(isSpoil);
+    const [shouldHiddenContents, setShouldHiddenContents] = useState(
+        !!comment?.isSpoil,
+    );
 
     const { data: session, status } = useSession();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const userId = session?.user?.id;
+    const userImg = session?.user?.image;
 
     const [animationParent] = useAutoAnimate<HTMLDivElement>();
     const [_, increment] = useEmojis(MY_EMOJIS);
@@ -70,28 +61,27 @@ function Comment({ commentId, commentOwner, isSpoil }: CommentProps) {
     };
 
     return (
-        <div id={commentId} className="h-fit" ref={animationParent}>
+        <div id={comment._id} className="h-fit" ref={animationParent}>
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                     <figure className="relative h-20 w-20 overflow-hidden rounded-full">
                         <Image
                             className="absolute inset-0"
                             layout="fill"
-                            src={
-                                'https://lh3.googleusercontent.com/a-/AOh14GhTFisIJo-vy2yo5apeYrIF-gBgoeFLjrmDx6UkZ3k=s96-c'
-                            }
+                            src={comment.owner.image}
                             alt="user-avatar"
                         />
                     </figure>
-                    <h2>Lee Phan</h2>
+                    <h2>{comment.owner.name}</h2>
                     <span className="text-lg italic text-gray-500 md:text-xl">
-                        15 phút trước
+                        {calculateDiffDate(comment.createdAt)}
                     </span>
                 </div>
 
                 <If
                     condition={
-                        status === 'authenticated' && userId === commentOwner
+                        status === 'authenticated' &&
+                        userImg === comment.owner.image
                     }
                 >
                     <Then>
@@ -112,18 +102,19 @@ function Comment({ commentId, commentOwner, isSpoil }: CommentProps) {
                         onClick={() => setShouldHiddenContents(false)}
                         className={`${shouldHiddenContents ? 'blur' : ''} my-4`}
                     >
-                        {text}
+                        {comment.contents}
                     </p>
                 </Case>
                 <Case condition={displayMode === 'edit'}>
                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                     {/* @ts-ignore  */}
                     <CommentInput
+                        submitType="update"
                         handleCancel={() => {
                             setDisplayMode('show');
                         }}
                         inputMode="edit"
-                        initialTextValue={text}
+                        initialTextValue={comment.contents}
                     />
                 </Case>
             </Switch>
@@ -168,7 +159,7 @@ function Comment({ commentId, commentOwner, isSpoil }: CommentProps) {
 
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore  */}
-            {value && <CommentInput inputMode="new" />}
+            {value && <CommentInput submitType="reply" inputMode="new" />}
         </div>
     );
 }

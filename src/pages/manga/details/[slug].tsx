@@ -30,6 +30,7 @@ import {
     SourcesId,
     ViewSelection,
 } from '~/types';
+import { CommentContextProvider } from '~/context/CommentContext';
 
 const FollowModal = dynamic(
     () =>
@@ -266,7 +267,14 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
                             title="Bình luận"
                             style={`py-4 my-4 h-fit w-full text-white`}
                         >
-                            <CommentContainer />
+                            <CommentContextProvider
+                                comic={{
+                                    comicName: comic?.name,
+                                    comicSlug: comic?.slug,
+                                }}
+                            >
+                                <CommentContainer />
+                            </CommentContextProvider>
                         </Section>
 
                         <Toaster position="bottom-center" />
