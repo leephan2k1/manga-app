@@ -1,3 +1,32 @@
+export interface Owner {
+    name: string;
+    image: string;
+}
+
+export interface Reactions {
+    clown_face: number;
+    thumbs_up: number;
+    heart: number;
+    enraged_face: number;
+}
+
+export interface Comment {
+    reactions: Reactions;
+    _id: string;
+    comicSlug: string;
+    comicName: string;
+    section: string;
+    contents: string;
+    owner: Owner;
+    isSpoil?: boolean;
+    replies: Comment[];
+    totalReactions: number;
+    createdAt: Date;
+    updatedAt: Date;
+    lastEdited?: Date;
+    replyTo?: string;
+}
+
 export type sources =
     | 'nettruyen'
     | 'lhmanga'
