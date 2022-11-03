@@ -1,11 +1,10 @@
+import { useAtomValue } from 'jotai';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo } from 'react';
 import { Else, If, Then } from 'react-if';
-import { useAtomValue } from 'jotai';
 import { confirmModal } from '~/atoms/confirmModalAtom';
-
 import CommentInput from './CommentInput';
 import CommentsList from './CommentsList';
 
@@ -36,6 +35,8 @@ function CommentContainer() {
             {/* @ts-ignore */}
             {shouldMountConfirmModal && <ConfirmModal />}
 
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/* @ts-ignore */}
             <CommentSettingsModal />
             <If condition={status !== 'authenticated'}>
                 <Then>
@@ -55,6 +56,7 @@ function CommentContainer() {
 
                 <Else>
                     <CommentInput
+                        submitType="create"
                         inputMode="new"
                         containerStyles={commentStylesContainer}
                     />

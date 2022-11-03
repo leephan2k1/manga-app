@@ -30,10 +30,10 @@ function CommentsList({ styles }: CommentsListProps) {
             >
                 <If condition={comment?.isFetching}>
                     <Then>
-                        {Array.from(new Array(3).keys()).map((dumpElem) => {
+                        {Array.from(new Array(3).keys()).map((dumbElem) => {
                             return (
                                 <li
-                                    key={dumpElem}
+                                    key={dumbElem}
                                     className="loading-pulse h-[200px] w-full rounded-2xl bg-white/5 px-4 py-8 md:h-[250px] md:px-6"
                                 ></li>
                             );
