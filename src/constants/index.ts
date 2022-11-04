@@ -37,6 +37,13 @@ export const COLORS_OPTIONS = [
     '#a855f7',
 ];
 
+export const DEFAULT_REACTIONS = [
+    { emoji: '👍', label: 'thumbs_up' },
+    { emoji: '❤', label: 'heart' },
+    { emoji: '🤡', label: 'clown_face' },
+    { emoji: '😡', label: 'enraged_face' },
+];
+
 export const emojisToBeUsed = [
     { emoji: '🤡', label: 'clown face' },
     { emoji: '😀', label: 'grinning face' },
