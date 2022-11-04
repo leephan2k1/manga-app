@@ -10,7 +10,7 @@ import CommentsList from './CommentsList';
 
 const ConfirmModal = dynamic(
     () =>
-        import('~/components/shared/ConfirmModal', {
+        import('~/components/features/comment/ConfirmModal', {
             ssr: false,
         } as ImportCallOptions),
 );
@@ -55,6 +55,9 @@ function CommentContainer() {
                 </Then>
 
                 <Else>
+                    <h5 className="text-center italic text-gray-500">
+                        Hãy bình luận văn minh, lịch sự và mang tính xây dựng 🙏
+                    </h5>
                     <CommentInput
                         submitType="create"
                         inputMode="new"

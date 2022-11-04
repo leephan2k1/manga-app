@@ -55,7 +55,7 @@ function CommentSettingsModal() {
                                         </span>
                                         <button
                                             onClick={() => closeModal(false)}
-                                            className="smooth-effect rounded-2xl border border-white p-2 hover:scale-110"
+                                            className="smooth-effect rounded-2xl border border-white p-2 hover:scale-110 hover:bg-highlight"
                                         >
                                             <XMarkIcon className="h-8 w-8" />
                                         </button>

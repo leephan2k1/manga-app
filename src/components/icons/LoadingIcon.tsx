@@ -1,7 +1,14 @@
-export default function LoadingIcon() {
+interface LoadingIconProps {
+    iconColor?: string;
+}
+
+export default function LoadingIcon({ iconColor }: LoadingIconProps) {
     return (
         <svg
-            className="h-8 w-8 animate-spin text-white"
+            style={{
+                color: iconColor || '#374151',
+            }}
+            className="h-8 w-8 animate-spin"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
