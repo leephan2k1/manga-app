@@ -5,10 +5,10 @@ export interface Owner {
 }
 
 export interface Reactions {
-    clown_face: number;
-    thumbs_up: number;
-    heart: number;
-    enraged_face: number;
+    clown_face: string[];
+    thumbs_up: string[];
+    heart: string[];
+    enraged_face: string[];
 }
 
 export interface Comment {
