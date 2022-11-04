@@ -1,11 +1,47 @@
-import { Dialog, Transition } from '@headlessui/react';
 import { useAtom } from 'jotai';
-import { Fragment, memo } from 'react';
-import { confirmModal } from '~/atoms/confirmModalAtom';
 import Image from 'next/image';
+import { Fragment, memo, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Else, If, Then } from 'react-if';
+import { confirmModal } from '~/atoms/confirmModalAtom';
+import LoadingIcon from '~/components/icons/LoadingIcon';
+import useComment from '~/context/CommentContext';
+import { axiosClientV2 } from '~/services/axiosClient';
+
+import { Dialog, Transition } from '@headlessui/react';
 
 function ConfirmModal() {
+    const commentCtx = useComment();
     const [isOpen, closeModal] = useAtom(confirmModal);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleDeleteComment = async () => {
+        try {
+            setIsDeleting(true);
+
+            if (!commentCtx?.commentNeedToBeDeleted) throw new Error();
+
+            const { commentId, userId } = commentCtx?.commentNeedToBeDeleted;
+
+            if (!commentId && !userId) throw new Error();
+
+            const { data } = await axiosClientV2.delete(
+                `/comments/${commentId}/${userId}`,
+            );
+
+            if (data && data.status === 'success') {
+                closeModal(false);
+                commentCtx.reFetch();
+                setIsDeleting(false);
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            setIsDeleting(false);
+
+            toast.error('Opps! Thử lại nhé bạn... :"(');
+        }
+    };
 
     return (
         <>
@@ -51,17 +87,31 @@ function ConfirmModal() {
                                         />
                                     </figure>
 
-                                    <div className="mt-4 flex w-full justify-end space-x-4 text-gray-700">
-                                        <button
-                                            type="button"
-                                            className="rounded-xl bg-rose-400 px-4 py-2"
-                                        >
-                                            Chắc
-                                        </button>
+                                    <div className="mt-4 flex w-full justify-end space-x-4 text-white">
+                                        <If condition={isDeleting}>
+                                            <Then>
+                                                <button className="absolute-center h-[30px] w-[50px] rounded-xl">
+                                                    <LoadingIcon iconColor="#ffffff" />
+                                                </button>
+                                            </Then>
+
+                                            <Else>
+                                                <button
+                                                    onClick={
+                                                        handleDeleteComment
+                                                    }
+                                                    type="button"
+                                                    className="smooth-effect rounded-xl bg-rose-400 px-4 py-2 hover:scale-110"
+                                                >
+                                                    Chắc
+                                                </button>
+                                            </Else>
+                                        </If>
+
                                         <button
                                             onClick={() => closeModal(false)}
                                             type="button"
-                                            className="rounded-xl bg-sky-300 px-4 py-2"
+                                            className="smooth-effect rounded-xl bg-sky-300 px-4 py-2 hover:scale-110"
                                         >
                                             Hông
                                         </button>
