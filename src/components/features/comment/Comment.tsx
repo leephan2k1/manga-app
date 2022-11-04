@@ -1,19 +1,22 @@
 import { useSetAtom } from 'jotai';
-import { EmojiCounter, useEmojis } from 'lepre';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Case, If, Switch, Then, Else } from 'react-if';
+import { Case, Else, If, Switch, Then } from 'react-if';
 import { useToggle } from 'usehooks-ts';
 import { confirmModal } from '~/atoms/confirmModalAtom';
+import { DEFAULT_REACTIONS } from '~/constants';
+import useComment from '~/context/CommentContext';
 import { Comment as IComment } from '~/types';
+import { calculateDiffDate } from '~/utils/dateHandler';
+
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
-import { calculateDiffDate } from '~/utils/dateHandler';
+
 import CommentOptions from './CommentOptions';
-import useComment from '~/context/CommentContext';
+import Reaction from './Reaction';
 
 const CommentInput = dynamic(
     () =>
@@ -21,13 +24,6 @@ const CommentInput = dynamic(
             ssr: false,
         } as ImportCallOptions),
 );
-
-const MY_EMOJIS = [
-    { emoji: '🤡', label: 'clown face', counter: 0 },
-    { emoji: '❤', label: 'heart', counter: 0 },
-    { emoji: '👍', label: 'thumbs up', counter: 0 },
-    { emoji: '😡', label: 'enraged face', counter: 0 },
-];
 
 export type DisplayMode = 'edit' | 'remove' | 'show';
 
@@ -50,7 +46,6 @@ function Comment({ comment }: CommentProps) {
     const userId = session?.user?.id;
 
     const [animationParent] = useAutoAnimate<HTMLDivElement>();
-    const [_, increment] = useEmojis(MY_EMOJIS);
     const [displayMode, setDisplayMode] = useState<DisplayMode>('show');
 
     const setShouldMountConfirmModal = useSetAtom(confirmModal);
@@ -136,7 +131,7 @@ function Comment({ comment }: CommentProps) {
                 </Case>
             </Switch>
 
-            <div className="flex">
+            <div className="flex space-x-4">
                 <button
                     onClick={() => {
                         if (status !== 'authenticated') {
@@ -151,24 +146,16 @@ function Comment({ comment }: CommentProps) {
                     <ArrowUturnLeftIcon className="h-8 w-8" />
                 </button>
 
-                {MY_EMOJIS.map((emoji) => {
+                {DEFAULT_REACTIONS.map((reaction) => {
                     return (
-                        <EmojiCounter
-                            key={emoji.label}
-                            emoji={emoji}
-                            initialValue={emoji.counter}
+                        <Reaction
+                            commentId={comment._id}
+                            reaction={reaction}
+                            userId={'62bc3cca2b62f6c1994061e0'}
                             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                             // @ts-ignore
-                            onClick={(emoji) => {
-                                if (status !== 'authenticated') {
-                                    toast.error(
-                                        'Đăng nhập để tương tác bạn nhé!',
-                                    );
-                                    return;
-                                }
-
-                                increment(emoji);
-                            }}
+                            count={comment.reactions[reaction.label]}
+                            key={reaction.label}
                         />
                     );
                 })}
