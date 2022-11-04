@@ -13,6 +13,11 @@ interface CommentContextType {
         comicName: string;
     };
     section: string;
+    commentNeedToBeDeleted: {
+        userId: string;
+        commentId: string;
+    } | null;
+    setCommentWillBeDeleted?: (userId: string, commentId: string) => void;
 }
 
 interface CommentContextProps {
@@ -29,6 +34,10 @@ export const CommentContextProvider = ({
     children,
     comic,
 }: CommentContextProps) => {
+    const [commentWillBeDeleted, setCommentWillBeDeleted] = useState<{
+        userId: string;
+        commentId: string;
+    } | null>(null);
     const [page, setPage] = useState(1);
     const router = useRouter();
     const section = router.pathname.includes('details') ? 'details' : 'read';
@@ -56,6 +65,10 @@ export const CommentContextProvider = ({
         },
         comic,
         section,
+        commentNeedToBeDeleted: commentWillBeDeleted,
+        setCommentWillBeDeleted: (userId: string, commentId: string) => {
+            setCommentWillBeDeleted({ userId, commentId });
+        },
     };
 
     return (

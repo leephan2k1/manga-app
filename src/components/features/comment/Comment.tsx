@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Case, If, Switch, Then } from 'react-if';
+import { Case, If, Switch, Then, Else } from 'react-if';
 import { useToggle } from 'usehooks-ts';
 import { confirmModal } from '~/atoms/confirmModalAtom';
 import { Comment as IComment } from '~/types';
@@ -13,6 +13,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
 import { calculateDiffDate } from '~/utils/dateHandler';
 import CommentOptions from './CommentOptions';
+import useComment from '~/context/CommentContext';
 
 const CommentInput = dynamic(
     () =>
@@ -37,6 +38,8 @@ interface CommentProps {
 function Comment({ comment }: CommentProps) {
     const [value, toggle] = useToggle();
 
+    const commentCtx = useComment();
+
     const [shouldHiddenContents, setShouldHiddenContents] = useState(
         !!comment?.isSpoil,
     );
@@ -44,7 +47,7 @@ function Comment({ comment }: CommentProps) {
     const { data: session, status } = useSession();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const userImg = session?.user?.image;
+    const userId = session?.user?.id;
 
     const [animationParent] = useAutoAnimate<HTMLDivElement>();
     const [_, increment] = useEmojis(MY_EMOJIS);
@@ -57,6 +60,9 @@ function Comment({ comment }: CommentProps) {
             setDisplayMode(value);
         } else {
             setShouldMountConfirmModal(true);
+            // set comment location
+            commentCtx?.setCommentWillBeDeleted &&
+                commentCtx?.setCommentWillBeDeleted(userId, comment._id);
         }
     };
 
@@ -74,14 +80,24 @@ function Comment({ comment }: CommentProps) {
                     </figure>
                     <h2>{comment.owner.name}</h2>
                     <span className="text-lg italic text-gray-500 md:text-xl">
-                        {calculateDiffDate(comment.createdAt)}
+                        <If condition={Boolean(comment.lastEdited)}>
+                            <Then>
+                                {`(Đã chỉnh sửa) ${calculateDiffDate(
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-ignore
+                                    comment.lastEdited,
+                                )}`}
+                            </Then>
+
+                            <Else>{calculateDiffDate(comment.createdAt)}</Else>
+                        </If>
                     </span>
                 </div>
 
                 <If
                     condition={
                         status === 'authenticated' &&
-                        userImg === comment.owner.image
+                        userId === comment.owner._id
                     }
                 >
                     <Then>
@@ -114,6 +130,7 @@ function Comment({ comment }: CommentProps) {
                             setDisplayMode('show');
                         }}
                         inputMode="edit"
+                        commentId={comment._id}
                         initialTextValue={comment.contents}
                     />
                 </Case>
@@ -157,9 +174,18 @@ function Comment({ comment }: CommentProps) {
                 })}
             </div>
 
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore  */}
-            {value && <CommentInput submitType="reply" inputMode="new" />}
+            {value && (
+                /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                /* @ts-ignore  */
+                <CommentInput
+                    // anchor a original comment, avoid nested reply
+                    commentId={comment.replyTo || comment._id}
+                    replyTo={comment.owner.name}
+                    handleCancel={toggle}
+                    submitType="reply"
+                    inputMode="new"
+                />
+            )}
         </div>
     );
 }
