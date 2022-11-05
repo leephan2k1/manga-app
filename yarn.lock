@@ -4504,11 +4504,6 @@ language-tags@^1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
-lepre@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/lepre/-/lepre-0.6.1.tgz#0ddf054028d1ebb671340c4a62454c2fe0a9c8fd"
-  integrity sha512-oDaU3G9D1XedYjxIn+ok/RJ2PjqWRxjLRMddLyaGuzxnolR2ntv8KKcOsRe2SL/5H4ju/nzQQMYVhz7p4fg4VQ==
-
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/levn/-/levn-0.4.1.tgz#ae4562c007473b932a6200d403268dd2fffc6ade"
