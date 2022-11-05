@@ -1,8 +1,8 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
-import { Comment } from '~/types';
-import useSWR from 'swr';
 import { useRouter } from 'next/router';
+import { createContext, ReactNode, useContext, useState } from 'react';
+import useSWR from 'swr';
 import { axiosClientV2 } from '~/services/axiosClient';
+import { Comment } from '~/types';
 
 interface CommentContextType {
     comments?: Comment[];
@@ -22,6 +22,7 @@ interface CommentContextType {
 
 interface CommentContextProps {
     children: ReactNode;
+    shouldFetch?: boolean;
     comic: {
         comicSlug: string;
         comicName: string;
@@ -32,24 +33,25 @@ const CommentContext = createContext<CommentContextType | null>(null);
 
 export const CommentContextProvider = ({
     children,
+    shouldFetch,
     comic,
 }: CommentContextProps) => {
     const [commentWillBeDeleted, setCommentWillBeDeleted] = useState<{
         userId: string;
         commentId: string;
     } | null>(null);
-    const [page, setPage] = useState(1);
+    // const [page, setPage] = useState(1);
     const router = useRouter();
     const section = router.pathname.includes('details') ? 'details' : 'read';
 
     const { data: comments, mutate } = useSWR<Comment[]>(
-        `${router.query?.slug}${setPage}`,
+        shouldFetch ? `${router.query?.slug}_comments_` : null,
         async () => {
             const { data } = await axiosClientV2.get(`/comments`, {
                 params: {
                     comicSlug: router.query?.slug,
                     section,
-                    page,
+                    limit: 0,
                 },
             });
 
@@ -60,12 +62,12 @@ export const CommentContextProvider = ({
     const value = {
         comments,
         isFetching: !Array.isArray(comments),
-        reFetch: () => {
-            mutate();
-        },
         comic,
         section,
         commentNeedToBeDeleted: commentWillBeDeleted,
+        reFetch: () => {
+            mutate();
+        },
         setCommentWillBeDeleted: (userId: string, commentId: string) => {
             setCommentWillBeDeleted({ userId, commentId });
         },

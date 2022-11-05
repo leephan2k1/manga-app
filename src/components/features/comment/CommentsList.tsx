@@ -1,17 +1,17 @@
-import { memo } from 'react';
-import Comment from './Comment';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import CommentDisclosure from './CommentDisclosure';
+import { memo } from 'react';
+import { Else, If, Then } from 'react-if';
 import { useReadLocalStorage } from 'usehooks-ts';
 import useComment from '~/context/CommentContext';
-import { If, Then, Else } from 'react-if';
+import Comment from './Comment';
+import CommentDisclosure from './CommentDisclosure';
 
 interface CommentsListProps {
     styles?: string;
 }
 
 function CommentsList({ styles }: CommentsListProps) {
-    const comment = useComment();
+    const commentCtx = useComment();
 
     const commentTextColor = useReadLocalStorage('commentTextColor');
 
@@ -28,7 +28,7 @@ function CommentsList({ styles }: CommentsListProps) {
                 ref={animationParent}
                 className="full-size h-fit space-y-8"
             >
-                <If condition={comment?.isFetching}>
+                <If condition={commentCtx?.isFetching}>
                     <Then>
                         {Array.from(new Array(3).keys()).map((dumbElem) => {
                             return (
@@ -41,66 +41,56 @@ function CommentsList({ styles }: CommentsListProps) {
                     </Then>
 
                     <Else>
-                        <If
-                            condition={
-                                comment?.comments &&
-                                Array.isArray(comment?.comments) &&
-                                comment?.comments.length
-                            }
-                        >
-                            <Then>
-                                {comment?.comments?.map((cmt) => {
-                                    return (
-                                        <li
-                                            key={cmt._id}
-                                            className="h-fit w-full rounded-2xl bg-deep-black px-4 py-8 md:px-6"
-                                        >
-                                            <Comment comment={cmt} />
+                        {commentCtx?.comments &&
+                            Array.isArray(commentCtx?.comments) &&
+                            commentCtx?.comments.length &&
+                            commentCtx?.comments?.map((cmt) => {
+                                return (
+                                    <li
+                                        key={cmt._id}
+                                        className="h-fit w-full rounded-2xl bg-deep-black px-4 py-8 md:px-6"
+                                    >
+                                        <Comment comment={cmt} />
 
-                                            {/* reply  */}
-                                            <If
-                                                condition={
-                                                    cmt.replies &&
-                                                    Array.isArray(
-                                                        cmt.replies,
-                                                    ) &&
-                                                    cmt.replies.length
-                                                }
-                                            >
-                                                <Then>
-                                                    <ul className="my-6 h-fit w-full pl-14 md:pl-20 ">
-                                                        <CommentDisclosure
-                                                            commentsLength={
-                                                                cmt.replies
-                                                                    .length
-                                                            }
-                                                        >
-                                                            {cmt.replies.map(
-                                                                (rep) => {
-                                                                    return (
-                                                                        <li
-                                                                            key={
-                                                                                rep._id
+                                        {/* reply  */}
+                                        <If
+                                            condition={
+                                                cmt.replies &&
+                                                Array.isArray(cmt.replies) &&
+                                                cmt.replies.length
+                                            }
+                                        >
+                                            <Then>
+                                                <ul className="my-6 h-fit w-full pl-14 md:pl-20 ">
+                                                    <CommentDisclosure
+                                                        commentsLength={
+                                                            cmt.replies.length
+                                                        }
+                                                    >
+                                                        {cmt.replies.map(
+                                                            (rep) => {
+                                                                return (
+                                                                    <li
+                                                                        key={
+                                                                            rep._id
+                                                                        }
+                                                                    >
+                                                                        <Comment
+                                                                            comment={
+                                                                                rep
                                                                             }
-                                                                        >
-                                                                            <Comment
-                                                                                comment={
-                                                                                    rep
-                                                                                }
-                                                                            />
-                                                                        </li>
-                                                                    );
-                                                                },
-                                                            )}
-                                                        </CommentDisclosure>
-                                                    </ul>
-                                                </Then>
-                                            </If>
-                                        </li>
-                                    );
-                                })}
-                            </Then>
-                        </If>
+                                                                        />
+                                                                    </li>
+                                                                );
+                                                            },
+                                                        )}
+                                                    </CommentDisclosure>
+                                                </ul>
+                                            </Then>
+                                        </If>
+                                    </li>
+                                );
+                            })}
                     </Else>
                 </If>
             </ul>

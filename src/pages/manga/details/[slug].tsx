@@ -3,10 +3,14 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState, useRef } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import useSWR from 'swr';
-import { useEffectOnce, useMediaQuery } from 'usehooks-ts';
+import {
+    useEffectOnce,
+    useIntersectionObserver,
+    useMediaQuery,
+} from 'usehooks-ts';
 import { followModal } from '~/atoms/followModaAtom';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
@@ -21,6 +25,7 @@ import DetailsInfo from '~/components/shared/DetailsInfo';
 import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
 import { REVALIDATE_TIME } from '~/constants';
+import { CommentContextProvider } from '~/context/CommentContext';
 import ComicModel from '~/serverless/models/Comic.model';
 import { axiosClientV2 } from '~/services/axiosClient';
 import {
@@ -30,7 +35,6 @@ import {
     SourcesId,
     ViewSelection,
 } from '~/types';
-import { CommentContextProvider } from '~/context/CommentContext';
 
 const FollowModal = dynamic(
     () =>
@@ -70,6 +74,15 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
     const [viewSelection, setViewSelection] =
         useState<ViewSelection>('Chapters');
     const matchesMobile = useMediaQuery('(max-width: 768px)');
+    const refCommentSection = useRef<HTMLDivElement | null>(null);
+    const entry = useIntersectionObserver(refCommentSection, {});
+
+    const [shouldShowComments, setShouldShowComments] = useState(false);
+    useEffect(() => {
+        if (!!entry?.isIntersecting && !shouldShowComments) {
+            setShouldShowComments(true);
+        }
+    }, [!!entry?.isIntersecting]);
 
     //Data States
     const [src, setSrc] = useAtom(mangaSrc);
@@ -186,7 +199,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
                 image={`${comic?.thumbnail}`}
             />
             <ClientOnly>
-                <div className="flex h-fit min-h-screen flex-col">
+                <div className="flex h-fit flex-col overflow-y-hidden">
                     <DetailsBanner
                         isLoading={router.isFallback}
                         imgUrl={comic?.thumbnail || 'notFound'}
@@ -263,11 +276,14 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
                             />
                         )}
 
+                        <section ref={refCommentSection}></section>
+
                         <Section
                             title="Bình luận"
                             style={`py-4 my-4 h-fit w-full text-white`}
                         >
                             <CommentContextProvider
+                                shouldFetch={shouldShowComments}
                                 comic={{
                                     comicName: comic?.name,
                                     comicSlug: comic?.slug,
