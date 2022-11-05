@@ -1,6 +1,5 @@
 import { Checkbox, useCheckboxState } from 'ariakit/checkbox';
 import { useSetAtom } from 'jotai';
-import { EmojiPicker } from 'lepre';
 import { useSession } from 'next-auth/react';
 import { FormEvent, memo, MouseEvent, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -12,6 +11,7 @@ import LoadingIcon from '~/components/icons/LoadingIcon';
 import { emojisToBeUsed } from '~/constants';
 import useComment from '~/context/CommentContext';
 import { axiosClientV2 } from '~/services/axiosClient';
+import EmojiPicker from './EmojiPicker';
 
 import {
     Cog6ToothIcon,
@@ -193,18 +193,15 @@ function CommentInput({
                         <Cog6ToothIcon className="h-10 w-10" />
                     </button>
 
-                    <button className="smooth-effect relative rounded-2xl p-2 hover:bg-highlight">
+                    <div className="smooth-effect relative rounded-2xl hover:bg-highlight">
                         <EmojiPicker
-                            selectedEmojis={[]}
-                            availableEmojis={emojisToBeUsed}
-                            pickerIcon={<FaceSmileIcon className="h-10 w-10" />}
-                            onClick={(e) => {
-                                setText(
-                                    (prevState) => prevState + `${e.emoji}`,
-                                );
+                            getEmoji={(emoji: string) => {
+                                setText((prevState) => prevState + `${emoji}`);
                             }}
+                            emojisToBeUsed={emojisToBeUsed}
+                            pickerIcon={<FaceSmileIcon className="h-10 w-10" />}
                         />
-                    </button>
+                    </div>
 
                     <If condition={isSubmitting}>
                         <Then>
