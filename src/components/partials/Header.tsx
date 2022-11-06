@@ -1,31 +1,39 @@
+import LogoSVG from '/public/images/torii-gate-japan.svg';
 import classNames from 'classnames';
+import { useSetAtom } from 'jotai';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { sidebarState } from '~/atoms/sidebarAtom';
 import {
+    MANGA_BROWSE_PAGE,
     MangaGenresPreview,
     MangaTypesPreview,
-    MANGA_BROWSE_PAGE,
 } from '~/constants';
-import LogoSVG from '/public/images/torii-gate-japan.svg';
 
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-
-import { useSetAtom } from 'jotai';
+import { BellIcon } from '@heroicons/react/24/solid';
+import toast from 'react-hot-toast';
 import TextLogo from '../icons/TextLogo';
 import DropDown from '../shared/DropDown';
+import HeaderNotifications from './HeaderNotifications';
 import HeaderSearch from './HeaderSearch';
 import HeaderUser from './HeaderUser';
+import useSocket from '~/context/SocketContext';
 
 interface HeaderProps {
     style?: string;
 }
 
 export default function Header({ style }: HeaderProps) {
+    const socketCtx = useSocket();
+    const setSidebarState = useSetAtom(sidebarState);
     const [isOpenMangaTypes, setIsOpenMangaTypes] = useState(false);
     const [isOpenMangaGenres, setIsOpenMangaGenres] = useState(false);
-    const setSidebarState = useSetAtom(sidebarState);
+    const [showNotifications, setShowNotifications] = useState(false);
+
+    const { status } = useSession();
 
     const handleOpenSidebar = () => {
         setSidebarState(true);
@@ -132,12 +140,45 @@ export default function Header({ style }: HeaderProps) {
                     </ul>
                 </nav>
 
-                {/* search & user */}
-                <div className="ml-10 flex h-full flex-1 items-center justify-end md:justify-between lg:ml-0">
+                {/* search & notifications & user */}
+                <div className="relative ml-10 flex h-full flex-1 items-center justify-end md:justify-between lg:ml-0">
                     {/* search  */}
                     <HeaderSearch />
+
+                    <button
+                        onClick={() => {
+                            if (status !== 'authenticated') {
+                                toast.error('Đăng nhập để thao tác bạn nhé!');
+                                return;
+                            }
+
+                            if (socketCtx?.signal) {
+                                socketCtx.setSignal(false);
+                            }
+
+                            setShowNotifications(true);
+                        }}
+                        className="relative ml-4 rounded-2xl bg-highlight p-4"
+                    >
+                        <BellIcon className="h-8 w-8 text-white" />
+
+                        {socketCtx?.signal && (
+                            <span className="absolute top-0 right-0 flex h-4 w-4">
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+                                <span className="relative inline-flex h-4 w-4 rounded-full bg-sky-500"></span>
+                            </span>
+                        )}
+                    </button>
+
+                    <HeaderNotifications
+                        shouldShow={showNotifications}
+                        setShow={(state: boolean) => {
+                            setShowNotifications(state);
+                        }}
+                    />
+
                     {/* user  */}
-                    <div className="absolute-center h-full w-40  ">
+                    <div className="absolute-center mx-4 h-full w-24">
                         <HeaderUser />
                     </div>
                 </div>
