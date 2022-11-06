@@ -1,21 +1,45 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { Else, If, Then } from 'react-if';
 import { useReadLocalStorage } from 'usehooks-ts';
 import useComment from '~/context/CommentContext';
 import Comment from './Comment';
 import CommentDisclosure from './CommentDisclosure';
+import { useRouter } from 'next/router';
 
 interface CommentsListProps {
     styles?: string;
 }
 
 function CommentsList({ styles }: CommentsListProps) {
+    const router = useRouter();
     const commentCtx = useComment();
-
+    const previousScrollId = useRef('');
     const commentTextColor = useReadLocalStorage('commentTextColor');
 
     const [animationParent] = useAutoAnimate<HTMLUListElement>();
+
+    useEffect(() => {
+        const { scrollTo } = router.query;
+
+        if (!scrollTo) return;
+
+        if (
+            Array.isArray(commentCtx?.comments) &&
+            commentCtx?.comments.length &&
+            previousScrollId.current !== scrollTo
+        ) {
+            const commentNeedToBeInView = document.getElementById(
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                String(scrollTo),
+            );
+
+            commentNeedToBeInView?.scrollIntoView({ behavior: 'smooth' });
+
+            previousScrollId.current = String(scrollTo);
+        }
+    }, [router.query, commentCtx?.comments]);
 
     return (
         <div className={styles}>
@@ -47,6 +71,7 @@ function CommentsList({ styles }: CommentsListProps) {
                             commentCtx?.comments?.map((cmt) => {
                                 return (
                                     <li
+                                        id={cmt._id}
                                         key={cmt._id}
                                         className="h-fit w-full rounded-2xl bg-deep-black px-4 py-8 md:px-6"
                                     >

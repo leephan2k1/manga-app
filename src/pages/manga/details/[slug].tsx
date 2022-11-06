@@ -78,6 +78,9 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
     const entry = useIntersectionObserver(refCommentSection, {});
 
     const [shouldShowComments, setShouldShowComments] = useState(false);
+    if (router.query?.scrollTo && !shouldShowComments) {
+        setShouldShowComments(true);
+    }
     useEffect(() => {
         if (!!entry?.isIntersecting && !shouldShowComments) {
             setShouldShowComments(true);
