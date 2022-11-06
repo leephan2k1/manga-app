@@ -28,6 +28,19 @@ export interface Comment {
     replyTo?: string;
 }
 
+export interface Notification {
+    _id: string;
+    owner: Pick<Owner, 'image' | 'name'>;
+    comment: Pick<
+        Comment,
+        '_id' | 'comicSlug' | 'comicName' | 'section'
+    > | null;
+    response: Pick<Owner, 'image' | 'name'>;
+    createdAt: Date;
+    updatedAt: Date;
+    seen?: Date;
+}
+
 export type sources =
     | 'nettruyen'
     | 'lhmanga'
