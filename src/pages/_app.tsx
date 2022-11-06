@@ -17,7 +17,7 @@ import { SubscriptionContextProvider } from '~/context/SubscriptionContext';
 import { register } from '~/services/registerServiceWorkers';
 import { Subscription } from '~/types';
 import { GA_TRACKING_ID, pageview } from '~/utils/gtag';
-
+import { SocketContextProvider } from '~/context/SocketContext';
 import { Analytics } from '@vercel/analytics/react';
 
 import type { NextPage } from 'next';
@@ -122,7 +122,9 @@ function MyApp({
                 <JotaiProvider>
                     <SubscriptionContextProvider value={subscription}>
                         <NotificationObserver>
-                            {getLayout(<Component {...pageProps} />)}
+                            <SocketContextProvider>
+                                {getLayout(<Component {...pageProps} />)}
+                            </SocketContextProvider>
                         </NotificationObserver>
                     </SubscriptionContextProvider>
                 </JotaiProvider>
