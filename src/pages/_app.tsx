@@ -13,11 +13,12 @@ import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { useEffectOnce, useEventListener, useLocalStorage } from 'usehooks-ts';
 import MainLayout from '~/components/layouts/MainLayout';
 import NotificationObserver from '~/components/shared/NotificationObserver';
+import { SocketContextProvider } from '~/context/SocketContext';
 import { SubscriptionContextProvider } from '~/context/SubscriptionContext';
 import { register } from '~/services/registerServiceWorkers';
 import { Subscription } from '~/types';
 import { GA_TRACKING_ID, pageview } from '~/utils/gtag';
-import { SocketContextProvider } from '~/context/SocketContext';
+
 import { Analytics } from '@vercel/analytics/react';
 
 import type { NextPage } from 'next';

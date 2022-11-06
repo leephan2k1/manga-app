@@ -5,19 +5,22 @@ import { FormEvent, memo, MouseEvent, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Else, If, Then } from 'react-if';
 import TextareaAutosize from 'react-textarea-autosize';
-import { useReadLocalStorage } from 'usehooks-ts';
+import useSWR from 'swr';
+import { useDebounce, useReadLocalStorage } from 'usehooks-ts';
 import { commentSettingsModal } from '~/atoms/commentSettingsModal';
 import LoadingIcon from '~/components/icons/LoadingIcon';
 import { emojisToBeUsed } from '~/constants';
 import useComment from '~/context/CommentContext';
-import { axiosClientV2 } from '~/services/axiosClient';
-import EmojiPicker from './EmojiPicker';
+import { axiosClientV2, axiosClientWordsService } from '~/services/axiosClient';
 
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import {
     Cog6ToothIcon,
     FaceSmileIcon,
     PaperAirplaneIcon,
 } from '@heroicons/react/24/outline';
+
+import EmojiPicker from './EmojiPicker';
 
 interface CommentInputProps {
     containerStyles?: string;
@@ -39,6 +42,8 @@ function CommentInput({
     submitType,
     handleCancel,
 }: CommentInputProps) {
+    const [animationParent] = useAutoAnimate<HTMLUListElement>();
+
     const comment = useComment();
 
     const { data: session } = useSession();
@@ -57,9 +62,28 @@ function CommentInput({
     );
     const checkbox = useCheckboxState();
 
+    const shouldAutoComplete = useReadLocalStorage('autoComplete');
+    const debouncedValue = useDebounce<string>(text, 200);
+    const { data: wordsSuggestion } = useSWR<
+        { language: string; word: string; _id: string }[]
+    >(shouldAutoComplete ? debouncedValue : null, async () => {
+        const { data } = await axiosClientWordsService.get(`/search`, {
+            params: {
+                keyword: [...text.split(' ')].pop(),
+                limit: 10,
+            },
+        });
+
+        return data?.words;
+    });
+
     const handleGetSuggestion = (e: MouseEvent) => {
         const text = e.currentTarget?.textContent;
-        setText((prevState) => prevState + ` ${text}`);
+
+        setText(
+            (prevState) =>
+                prevState.substring(0, prevState.lastIndexOf(' ')) + ` ${text}`,
+        );
     };
 
     const handleClickSubmit = async (e: MouseEvent) => {
@@ -156,26 +180,26 @@ function CommentInput({
                 placeholder="Để lại bình luận..."
             />
 
-            <div className="my-4 flex h-fit flex-wrap gap-4">
-                <button
-                    onClick={handleGetSuggestion}
-                    className="rounded-2xl border border-gray-500 py-2 px-4 line-clamp-1"
-                >
-                    Lorem ipsum
-                </button>
-                <button
-                    onClick={handleGetSuggestion}
-                    className="rounded-2xl border border-gray-500 py-2 px-4 line-clamp-1"
-                >
-                    Lorem ipsum
-                </button>
-                <button
-                    onClick={handleGetSuggestion}
-                    className="rounded-2xl border border-gray-500 py-2 px-4 line-clamp-1"
-                >
-                    Lorem ipsum
-                </button>
-            </div>
+            <ul
+                ref={animationParent}
+                className="my-4 flex h-fit flex-wrap gap-4"
+            >
+                {wordsSuggestion &&
+                    wordsSuggestion.length > 0 &&
+                    wordsSuggestion.map((word) => {
+                        if (!word.word) return;
+
+                        return (
+                            <li
+                                key={word._id}
+                                onClick={handleGetSuggestion}
+                                className="max-h-[36px] max-w-[200px] cursor-pointer rounded-2xl border border-gray-500 py-2 px-4 line-clamp-1"
+                            >
+                                {word.word}
+                            </li>
+                        );
+                    })}
+            </ul>
 
             <div className="my-2 flex items-center justify-between space-x-4">
                 <label className="absolute-center space-x-4">
