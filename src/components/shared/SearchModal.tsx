@@ -91,7 +91,10 @@ export default function SearchModal() {
 
     useEffect(() => {
         return () => {
-            handleCloseModal();
+            setShowBtnClearInput(false);
+            setSearchValue('');
+            setIsSearching(false);
+            setMangaResult([]);
         };
     }, []);
 
