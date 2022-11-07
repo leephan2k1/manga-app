@@ -37,7 +37,8 @@ export const SocketContextProvider = ({ children }: SocketContextProps) => {
     });
 
     useEffect(() => {
-        // console.log('socket:: ', socket);
+        // eslint-disable-next-line no-console
+        console.log('socket:: ', socket);
 
         if (socket?.connected && userId && !isEmitted.current) {
             socket?.emit('online-emitter', { userId });
