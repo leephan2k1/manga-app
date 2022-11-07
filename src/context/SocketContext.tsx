@@ -33,7 +33,12 @@ export const SocketContextProvider = ({ children }: SocketContextProps) => {
     const userId = data?.user?.id;
 
     useEffectOnce(() => {
-        setSocket(io(API_DOMAIN, { path: `${SERVER_SUB_PATH}/socket.io` }));
+        setSocket(
+            io(API_DOMAIN, {
+                path: `${SERVER_SUB_PATH}/socket.io`,
+                rejectUnauthorized: false,
+            }),
+        );
     });
 
     useEffect(() => {
