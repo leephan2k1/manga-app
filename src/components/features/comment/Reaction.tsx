@@ -1,4 +1,6 @@
+import { useSession } from 'next-auth/react';
 import { memo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useToggle } from 'usehooks-ts';
 import { axiosClientV2 } from '~/services/axiosClient';
 
@@ -10,10 +12,16 @@ interface ReactionProps {
 }
 
 function Reaction({ count, reaction, commentId, userId }: ReactionProps) {
+    const { status } = useSession();
     const [localCount, setLocalCount] = useState(count.length);
     const [value, toggle] = useToggle(count.some((id) => id === userId));
 
     const handleClickReaction = async () => {
+        if (status === 'unauthenticated') {
+            toast.error('Đăng nhập để thao tác bạn nhé!');
+            return;
+        }
+
         toggle();
 
         // true -> down
