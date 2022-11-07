@@ -180,6 +180,12 @@ function HeaderNotifications({
                                                     );
                                                 },
                                             )}
+
+                                        {!notifications && (
+                                            <li className="text-center text-white/50">
+                                                Bạn chưa có thông báo nào...
+                                            </li>
+                                        )}
                                     </ul>
                                 </div>
                             </Dialog.Panel>
