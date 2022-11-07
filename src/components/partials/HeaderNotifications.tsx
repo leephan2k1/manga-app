@@ -114,7 +114,7 @@ function HeaderNotifications({
                                         className="full-size flex flex-col space-y-4 py-4"
                                     >
                                         {notifications &&
-                                            notifications.length &&
+                                            notifications.length > 0 &&
                                             notifications.map(
                                                 (notification) => {
                                                     if (!notification.comment)
