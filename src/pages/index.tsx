@@ -12,6 +12,7 @@ import MangaBanner from '~/components/shared/Banner';
 import ClientOnly from '~/components/shared/ClientOnly';
 import ColumnSection from '~/components/shared/ColumnSection';
 import Head from '~/components/shared/Head';
+import RecentlyComments from '~/components/shared/RecentlyComments';
 import Section from '~/components/shared/Section';
 import { MANGA_BROWSE_PAGE, REVALIDATE_TIME } from '~/constants';
 import { connectToDatabase } from '~/serverless/utils/connectdbData';
@@ -201,6 +202,15 @@ const Home: NextPage<HomeProps> = ({
                 <LazyLoad>
                     <Section style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden">
                         <RandomComics />
+                    </Section>
+                </LazyLoad>
+
+                <LazyLoad>
+                    <Section
+                        title="Bình luận gần đây"
+                        style="w-[90%] mx-auto w-max-[1300px] mt-6 overflow-x-hidden"
+                    >
+                        <RecentlyComments />
                     </Section>
                 </LazyLoad>
 
