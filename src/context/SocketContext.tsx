@@ -10,12 +10,12 @@ import {
 import { io, Socket } from 'socket.io-client';
 import { useEffectOnce } from 'usehooks-ts';
 import { API_DOMAIN } from '~/services/axiosClient';
+import { SERVER_SUB_PATH } from '~/constants';
 
 interface SocketContextType {
     signal: boolean;
     setSignal: (state: boolean) => void;
 }
-
 interface SocketContextProps {
     children: ReactNode;
 }
@@ -33,7 +33,7 @@ export const SocketContextProvider = ({ children }: SocketContextProps) => {
     const userId = data?.user?.id;
 
     useEffectOnce(() => {
-        setSocket(io(API_DOMAIN));
+        setSocket(io(API_DOMAIN, { path: `${SERVER_SUB_PATH}/socket.io` }));
     });
 
     useEffect(() => {
