@@ -35,6 +35,7 @@ export const SocketContextProvider = ({ children }: SocketContextProps) => {
     useEffectOnce(() => {
         setSocket(
             io(API_DOMAIN, {
+                secure: false,
                 hostname: `${API_DOMAIN}${SERVER_SUB_PATH}`,
                 path: `${SERVER_SUB_PATH}/socket.io`,
                 rejectUnauthorized: false,
