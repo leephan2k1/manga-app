@@ -151,7 +151,7 @@ function Comment({ comment }: CommentProps) {
                         <Reaction
                             commentId={comment._id}
                             reaction={reaction}
-                            userId={'62bc3cca2b62f6c1994061e0'}
+                            userId={userId}
                             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                             // @ts-ignore
                             count={comment.reactions[reaction.label]}
