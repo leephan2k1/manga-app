@@ -40,13 +40,6 @@ export const SocketContextProvider = ({ children }: SocketContextProps) => {
         socket?.on('hasReply', () => {
             setSignal(true);
         });
-        // eslint-disable-next-line no-console
-        console.log('socket ', socket);
-
-        if (socket?.connected) {
-            // eslint-disable-next-line no-console
-            console.log('socket ne:: ', socket);
-        }
 
         socket?.emit('online-emitter', { userId });
 
