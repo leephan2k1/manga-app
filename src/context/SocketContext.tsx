@@ -1,16 +1,17 @@
+// ref solution: https://github.com/feathersjs/feathers/issues/1149
+//               https://socket.io/how-to/use-with-react-hooks
+
 import { useSession } from 'next-auth/react';
 import {
     createContext,
     ReactNode,
     useContext,
-    useEffect,
-    useRef,
     useState,
+    useEffect,
 } from 'react';
-import { io, Socket } from 'socket.io-client';
-import { useEffectOnce } from 'usehooks-ts';
-import { API_DOMAIN } from '~/services/axiosClient';
+import { io } from 'socket.io-client';
 import { SERVER_SUB_PATH } from '~/constants';
+import { API_DOMAIN } from '~/services/axiosClient';
 
 interface SocketContextType {
     signal: boolean;
@@ -22,41 +23,39 @@ interface SocketContextProps {
 
 const SocketContext = createContext<SocketContextType | null>(null);
 
+const socket = io(API_DOMAIN, {
+    transports: ['websocket'],
+    path: `${SERVER_SUB_PATH}/socket.io`,
+});
+
 export const SocketContextProvider = ({ children }: SocketContextProps) => {
     const { data } = useSession();
-    const isEmitted = useRef(false);
     const [signal, setSignal] = useState(false);
-    const [socket, setSocket] = useState<Socket | null>(null);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const userId = data?.user?.id;
 
-    useEffectOnce(() => {
-        setSocket(
-            io(API_DOMAIN, {
-                secure: false,
-                hostname: `${API_DOMAIN}${SERVER_SUB_PATH}`,
-                path: `${SERVER_SUB_PATH}/socket.io`,
-                rejectUnauthorized: false,
-            }),
-        );
-    });
-
     useEffect(() => {
+        socket?.emit('online-emitter', { userId });
+
+        socket?.on('hasReply', () => {
+            setSignal(true);
+        });
         // eslint-disable-next-line no-console
-        console.log('socket:: ', socket);
+        console.log('socket ', socket);
 
-        if (socket?.connected && userId && !isEmitted.current) {
-            socket?.emit('online-emitter', { userId });
-
-            isEmitted.current = true;
-
-            socket?.on('hasReply', () => {
-                setSignal(true);
-            });
+        if (socket?.connected) {
+            // eslint-disable-next-line no-console
+            console.log('socket ne:: ', socket);
         }
-    }, [socket, data]);
+
+        return () => {
+            socket?.off('connect');
+            socket?.off('disconnect');
+            socket?.off('hasReply');
+        };
+    }, [socket]);
 
     const value = {
         signal,
