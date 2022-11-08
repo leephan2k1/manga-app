@@ -18,7 +18,7 @@ import { SubscriptionContextProvider } from '~/context/SubscriptionContext';
 import { register } from '~/services/registerServiceWorkers';
 import { Subscription } from '~/types';
 import { GA_TRACKING_ID, pageview } from '~/utils/gtag';
-
+import { HistoryRouteContextProvider } from '~/context/HistoryRouteContext';
 import { Analytics } from '@vercel/analytics/react';
 
 import type { NextPage } from 'next';
@@ -124,7 +124,9 @@ function MyApp({
                     <SubscriptionContextProvider value={subscription}>
                         <NotificationObserver>
                             <SocketContextProvider>
-                                {getLayout(<Component {...pageProps} />)}
+                                <HistoryRouteContextProvider>
+                                    {getLayout(<Component {...pageProps} />)}
+                                </HistoryRouteContextProvider>
                             </SocketContextProvider>
                         </NotificationObserver>
                     </SubscriptionContextProvider>

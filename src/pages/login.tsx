@@ -7,10 +7,12 @@ import { FcGoogle } from 'react-icons/fc';
 import TextLogo from '~/components/icons/TextLogo';
 import Head from '~/components/shared/Head';
 import LogoSVG from '/public/images/torii-gate-japan.svg';
-
+import usePreviousRoute from '~/context/HistoryRouteContext';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const LoginPage: NextPage = () => {
+    const hsRouteCtx = usePreviousRoute();
+
     return (
         <div className="flex min-h-screen flex-col bg-background text-white">
             <Head title="Đăng nhập - Kyoto Manga" />
@@ -19,7 +21,11 @@ const LoginPage: NextPage = () => {
                 <div className="flex h-[450px] w-[300px] flex-col rounded-2xl bg-black/40 shadow-xl md:h-[550px] md:w-[400px]">
                     <div className="absolute-center relative my-2 flex h-[10%] w-full">
                         <button className="absolute top-1/2 left-0 -translate-y-1/2 p-6 transition-all hover:scale-110">
-                            <Link href="/">
+                            <Link
+                                href={`${
+                                    hsRouteCtx?.url ? hsRouteCtx?.url : '/'
+                                }`}
+                            >
                                 <a>
                                     <ArrowLeftIcon className="h-8 w-8" />
                                 </a>
@@ -38,7 +44,11 @@ const LoginPage: NextPage = () => {
                     <div className="relative flex h-[60%] w-full flex-col items-center gap-10 pt-4">
                         <button
                             onClick={() =>
-                                signIn('google', { callbackUrl: '/' })
+                                signIn('google', {
+                                    callbackUrl: `${
+                                        hsRouteCtx?.url ? hsRouteCtx?.url : '/'
+                                    }`,
+                                })
                             }
                             className="z-10 w-3/4 justify-evenly space-x-4 rounded-2xl bg-white py-4 text-black transition-all duration-300 hover:scale-95"
                         >
@@ -47,7 +57,11 @@ const LoginPage: NextPage = () => {
                         </button>
                         <button
                             onClick={() =>
-                                signIn('facebook', { callbackUrl: '/' })
+                                signIn('facebook', {
+                                    callbackUrl: `${
+                                        hsRouteCtx?.url ? hsRouteCtx?.url : '/'
+                                    }`,
+                                })
                             }
                             className="z-10 w-3/4 justify-evenly space-x-4 rounded-2xl bg-blue-600 py-4 transition-all duration-300 hover:scale-95"
                         >
