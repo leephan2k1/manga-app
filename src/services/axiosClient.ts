@@ -2,8 +2,8 @@ import axios from 'axios';
 import queryString from 'query-string';
 
 export const baseURL = `${process.env.NEXT_PUBLIC_BASE_URL}/api`;
-export const API_DOMAIN = String(process.env.NEXT_PUBLIC_BASE_URL_V2);
-export const baseURLv2 = `${API_DOMAIN}/api/v2`;
+export const API_DOMAIN = String(process.env.NEXT_PUBLIC_API_DOMAIN);
+export const baseURLv2 = `${process.env.NEXT_PUBLIC_BASE_URL_V2}/api/v2`;
 export const baseURLWordService = `${process.env.NEXT_PUBLIC_BASE_URL_WORDS_SERVICE}`;
 
 const axiosClient = axios.create({
