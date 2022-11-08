@@ -37,8 +37,6 @@ export const SocketContextProvider = ({ children }: SocketContextProps) => {
     const userId = data?.user?.id;
 
     useEffect(() => {
-        socket?.emit('online-emitter', { userId });
-
         socket?.on('hasReply', () => {
             setSignal(true);
         });
@@ -48,6 +46,8 @@ export const SocketContextProvider = ({ children }: SocketContextProps) => {
         if (socket?.connected) {
             // eslint-disable-next-line no-console
             console.log('socket ne:: ', socket);
+
+            socket?.emit('online-emitter', { userId });
         }
 
         return () => {
@@ -55,7 +55,7 @@ export const SocketContextProvider = ({ children }: SocketContextProps) => {
             socket?.off('disconnect');
             socket?.off('hasReply');
         };
-    }, [socket]);
+    }, [socket, userId]);
 
     const value = {
         signal,
