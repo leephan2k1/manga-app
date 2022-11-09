@@ -8,8 +8,14 @@ export function calculateSeason() {
 }
 
 export function calculateDiffDate(target: Date) {
+    /*
+    i don't use
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
+    because finally need to compare value to pass option 'day', 'month', 'year',...
+    */
+
     // seconds
-    const diff = Math.ceil(
+    const diff = Math.floor(
         (new Date(Date.now()).getTime() - new Date(target).getTime()) / 1000,
     );
 
@@ -17,21 +23,21 @@ export function calculateDiffDate(target: Date) {
         return `${diff} giây trước`;
     }
 
-    if (Math.ceil(diff / 60) < 60) {
-        return `${Math.ceil(diff / 60)} phút trước`;
+    if (Math.floor(diff / 60) < 60) {
+        return `${Math.floor(diff / 60)} phút trước`;
     }
 
-    if (Math.ceil(diff / 60 / 60) < 24) {
-        return `${Math.ceil(diff / 60 / 60)} giờ trước`;
+    if (Math.floor(diff / 60 / 60) < 24) {
+        return `${Math.floor(diff / 60 / 60)} giờ trước`;
     }
 
-    if (Math.ceil(diff / 60 / 60 / 24) < 31) {
-        return `${Math.ceil(diff / 60 / 60 / 24)} ngày trước`;
+    if (Math.floor(diff / 60 / 60 / 24) < 31) {
+        return `${Math.floor(diff / 60 / 60 / 24)} ngày trước`;
     }
 
-    if (Math.ceil(diff / 60 / 60 / 24 / 31) < 12) {
-        return `${Math.ceil(diff / 60 / 60 / 24 / 31)} tháng trước`;
+    if (Math.floor(diff / 60 / 60 / 24 / 31) < 12) {
+        return `${Math.floor(diff / 60 / 60 / 24 / 31)} tháng trước`;
     }
 
-    return `${Math.ceil(diff / 60 / 60 / 24 / 31 / 12)} năm  trước`;
+    return `${Math.floor(diff / 60 / 60 / 24 / 31 / 12)} năm  trước`;
 }
