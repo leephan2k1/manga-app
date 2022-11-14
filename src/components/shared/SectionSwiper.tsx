@@ -53,7 +53,7 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
                 modules={[Pagination, FreeMode]}
             >
                 {mangaList &&
-                    mangaList.length &&
+                    mangaList.length > 0 &&
                     mangaList.map((manga, idx) => {
                         if (matchesMobile && idx > 20) return;
                         return (
@@ -79,6 +79,7 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
                     })}
 
                 {!mangaList &&
+                    Array.isArray(mangaList) &&
                     Array.from(Array(7).keys()).map(() => {
                         return (
                             <SwiperSlide key={String(Math.random())}>
