@@ -68,6 +68,8 @@ const Home: NextPage<HomeProps> = ({
         setShowRecommendedComics(state);
     };
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     const { data: comicsNewUpdated } = useSWR<{
         comics: Comic[];
         totalPages: number;
@@ -82,6 +84,10 @@ const Home: NextPage<HomeProps> = ({
 
             const { result } = res;
 
+            if (result && result.mangaData.length === 0) {
+                throw new Error();
+            }
+
             if (result) {
                 return {
                     comics: result.mangaData,
@@ -89,8 +95,22 @@ const Home: NextPage<HomeProps> = ({
                 };
             }
         },
+        {
+            onErrorRetry: (error, _, __, revalidate, { retryCount }) => {
+                // Never retry on 404.
+                if (error.status === 404) return;
+
+                // Only retry up to 1 time.
+                if (retryCount >= 1) return;
+
+                // Retry after 2 seconds.
+                setTimeout(() => revalidate({ retryCount }), 2000);
+            },
+        },
     );
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     const { data: comicsNewRelease } = useSWR<{
         comics: Comic[];
         totalPages: number;
@@ -105,12 +125,28 @@ const Home: NextPage<HomeProps> = ({
 
             const { result } = res;
 
+            if (result && result.mangaData.length === 0) {
+                throw new Error();
+            }
+
             if (result) {
                 return {
                     comics: result.mangaData,
                     totalPages: result.totalPages,
                 };
             }
+        },
+        {
+            onErrorRetry: (error, _, __, revalidate, { retryCount }) => {
+                // Never retry on 404.
+                if (error.status === 404) return;
+
+                // Only retry up to 1 time.
+                if (retryCount >= 1) return;
+
+                // Retry after 2 seconds.
+                setTimeout(() => revalidate({ retryCount }), 2000);
+            },
         },
     );
 
