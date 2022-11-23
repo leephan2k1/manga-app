@@ -17,28 +17,28 @@ interface SectionSwiperProps {
     mangaList?: Comic[];
 }
 
+const swiperBreakPoints = {
+    1: {
+        slidesPerView: 2,
+        spaceBetween: 2,
+    },
+    320: {
+        slidesPerView: 3,
+    },
+    480: {
+        slidesPerView: 4,
+    },
+    640: {
+        slidesPerView: 5,
+        spaceBetween: 10,
+    },
+    1300: {
+        slidesPerView: 7,
+    },
+};
+
 function SectionSwiper({ mangaList }: SectionSwiperProps) {
     const matchesMobile = useMediaQuery('(max-width: 640px)');
-
-    const swiperBreakPoints = {
-        1: {
-            slidesPerView: 2,
-            spaceBetween: 2,
-        },
-        320: {
-            slidesPerView: 3,
-        },
-        480: {
-            slidesPerView: 4,
-        },
-        640: {
-            slidesPerView: 5,
-            spaceBetween: 10,
-        },
-        1300: {
-            slidesPerView: 7,
-        },
-    };
 
     return (
         <div className="mt-4 hover:cursor-grab lg:mt-6">
@@ -79,7 +79,6 @@ function SectionSwiper({ mangaList }: SectionSwiperProps) {
                     })}
 
                 {!mangaList &&
-                    Array.isArray(mangaList) &&
                     Array.from(Array(7).keys()).map(() => {
                         return (
                             <SwiperSlide key={String(Math.random())}>
