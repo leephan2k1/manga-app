@@ -354,7 +354,7 @@ function Card({ details, comic, isLoading }: CardProps) {
                 {isLoading ? (
                     <div className="loading-pulse mt-4 h-[10%] w-full rounded-lg bg-white/20"></div>
                 ) : (
-                    <h1 className="my-2 flex items-center px-4 text-lg transition-all line-clamp-1 hover:text-primary md:text-xl lg:text-2xl">
+                    <h1 className="my-2 flex items-center px-4 font-secondary text-lg transition-all line-clamp-1 hover:text-primary md:text-2xl lg:text-3xl">
                         <Link
                             href={`/${MANGA_PATH_NAME}/${MANGA_PATH_DETAILS_NAME}/${comic?.slug}`}
                         >
