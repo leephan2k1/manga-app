@@ -5,10 +5,12 @@ import { ReactNode, useRef } from 'react';
 import { useHover } from 'usehooks-ts';
 import Head from '~/components/shared/Head';
 import Section from '~/components/shared/Section';
+import usePreviousRoute from '~/context/HistoryRouteContext';
 
 function NotFoundPage() {
     const hoverRef = useRef(null);
     const isHover = useHover(hoverRef);
+    const hsRouteCtx = usePreviousRoute();
 
     return (
         <div className="min-h-screen  w-full bg-background text-white">
@@ -46,7 +48,9 @@ function NotFoundPage() {
                         ref={hoverRef}
                         className="mt-4 rounded-xl border-2 border-white p-6 transition-all hover:border-none hover:bg-primary hover:text-white"
                     >
-                        <Link href="/">
+                        <Link
+                            href={`${hsRouteCtx?.url ? hsRouteCtx?.url : '/'}`}
+                        >
                             <a> Theo Zoro về vùng đất Kyoto Manga</a>
                         </Link>
                     </button>
