@@ -3,14 +3,10 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactNode, useCallback, useEffect, useState, useRef } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import useSWR from 'swr';
-import {
-    useEffectOnce,
-    useIntersectionObserver,
-    useMediaQuery,
-} from 'usehooks-ts';
+import { useIntersectionObserver, useMediaQuery } from 'usehooks-ts';
 import { followModal } from '~/atoms/followModaAtom';
 import { mangaSources } from '~/atoms/mangaSourcesAtom';
 import { mangaSrc } from '~/atoms/mangaSrcAtom';
@@ -88,7 +84,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
     }, [!!entry?.isIntersecting]);
 
     //Data States
-    const [src, setSrc] = useAtom(mangaSrc);
+    const [src, _] = useAtom(mangaSrc);
     const setSourceAvailable = useSetAtom(mangaSources);
     const [chapters, setChapters] = useState<Chapter[]>(
         comic?.chapters?.chapters_list[0].chapters || [],
@@ -102,31 +98,14 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
         chapters?: ChapterDetails;
     }>(comic?.slug, async (slug) => {
         const res = await (
-            await axiosClientV2.get(`/comics/${slug}/chapters`)
+            await axiosClientV2.get(`/comics/${slug}/chapters`, {
+                params: {
+                    options: 'get',
+                },
+            })
         ).data;
 
         return res;
-    });
-
-    useEffectOnce(() => {
-        setSrc('NTC');
-
-        //fetch chapters if it's not time to revalidate yet
-        (async function () {
-            try {
-                const res = await (
-                    await axiosClientV2.get(`/comics/${comic.slug}/chapters`, {
-                        params: {
-                            options: 'get',
-                        },
-                    })
-                ).data;
-
-                if (res?.chapters) {
-                    setChaptersInfo(res?.chapters);
-                }
-            } catch (error) {}
-        })();
     });
 
     useEffect(() => {
@@ -155,7 +134,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
         }
 
         if (comic?.chapters) {
-            setChaptersInfo(comic?.chapters);
+            // setChaptersInfo(comic?.chapters);
 
             comic.chapters.chapters_list.map((chapObj) => {
                 setSourceAvailable((prevState) => {
