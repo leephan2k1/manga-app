@@ -11,7 +11,7 @@ function CommentSettingsModal() {
     const [isOpen, closeModal] = useAtom(commentSettingsModal);
     const [autoComplete, setAutoComplete] = useLocalStorage(
         'autoComplete',
-        true,
+        false,
     );
     const [commentTextColor, setCommentTextColor] = useLocalStorage(
         'commentTextColor',
