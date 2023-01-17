@@ -15,11 +15,16 @@ interface Layout {
 }
 
 interface ListViewProps {
+    numberSkeleton?: number;
     comicList: Manga[];
     isLoading: boolean;
 }
 
-function ListView({ comicList, isLoading }: ListViewProps) {
+function ListView({
+    comicList,
+    isLoading,
+    numberSkeleton = 36,
+}: ListViewProps) {
     const [layout, setLayout] = useState<Layout>({
         style: 'md:grid-cols-5 grid-cols-2',
         details: 'multiple',
@@ -94,7 +99,7 @@ function ListView({ comicList, isLoading }: ListViewProps) {
                       })
                     : null}
                 {isLoading
-                    ? Array.from(Array(36).keys()).map((e) => {
+                    ? Array.from(Array(numberSkeleton).keys()).map((e) => {
                           return (
                               <Card
                                   isLoading
