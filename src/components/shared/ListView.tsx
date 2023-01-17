@@ -94,7 +94,7 @@ function ListView({
                                   isLoading={isLoading}
                                   comic={{
                                       ...comic,
-                                      genres: isObject(comic.genres)
+                                      genres: isObject(comic.genres[0])
                                           ? comic.genres.map(
                                                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                                 // @ts-ignore
