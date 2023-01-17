@@ -11,6 +11,20 @@ export interface Reactions {
     enraged_face: string[];
 }
 
+export interface Author {
+    _id: string;
+    name: string;
+    __v: number;
+    avatar: string;
+    birthday: string;
+    description: string;
+    jp_alternative_name: string;
+    jp_name: string;
+    sc_instagram_link: string;
+    sc_pixiv_link: string;
+    sc_twitter_link: string;
+}
+
 export interface Comment {
     reactions: Reactions;
     _id: string;
