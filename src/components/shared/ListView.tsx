@@ -6,6 +6,7 @@ import LListIcon from '../icons/LListIcon';
 import SListIcon from '../icons/SListIcon';
 import Card from './Card';
 import { Manga } from '~/types';
+import { isObject } from '~/utils/objecthandler';
 
 export type LayoutDetails = 'multiple' | 'details' | 'column';
 
@@ -91,7 +92,16 @@ function ListView({
                           return (
                               <Card
                                   isLoading={isLoading}
-                                  comic={comic}
+                                  comic={{
+                                      ...comic,
+                                      genres: isObject(comic.genres)
+                                          ? comic.genres.map(
+                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                // @ts-ignore
+                                                (genre) => genre.label,
+                                            )
+                                          : comic.genres,
+                                  }}
                                   key={comic.slug || index}
                                   details={layout.details}
                               />
