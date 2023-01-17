@@ -13,6 +13,7 @@ import {
     MANGA_PATH_READ_NAME,
     PROXY_SERVER,
     SOURCE_COLLECTIONS,
+    MANGA_AUTHOR_PATH,
 } from '~/constants';
 import useNotification from '~/hooks/useNotification';
 import { ChapterDetails, Comic } from '~/types';
@@ -23,6 +24,7 @@ import {
     BellIcon,
     BookmarkIcon,
     BookOpenIcon,
+    UserIcon,
 } from '@heroicons/react/24/outline';
 import { BellIcon as BellIconSolid, BoltIcon } from '@heroicons/react/24/solid';
 
@@ -237,11 +239,19 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
                                     ? manga?.otherName
                                     : ''}
                             </h2>
-                            <h3 className="text-center text-[3vw] md:text-left md:text-[2vw] lg:text-[1.1vw]">
-                                {manga?.author !== 'undefined'
-                                    ? manga?.author
-                                    : ''}
-                            </h3>
+                            {manga?.author && manga?.author !== '' && (
+                                <Link
+                                    href={`/${MANGA_AUTHOR_PATH}/${manga?.author}`}
+                                >
+                                    <a className="full-size">
+                                        <button className="mx-auto my-2 flex w-fit items-center space-x-2 rounded-xl bg-highlight py-2 px-4 text-center text-[3vw] md:mx-0 md:text-left md:text-[2vw] lg:text-[1.1vw]">
+                                            <UserIcon className="h-6 w-6" />
+                                            <span>{manga?.author}</span>
+                                        </button>
+                                    </a>
+                                </Link>
+                            )}
+
                             <h4 className="flex items-center justify-center gap-4 md:justify-start">
                                 <span
                                     className={`block h-3 w-3 rounded-full ${

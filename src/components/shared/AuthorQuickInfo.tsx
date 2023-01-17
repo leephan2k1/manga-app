@@ -1,7 +1,12 @@
 import { memo } from 'react';
 import Image from 'next/image';
+import { Author } from '~/types';
 
-function AuthorQuickInfo() {
+interface AuthorQuickInfoProps {
+    author: Author;
+}
+
+function AuthorQuickInfo({ author }: AuthorQuickInfoProps) {
     return (
         <div className="flex flex-col items-center justify-center space-y-6">
             <figure className="relative h-[10rem] w-[10rem] overflow-hidden rounded-full md:h-[15rem] md:w-[15rem]">
@@ -11,12 +16,14 @@ function AuthorQuickInfo() {
                     layout="fill"
                     priority
                     src={
-                        'https://cdn.myanimelist.net/images/voiceactors/2/62934.jpg'
+                        author?.avatar
+                            ? author.avatar
+                            : 'https://i.ibb.co/1qQJr6S/blank-user.png'
                     }
                 />
             </figure>
-            <h1 className="font-secondary text-4xl font-bold md:text-5xl">
-                Himura Kiseki
+            <h1 className="text-center font-secondary text-4xl font-bold md:text-5xl">
+                {author?.name}
             </h1>
 
             <button

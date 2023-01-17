@@ -16,6 +16,8 @@ export const MANGA_PATH_DETAILS_NAME = 'details';
 export const MANGA_PATH_READ_NAME = 'read';
 //ref: src/pages
 export const MANGA_PATH_FOLLOW = 'follows';
+//ref: src/pages
+export const MANGA_AUTHOR_PATH = 'author';
 
 export const DEFAULT_SRC: SourcesId = 'NTC';
 
