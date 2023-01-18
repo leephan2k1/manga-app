@@ -108,10 +108,10 @@ export const FOLLOW_STATE: Array<{ id: FollowState; title: string }> = [
         id: 're-reading',
         title: 'Đọc lại',
     },
-    // {
-    //     id: 'author',
-    //     title: 'Tác giả',
-    // },
+    {
+        id: 'author',
+        title: 'Tác giả',
+    },
 ];
 
 export const GENRES_NT = [

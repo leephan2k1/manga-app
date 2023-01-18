@@ -1,4 +1,5 @@
-import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { Toaster } from 'react-hot-toast';
 import MainLayout from '~/components/layouts/MainLayout';
 import AuthorPageBanner from '~/components/partials/AuthorPageBanner';
 import AuthorContainer from '~/components/shared/AuthorContainer';
@@ -20,6 +21,8 @@ const AuthorPage: NextPage<AuthorPageProps> = ({
             <AuthorPageBanner />
 
             <AuthorContainer author={author} comics={comicsByAuthor} />
+
+            <Toaster position="bottom-center" />
         </div>
     );
 };
