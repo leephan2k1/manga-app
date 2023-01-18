@@ -13,7 +13,14 @@ import ListView from '~/components/shared/ListView';
 import Section from '~/components/shared/Section';
 import { FOLLOW_STATE, MANGA_PATH_FOLLOW } from '~/constants';
 import { ComicFollowed } from '~/types';
-// import AuthorList from '~/components/shared/AuthorList';
+import dynamic from 'next/dynamic';
+
+const AuthorList = dynamic(
+    () =>
+        import('~/components/shared/AuthorList', {
+            ssr: false,
+        } as ImportCallOptions),
+);
 
 const FollowPage: NextPage = () => {
     const router = useRouter();
@@ -21,7 +28,7 @@ const FollowPage: NextPage = () => {
     const [qrStatus, setQrStatus] = useState('reading');
 
     const { data } = useSWR<ComicFollowed[]>(
-        `/api/users/follows?status=${qrStatus}`,
+        qrStatus !== 'author' ? `/api/users/follows?status=${qrStatus}` : null,
         async (url) => {
             return await (
                 await axios.get(url, {
@@ -70,14 +77,22 @@ const FollowPage: NextPage = () => {
                     </Section>
 
                     <Section style="w-max-[1300px] mx-auto mt-6 w-[90%] text-white">
-                        <ListView
-                            isLoading={!data ? true : false}
+                        {qrStatus !== 'author' ? (
+                            <ListView
+                                isLoading={!data ? true : false}
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                // @ts-ignore
+                                comicList={data?.data.map(
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-ignore
+                                    (item) => item.details,
+                                )}
+                            />
+                        ) : (
                             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                             // @ts-ignore
-                            comicList={data?.data.map((item) => item.details)}
-                        />
-
-                        {/* <AuthorList /> */}
+                            <AuthorList />
+                        )}
                     </Section>
                 </Container>
             </ClientOnly>
