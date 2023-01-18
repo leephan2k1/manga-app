@@ -6,7 +6,7 @@ import LListIcon from '../icons/LListIcon';
 import SListIcon from '../icons/SListIcon';
 import Card from './Card';
 import { Manga } from '~/types';
-import { isObject } from '~/utils/objecthandler';
+import { isObject } from '~/utils/objectHandler';
 
 export type LayoutDetails = 'multiple' | 'details' | 'column';
 
