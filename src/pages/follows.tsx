@@ -13,6 +13,7 @@ import ListView from '~/components/shared/ListView';
 import Section from '~/components/shared/Section';
 import { FOLLOW_STATE, MANGA_PATH_FOLLOW } from '~/constants';
 import { ComicFollowed } from '~/types';
+// import AuthorList from '~/components/shared/AuthorList';
 
 const FollowPage: NextPage = () => {
     const router = useRouter();
@@ -75,6 +76,8 @@ const FollowPage: NextPage = () => {
                             // @ts-ignore
                             comicList={data?.data.map((item) => item.details)}
                         />
+
+                        {/* <AuthorList /> */}
                     </Section>
                 </Container>
             </ClientOnly>
