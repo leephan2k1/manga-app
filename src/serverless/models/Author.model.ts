@@ -14,6 +14,7 @@ export const authorSchema = {
     sc_twitter_link: { type: String, trim: true },
     sc_instagram_link: { type: String, trim: true },
     sc_pixiv_link: { type: String, trim: true },
+    followers: [{ type: Schema.Types.ObjectId }],
 };
 
 const AuthorSchema = new Schema(authorSchema);
