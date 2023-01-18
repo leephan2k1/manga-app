@@ -105,7 +105,8 @@ export type FollowState =
     | 'dropped'
     | 'plan-to-read'
     | 'completed'
-    | 're-reading';
+    | 're-reading'
+    | 'author';
 
 export interface ReadModeSettings {
     readMode: ReadMode;
