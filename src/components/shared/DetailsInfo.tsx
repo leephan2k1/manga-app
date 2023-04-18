@@ -8,15 +8,15 @@ import toast from 'react-hot-toast';
 import Skeleton from 'react-loading-skeleton';
 import { followModal } from '~/atoms/followModaAtom';
 import {
+    MANGA_AUTHOR_PATH,
     MANGA_BROWSE_PAGE,
     MANGA_PATH_NAME,
     MANGA_PATH_READ_NAME,
-    PROXY_SERVER,
     SOURCE_COLLECTIONS,
-    MANGA_AUTHOR_PATH,
 } from '~/constants';
 import useNotification from '~/hooks/useNotification';
 import { ChapterDetails, Comic } from '~/types';
+import round_robin_server from '~/utils/proxyBalancer';
 import { isExactMatch } from '~/utils/stringHandler';
 import torriGate from '/public/images/torri-gate.jpg';
 
@@ -185,7 +185,9 @@ function DetailsInfo({ manga, chapters, isLoading }: DetailsInfoProps) {
                                           'res.cloudinary.com',
                                       )
                                         ? manga.thumbnail
-                                        : `${PROXY_SERVER}/proxy?url=${url}&src=${manga.thumbnail}`
+                                        : `${round_robin_server()}/proxy?url=${url}&src=${
+                                              manga.thumbnail
+                                          }`
                                     : torriGate
                             }
                         />

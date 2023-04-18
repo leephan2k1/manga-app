@@ -8,13 +8,12 @@ import ImageWraper from '~/components/shared/ImageWrapper';
 import {
     MANGA_PATH_DETAILS_NAME,
     MANGA_PATH_NAME,
-    PROXY_SERVER,
     SOURCE_COLLECTIONS,
 } from '~/constants';
 import useChapters from '~/hooks/useChapters';
 // import { baseURL } from '~/services/axiosClient';
 import { Comic } from '~/types';
-
+import round_robin_server from '~/utils/proxyBalancer';
 import {
     ClipboardIcon,
     ClockIcon,
@@ -70,7 +69,9 @@ function SectionSwiperCard({ manga }: SectionSwiperCardProps) {
                                     priority
                                     className="fancy-fade-in absolute top-0 left-0 rounded-xl object-cover object-center"
                                     alt="manga-thumbnail"
-                                    src={`${PROXY_SERVER}/proxy?url=${url}&src=${manga.thumbnail}`}
+                                    src={`${round_robin_server()}/proxy?url=${url}&src=${
+                                        manga.thumbnail
+                                    }`}
                                     layout="fill"
                                 />
                             </ImageWraper>

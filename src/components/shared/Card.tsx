@@ -3,7 +3,7 @@ import { motion, useAnimationControls } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import NProgress from 'nprogress';
-import { useEffect, useState, memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {
     COMIC_GENRES,
@@ -11,15 +11,14 @@ import {
     MANGA_BROWSE_PAGE,
     MANGA_PATH_DETAILS_NAME,
     MANGA_PATH_NAME,
-    PROXY_SERVER,
     SOURCE_COLLECTIONS,
     TailwindColors,
 } from '~/constants';
 // import { baseURL } from '~/services/axiosClient';
-import { Manga } from '~/types';
-import { randomColors } from '~/utils/randomColors';
-
 import { BookOpenIcon } from '@heroicons/react/24/outline';
+import { Manga } from '~/types';
+import round_robin_server from '~/utils/proxyBalancer';
+import { randomColors } from '~/utils/randomColors';
 
 import { LayoutDetails } from './ListView';
 
@@ -79,7 +78,9 @@ function Card({ details, comic, isLoading }: CardProps) {
                                         alt="manga-thumbnail"
                                         layout="fill"
                                         className="absolute inset-0 rounded-xl object-cover object-center"
-                                        src={`${PROXY_SERVER}/proxy?url=${url}&src=${comic?.thumbnail}`}
+                                        src={`${round_robin_server()}/proxy?url=${url}&src=${
+                                            comic?.thumbnail
+                                        }`}
                                         onLoad={() => setLoaded(true)}
                                     />
                                 </Link>
@@ -212,7 +213,9 @@ function Card({ details, comic, isLoading }: CardProps) {
                                         alt="manga-thumbnail"
                                         layout="fill"
                                         className="absolute inset-0 rounded-xl object-cover object-center"
-                                        src={`${PROXY_SERVER}/proxy?url=${url}&src=${comic?.thumbnail}`}
+                                        src={`${round_robin_server()}/proxy?url=${url}&src=${
+                                            comic?.thumbnail
+                                        }`}
                                         onLoad={() => setLoaded(true)}
                                     />
                                 </Link>
@@ -343,7 +346,9 @@ function Card({ details, comic, isLoading }: CardProps) {
                                     alt="manga-thumbnail"
                                     layout="fill"
                                     className="absolute inset-0 rounded-xl object-cover object-center"
-                                    src={`${PROXY_SERVER}/proxy?url=${url}&src=${comic?.thumbnail}`}
+                                    src={`${round_robin_server()}/proxy?url=${url}&src=${
+                                        comic?.thumbnail
+                                    }`}
                                     onLoad={() => setLoaded(true)}
                                 />
                             </Link>

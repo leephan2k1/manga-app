@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
-import { PROXY_SERVER, SOURCE_COLLECTIONS } from '~/constants';
+import { SOURCE_COLLECTIONS } from '~/constants';
+import round_robin_server from '~/utils/proxyBalancer';
 import { isExactMatch } from '~/utils/stringHandler';
 import torriGate from '/public/images/torri-gate.jpg';
 
@@ -35,7 +36,7 @@ export default function DetailsBanner({
                             imgUrl !== 'notFound'
                                 ? isExactMatch(imgUrl, 'res.cloudinary.com')
                                     ? imgUrl
-                                    : `${PROXY_SERVER}/proxy?url=${url}&src=${imgUrl}`
+                                    : `${round_robin_server()}/proxy?url=${url}&src=${imgUrl}`
                                 : torriGate
                         }
                     />

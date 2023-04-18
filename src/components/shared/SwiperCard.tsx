@@ -1,11 +1,10 @@
 import classNames from 'classnames';
 import Image from 'next/image';
-import { useEffect, useRef, useState, memo } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useSwiper } from 'swiper/react';
 import { SOURCE_COLLECTIONS } from '~/constants';
 // import { baseURL } from '~/services/axiosClient';
-import { isExactMatch } from '~/utils/stringHandler';
-import { PROXY_SERVER } from '~/constants';
+import round_robin_server from '~/utils/proxyBalancer';
 
 interface SwiperCardProps {
     imgSrc: string;
@@ -41,11 +40,7 @@ function SwiperCard({ imgSrc, style, childStyle }: SwiperCardProps) {
                     priority
                     className="absolute inset-0 object-cover object-center"
                     alt="image-preview"
-                    src={
-                        isExactMatch(imgSrc, 'res.cloudinary.com')
-                            ? imgSrc
-                            : `${PROXY_SERVER}/proxy?url=${url}&src=${imgSrc}`
-                    }
+                    src={`${round_robin_server()}/proxy?url=${url}&src=${imgSrc}`}
                     layout="fill"
                 />
             </div>

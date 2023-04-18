@@ -26,7 +26,7 @@ export const PROXY_SERVER = process.env.NEXT_PUBLIC_PROXY_SERVER;
 export const WEBSITE_URL = 'https://kyotomanga.live';
 
 export const SOURCE_COLLECTIONS: { [key: string]: string } = {
-    NTC: 'http://www.nettruyenme.com',
+    NTC: 'https://www.nettruyenco.vn',
     LHM: 'https://truyentranhlh.net',
     OTK: 'https://otakusan.net',
 };

@@ -1,3 +1,4 @@
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -5,13 +6,10 @@ import { BsDot } from 'react-icons/bs';
 import {
     MANGA_PATH_DETAILS_NAME,
     MANGA_PATH_NAME,
-    PROXY_SERVER,
     SOURCE_COLLECTIONS,
 } from '~/constants';
 import { Comic } from '~/types';
-import { isExactMatch } from '~/utils/stringHandler';
-
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import round_robin_server from '~/utils/proxyBalancer';
 
 interface ColumnSectionProps {
     title?: string;
@@ -19,7 +17,7 @@ interface ColumnSectionProps {
     mangaList: Comic[];
 }
 
-const url = SOURCE_COLLECTIONS['nt'];
+const url = SOURCE_COLLECTIONS['NTC'];
 
 function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
     return (
@@ -51,14 +49,9 @@ function ColumnSection({ title, mangaList, link }: ColumnSectionProps) {
                                                 className="aspect-w-3 aspect-h-4 absolute object-cover object-center"
                                                 layout="fill"
                                                 alt="img-preview"
-                                                src={
-                                                    isExactMatch(
-                                                        manga?.thumbnail,
-                                                        'res.cloudinary.com',
-                                                    )
-                                                        ? manga?.thumbnail
-                                                        : `${PROXY_SERVER}/proxy?url=${url}&src=${manga.thumbnail}`
-                                                }
+                                                src={`${round_robin_server()}/proxy?url=${url}&src=${
+                                                    manga.thumbnail
+                                                }`}
                                             />
                                         </figure>
                                     </a>

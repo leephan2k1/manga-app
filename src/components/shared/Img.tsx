@@ -1,8 +1,8 @@
 import { memo, SyntheticEvent, useRef } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
-import { PROXY_SERVER } from '~/constants';
 import useSettingsMode from '~/context/SettingsContext';
 // import { baseURL } from '~/services/axiosClient';
+import round_robin_server from '~/utils/proxyBalancer';
 
 interface ImgProps {
     useProxy?: boolean;
@@ -52,7 +52,7 @@ function Img({
                     `}
                     src={
                         useProxy
-                            ? `${PROXY_SERVER}/proxy?url=${url}&src=${
+                            ? `${round_robin_server()}/proxy?url=${url}&src=${
                                   src ? src : fallbackSrc
                               }`
                             : src
@@ -78,7 +78,7 @@ function Img({
                 }`}
                 src={
                     useProxy
-                        ? `${PROXY_SERVER}/proxy?url=${url}&src=${
+                        ? `${round_robin_server()}/proxy?url=${url}&src=${
                               src ? src : fallbackSrc
                           }`
                         : src
