@@ -24,6 +24,7 @@ import { REVALIDATE_TIME } from '~/constants';
 import { CommentContextProvider } from '~/context/CommentContext';
 import ComicModel from '~/serverless/models/Comic.model';
 import { axiosClientV2 } from '~/services/axiosClient';
+import axios from 'axios';
 import {
     Chapter,
     ChapterDetails,
@@ -107,6 +108,21 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ comic }) => {
 
         return res;
     });
+
+    //call caching layer
+    useEffect(() => {
+        (async function () {
+            try {
+                if (comic?.slug) {
+                    await axios.get('/api/pages-caching', {
+                        params: {
+                            comicSlug: comic?.slug,
+                        },
+                    });
+                }
+            } catch (error) {}
+        })();
+    }, [comic?.slug]);
 
     useEffect(() => {
         if (chaptersInfo && chaptersInfo?.chapters_list.length) {

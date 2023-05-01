@@ -31,6 +31,8 @@ import {
     ReadModeSettings,
 } from '~/types';
 import proxyObserver from '~/utils/proxyObserver';
+import { redis } from '~/services/redisClient';
+import { pagesCachingHandler } from '~/pages/api/pages-caching';
 
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
@@ -355,10 +357,20 @@ export const getServerSideProps: GetServerSideProps = async ({
     try {
         if (Array.isArray(params)) {
             const chapterSlug = `/${params.slice(2).join('/')}`;
-            const pages = await Page.findOne({ chapterSlug }).populate(
-                'chapter',
-            );
 
+            let pages: PageInfo | null;
+
+            const rawPages = await redis.get(chapterSlug);
+
+            pages = JSON.parse(String(rawPages))?._doc;
+
+            if (!pages) {
+                // -- cache miss --
+                pages = await Page.findOne({ chapterSlug }).populate('chapter');
+            }
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
             let chapter = pages?.chapter;
 
             //create new pages
@@ -395,12 +407,23 @@ export const getServerSideProps: GetServerSideProps = async ({
 
             //fallback
             if (!chapter) {
+                // -- cache miss --
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
                 chapter = await Chapter.findOne({
                     comicName: pages?.comicName,
                 });
             }
+
+            // -- cache hit --
+            // renew expired cache time:
+            setTimeout(async () => {
+                try {
+                    await pagesCachingHandler(String(pages?.comicSlug));
+                } catch (error) {
+                    console.error('error!!');
+                }
+            }, 100);
 
             return {
                 props: {
